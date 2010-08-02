@@ -1,0 +1,34 @@
+=pod
+
+=head1 NAME
+
+Alien::IUP::Demo -- Demo POD for testing embeded images
+
+=head1 DEMO
+
+=begin HTML
+
+<table cellpadding="1" cellspacing="0" border="1">
+  <tbody>
+    <tr>
+      <th style="background-color:#c0c0c0">Motif</th>
+      <td style="background-color:#adb1c2;text-align:center"><img src="sample_mot.png" /></td>
+    </tr>
+    <tr>
+      <th style="background-color:#c0c0c0">Windows<br>Classic</th>
+      <td style="background-color:#d4d0c8;text-align:center"><img src="sample_win2k.png" /></td>
+    </tr>
+    <tr>
+      <th style="background-color:#c0c0c0">Windows<br>XP Style</th>
+      <td style="background-color:#ece9d8;text-align:center"><img src="pics/sample_winxp.png" /></td>
+    </tr>
+    <tr>
+      <th style="background-color:#c0c0c0">GTK</th>
+      <td style="background-color:#efebe7;text-align:center"><img src="/pics/sample_gtk.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+=end HTML
+
+=cut

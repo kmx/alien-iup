@@ -1,0 +1,827 @@
+diff -ru iup.orig/src/config.mak iup/src/config.mak
+--- iup.orig/src/config.mak	2010-06-26 19:22:14.000000000 +0200
++++ iup/src/config.mak	2010-07-30 01:57:01.932812200 +0200
+@@ -2,27 +2,7 @@
+ LIBNAME := iup
+ OPT = YES
+ 
+-ifdef GTK_DEFAULT
+-  ifdef USE_MOTIF
+-    # Build Motif version in Linux and BSD
+-    LIBNAME := $(LIBNAME)mot
+-  else
+-    ifeq ($(findstring Win, $(TEC_SYSNAME)), )
+-      # Force definition if not in Windows
+-      USE_GTK = Yes
+-    endif
+-  endif
+-else  
+-  ifdef USE_GTK
+-    # Build GTK version in IRIX,SunOS,AIX,Win32
+-    LIBNAME := $(LIBNAME)gtk
+-  else
+-    ifeq ($(findstring Win, $(TEC_SYSNAME)), )
+-      # Force definition if not in Windows
+-      USE_MOTIF = Yes
+-    endif
+-  endif
+-endif
++LIBNAME := $(LIBNAME)$(IUPSUFX)
+ 
+ ifdef DBG
+   DEFINES += IUP_ASSERT
+@@ -55,7 +35,7 @@
+            gtk/iupgtk_tabs.c gtk/iupgtk_menu.c gtk/iupgtk_list.c gtk/iupgtk_tree.c
+            
+   ifneq ($(findstring Win, $(TEC_SYSNAME)), )
+-    DEFINES += _WIN32_WINNT=0x0500 _WIN32_IE=0x0500 WINVER=0x0500 NOTREEVIEW
++    DEFINES += _WIN32_WINNT=0x0501 _WIN32_IE=0x0501 WINVER=0x0501 NOTREEVIEW
+     SRC += win/iupwindows_main.c win/iupwindows_help.c win/iupwindows_info.c
+   else
+     ifdef GTK_MAC
+@@ -98,7 +78,7 @@
+   SRC += win/iupwindows_main.c win/iupwindows_help.c win/iupwindows_info.c
+ 
+   INCLUDES += win
+-  DEFINES += _WIN32_WINNT=0x0500 _WIN32_IE=0x0500 WINVER=0x0500 NOTREEVIEW
++  DEFINES += _WIN32_WINNT=0x0501 _WIN32_IE=0x0501 WINVER=0x0501 NOTREEVIEW
+ endif
+ endif
+ 
+diff -ru iup.orig/srccd/config.mak iup/srccd/config.mak
+--- iup.orig/srccd/config.mak	2010-06-26 19:22:14.000000000 +0200
++++ iup/srccd/config.mak	2010-07-30 01:53:02.429113400 +0200
+@@ -10,7 +10,7 @@
+ # Can not use USE_IUP because Tecmake will include "iupcd" in linker
+ 
+ INCLUDES = ../include
+-LIBS = iup
++LIBS = iup$(IUPSUFX)
+ LDIR = ../lib/$(TEC_UNAME)
+ 
+ ifneq ($(findstring MacOS, $(TEC_UNAME)), )
+diff -ru iup.orig/srccontrols/config.mak iup/srccontrols/config.mak
+--- iup.orig/srccontrols/config.mak	2010-06-26 19:22:14.000000000 +0200
++++ iup/srccontrols/config.mak	2010-07-30 00:30:25.111571000 +0200
+@@ -16,7 +16,7 @@
+       iup_dial.c iup_oldmask.c \
+       $(SRCCOLOR) $(SRCMATRIX)
+ 
+-LIBS = iup iupcd
++LIBS = iup$(IUPSUFX) iupcd
+ LDIR = ../lib/$(TEC_UNAME)
+ USE_CD = Yes
+ 
+diff -ru iup.orig/srcgl/config.mak iup/srcgl/config.mak
+--- iup.orig/srcgl/config.mak	2010-06-26 19:36:06.000000000 +0200
++++ iup/srcgl/config.mak	2010-07-30 08:52:33.520952600 +0200
+@@ -8,11 +8,11 @@
+ 
+ INCLUDES = ../include ../src
+ LDIR = ../lib/$(TEC_UNAME)  
+-LIBS = iup
++LIBS = iup$(IUPSUFX)
+ 
+ USE_OPENGL = Yes
+ 
+-ifneq ($(findstring Win, $(TEC_SYSNAME)), )
++ifdef USE_WIN
+   SRC = iup_glcanvas_win.c
+ else
+   SRC = iup_glcanvas_x.c
+diff -ru iup.orig/srcim/config.mak iup/srcim/config.mak
+--- iup.orig/srcim/config.mak	2010-06-26 19:22:14.000000000 +0200
++++ iup/srcim/config.mak	2010-07-29 22:26:52.089570400 +0200
+@@ -10,7 +10,7 @@
+ 
+ INCLUDES = ../include ../src
+ LDIR = ../lib/$(TEC_UNAME)  
+-LIBS = iup
++LIBS = iup$(IUPSUFX)
+ 
+ SRC = iup_im.c
+ 
+diff -ru iup.orig/srcimglib/config.mak iup/srcimglib/config.mak
+--- iup.orig/srcimglib/config.mak	2010-06-26 19:22:14.000000000 +0200
++++ iup/srcimglib/config.mak	2010-07-30 00:30:56.615372900 +0200
+@@ -6,7 +6,7 @@
+ 
+ SRC = iup_image_library.c
+ 
+-LIBS = iup
++LIBS = iup$(IUPSUFX)
+ LDIR = ../lib/$(TEC_UNAME)
+ 
+ ifneq ($(findstring AIX, $(TEC_UNAME)), )
+diff -ru iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
+--- iup.orig/srcpplot/config.mak	2010-06-26 20:05:00.000000000 +0200
++++ iup/srcpplot/config.mak	2010-07-30 00:31:45.192151400 +0200
+@@ -10,7 +10,7 @@
+ 
+ INCLUDES = ../include ../src
+ LDIR = ../lib/$(TEC_UNAME)  
+-LIBS = iup iupcd
++LIBS = iup$(IUPSUFX) iupcd
+ 
+ DEFINES = _IUP_PPLOT_ CD_NO_OLD_INTERFACE
+ 
+diff -ru iup.orig/tecmake.mak iup/tecmake.mak
+--- iup.orig/tecmake.mak	2010-06-26 19:31:33.000000000 +0200
++++ iup/tecmake.mak	2010-07-30 03:28:38.129176600 +0200
+@@ -9,7 +9,7 @@
+ VERSION = 4.1
+ 
+ #---------------------------------#
+-# First target 
++# First target
+ .PHONY: build
+ build: tecmake
+ 
+@@ -63,6 +63,28 @@
+   TEC_SYSRELEASE:=$(TEC_SYSVERSION).$(TEC_SYSMINOR)
+   TEC_UNAME:=$(TEC_SYSNAME)$(TEC_SYSVERSION)$(TEC_SYSMINOR)
+ 
++  # Cygwin
++  ifneq ($(findstring CYGWIN, $(TEC_SYSNAME)), )
++    TEC_SYSNAME:=CYGWIN
++    TEC_UNAME:=cygw$(TEC_SYSVERSION)$(TEC_SYSMINOR)
++  endif
++
++  # Mingw + MSYS
++  ifneq ($(findstring MINGW, $(TEC_SYSNAME)), )
++    TEC_SYSVERSION:=$(shell uname -s|cut -f2 -d-|cut -f1 -d.)
++    TEC_SYSMINOR:=$(shell uname -s|cut -f2 -d-|cut -f2 -d.)
++    TEC_SYSRELEASE:=$(TEC_SYSVERSION).$(TEC_SYSMINOR)
++    ifeq ($(shell gcc -dumpmachine|cut -f1 -d-), x86_64)
++      TEC_SYSARCH:=x64
++      TEC_SYSNAME:=Win64
++    else
++      TEC_SYSARCH:=x86
++      TEC_SYSNAME:=Win32
++    endif
++    GCCVER:=$(shell gcc -dumpversion|cut -f1 -d.)
++    TEC_UNAME:=mingw$(GCCVER)
++  endif
++
+   # Linux 2.4 and GCC 3.x
+   ifeq ($(TEC_UNAME), Linux24)
+     GCCVER:=$(shell gcc -dumpversion|cut -f1 -d.)
+@@ -87,14 +109,16 @@
+   endif
+ 
+   # 64-bits Linux
+-  ifeq ($(TEC_SYSARCH), x64)
+-    BUILD_64=Yes
+-    TEC_UNAME:=$(TEC_UNAME)_64
+-  endif
++  ifeq ($(TEC_SYSNAME), Linux)
++    ifeq ($(TEC_SYSARCH), x64)
++      BUILD_64=Yes
++      TEC_UNAME:=$(TEC_UNAME)_64
++    endif
+ 
+-  ifeq ($(TEC_SYSARCH), ia64)
+-    BUILD_64=Yes
+-    TEC_UNAME:=$(TEC_UNAME)_ia64
++    ifeq ($(TEC_SYSARCH), ia64)
++      BUILD_64=Yes
++      TEC_UNAME:=$(TEC_UNAME)_ia64
++    endif
+   endif
+ 
+   # Solaris and Intel
+@@ -128,11 +152,11 @@
+ 	@echo 'TEC_SYSARCH = $(TEC_SYSARCH)'
+ 	@echo 'TEC_UNAME = $(TEC_UNAME)'; echo ''
+ 
+-  
++
+ #---------------------------------#
+ # Known Platforms
+ 
+-UNAMES = Linux24 Linux24g3 Linux24g3_64 Linux26 Linux26_64 Linux26g4 Linux26g4_64 Linux26_ia64 FreeBSD54 SunOS57 SunOS58 SunOS510 SunOS510_x86 AIX43 IRIX65 IRIX6465
++UNAMES = Linux24 Linux24g3 Linux24g3_64 Linux26 Linux26_64 Linux26g4 Linux26g4_64 Linux26_ia64 FreeBSD54 SunOS57 SunOS58 SunOS510 SunOS510_x86 AIX43 IRIX65 IRIX6465 mingw3 mingw4 cygw15 cygw17
+ 
+ 
+ #---------------------------------#
+@@ -178,32 +202,96 @@
+ # Compilation Flags
+ STDFLAGS := -Wall
+ STDDEFS  := -DTEC_UNAME=$(TEC_UNAME) -DTEC_SYSNAME=$(TEC_SYSNAME) -D$(TEC_SYSNAME)=$(TEC_SYSRELEASE) -D$(TEC_BYTEORDER) -D$(TEC_WORDSIZE) -DFUNCPROTO=15
+-STDINCS  := 
++STDINCS  :=
+ OPTFLAGS := -O2
+ STDLFLAGS  := r
+-DEBUGFLAGS := -g  
++DEBUGFLAGS := -g
+ STDLDFLAGS := -shared
+ DLIBEXT := so
+ DLIBPRE := lib
+ APPEXT :=
+ 
+ 
++ifneq ($(findstring mingw, $(TEC_UNAME)), )
++  WIN_DEFAULT = Yes
++endif
+ ifneq ($(findstring cygw, $(TEC_UNAME)), )
+   GTK_DEFAULT = Yes
+-endif  
++endif
+ ifneq ($(findstring Linux, $(TEC_UNAME)), )
+   GTK_DEFAULT = Yes
+-endif  
++endif
+ ifneq ($(findstring MacOS, $(TEC_UNAME)), )
+   GTK_DEFAULT = Yes
+-endif  
++endif
+ ifneq ($(findstring FreeBSD, $(TEC_UNAME)), )
+   GTK_DEFAULT = Yes
+-endif  
++endif
+ ifneq ($(findstring Linux24, $(TEC_UNAME)), )
+   GTK_DEFAULT :=
+-endif  
++endif
+ 
++ifndef USE_X11
++  ifndef USE_MOTIF
++    ifndef USE_WIN
++      ifndef USE_GTK
++        ifndef USE_GDK
++          ifdef GTK_DEFAULT
++            override USE_GTK := Yes
++          endif
++          ifdef WIN_DEFAULT
++            override USE_WIN := Yes
++          endif
++	endif
++      endif
++    endif
++  endif
++endif
++
++ifdef USE_GTK
++  override USE_GDK := Yes
++  override USE_MOTIF :=
++  override USE_X11 :=
++  override USE_WIN :=
++  override IUPSUFX := gtk
++  override CDSUFX := gdk
++endif
++
++ifdef USE_GDK
++  override USE_GTK := Yes
++  override USE_MOTIF :=
++  override USE_X11 :=
++  override USE_WIN :=
++  override IUPSUFX := gtk
++  override CDSUFX := gdk
++endif
++
++ifdef USE_X11
++  override USE_MOTIF := Yes
++  override USE_GTK :=
++  override USE_GDK :=
++  override USE_WIN :=
++  override IUPSUFX := mot
++  override CDSUFX := x11
++endif
++
++ifdef USE_MOTIF
++  override USE_X11 := Yes
++  override USE_GTK :=
++  override USE_GDK :=
++  override USE_WIN :=
++  override IUPSUFX := mot
++  override CDSUFX := x11
++endif
++
++ifdef USE_WIN
++  override USE_X11 :=
++  override USE_MOTIF :=
++  override USE_GTK :=
++  override USE_GDK :=
++  override IUPSUFX := win
++  override CDSUFX := win
++endif
+ 
+ #---------------------------------#
+ # Tools
+@@ -214,7 +302,7 @@
+ RANLIB   := $(TEC_TOOLCHAIN)ranlib
+ AR       := $(TEC_TOOLCHAIN)ar
+ DEBUGGER := $(TEC_TOOLCHAIN)gdb
+-RCC      := $(TEC_TOOLCHAIN)windres 
++RCC      := $(TEC_TOOLCHAIN)windres
+ 
+ # Remote build script
+ REMOTE  = $(TECMAKE_HOME)/remote
+@@ -238,7 +326,7 @@
+ 
+ 
+ #---------------------------------#
+-# Definitions of public variables 
++# Definitions of public variables
+ 
+ ifdef LIBNAME
+   TARGETNAME = $(LIBNAME)
+@@ -249,7 +337,7 @@
+ endif
+ 
+ ifndef TARGETNAME
+-  $(error LIBNAME nor APPNAME defined in $(MAKENAME)) 
++  $(error LIBNAME nor APPNAME defined in $(MAKENAME))
+ endif
+ 
+ PROJNAME ?= $(TARGETNAME)
+@@ -284,7 +372,7 @@
+ ifdef BUILD_64
+   ifneq ($(findstring SunOS, $(TEC_UNAME)), )
+     USE_CC = Yes
+-    BUILD_64_DIR = Yes   
++    BUILD_64_DIR = Yes
+   endif
+   ifneq ($(findstring AIX, $(TEC_UNAME)), )
+     USE_CC = Yes
+@@ -295,11 +383,11 @@
+     BUILD_64_DIR = Yes
+   endif
+ endif
+-  
++
+ ifdef USE_CC
+   CC := cc
+   CPPC := CC
+-  STDFLAGS = 
++  STDFLAGS =
+   UNAMES := $(UNAMES_CC)
+   ifdef USE_CC_DIR
+     TEC_UNAME := $(TEC_UNAME)cc
+@@ -386,22 +474,22 @@
+ 
+ # Definitions for X11
+ X11_LIBS := Xmu Xt Xext X11
+-#X11_LIB := 
++#X11_LIB :=
+ #X11_INC :=                     #include <X11/X.h>
+ 
+ # Definitions for OpenGL
+ OPENGL_LIBS := GLU GL
+-#OPENGL_LIB := 
+-#OPENGL_INC :=                  #include <GL/gl.h>  and possibly  
++#OPENGL_LIB :=
++#OPENGL_INC :=                  #include <GL/gl.h>  and possibly
+ MOTIFGL_LIB := GLw              #include <GL/GLwMDrawA.h>
+ 
+ # Definitions for Motif
+-#MOTIF_LIB := 
++#MOTIF_LIB :=
+ #MOTIF_INC :=                   #include <Xm/Xm.h>
+ 
+ # Definitions for GLUT
+-#GLUT_LIB := 
+-#GLUT_INC := 
++#GLUT_LIB :=
++#GLUT_INC :=
+ 
+ # Definitions for GTK
+ ifdef GTK_BASE
+@@ -431,7 +519,7 @@
+     X11_LIB := /usr/X11R6/lib
+   endif
+   X11_INC := /usr/X11R6/include
+-  MOTIFGL_LIB := 
++  MOTIFGL_LIB :=
+ endif
+ 
+ ifneq ($(findstring IRIX, $(TEC_UNAME)), )
+@@ -440,8 +528,8 @@
+   STDLDFLAGS := -elf -shared -rdata_shared -soname lib$(TARGETNAME).so
+   RANLIB := /bin/true
+   X11_LIBS := Xmu Xt X11
+-  ifdef BUILD_64    
+-    ifdef USE_CC  
++  ifdef BUILD_64
++    ifdef USE_CC
+       STDFLAGS += -64 -KPIC
+       STDLDFLAGS += -64
+       LINKER += -64
+@@ -455,11 +543,11 @@
+   MOTIF_INC = /usr/Motif-2.1/include
+ endif
+ 
+-ifneq ($(findstring AIX, $(TEC_UNAME)), ) 
++ifneq ($(findstring AIX, $(TEC_UNAME)), )
+   UNIX_POSIX = Yes
+   NO_DYNAMIC ?= Yes
+   ifdef BUILD_64
+-    ifdef USE_CC  
++    ifdef USE_CC
+       STDFLAGS += -q64 # to compilers C and C++
+       STDLFLAGS := -X64 $(STDLFLAGS) # to librarian
+       STDLDFLAGS += -64
+@@ -493,10 +581,10 @@
+   GLUT_LIB := /usr/local/glut-3.7/lib/glut
+   GLUT_INC := /usr/local/glut-3.7/include
+   ifdef BUILD_64
+-    ifdef USE_CC  
++    ifdef USE_CC
+       STDFLAGS += -xarch=v9 -KPIC
+       # have to force these PATHs because of a conflict with standard PATHs
+-      STDLDFLAGS += -64 -L/usr/lib/64 -L/usr/ucblib/sparcv9  
++      STDLDFLAGS += -64 -L/usr/lib/64 -L/usr/ucblib/sparcv9
+       LINKER += -xarch=v9
+     endif
+   endif
+@@ -531,6 +619,27 @@
+   X11_INC := /usr/X11R6/include
+ endif
+ 
++ifneq ($(findstring cygw, $(TEC_UNAME)), )  
++  ifndef USE_WIN
++    OPENGL_LIBS := GLU GL
++    X11_LIBS := X11 Xt
++  else
++    #we are gonna use native windows opengl32 
++    OPENGL_LIBS := opengl32 glu32
++    X11_LIBS :=
++    DEFINES += USE_OPENGL32 WIN32
++  endif
++endif
++
++ifneq ($(findstring Win, $(TEC_SYSNAME)), )
++  WIN_OTHER := Yes
++  DLIBEXT := dll
++  APPEXT := .exe
++  STDLDFLAGS += -Wl,--out-implib=$(TARGETDIR)/lib$(TARGETNAME).dll.a
++  OPENGL_LIBS := opengl32 glu32
++  X11_LIBS :=
++endif
++
+ #---------------------------------#
+ # Allows an extra configuration file.
+ ifdef EXTRA_CONFIG
+@@ -602,23 +711,23 @@
+ 
+ ifdef USE_IUP3
+   override USE_IUP = Yes
+-# Inside Tecgraf only  
++# Inside Tecgraf only
+   ifndef IUP3_BUILD
+ #    IUP := $(IUP)3
+   endif
+-endif 
++endif
+ 
+ ifdef USE_IUPBETA
+   IUP := $(IUP)/beta
+-endif 
++endif
+ 
+ ifdef USE_CDBETA
+   CD := $(CD)/beta
+-endif 
++endif
+ 
+ ifdef USE_IMBETA
+   IM := $(IM)/beta
+-endif 
++endif
+ 
+ ifdef USE_GLUT
+   override USE_OPENGL = Yes
+@@ -645,7 +754,7 @@
+     LIBS += iupcontrols
+   endif
+ endif
+-  
++
+ ifdef USE_IMLUA
+   override USE_IM = Yes
+   ifdef USE_STATIC
+@@ -706,39 +815,24 @@
+       endif
+     endif
+   endif
+-  
++
+   LUA_INC   ?= $(LUA)/include
+   INCLUDES += $(LUA_INC)
+-  
++
+   LUA_BIN ?= $(LUA)/bin/$(TEC_UNAME)
+   BIN2C     := $(LUA_BIN)/bin2c$(LUASUFX)
+   LUAC      := $(LUA_BIN)/luac$(LUASUFX)
+   LUABIN    := $(LUA_BIN)/lua$(LUASUFX)
+ endif
+ 
+-ifdef USE_IUP   
+-  IUPSUFX := 
+-  ifdef USE_IUP3
+-    ifdef GTK_DEFAULT
+-      ifdef USE_MOTIF
+-        IUPSUFX := mot
+-      else
+-        override USE_GTK = Yes
+-        override USE_GDK = Yes
+-      endif
+-    else
+-      ifdef USE_GTK
+-        IUPSUFX := gtk
+-      else
+-        override USE_MOTIF = Yes
+-      endif
+-    endif
+-  else
++ifdef USE_IUP
++  ifndef USE_IUP3
++    override IUPSUFX :=
+     override USE_MOTIF = Yes
+   endif
+   ifdef USE_STATIC
+     ifdef USE_CD
+-      SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiupcd.a
++      SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiupcd$(CDSUFFIX).a
+     endif
+     ifdef USE_OPENGL
+       SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiupgl.a
+@@ -746,7 +840,7 @@
+     SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiup$(IUPSUFX).a
+   else
+     ifdef USE_CD
+-      LIBS += iupcd
++      LIBS += iupcd$(CDSUFX)
+     endif
+     ifdef USE_OPENGL
+       LIBS += iupgl
+@@ -758,18 +852,8 @@
+ endif
+ 
+ ifdef USE_CD
+-  CDSUFX := 
+-  override USE_X11 = Yes
+-  ifndef USE_CD_OLD  
+-    ifdef GTK_DEFAULT
+-      ifdef USE_MOTIF
+-        CDSUFX := x11
+-      endif
+-    else
+-      ifdef USE_GTK
+-        CDSUFX := gdk
+-      endif
+-    endif
++  ifdef USE_CD_OLD
++    override CDSUFX :=
+   endif
+   ifdef USE_STATIC
+     ifdef USE_XRENDER
+@@ -804,7 +888,15 @@
+     LDIR += $(CD)/lib/$(TEC_UNAME_LIB_DIR)
+     ifndef USE_GTK
+       # Freetype is already included in GTK
+-      LIBS += freetype
++      ifneq ($(findstring cygw, $(TEC_UNAME)), )
++        LIBS += freetype-6
++      else
++        ifneq ($(findstring Win, $(TEC_SYSNAME)), )
++          LIBS += freetype6
++        else
++          LIBS += freetype
++        endif
++      endif
+     endif
+   endif
+   INCLUDES += $(CD)/include
+@@ -824,7 +916,7 @@
+   LIBS += glut
+   LDIR += $(GLUT_LIB)
+   STDINCS += $(GLUT_INC)
+-endif 
++endif
+ 
+ ifdef USE_OPENGL
+   override USE_X11 = Yes
+@@ -836,17 +928,16 @@
+   LIBS += $(OPENGL_LIBS)
+   LDIR += $(OPENGL_LIB)
+   STDINCS += $(OPENGL_INC)
+-endif 
++endif
+ 
+ ifdef USE_MOTIF
+-  override USE_X11 = Yes
+   LIBS += Xm
+   LDIR += $(MOTIF_LIB)
+   STDINCS += $(MOTIF_INC)
+   ifneq ($(findstring Linux, $(TEC_UNAME)), )
+     X11_LIBS := Xpm $(X11_LIBS)
+   endif
+-  ifneq ($(findstring cygw, $(TEC_UNAME)), ) 
++  ifneq ($(findstring cygw, $(TEC_UNAME)), )
+     X11_LIBS := Xpm $(X11_LIBS)
+   endif
+ endif
+@@ -878,10 +969,10 @@
+     override USE_X11 = Yes
+     LIBS += gtk-x11-2.0 gdk-x11-2.0 pangox-1.0
+   endif
+-  
++
+   LIBS += gdk_pixbuf-2.0 pango-1.0 gobject-2.0 gmodule-2.0 glib-2.0
+   STDINCS += $(GTK)/include/atk-1.0 $(GTK)/include/gtk-2.0 $(GTK)/include/cairo $(GTK)/include/pango-1.0 $(GTK)/include/glib-2.0
+-  
++
+   ifeq ($(TEC_SYSARCH), x64)
+     STDINCS += $(GTK)/lib64/glib-2.0/include $(GTK)/lib64/gtk-2.0/include
+     # Add also these to avoid errors in systems that lib64 does not exists
+@@ -894,7 +985,7 @@
+   endif
+   endif
+   ifneq ($(findstring FreeBSD, $(TEC_UNAME)), )
+-    STDINCS += /lib/X11R6/include/gtk-2.0  
++    STDINCS += /lib/X11R6/include/gtk-2.0
+   endif
+ endif
+ 
+@@ -910,26 +1001,31 @@
+   LIBS += $(X11_LIBS)
+   LDIR += $(X11_LIB)
+   STDINCS += $(X11_INC)
+-endif 
++endif
++
++ifdef USE_WIN
++  LIBS += gdi32 comctl32 comdlg32 ole32
++  DEFINES += IUP_DLL
++endif
+ 
+ LIBS += m
+ 
+ ifneq ($(findstring cygw, $(TEC_UNAME)), )
+   WIN_OTHER := Yes
+-  
++
+   # INCLUDES for dependencies, remove references to "c:" and similars
+   DEPINCS := $(patsubst c:%, /cygdrive/c%, $(INCLUDES))
+   DEPINCS := $(patsubst d:%, /cygdrive/d%, $(DEPINCS))
+   DEPINCS := $(patsubst x:%, /cygdrive/x%, $(DEPINCS))
+   DEPINCS := $(patsubst t:%, /cygdrive/t%, $(DEPINCS))
+-  
++
+   DLIBEXT := dll
+   APPEXT := .exe
+-  # Use the cyg prefix to indicate that it is a Cygwin Posix DLL  
++  # Use the cyg prefix to indicate that it is a Cygwin Posix DLL
+   DLIBPRE := cyg
+-  
++
+   STDLDFLAGS += -Wl,--out-implib=$(TARGETDIR)/lib$(TARGETNAME).dll.a
+-endif 
++endif
+ 
+ #---------------------------------#
+ #  Building compilation flags that are sets
+@@ -969,10 +1065,10 @@
+ ifeq ($(MAKETYPE), APP)
+   TARGET := $(TARGETDIR)/$(TARGETAPPNAME)
+ else
+-  ifeq ($(NO_DYNAMIC), Yes) 
++  ifeq ($(NO_DYNAMIC), Yes)
+     TARGET := $(TARGETDIR)/$(TARGETSLIBNAME)
+   else
+-  ifeq ($(NO_STATIC), Yes) 
++  ifeq ($(NO_STATIC), Yes)
+     TARGET := $(TARGETDIR)/$(TARGETDLIBNAME)
+   else
+     TARGET := $(TARGETDIR)/$(TARGETSLIBNAME) $(TARGETDIR)/$(TARGETDLIBNAME)
+@@ -1017,14 +1113,14 @@
+ #---------------------------------#
+ # Main Rule - Build Everything that it is necessary
+ 
+-.PHONY: tecmake 
++.PHONY: tecmake
+ ifeq ($(MAKETYPE), APP)
+   tecmake: print-start system-check directories application scripts
+ else
+-  ifeq ($(NO_DYNAMIC), Yes) 
++  ifeq ($(NO_DYNAMIC), Yes)
+     tecmake: print-start system-check directories static-lib
+   else
+-  ifeq ($(NO_STATIC), Yes) 
++  ifeq ($(NO_STATIC), Yes)
+     tecmake: print-start system-check directories dynamic-lib
+   else
+     tecmake: print-start system-check directories static-lib dynamic-lib
+@@ -1050,8 +1146,8 @@
+       ifneq ($(findstring Linux24, $(TEC_UNAME)), )
+         ifndef GTK_BASE
+ 					@echo ''; echo 'Tecmake: check failed, GTK too OLD in this system.'; echo ''; exit 1;
+-        endif  
+-      endif  
++        endif
++      endif
+     endif
+   endif
+   ifdef CHECK_GDIPLUS
+@@ -1059,7 +1155,7 @@
+ 			@echo ''; echo 'Tecmake: check failed, GDI+ NOT available in this system.'; echo ''; exit 1;
+     endif
+   endif
+-  
++
+ #---------------------------------#
+ # Dynamic Library Build
+ 
+@@ -1071,7 +1167,7 @@
+ 	$(ECHO)$(LD) $(STDLDFLAGS) -o $@ $(OBJS) $(SLIB) $(LFLAGS)
+ 	@echo ''; echo 'Tecmake: Dynamic Library ($@) Done.'; echo ''
+ 
+-  
++
+ #---------------------------------#
+ # Static Library Build
+ 
+@@ -1085,7 +1181,7 @@
+ 	$(ECHO)-$(RANLIB) $@
+ 	@echo ''; echo 'Tecmake: Static Library ($@) Done.'; echo ''
+ 
+-  
++
+ #---------------------------------#
+ # Application Build
+ 
+@@ -1101,7 +1197,7 @@
+ 	 fi
+ 	@echo ''; echo 'Tecmake: Application ($@) Done.'; echo ''
+ 
+-  
++
+ #---------------------------------#
+ #  Application Scripts
+ 
+@@ -1114,7 +1210,7 @@
+ else
+   scripts: $(SRELEASE) ;
+ endif
+-  
++
+ $(SRELEASE): $(MAKENAME)
+ 	@echo ''; echo 'Tecmake: building script $(@F)'
+ 	@echo "#!/bin/csh" > $@
+@@ -1125,7 +1221,7 @@
+ 	@echo 'exec $(TARGETROOT)/$$TEC_UNAME/$(TARGETNAME) $$*' >> $@
+ 	@chmod a+x $@
+ 
+-  
++
+ #---------------------------------#
+ # Directories Creation
+ 
+@@ -1195,7 +1291,7 @@
+ 	$(ECHO)$(LUABIN) $(LUAPRE) $(LUAPREFLAGS) -l $(SRCLUADIR) -o $@ $(SRCLUA)
+ endif
+ 
+-  
++
+ #---------------------------------#
+ # Dependencies
+ 
+@@ -1234,12 +1330,12 @@
+ .PHONY: clean-extra
+ clean-extra:
+ 	rm -f $(DEPEND) $(SRELEASE) so_locations
+-	
++
+ #   Remove Lua object inclusion files
+ .PHONY: clean-lohs
+ clean-lohs:
+ 	rm -f $(LOS) $(LOHS)
+-	
++
+ #   Remove object files
+ .PHONY: clean-obj
+ clean-obj:
+@@ -1263,11 +1359,11 @@
+ strip:
+ 	test -r $(TARGETDIR)/$(TARGETAPPNAME) && strip $(TARGETDIR)/$(TARGETAPPNAME)
+ 
+-#   Rebuild target and object files 
++#   Rebuild target and object files
+ .PHONY: rebuild
+ rebuild: clean-extra clean-lohs clean-obj clean-target tecmake
+ 
+-#   Rebuild target without rebuilding object files 
++#   Rebuild target without rebuilding object files
+ .PHONY: relink
+ relink: clean-target tecmake
+ 
+@@ -1284,7 +1380,7 @@
+ 	@for d in $(UNAMES); do \
+ 	  (rm -f $(TARGETROOT)/$$d/$(TARGETNAME) $(TARGETROOT)/$$d/$(TARGETSLIBNAME) $(TARGETROOT)/$$d/$(TARGETDLIBNAME)) ;\
+ 	done
+- 
++
+ #---------------------------------#
+ # Remote build
+ # There must be aliases in DNS for the known UNAMES
