@@ -1,0 +1,20 @@
+(before next release)
+- Has: 1 - l_gtk (even if not GTK-devel installed)
+- 64bit Linux (USE_GTK): /usr/bin/ld: cannot find -lXmu (missing after installing just pure gtk2-devel)
+- if missing  GL/glu.h - disable 'ftgl'
+
+(medium priority)
+- extend ConfigData: config('ld_shared_libs')
+- extend ConfigData: config('ld_paths')
+- detection iup+cd+im: does not work with msvc 
+- detection iup+cd+im: maybe we need to link with more libs to handle static linking
+- HAS_GTK - handle properly cairo, pango (see comments in src)
+- HAS X11 - better X11 lib selection - Xmu Xt Xext X11 GL GLU (see comments in src)
+- Win32 Build
+
+(low priority)
+- tecmake: make ose of pkg-config to get gtk; cflags|lflags
+- "src code already unpacked - overwrite?"
+- find a way to embed pics into POD doc
+  e.g. http://search.cpan.org/~AAYARS/Math-Fractal-Noisemaker/lib/Math/Fractal/Noisemaker.pm
+  e.g. http://search.cpan.org/~otto/Pod-Trial-LinkImg-0.005/
