@@ -3,7 +3,7 @@ NAME
     <http://www.tecgraf.puc-rio.br/iup/>
 
 VERSION
-    Version v0.0.2 of Alien::IUP is based on the following:
+    Version v0.0.3 of Alien::IUP is based on the following:
 
     *   *iup* library 3.2 - see <http://www.tecgraf.puc-rio.br/iup/>
 
@@ -49,9 +49,6 @@ SYNOPSIS
           # + additional params
         );
 
-SCREENSHOTS
-    Examples of IUP-based application on different GUI subsystems:
-
 METHODS
   config()
     This function is the main public interface to this module.
@@ -78,11 +75,12 @@ BUGS
     <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP>.
 
 LICENSE AND COPYRIGHT
-    IUP + related libraries: Copyright (C) 1994-2010 Tecgraf, PUC-Rio.
+    Libraries *iup*, *im* and *cd*: Copyright (C) 1994-2010 Tecgraf,
+    PUC-Rio. <http://www.tecgraf.puc-rio.br>
 
     Alien::IUP module: Copyright (C) 2010 KMX.
 
-    This program is distributed under the MIT (X11) License:
+    This program is distributed under the MIT License:
     <http://www.opensource.org/licenses/mit-license.php>
 
     Permission is hereby granted, free of charge, to any person obtaining a

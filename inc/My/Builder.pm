@@ -37,6 +37,11 @@ sub ACTION_code {
       $self->add_to_cleanup($build_out);
       $self->add_to_cleanup($build_src);
 
+      # store info into CofigData
+      $self->config_data('iup_url', $self->notes('iup_url'));
+      $self->config_data('im_url', $self->notes('im_url'));
+      $self->config_data('cd_url', $self->notes('cd_url'));
+      
       # prepare sources
       $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
       if ($self->notes('iup_patches')) {
@@ -121,56 +126,56 @@ sub quote_literal {
   return $path;
 }
 
-sub check_installed_lib { # xxx kmx predelat
+sub check_installed_lib {
   my ($self) = @_;
-
-  require ExtUtils::CBuilder;
-  my $cb = ExtUtils::CBuilder->new( quiet => 1 );
-  my $dir = tempdir( CLEANUP => 1 );
-  my ($fs, $src) = tempfile( DIR => $dir, SUFFIX => '.c' );
-  syswrite($fs, <<MARKER); # write test source code
-#include <iup.h>
-int main() { IupVersion(); return 0; }
-
-MARKER
-  close($fs);
-
   my $idir = $ENV{IUP_DIR} || '';
   my @candidates;
   push(@candidates, { L => "$idir/lib", I => "$idir/include" }) if -d $idir;
+  push(@candidates, { L => '', I => '' });
   push(@candidates, { L => '', I => $Config{usrinc} }) if -d $Config{usrinc};
-  push(@candidates, { L => '/usr/local/lib', I => '/usr/local/include' });
-  push(@candidates, { L => '/usr/lib', I => '/usr/include' });
+  push(@candidates, { L => '/usr/local/lib', I => '/usr/local/include' }) if -d '/usr/local/lib' && -d '/usr/local/include';
+  push(@candidates, { L => '/usr/lib', I => '/usr/include' }) if -d '/usr/lib' && -d '/usr/include';
 
   print "Gonna detect iup+im+cd already installed on your system:\n";
   foreach my $i (@candidates) {
-    my $lflags = $i->{L} ? '-L'.$self->quote_literal($i->{L}).' -liup' : '-liup';
+    my $lflags = $i->{L} ? '-L'.$self->quote_literal($i->{L}) : '';
     my $cflags = $i->{I} ? '-I'.$self->quote_literal($i->{I}) : '';
-    print "- testing: $cflags $lflags ...\n";
-    $lflags = ExtUtils::Liblist->ext($lflags) if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/); # MSVC compiler hack
-    my ($obj, $exe);
-    open(my $olderr, '>&', STDERR);
-    open(STDERR, '>', File::Spec->devnull());
-    $obj = eval { $cb->compile( source => $src, extra_compiler_flags => $cflags ) };
-    $exe = eval { $cb->link_executable( objects => $obj, extra_linker_flags => $lflags ) } if $obj;
-    open(STDERR, '>&', $olderr);
-    next unless $exe;
-    print "- iup+im+cd FOUND!\n";
-    $self->notes('already_installed_lib', { lflags => $lflags, cflags => $cflags } );
-    return 1;
+    #xxx does not work with MSVC compiler
+    #xxx $lflags = ExtUtils::Liblist->ext($lflags) if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/); # MSVC compiler hack
+    print "- testing: $cflags $lflags\n";
+    my $rv1 = $self->check_header( [ 'iup.h', 'im.h', 'cd.h' ], $cflags);
+    #xxx maybe we need to link with more libs
+    if ($self->check_lib( [ 'iup', 'im', 'cd' ], $cflags, $lflags)){
+      print "- iup+im+cd FOUND!\n";
+      $self->notes('already_installed_lib', { lflags => "$lflags -liup -lim -lcd", cflags => $cflags } );
+      return 1;
+    }
+    elsif ($self->check_lib( [ 'iupwin', 'im', 'cdwin' ], $cflags, $lflags)) {
+      print "- iupwin+im+cdwin FOUND!\n";
+      $self->notes('already_installed_lib', { lflags => "$lflags -liupwin -lim -lcdwin", cflags => $cflags } );
+      return 1;
+    }
+    elsif ($self->check_lib( [ 'iupgtk', 'im', 'cdgdk' ], $cflags, $lflags)) {
+      print "- iupgtk+im+cdgdk FOUND!\n"; 
+      $self->notes('already_installed_lib', { lflags => "$lflags -liupgtk -lim -lcdgdk", cflags => $cflags } );
+      return 1;
+    }
+    elsif ($self->check_lib( [ 'iupmot', 'im', 'cdx11' ], $cflags, $lflags)) {
+      print "- iupmot+im+cdx11 FOUND!\n";
+      $self->notes('already_installed_lib', { lflags => "$lflags -liupmot -lim -lcdx11", cflags => $cflags } );
+      return 1;
+    }
   }
   print "- iup+im+cd not found (we have to build it from sources)!\n";
   return 0;
 }
 
-### check presence of header(s) specified as params
+# check presence of header(s) specified as params
 sub check_header {
-  my ($package, $h, $cflags) = @_;
+  my ($self, $h, $cflags) = @_;
   $cflags ||= '';
   my @header = ref($h) ? @$h : ( $h );
   
-  require ExtUtils::CBuilder; # PAR packer workaround
-  my $cb = ExtUtils::CBuilder->new(quiet => 1);
   my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
   my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
   my $inc = '';
@@ -184,23 +189,23 @@ MARKER
   local *OLDERR;
   open OLDERR, ">&", STDERR;
   open STDERR, ">", File::Spec->devnull();  
-  #xxx todo - quote $src $obj
+  $src = $self->quote_literal($src);
+  $obj = $self->quote_literal($obj);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
   my $rv = system("$Config{cc} -c -o $obj $src $cflags");
   open(STDERR, ">&", OLDERR);
   return ($rv == 0) ? 1 : 0;
 }
 
+# check presence of lib(s) specified as params
 sub check_lib {
-  my ($package, $l, $cflags, $lflags) = @_;
+  my ($self, $l, $cflags, $lflags) = @_;
   $cflags ||= '';
   $lflags ||= '';
   $cflags =~ s/[\r\n]//g;
   $lflags =~ s/[\r\n]//g;
   my @libs = ref($l) ? @$l : ( $l );
   
-  require ExtUtils::CBuilder; # PAR packer workaround
-  my $cb = ExtUtils::CBuilder->new(quiet => 1);
   my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
   my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
   my ($fe, $exe) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.out', UNLINK => 1);
@@ -212,7 +217,9 @@ MARKER
   local *OLDERR;
   open OLDERR, ">&", STDERR;
   open STDERR, ">", File::Spec->devnull();  
-  #xxx todo - quote $src $obj $exe
+  $src = $self->quote_literal($src);
+  $obj = $self->quote_literal($obj);
+  $exe = $self->quote_literal($exe);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
   my $rv1 = system("$Config{cc} -c -o $obj $src $cflags");
   my $liblist = scalar(@libs) ? '-l' . join(' -l', @libs) : '';
@@ -221,51 +228,42 @@ MARKER
   return ($rv2 == 0) ? 1 : 0;
 }
 
-sub apply_patchxxx { # xxx kmx asi casem vyhodit
+# pude perl implementation of patch functionality
+sub apply_patch {
   my ($self, $dir_to_be_patched, $patch_file) = @_;
- 
-  open(DAT, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
-  my @affected_files = map{$_ =~ /^---\s*([\S]+)/} <DAT>;
-  close(DAT);
+  my ($src, $diff);
 
-  foreach my $k (@affected_files) {
+  undef local $/;
+  open(DAT, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
+  $diff = <DAT>;
+  close(DAT);
+  $diff =~ s/\r\n/\n/g; #normalise newlines
+  $diff =~ s/\ndiff /\nSpLiTmArKeRdiff /g;
+  my @patches = split('SpLiTmArKeR', $diff);
+  
+  foreach my $p (@patches) {  
+    my ($k) = map{$_ =~ /\n---\s*([\S]+)/} $p;
     # doing the same like -p1 for 'patch'
     $k =~ s|\\|/|g;
     $k =~ s|^[^/]*/(.*)$|$1|;
     $k = catfile($dir_to_be_patched, $k);
     print "Gonna patch file '$k'\n";
+  
     open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
-    my @src  = map{$_ =~ /([^\r\n]*)/} <SRC>;
+    $src  = <SRC>;
     close(SRC);
-    open(DIFF, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
-    my @diff = map{$_ =~ /([^\r\n]*)/} <DIFF>;
-    close(DIFF);
-    my $out = Text::Patch::patch( join("\n", @src) . "\n", join("\n", @diff) . "\n", { STYLE => "Unified" } );
-    open(OUT, ">$k") or die "###ERROR### Cannot open file for writing: '$k'\n";
-    print(OUT $out);
-    close(OUT);
-  }
-}
+    $src =~ s/\r\n/\n/g; #normalise newlines
 
-sub apply_patch {
-  my( $self, $dir_to_be_patched, $patch_file ) = @_;
-  my $devnull = File::Spec->devnull();
-  print "Gonna apply patch '$patch_file' in '$dir_to_be_patched'\n";
-  my $patch_rv = system("patch -v > $devnull 2>&1");
-  if ($patch_rv == 0) {
-    $patch_file = File::Spec->abs2rel( $patch_file, $dir_to_be_patched );
-    # the patches are expected with UNIX newlines
-    # the following command works on both UNIX+Windows
-    # paths of files to patch should be relative to build_src
-    my $cmd = $self->quote_literal($^X) . ' -pe0 -- ' .
-              $self->quote_literal($patch_file) . ' | patch -p1';
-    chdir $dir_to_be_patched;
-    $self->do_system($cmd) or warn "###WARN### [$?] during running 'patch ...' ";
-    chdir $self->base_dir();
-  }
-  else {
-    warn "###WARN### cannot run 'patch' tool";
-  }
+    my $out = eval { Text::Patch::patch( $src, $p, { STYLE => "Unified" } ) };
+    if ($out) {    
+      open(OUT, ">", $k) or die "###ERROR### Cannot open file for writing: '$k'\n";
+      print(OUT $out);
+      close(OUT);
+    }
+    else {
+      warn "###WARN### Patching '$k' failed: $@";
+    }
+  }  
 }
 
 1;

@@ -4,7 +4,7 @@
 
 Alien::IUP::Demo -- Demo POD for testing embeded images
 
-=head1 DEMO
+=head1 DEMO1
 
 =begin HTML
 
@@ -28,6 +28,17 @@ Alien::IUP::Demo -- Demo POD for testing embeded images
     </tr>
   </tbody>
 </table>
+
+=end HTML
+
+=head1 DEMO2
+
+=begin HTML
+
+<p><img src="sample_mot.png" alt="Screenshot - Motif" /></p>
+<p><img src="pics/sample_winxp.png" alt="Screenshot - Windows XP Style" /></p>
+<p><img src="/src/KMX/Alien-IUP-v0.0.3/pics/sample_win2k.png" alt="Screenshot - Windows Classic" /></p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.3/pics/sample_gtk.png" alt="Screenshot - GTK" /></p>
 
 =end HTML
 

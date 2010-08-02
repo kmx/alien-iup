@@ -1,6 +1,11 @@
 Revision history for Alien-IUP
 
-0.0.2	30/07/2010
-        - First version, released on CPAN.
-	- Without MS Win build support
+0.0.3	02/08/2010
+	- missing prereq Text::Patch (+ patching redesign)
+	- better lib/header detection
+	- build dies on make failure (to see cpan tester failure details)
+	- keeping tecmake's sysinfo for debug purposes
 
+0.0.2	30/07/2010
+	- First version, released on CPAN.
+	- Without MS Win build support

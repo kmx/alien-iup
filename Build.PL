@@ -31,6 +31,7 @@ my $builder = $package->new(
     'File::Fetch'       => 0,
     'Digest::SHA'       => 0,
     'Archive::Extract'  => 0,
+    'Text::Patch'       => 0,
   },
   build_requires => {
     'Test::More'        => 0,
@@ -43,6 +44,7 @@ my $builder = $package->new(
     'File::Fetch'       => 0,
     'Digest::SHA'       => 0,
     'Archive::Extract'  => 0,
+    'Text::Patch'       => 0,
   },
   share_dir          => 'sharedir',
   add_to_cleanup     => [ 'Alien-IUP-*', 'build_done' ],

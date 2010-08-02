@@ -13,11 +13,11 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = 'v0.0.2';
+our $VERSION = 'v0.0.3';
 
 =head1 VERSION
 
-Version v0.0.2 of Alien::IUP is based on the following:
+Version v0.0.3 of Alien::IUP is based on the following:
 
 =over
 
@@ -69,35 +69,6 @@ I<iup> and/or related libs like this:
       # + additional params
     );
 
-=head1 SCREENSHOTS
-
-Examples of IUP-based application on different GUI subsystems:
-
-=begin HTML
-
-<table cellpadding="1" cellspacing="0" border="1">
-  <tbody>
-    <tr>
-      <th style="background-color:#c0c0c0">Motif</th>
-      <td style="background-color:#adb1c2;text-align:center"><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.2/pics/sample_mot.png" /></td>
-    </tr>
-    <tr>
-      <th style="background-color:#c0c0c0">Windows<br>Classic</th>
-      <td style="background-color:#d4d0c8;text-align:center"><img src="/src/KMX/Alien-IUP-v0.0.2/pics/sample_win2k.png" /></td>
-    </tr>
-    <tr>
-      <th style="background-color:#c0c0c0">Windows<br>XP Style</th>
-      <td style="background-color:#ece9d8;text-align:center"><img src="pics/sample_winxp.png" /></td>
-    </tr>
-    <tr>
-      <th style="background-color:#c0c0c0">GTK</th>
-      <td style="background-color:#efebe7;text-align:center"><img src="../../pics/sample_gtk.png" /></td>
-    </tr>
-  </tbody>
-</table>
-
-=end HTML
-
 =head1 METHODS
 
 =head2 config()
@@ -128,11 +99,12 @@ the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP>
 
 =head1 LICENSE AND COPYRIGHT
 
-IUP + related libraries: Copyright (C) 1994-2010 Tecgraf, PUC-Rio.
+Libraries I<iup>, I<im> and I<cd>: Copyright (C) 1994-2010 Tecgraf, PUC-Rio.
+L<http://www.tecgraf.puc-rio.br>
 
 Alien::IUP module: Copyright (C) 2010 KMX.
 
-This program is distributed under the MIT (X11) License:
+This program is distributed under the MIT License:
 L<http://www.opensource.org/licenses/mit-license.php>
 
 Permission is hereby granted, free of charge, to any person

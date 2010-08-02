@@ -16,7 +16,9 @@ my $cb = ExtUtils::CBuilder->new(quiet => 0);
 my $dir = tempdir( CLEANUP => 1 );
 my ($fs, $src) = tempfile( DIR => $dir, SUFFIX => '.c' );
 syswrite($fs, <<MARKER); # write test source code
-#include <IUP.h>
+#include <im.h>
+#include <cd.h>
+#include <iup.h>
 int main()
 { 
   /* xxx add some code here xxx */
