@@ -2,6 +2,16 @@
 - compile.t: Linux linker failure (cairo/pango related)
 - XmScaleSetTicks: missing on cygwin/freebsd (iupmot)
 
+- add IPC::Run3 + this sub
+sub do_system_strip_output {
+  my ($self, @cmd) = @_;
+  my $output;
+  my $rv = run3 \@cmd, \undef, \$output, \$output;
+  $output = substr $output, -1000; # we want just last 1000 chars
+  print "do_system_strip_output:\n", $output, "\n";
+  return $rv;
+}
+
 (medium priority)
 - at least basic Win32 Build
 - switch from dynamic to static linking
