@@ -1,6 +1,7 @@
 .git
 .svn
 _build
+_internals
 blib
 ^ignore.txt$
 ^Build$

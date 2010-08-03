@@ -13,11 +13,11 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = 'v0.0.4';
+our $VERSION = 'v0.0.5';
 
 =head1 VERSION
 
-Version v0.0.4 of Alien::IUP is based on the following:
+Version v0.0.5 of Alien::IUP is based on the following:
 
 =over
 

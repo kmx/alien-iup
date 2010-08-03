@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.5	03/08/2010
+	- another HTML in POD doc testing
+
 0.0.4	03/08/2010
 	- tuning Linux/FreeBSD builds
 	- HTML in POD doc testing
