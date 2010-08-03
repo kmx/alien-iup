@@ -14,6 +14,7 @@ use Archive::Extract;
 use Config;
 use ExtUtils::Liblist;
 use Text::Patch;
+use IPC::Run3;
 
 sub ACTION_code {
   my $self = shift;
@@ -277,6 +278,18 @@ sub apply_patch {
       warn "###WARN### Patching '$k' failed: $@";
     }
   }
+}
+
+sub do_system_output_tail {
+  my ($self, $limit, @cmd) = @_;
+  my $output;
+  print "CMD: " . join(' ',@cmd) . "\n";
+  print "Running (stdout+stderr redirected)...\n";
+  my $rv = run3 \@cmd, \undef, \$output, \$output;
+  $output = substr $output, -$limit if defined $limit; # we want just last N chars
+  print ( (defined $limit) ? "OUTPUT: (only last $limit chars)\n" : "OUTPUT:\n");
+  print $output, "\n";
+  return $rv;
 }
 
 1;

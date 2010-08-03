@@ -127,7 +127,7 @@ diff -ru iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
  
 diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 --- iup.orig/tecmake.mak	2010-06-26 19:31:33.000000000 +0200
-+++ iup/tecmake.mak	2010-08-03 01:41:53.557979700 +0200
++++ iup/tecmake.mak	2010-08-03 17:36:51.154110600 +0200
 @@ -9,7 +9,7 @@
  VERSION = 4.1
  
@@ -272,7 +272,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    GTK_DEFAULT :=
 -endif  
 +endif
- 
++
 +ifndef USE_X11
 +  ifndef USE_MOTIF
 +    ifndef USE_WIN
@@ -325,7 +325,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 +  override IUPSUFX := mot
 +  override CDSUFX := x11
 +endif
-+
+ 
 +ifdef USE_WIN
 +  override USE_X11 :=
 +  override USE_MOTIF :=
@@ -469,15 +469,15 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    X11_INC := /usr/X11R6/include
 +  ifeq ($(TEC_SYSARCH), x64)
 +    STDFLAGS += -fPIC
-+  endif 
++  endif
 +endif
 +
-+ifneq ($(findstring cygw, $(TEC_UNAME)), )  
++ifneq ($(findstring cygw, $(TEC_UNAME)), )
 +  ifndef USE_WIN
 +    OPENGL_LIBS := GLU GL
 +    X11_LIBS := X11 Xt
 +  else
-+    #we are gonna use native windows opengl32 
++    #we are gonna use native windows opengl32
 +    OPENGL_LIBS := opengl32 glu32
 +    X11_LIBS :=
 +    DEFINES += USE_OPENGL32 WIN32

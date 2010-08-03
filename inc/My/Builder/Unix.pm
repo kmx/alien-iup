@@ -168,9 +168,7 @@ sub build_via_tecmake {
     ($im_si =`$makesysinfo 2>&1`) =~ s/[\n\r]*$//;
     print "$im_si\n";
     foreach my $t (@{$imtgs}) {
-      my @cmd = ($make, $t, @makeopts);
-      print "Running make $t ...\n(cmd: ".join(' ',@cmd).")\n";
-      $done{$t} = $self->do_system(@cmd) ? 1 : 0;
+      $done{$t} = $self->do_system_output_tail(1000, $make, $t, @makeopts);
       warn "###WARN### [$?] during make $t" unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -184,9 +182,7 @@ sub build_via_tecmake {
     ($cd_si =`$makesysinfo 2>&1`) =~ s/[\n\r]*$//;
     print "$cd_si\n";
     foreach my $t (@{$cdtgs}) {
-      my @cmd = ($make, $t, @makeopts);
-      print "Running make $t ...\n(cmd: ".join(' ',@cmd).")\n";
-      $done{$t} = $self->do_system(@cmd) ? 1 : 0;
+      $done{$t} = $self->do_system_output_tail(1000, $make, $t, @makeopts);
       warn "###WARN### [$?] during make $t" unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -200,9 +196,7 @@ sub build_via_tecmake {
     ($iup_si =`$makesysinfo 2>&1`) =~ s/[\n\r]*$//;
     print "$iup_si\n";
     foreach my $t (@{$iuptgs}) {
-      my @cmd = ($make, $t, @makeopts);
-      print "Running make $t ...\n(cmd: ".join(' ',@cmd).")\n";
-      $done{$t} = $self->do_system(@cmd) ? 1 : 0;
+      $done{$t} = $self->do_system_output_tail(1000, $make, $t, @makeopts);
       warn "###WARN### [$?] during make $t" unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("./include/*.h"));

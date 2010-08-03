@@ -2,63 +2,38 @@
 
 =head1 NAME
 
-Alien::IUP::Demo -- Demo POD for testing embeded images
+Alien::IUP::Demo - Demo POD for testing embedded images
 
 =head1 DEMO1
 
 =begin HTML
 
-<p>
-<table border="1">
-  <tbody>
-    <tr>
-      <th>GTK</th>
-      <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/sample_gtk.png"></td>
-    </tr>
-    <tr>
-      <th>Windows<br>Vista</th>
-      <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/sample_vista.png"></td>
-    </tr>
-  </tbody>
-</table>
-</p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/topdown.gif"></p>
 
 =end HTML
 
 =head1 DEMO2
 
+Text before
+
+=for HTML <p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/topdown.gif"></p>
+
+Text after
+
+=head1 DEMO3
+
 =begin HTML
 
 <p>
   <table border="1">
-    <col style="background-color: rgb(236, 233, 216);">
-    <col style="background-color: rgb(212, 208, 200);">
-    <col style="background-color: rgb(239, 235, 231);">
-    <col style="background-color: rgb(173, 177, 194);">
-    <tbody align="center">
+    <tbody>
       <tr>
-        <th>Windows<br>XP Style</th>
-        <th>Windows<br>Classic</th>
-        <th>GTK</th>
-        <th>Motif</th>
+        <th style="text-align: center;">GTK</th>
+        <td style="text-align: center;"><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_gtk.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_image.png"></td>
-      </tr>
-      <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_text.png"></td>
-      </tr>
-      <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_imagetext.png"></td>
+        <th style="text-align: center;">Windows<br>Vista</th>
+        <td style="text-align: center;"><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_vista.png"></td>
       </tr>
     </tbody>
   </table>
@@ -66,7 +41,7 @@ Alien::IUP::Demo -- Demo POD for testing embeded images
 
 =end HTML
 
-=head1 DEMO3
+=head1 DEMO4
 
 =begin HTML
 
@@ -84,22 +59,22 @@ Alien::IUP::Demo -- Demo POD for testing embeded images
         <th style="text-align: center;">Motif</th>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_image.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_text.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_winxp_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_win2k_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_gtk_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.6/pics/iupbutton_mot_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_imagetext.png"></td>
       </tr>
     </tbody>
   </table>

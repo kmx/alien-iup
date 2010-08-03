@@ -63,7 +63,7 @@ diff -ru im.orig/src/im_capture.mak im/src/im_capture.mak
  	@echo Importing MingW stub library
 diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
 --- im.orig/src/tecmake.mak	2010-06-23 21:23:20.000000000 +0200
-+++ im/src/tecmake.mak	2010-08-03 01:41:53.557979700 +0200
++++ im/src/tecmake.mak	2010-08-03 17:36:51.154110600 +0200
 @@ -8,9 +8,8 @@
  # Tecmake Version
  VERSION = 4.1
@@ -210,7 +210,7 @@ diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
    GTK_DEFAULT :=
 -endif  
 +endif
- 
++
 +ifndef USE_X11
 +  ifndef USE_MOTIF
 +    ifndef USE_WIN
@@ -263,7 +263,7 @@ diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
 +  override IUPSUFX := mot
 +  override CDSUFX := x11
 +endif
-+
+ 
 +ifdef USE_WIN
 +  override USE_X11 :=
 +  override USE_MOTIF :=
@@ -452,15 +452,15 @@ diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
    X11_INC := /usr/X11R6/include
 +  ifeq ($(TEC_SYSARCH), x64)
 +    STDFLAGS += -fPIC
-+  endif 
++  endif
 +endif
 +
-+ifneq ($(findstring cygw, $(TEC_UNAME)), )  
++ifneq ($(findstring cygw, $(TEC_UNAME)), )
 +  ifndef USE_WIN
 +    OPENGL_LIBS := GLU GL
 +    X11_LIBS := X11 Xt
 +  else
-+    #we are gonna use native windows opengl32 
++    #we are gonna use native windows opengl32
 +    OPENGL_LIBS := opengl32 glu32
 +    X11_LIBS :=
 +    DEFINES += USE_OPENGL32 WIN32

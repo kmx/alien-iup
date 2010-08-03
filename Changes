@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.7	03/08/2010
+	- running make via IPC::Run3 (cutting output to last 1000 chars)
+
 0.0.5+0.0.6	03/08/2010
 	- another HTML in POD doc testing
 
