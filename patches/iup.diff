@@ -127,7 +127,7 @@ diff -ru iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
  
 diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 --- iup.orig/tecmake.mak	2010-06-26 19:31:33.000000000 +0200
-+++ iup/tecmake.mak	2010-08-02 09:44:44.915608100 +0200
++++ iup/tecmake.mak	2010-08-03 01:41:53.557979700 +0200
 @@ -9,7 +9,7 @@
  VERSION = 4.1
  
@@ -137,7 +137,15 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  .PHONY: build
  build: tecmake
  
-@@ -63,6 +63,28 @@
+@@ -58,11 +58,36 @@
+   ifeq ($(TEC_SYSARCH), x86_64)
+     TEC_SYSARCH:=x64
+   endif
++  ifeq ($(TEC_SYSARCH), amd64)
++    TEC_SYSARCH:=x64
++  endif
+ 
+   # Compose
    TEC_SYSRELEASE:=$(TEC_SYSVERSION).$(TEC_SYSMINOR)
    TEC_UNAME:=$(TEC_SYSNAME)$(TEC_SYSVERSION)$(TEC_SYSMINOR)
  
@@ -166,7 +174,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    # Linux 2.4 and GCC 3.x
    ifeq ($(TEC_UNAME), Linux24)
      GCCVER:=$(shell gcc -dumpversion|cut -f1 -d.)
-@@ -87,14 +109,16 @@
+@@ -87,14 +112,16 @@
    endif
  
    # 64-bits Linux
@@ -190,7 +198,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    endif
  
    # Solaris and Intel
-@@ -126,13 +150,31 @@
+@@ -126,13 +153,31 @@
  	@echo 'TEC_SYSVERSION = $(TEC_SYSVERSION)'
  	@echo 'TEC_SYSMINOR = $(TEC_SYSMINOR)'
  	@echo 'TEC_SYSARCH = $(TEC_SYSARCH)'
@@ -225,7 +233,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  
  #---------------------------------#
-@@ -178,32 +220,96 @@
+@@ -178,32 +223,96 @@
  # Compilation Flags
  STDFLAGS := -Wall
  STDDEFS  := -DTEC_UNAME=$(TEC_UNAME) -DTEC_SYSNAME=$(TEC_SYSNAME) -D$(TEC_SYSNAME)=$(TEC_SYSRELEASE) -D$(TEC_BYTEORDER) -D$(TEC_WORDSIZE) -DFUNCPROTO=15
@@ -329,7 +337,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  #---------------------------------#
  # Tools
-@@ -214,7 +320,7 @@
+@@ -214,7 +323,7 @@
  RANLIB   := $(TEC_TOOLCHAIN)ranlib
  AR       := $(TEC_TOOLCHAIN)ar
  DEBUGGER := $(TEC_TOOLCHAIN)gdb
@@ -338,7 +346,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  # Remote build script
  REMOTE  = $(TECMAKE_HOME)/remote
-@@ -238,7 +344,7 @@
+@@ -238,7 +347,7 @@
  
  
  #---------------------------------#
@@ -347,7 +355,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef LIBNAME
    TARGETNAME = $(LIBNAME)
-@@ -249,7 +355,7 @@
+@@ -249,7 +358,7 @@
  endif
  
  ifndef TARGETNAME
@@ -356,7 +364,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  PROJNAME ?= $(TARGETNAME)
-@@ -284,7 +390,7 @@
+@@ -284,7 +393,7 @@
  ifdef BUILD_64
    ifneq ($(findstring SunOS, $(TEC_UNAME)), )
      USE_CC = Yes
@@ -365,7 +373,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    endif
    ifneq ($(findstring AIX, $(TEC_UNAME)), )
      USE_CC = Yes
-@@ -295,11 +401,11 @@
+@@ -295,11 +404,11 @@
      BUILD_64_DIR = Yes
    endif
  endif
@@ -379,7 +387,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    UNAMES := $(UNAMES_CC)
    ifdef USE_CC_DIR
      TEC_UNAME := $(TEC_UNAME)cc
-@@ -386,22 +492,22 @@
+@@ -386,22 +495,22 @@
  
  # Definitions for X11
  X11_LIBS := Xmu Xt Xext X11
@@ -408,7 +416,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  # Definitions for GTK
  ifdef GTK_BASE
-@@ -431,7 +537,7 @@
+@@ -431,7 +540,7 @@
      X11_LIB := /usr/X11R6/lib
    endif
    X11_INC := /usr/X11R6/include
@@ -417,7 +425,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  ifneq ($(findstring IRIX, $(TEC_UNAME)), )
-@@ -440,8 +546,8 @@
+@@ -440,8 +549,8 @@
    STDLDFLAGS := -elf -shared -rdata_shared -soname lib$(TARGETNAME).so
    RANLIB := /bin/true
    X11_LIBS := Xmu Xt X11
@@ -428,7 +436,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
        STDFLAGS += -64 -KPIC
        STDLDFLAGS += -64
        LINKER += -64
-@@ -455,11 +561,11 @@
+@@ -455,11 +564,11 @@
    MOTIF_INC = /usr/Motif-2.1/include
  endif
  
@@ -442,7 +450,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
        STDFLAGS += -q64 # to compilers C and C++
        STDLFLAGS := -X64 $(STDLFLAGS) # to librarian
        STDLDFLAGS += -64
-@@ -493,10 +599,10 @@
+@@ -493,10 +602,10 @@
    GLUT_LIB := /usr/local/glut-3.7/lib/glut
    GLUT_INC := /usr/local/glut-3.7/include
    ifdef BUILD_64
@@ -455,10 +463,15 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
        LINKER += -xarch=v9
      endif
    endif
-@@ -531,6 +637,27 @@
+@@ -529,6 +638,31 @@
+   BSD = Yes
+   X11_LIB := /usr/X11R6/lib
    X11_INC := /usr/X11R6/include
- endif
- 
++  ifeq ($(TEC_SYSARCH), x64)
++    STDFLAGS += -fPIC
++  endif 
++endif
++
 +ifneq ($(findstring cygw, $(TEC_UNAME)), )  
 +  ifndef USE_WIN
 +    OPENGL_LIBS := GLU GL
@@ -469,6 +482,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 +    X11_LIBS :=
 +    DEFINES += USE_OPENGL32 WIN32
 +  endif
++  MOTIFGL_LIB :=
 +endif
 +
 +ifneq ($(findstring Win, $(TEC_SYSNAME)), )
@@ -478,12 +492,10 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 +  STDLDFLAGS += -Wl,--out-implib=$(TARGETDIR)/lib$(TARGETNAME).dll.a
 +  OPENGL_LIBS := opengl32 glu32
 +  X11_LIBS :=
-+endif
-+
+ endif
+ 
  #---------------------------------#
- # Allows an extra configuration file.
- ifdef EXTRA_CONFIG
-@@ -602,23 +729,23 @@
+@@ -602,23 +736,23 @@
  
  ifdef USE_IUP3
    override USE_IUP = Yes
@@ -512,7 +524,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef USE_GLUT
    override USE_OPENGL = Yes
-@@ -645,7 +772,7 @@
+@@ -645,7 +779,7 @@
      LIBS += iupcontrols
    endif
  endif
@@ -521,7 +533,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  ifdef USE_IMLUA
    override USE_IM = Yes
    ifdef USE_STATIC
-@@ -706,39 +833,24 @@
+@@ -706,39 +840,24 @@
        endif
      endif
    endif
@@ -567,7 +579,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      endif
      ifdef USE_OPENGL
        SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiupgl.a
-@@ -746,7 +858,7 @@
+@@ -746,7 +865,7 @@
      SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiup$(IUPSUFX).a
    else
      ifdef USE_CD
@@ -576,7 +588,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      endif
      ifdef USE_OPENGL
        LIBS += iupgl
-@@ -758,18 +870,8 @@
+@@ -758,18 +877,8 @@
  endif
  
  ifdef USE_CD
@@ -597,7 +609,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    endif
    ifdef USE_STATIC
      ifdef USE_XRENDER
-@@ -804,7 +906,15 @@
+@@ -804,7 +913,15 @@
      LDIR += $(CD)/lib/$(TEC_UNAME_LIB_DIR)
      ifndef USE_GTK
        # Freetype is already included in GTK
@@ -614,7 +626,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      endif
    endif
    INCLUDES += $(CD)/include
-@@ -824,7 +934,7 @@
+@@ -824,7 +941,7 @@
    LIBS += glut
    LDIR += $(GLUT_LIB)
    STDINCS += $(GLUT_INC)
@@ -623,7 +635,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef USE_OPENGL
    override USE_X11 = Yes
-@@ -836,17 +946,16 @@
+@@ -836,17 +953,16 @@
    LIBS += $(OPENGL_LIBS)
    LDIR += $(OPENGL_LIB)
    STDINCS += $(OPENGL_INC)
@@ -643,7 +655,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      X11_LIBS := Xpm $(X11_LIBS)
    endif
  endif
-@@ -878,10 +987,10 @@
+@@ -878,10 +994,10 @@
      override USE_X11 = Yes
      LIBS += gtk-x11-2.0 gdk-x11-2.0 pangox-1.0
    endif
@@ -656,7 +668,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    ifeq ($(TEC_SYSARCH), x64)
      STDINCS += $(GTK)/lib64/glib-2.0/include $(GTK)/lib64/gtk-2.0/include
      # Add also these to avoid errors in systems that lib64 does not exists
-@@ -894,7 +1003,7 @@
+@@ -894,7 +1010,7 @@
    endif
    endif
    ifneq ($(findstring FreeBSD, $(TEC_UNAME)), )
@@ -665,7 +677,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    endif
  endif
  
-@@ -910,26 +1019,31 @@
+@@ -910,26 +1026,31 @@
    LIBS += $(X11_LIBS)
    LDIR += $(X11_LIB)
    STDINCS += $(X11_INC)
@@ -703,7 +715,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  
  #---------------------------------#
  #  Building compilation flags that are sets
-@@ -969,10 +1083,10 @@
+@@ -969,10 +1090,10 @@
  ifeq ($(MAKETYPE), APP)
    TARGET := $(TARGETDIR)/$(TARGETAPPNAME)
  else
@@ -716,7 +728,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      TARGET := $(TARGETDIR)/$(TARGETDLIBNAME)
    else
      TARGET := $(TARGETDIR)/$(TARGETSLIBNAME) $(TARGETDIR)/$(TARGETDLIBNAME)
-@@ -1017,14 +1131,14 @@
+@@ -1017,14 +1138,14 @@
  #---------------------------------#
  # Main Rule - Build Everything that it is necessary
  
@@ -734,7 +746,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      tecmake: print-start system-check directories dynamic-lib
    else
      tecmake: print-start system-check directories static-lib dynamic-lib
-@@ -1050,8 +1164,8 @@
+@@ -1050,8 +1171,8 @@
        ifneq ($(findstring Linux24, $(TEC_UNAME)), )
          ifndef GTK_BASE
  					@echo ''; echo 'Tecmake: check failed, GTK too OLD in this system.'; echo ''; exit 1;
@@ -745,7 +757,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      endif
    endif
    ifdef CHECK_GDIPLUS
-@@ -1059,7 +1173,7 @@
+@@ -1059,7 +1180,7 @@
  			@echo ''; echo 'Tecmake: check failed, GDI+ NOT available in this system.'; echo ''; exit 1;
      endif
    endif
@@ -754,7 +766,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  # Dynamic Library Build
  
-@@ -1071,7 +1185,7 @@
+@@ -1071,7 +1192,7 @@
  	$(ECHO)$(LD) $(STDLDFLAGS) -o $@ $(OBJS) $(SLIB) $(LFLAGS)
  	@echo ''; echo 'Tecmake: Dynamic Library ($@) Done.'; echo ''
  
@@ -763,7 +775,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  # Static Library Build
  
-@@ -1085,7 +1199,7 @@
+@@ -1085,7 +1206,7 @@
  	$(ECHO)-$(RANLIB) $@
  	@echo ''; echo 'Tecmake: Static Library ($@) Done.'; echo ''
  
@@ -772,7 +784,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  # Application Build
  
-@@ -1101,7 +1215,7 @@
+@@ -1101,7 +1222,7 @@
  	 fi
  	@echo ''; echo 'Tecmake: Application ($@) Done.'; echo ''
  
@@ -781,7 +793,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  #  Application Scripts
  
-@@ -1114,7 +1228,7 @@
+@@ -1114,7 +1235,7 @@
  else
    scripts: $(SRELEASE) ;
  endif
@@ -790,7 +802,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  $(SRELEASE): $(MAKENAME)
  	@echo ''; echo 'Tecmake: building script $(@F)'
  	@echo "#!/bin/csh" > $@
-@@ -1125,7 +1239,7 @@
+@@ -1125,7 +1246,7 @@
  	@echo 'exec $(TARGETROOT)/$$TEC_UNAME/$(TARGETNAME) $$*' >> $@
  	@chmod a+x $@
  
@@ -799,7 +811,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  # Directories Creation
  
-@@ -1195,7 +1309,7 @@
+@@ -1195,7 +1316,7 @@
  	$(ECHO)$(LUABIN) $(LUAPRE) $(LUAPREFLAGS) -l $(SRCLUADIR) -o $@ $(SRCLUA)
  endif
  
@@ -808,7 +820,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #---------------------------------#
  # Dependencies
  
-@@ -1234,12 +1348,12 @@
+@@ -1234,12 +1355,12 @@
  .PHONY: clean-extra
  clean-extra:
  	rm -f $(DEPEND) $(SRELEASE) so_locations
@@ -823,7 +835,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  #   Remove object files
  .PHONY: clean-obj
  clean-obj:
-@@ -1263,11 +1377,11 @@
+@@ -1263,11 +1384,11 @@
  strip:
  	test -r $(TARGETDIR)/$(TARGETAPPNAME) && strip $(TARGETDIR)/$(TARGETAPPNAME)
  
@@ -837,7 +849,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
  .PHONY: relink
  relink: clean-target tecmake
  
-@@ -1284,7 +1398,7 @@
+@@ -1284,7 +1405,7 @@
  	@for d in $(UNAMES); do \
  	  (rm -f $(TARGETROOT)/$$d/$(TARGETNAME) $(TARGETROOT)/$$d/$(TARGETSLIBNAME) $(TARGETROOT)/$$d/$(TARGETDLIBNAME)) ;\
  	done

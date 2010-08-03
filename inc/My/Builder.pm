@@ -41,31 +41,44 @@ sub ACTION_code {
       $self->config_data('iup_url', $self->notes('iup_url'));
       $self->config_data('im_url', $self->notes('im_url'));
       $self->config_data('cd_url', $self->notes('cd_url'));
-      
+
       # prepare sources
-      $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
-      if ($self->notes('iup_patches')) {
-        $self->apply_patch("$build_src/iup", $_)  foreach (@{$self->notes('iup_patches')});
+      my $unpack;
+      $unpack = (-d "$build_src/iup") ? $self->prompt("Dir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
+      if (lc($unpack) eq 'y') {
+        $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
+        if ($self->notes('iup_patches')) {
+          $self->apply_patch("$build_src/iup", $_)  foreach (@{$self->notes('iup_patches')});
+        }
       }
-      
-      $self->prepare_sources($self->notes('im_url'), $self->notes('im_sha1'), $download, $build_src);
-      if ($self->notes('im_patches')) {
-        $self->apply_patch("$build_src/im", $_)  foreach (@{$self->notes('im_patches')}); 
+
+      $unpack = (-d "$build_src/im") ? $self->prompt("Dir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
+      if (lc($unpack) eq 'y') {
+        $self->prepare_sources($self->notes('im_url'), $self->notes('im_sha1'), $download, $build_src);
+        if ($self->notes('im_patches')) {
+          $self->apply_patch("$build_src/im", $_)  foreach (@{$self->notes('im_patches')});
+        }
       }
-      
-      $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
-      if ($self->notes('cd_patches')) {
-        $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
+
+      $unpack = (-d "$build_src/cd") ? $self->prompt("Dir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
+      if (lc($unpack) eq 'y') {
+        $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
+        if ($self->notes('cd_patches')) {
+          $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
+        }
       }
-      
+
       # go for build
       $self->build_binaries($build_out, $build_src);
 
       # store info about build to ConfigData
-      $self->config_data('share_subdir', $self->{properties}->{dist_version});      
+      $self->config_data('share_subdir', $self->{properties}->{dist_version});
       $self->config_data('config', { PREFIX => '@PrEfIx@',
-                                     LIBS   => '-L' . $self->quote_literal('@PrEfIx@/lib') . ' -l' . join(' -l', @{$self->config_data('linker_libs')}),
-                                     INC    => '-I' . $self->quote_literal('@PrEfIx@/include'),
+                                     LIBS   => '-L' . $self->quote_literal('@PrEfIx@/lib') .
+                                               ' -l' . join(' -l', @{$self->config_data('linker_libs')}) .
+                                               ' ' . $self->config_data('extra_lflags'),
+                                     INC    => '-I' . $self->quote_literal('@PrEfIx@/include') .
+                                               ' ' . $self->config_data('extra_cflags'),
                                    });
     }
     # mark sucessfully finished build
@@ -156,7 +169,7 @@ sub check_installed_lib {
       return 1;
     }
     elsif ($self->check_lib( [ 'iupgtk', 'im', 'cdgdk' ], $cflags, $lflags)) {
-      print "- iupgtk+im+cdgdk FOUND!\n"; 
+      print "- iupgtk+im+cdgdk FOUND!\n";
       $self->notes('already_installed_lib', { lflags => "$lflags -liupgtk -lim -lcdgdk", cflags => $cflags } );
       return 1;
     }
@@ -175,7 +188,7 @@ sub check_header {
   my ($self, $h, $cflags) = @_;
   $cflags ||= '';
   my @header = ref($h) ? @$h : ( $h );
-  
+
   my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
   my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
   my $inc = '';
@@ -188,7 +201,7 @@ MARKER
   close($fs);
   local *OLDERR;
   open OLDERR, ">&", STDERR;
-  open STDERR, ">", File::Spec->devnull();  
+  open STDERR, ">", File::Spec->devnull();
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
@@ -205,7 +218,7 @@ sub check_lib {
   $cflags =~ s/[\r\n]//g;
   $lflags =~ s/[\r\n]//g;
   my @libs = ref($l) ? @$l : ( $l );
-  
+
   my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
   my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
   my ($fe, $exe) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.out', UNLINK => 1);
@@ -216,7 +229,7 @@ MARKER
   close($fs);
   local *OLDERR;
   open OLDERR, ">&", STDERR;
-  open STDERR, ">", File::Spec->devnull();  
+  open STDERR, ">", File::Spec->devnull();
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
   $exe = $self->quote_literal($exe);
@@ -240,22 +253,22 @@ sub apply_patch {
   $diff =~ s/\r\n/\n/g; #normalise newlines
   $diff =~ s/\ndiff /\nSpLiTmArKeRdiff /g;
   my @patches = split('SpLiTmArKeR', $diff);
-  
-  foreach my $p (@patches) {  
+
+  foreach my $p (@patches) {
     my ($k) = map{$_ =~ /\n---\s*([\S]+)/} $p;
     # doing the same like -p1 for 'patch'
     $k =~ s|\\|/|g;
     $k =~ s|^[^/]*/(.*)$|$1|;
     $k = catfile($dir_to_be_patched, $k);
     print "Gonna patch file '$k'\n";
-  
+
     open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
     $src  = <SRC>;
     close(SRC);
     $src =~ s/\r\n/\n/g; #normalise newlines
 
     my $out = eval { Text::Patch::patch( $src, $p, { STYLE => "Unified" } ) };
-    if ($out) {    
+    if ($out) {
       open(OUT, ">", $k) or die "###ERROR### Cannot open file for writing: '$k'\n";
       print(OUT $out);
       close(OUT);
@@ -263,7 +276,7 @@ sub apply_patch {
     else {
       warn "###WARN### Patching '$k' failed: $@";
     }
-  }  
+  }
 }
 
 1;

@@ -1,20 +1,22 @@
-(before next release)
-- Has: 1 - l_gtk (even if not GTK-devel installed)
-- 64bit Linux (USE_GTK): /usr/bin/ld: cannot find -lXmu (missing after installing just pure gtk2-devel)
-- if missing  GL/glu.h - disable 'ftgl'
+(serious)
+- compile.t: Linux linker failure (cairo/pango related)
+- XmScaleSetTicks: missing on cygwin/freebsd (iupmot)
 
 (medium priority)
-- extend ConfigData: config('ld_shared_libs')
-- extend ConfigData: config('ld_paths')
-- detection iup+cd+im: does not work with msvc 
-- detection iup+cd+im: maybe we need to link with more libs to handle static linking
-- HAS_GTK - handle properly cairo, pango (see comments in src)
-- HAS X11 - better X11 lib selection - Xmu Xt Xext X11 GL GLU (see comments in src)
-- Win32 Build
+- at least basic Win32 Build
+- switch from dynamic to static linking
+- more complex comiple text (use some advanced iup C/C++ example)
+- move lib detection into "perl Build.PL" phase
 
 (low priority)
-- tecmake: make ose of pkg-config to get gtk; cflags|lflags
-- "src code already unpacked - overwrite?"
-- find a way to embed pics into POD doc
-  e.g. http://search.cpan.org/~AAYARS/Math-Fractal-Noisemaker/lib/Math/Fractal/Noisemaker.pm
-  e.g. http://search.cpan.org/~otto/Pod-Trial-LinkImg-0.005/
+- MacOS - why autoenabling GTK?
+- MacOS - /opt/local/include?
+- detection iup+cd+im: does not work with msvc 
+- detection iup+cd+im: maybe we need to link with more libs to handle static linking
+- tecmake: warning
+  # tecmake.mak:1256: warning: overriding commands for target `../bin/Linux26g4'
+  # tecmake.mak:1216: warning: ignoring old commands for target `../bin/Linux26g4'
+
+(errors to be reported to tecgraf)
+- IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
+- using -fpic on FreeBSD 64bit

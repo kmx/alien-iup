@@ -4,41 +4,46 @@
 
 Alien::IUP::Demo -- Demo POD for testing embeded images
 
-=head1 DEMO1
+=head1 DEMO1 - TABLE
 
 =begin HTML
 
-<table cellpadding="1" cellspacing="0" border="1">
+<p>
+<table>
   <tbody>
     <tr>
-      <th style="background-color:#c0c0c0">Motif</th>
-      <td style="background-color:#adb1c2;text-align:center"><img src="sample_mot.png" /></td>
+      <th>Motif</th>
+      <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/sample_mot.png" /></td>
     </tr>
     <tr>
-      <th style="background-color:#c0c0c0">Windows<br>Classic</th>
-      <td style="background-color:#d4d0c8;text-align:center"><img src="sample_win2k.png" /></td>
-    </tr>
-    <tr>
-      <th style="background-color:#c0c0c0">Windows<br>XP Style</th>
-      <td style="background-color:#ece9d8;text-align:center"><img src="pics/sample_winxp.png" /></td>
-    </tr>
-    <tr>
-      <th style="background-color:#c0c0c0">GTK</th>
-      <td style="background-color:#efebe7;text-align:center"><img src="/pics/sample_gtk.png" /></td>
+      <th>Windows<br>XP Style</th>
+      <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/sample_winxp.png" /></td>
     </tr>
   </tbody>
 </table>
+</p>
 
 =end HTML
 
-=head1 DEMO2
+=head1 DEMO2 - P1
 
 =begin HTML
 
-<p><img src="sample_mot.png" alt="Screenshot - Motif" /></p>
-<p><img src="pics/sample_winxp.png" alt="Screenshot - Windows XP Style" /></p>
-<p><img src="/src/KMX/Alien-IUP-v0.0.3/pics/sample_win2k.png" alt="Screenshot - Windows Classic" /></p>
-<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.3/pics/sample_gtk.png" alt="Screenshot - GTK" /></p>
+<p>MS Windows Classic</p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/sample_win2k.png" alt="Screenshot - Windows Classic" /></p>
+<p>GTK</p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/sample_gtk.png" alt="Screenshot - GTK" /></p>
+
+=end HTML
+
+=head1 DEMO3 - P2
+
+=begin HTML
+
+<p>
+<img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/iupmenu_gtk.png" alt="Screenshot - Motif" />
+<img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.4/pics/iupmenu_mot.png" alt="Screenshot - Windows XP Style" />
+</p>
 
 =end HTML
 

@@ -27,5 +27,5 @@ my $d = Alien::IUP::ConfigData->config('debug_done');
 diag " $d->{$_} - $_" foreach (sort keys %$d);
 
 diag "Tecmake sysinfo:";
-my $d = Alien::IUP::ConfigData->config('debug_si');
-diag " $d->{$_} - $_" foreach (sort keys %$d);
+my $s = Alien::IUP::ConfigData->config('debug_si');
+diag " $s->{$_} - $_" foreach (sort keys %$s);
