@@ -1,0 +1,318 @@
+#PLEASE NOTE: this Makefile was designed to be compatible with GNU make and dmake
+
+CC       = gcc
+AR       = ar
+ARFLAGS  = csr
+PERL     = perl
+
+ifeq ($(PERL)X, X)
+  CP     = cp
+  RM_F   = rm -f
+  MKPATH = mkdir -p
+else
+  CP     = $(PERL) -MExtUtils::Command -e cp --
+  RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
+  MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
+endif
+
+### GLOBAL PART ###
+
+BUILDBITS= 32
+BUILDNICK= mingw
+
+PREFIX   = ../_output_
+INCDIR   = $(PREFIX)/include
+LIBDIR   = $(PREFIX)/lib
+
+CF_ALL   = -DIUP_DLL -DTEC_UNAME=mingw4 -DTEC_SYSNAME=Win32 -DWin32=5.1 -DTEC_LITTLEENDIAN -DTEC_$(BUILDBITS) -DFUNCPROTO=15 -DNDEBUG -I"$(INCDIR)"
+LF_ALL   = -L./lib/$(BUILDNICK) -L"$(LIBDIR)"
+
+VER_OBJ      = version.o
+VER_RC       = version.rc
+
+BUILD_DIRS   = ./obj/$(BUILDNICK)/iupwin ./obj/$(BUILDNICK)/iupcd ./obj/$(BUILDNICK)/iupcontrols ./obj/$(BUILDNICK)/iupim ./obj/$(BUILDNICK)/iupimglib ./obj/$(BUILDNICK)/iup_pplot ./obj/$(BUILDNICK)/iupgl ./lib/$(BUILDNICK)
+
+ALL_OBJS     = $(OBJS_iupwin) $(OBJS_iupcd) $(OBJS_iupcontrols) $(OBJS_iupim) $(OBJS_iupimglib) $(OBJS_iup_pplot) $(OBJS_iupgl)
+
+STATIC_LIBS  = $(SLIB_iupwin) $(SLIB_iupcd) $(SLIB_iupcontrols) $(SLIB_iupim) $(SLIB_iupimglib) $(SLIB_iup_pplot) $(SLIB_iupgl)
+
+DYNAMIC_LIBS = $(DLIB_iupwin) $(ILIB_iupwin) $(DLIB_iupcd) $(ILIB_iupcd) $(DLIB_iupcontrols) $(ILIB_iupcontrols) $(DLIB_iupim) $(ILIB_iupim) $(DLIB_iupimglib) $(ILIB_iupimglib) $(DLIB_iup_pplot) $(ILIB_iup_pplot) $(DLIB_iupgl) $(ILIB_iupgl)
+
+ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
+
+.PHONY: install install-static install-dynamic all all-static all-dynamic clean build-dirs
+
+all: all-static all-dynamic
+
+
+### START OF iupwin ###
+CF_iupwin   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x0501 -DWINVER=0x0501 -DNOTREEVIEW
+LF_iupwin   = -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupwin = ./lib/$(BUILDNICK)/libiupwin.a
+DLIB_iupwin = ./lib/$(BUILDNICK)/libiupwin.dll.a
+ILIB_iupwin = ./lib/$(BUILDNICK)/iupwin_alien_.dll
+OBJS_iupwin = ./obj/$(BUILDNICK)/iupwin/iup_array.o ./obj/$(BUILDNICK)/iupwin/iup_callback.o ./obj/$(BUILDNICK)/iupwin/iup_dlglist.o ./obj/$(BUILDNICK)/iupwin/iup_attrib.o ./obj/$(BUILDNICK)/iupwin/iup_focus.o ./obj/$(BUILDNICK)/iupwin/iup_font.o ./obj/$(BUILDNICK)/iupwin/iup_globalattrib.o ./obj/$(BUILDNICK)/iupwin/iup_object.o ./obj/$(BUILDNICK)/iupwin/iup_key.o ./obj/$(BUILDNICK)/iupwin/iup_layout.o ./obj/$(BUILDNICK)/iupwin/iup_ledlex.o ./obj/$(BUILDNICK)/iupwin/iup_names.o ./obj/$(BUILDNICK)/iupwin/iup_open.o ./obj/$(BUILDNICK)/iupwin/iup_ledparse.o ./obj/$(BUILDNICK)/iupwin/iup_predial.o ./obj/$(BUILDNICK)/iupwin/iup_register.o ./obj/$(BUILDNICK)/iupwin/iup_scanf.o ./obj/$(BUILDNICK)/iupwin/iup_show.o ./obj/$(BUILDNICK)/iupwin/iup_str.o ./obj/$(BUILDNICK)/iupwin/iup_table.o ./obj/$(BUILDNICK)/iupwin/iup_func.o ./obj/$(BUILDNICK)/iupwin/iup_childtree.o ./obj/$(BUILDNICK)/iupwin/iup.o ./obj/$(BUILDNICK)/iupwin/iup_classattrib.o ./obj/$(BUILDNICK)/iupwin/iup_dialog.o ./obj/$(BUILDNICK)/iupwin/iup_assert.o ./obj/$(BUILDNICK)/iupwin/iup_canvas.o ./obj/$(BUILDNICK)/iupwin/iup_messagedlg.o ./obj/$(BUILDNICK)/iupwin/iup_timer.o ./obj/$(BUILDNICK)/iupwin/iup_image.o ./obj/$(BUILDNICK)/iupwin/iup_label.o ./obj/$(BUILDNICK)/iupwin/iup_fill.o ./obj/$(BUILDNICK)/iupwin/iup_zbox.o ./obj/$(BUILDNICK)/iupwin/iup_colordlg.o ./obj/$(BUILDNICK)/iupwin/iup_fontdlg.o ./obj/$(BUILDNICK)/iupwin/iup_filedlg.o ./obj/$(BUILDNICK)/iupwin/iup_strmessage.o ./obj/$(BUILDNICK)/iupwin/iup_menu.o ./obj/$(BUILDNICK)/iupwin/iup_frame.o ./obj/$(BUILDNICK)/iupwin/iup_user.o ./obj/$(BUILDNICK)/iupwin/iup_button.o ./obj/$(BUILDNICK)/iupwin/iup_radio.o ./obj/$(BUILDNICK)/iupwin/iup_toggle.o ./obj/$(BUILDNICK)/iupwin/iup_progressbar.o ./obj/$(BUILDNICK)/iupwin/iup_text.o ./obj/$(BUILDNICK)/iupwin/iup_val.o ./obj/$(BUILDNICK)/iupwin/iup_box.o ./obj/$(BUILDNICK)/iupwin/iup_hbox.o ./obj/$(BUILDNICK)/iupwin/iup_vbox.o ./obj/$(BUILDNICK)/iupwin/iup_cbox.o ./obj/$(BUILDNICK)/iupwin/iup_class.o ./obj/$(BUILDNICK)/iupwin/iup_classbase.o ./obj/$(BUILDNICK)/iupwin/iup_maskmatch.o ./obj/$(BUILDNICK)/iupwin/iup_mask.o ./obj/$(BUILDNICK)/iupwin/iup_maskparse.o ./obj/$(BUILDNICK)/iupwin/iup_tabs.o ./obj/$(BUILDNICK)/iupwin/iup_spin.o ./obj/$(BUILDNICK)/iupwin/iup_list.o ./obj/$(BUILDNICK)/iupwin/iup_getparam.o ./obj/$(BUILDNICK)/iupwin/iup_sbox.o ./obj/$(BUILDNICK)/iupwin/iup_normalizer.o ./obj/$(BUILDNICK)/iupwin/iup_tree.o ./obj/$(BUILDNICK)/iupwin/iup_split.o ./obj/$(BUILDNICK)/iupwin/iupwin_common.o ./obj/$(BUILDNICK)/iupwin/iupwin_brush.o ./obj/$(BUILDNICK)/iupwin/iupwin_focus.o ./obj/$(BUILDNICK)/iupwin/iupwin_font.o ./obj/$(BUILDNICK)/iupwin/iupwin_globalattrib.o ./obj/$(BUILDNICK)/iupwin/iupwin_handle.o ./obj/$(BUILDNICK)/iupwin/iupwin_key.o ./obj/$(BUILDNICK)/iupwin/iupwin_loop.o ./obj/$(BUILDNICK)/iupwin/iupwin_open.o ./obj/$(BUILDNICK)/iupwin/iupwin_tips.o ./obj/$(BUILDNICK)/iupwin/iupwin_info.o ./obj/$(BUILDNICK)/iupwin/iupwin_dialog.o ./obj/$(BUILDNICK)/iupwin/iupwin_messagedlg.o ./obj/$(BUILDNICK)/iupwin/iupwin_timer.o ./obj/$(BUILDNICK)/iupwin/iupwin_image.o ./obj/$(BUILDNICK)/iupwin/iupwin_label.o ./obj/$(BUILDNICK)/iupwin/iupwin_canvas.o ./obj/$(BUILDNICK)/iupwin/iupwin_frame.o ./obj/$(BUILDNICK)/iupwin/iupwin_colordlg.o ./obj/$(BUILDNICK)/iupwin/iupwin_fontdlg.o ./obj/$(BUILDNICK)/iupwin/iupwin_filedlg.o ./obj/$(BUILDNICK)/iupwin/iupwin_button.o ./obj/$(BUILDNICK)/iupwin/iupwin_draw.o ./obj/$(BUILDNICK)/iupwin/iupwin_toggle.o ./obj/$(BUILDNICK)/iupwin/iupwin_clipboard.o ./obj/$(BUILDNICK)/iupwin/iupwin_progressbar.o ./obj/$(BUILDNICK)/iupwin/iupwin_text.o ./obj/$(BUILDNICK)/iupwin/iupwin_val.o ./obj/$(BUILDNICK)/iupwin/iupwin_tabs.o ./obj/$(BUILDNICK)/iupwin/iupwin_menu.o ./obj/$(BUILDNICK)/iupwin/iupwin_list.o ./obj/$(BUILDNICK)/iupwin/iupwin_tree.o ./obj/$(BUILDNICK)/iupwin/iupwindows_main.o ./obj/$(BUILDNICK)/iupwin/iupwindows_help.o ./obj/$(BUILDNICK)/iupwin/iupwindows_info.o
+
+./obj/$(BUILDNICK)/iupwin/iup_array.o : src/iup_array.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_callback.o : src/iup_callback.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_dlglist.o : src/iup_dlglist.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_attrib.o : src/iup_attrib.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_focus.o : src/iup_focus.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_font.o : src/iup_font.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_globalattrib.o : src/iup_globalattrib.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_object.o : src/iup_object.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_key.o : src/iup_key.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_layout.o : src/iup_layout.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_ledlex.o : src/iup_ledlex.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_names.o : src/iup_names.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_open.o : src/iup_open.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_ledparse.o : src/iup_ledparse.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_predial.o : src/iup_predial.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_register.o : src/iup_register.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_scanf.o : src/iup_scanf.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_show.o : src/iup_show.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_str.o : src/iup_str.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_table.o : src/iup_table.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_func.o : src/iup_func.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_childtree.o : src/iup_childtree.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup.o : src/iup.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_classattrib.o : src/iup_classattrib.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_dialog.o : src/iup_dialog.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_assert.o : src/iup_assert.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_canvas.o : src/iup_canvas.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_messagedlg.o : src/iup_messagedlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_timer.o : src/iup_timer.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_image.o : src/iup_image.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_label.o : src/iup_label.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_fill.o : src/iup_fill.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_zbox.o : src/iup_zbox.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_colordlg.o : src/iup_colordlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_fontdlg.o : src/iup_fontdlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_filedlg.o : src/iup_filedlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_strmessage.o : src/iup_strmessage.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_menu.o : src/iup_menu.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_frame.o : src/iup_frame.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_user.o : src/iup_user.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_button.o : src/iup_button.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_radio.o : src/iup_radio.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_toggle.o : src/iup_toggle.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_progressbar.o : src/iup_progressbar.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_text.o : src/iup_text.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_val.o : src/iup_val.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_box.o : src/iup_box.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_hbox.o : src/iup_hbox.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_vbox.o : src/iup_vbox.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_cbox.o : src/iup_cbox.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_class.o : src/iup_class.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_classbase.o : src/iup_classbase.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_maskmatch.o : src/iup_maskmatch.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_mask.o : src/iup_mask.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_maskparse.o : src/iup_maskparse.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_tabs.o : src/iup_tabs.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_spin.o : src/iup_spin.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_list.o : src/iup_list.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_getparam.o : src/iup_getparam.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_sbox.o : src/iup_sbox.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_normalizer.o : src/iup_normalizer.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_tree.o : src/iup_tree.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iup_split.o : src/iup_split.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_common.o : src/win/iupwin_common.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_brush.o : src/win/iupwin_brush.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_focus.o : src/win/iupwin_focus.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_font.o : src/win/iupwin_font.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_globalattrib.o : src/win/iupwin_globalattrib.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_handle.o : src/win/iupwin_handle.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_key.o : src/win/iupwin_key.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_loop.o : src/win/iupwin_loop.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_open.o : src/win/iupwin_open.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_tips.o : src/win/iupwin_tips.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_info.o : src/win/iupwin_info.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_dialog.o : src/win/iupwin_dialog.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_messagedlg.o : src/win/iupwin_messagedlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_timer.o : src/win/iupwin_timer.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_image.o : src/win/iupwin_image.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_label.o : src/win/iupwin_label.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_canvas.o : src/win/iupwin_canvas.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_frame.o : src/win/iupwin_frame.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_colordlg.o : src/win/iupwin_colordlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_fontdlg.o : src/win/iupwin_fontdlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_filedlg.o : src/win/iupwin_filedlg.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_button.o : src/win/iupwin_button.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_draw.o : src/win/iupwin_draw.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_toggle.o : src/win/iupwin_toggle.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_clipboard.o : src/win/iupwin_clipboard.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_progressbar.o : src/win/iupwin_progressbar.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_text.o : src/win/iupwin_text.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_val.o : src/win/iupwin_val.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_tabs.o : src/win/iupwin_tabs.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_menu.o : src/win/iupwin_menu.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_list.o : src/win/iupwin_list.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwin_tree.o : src/win/iupwin_tree.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwindows_main.o : src/win/iupwindows_main.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwindows_help.o : src/win/iupwindows_help.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+./obj/$(BUILDNICK)/iupwin/iupwindows_info.o : src/win/iupwindows_info.c ; gcc $(CF_ALL) $(CF_iupwin) $^ -o $@
+
+$(SLIB_iupwin): $(OBJS_iupwin)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupwin) $(DLIB_iupwin) : $(OBJS_iupwin)
+	g++ -s -shared -o $(ILIB_iupwin) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupwin) $(LF_iupwin) $(LF_ALL)
+	-strip $(ILIB_iupwin)
+
+### START OF iupcd ###
+CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE
+LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liupwin -lcdwin -lfreetype6 -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.a
+DLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.dll.a
+ILIB_iupcd = ./lib/$(BUILDNICK)/iupcd_alien_.dll
+OBJS_iupcd = ./obj/$(BUILDNICK)/iupcd/iup_cd.o
+
+./obj/$(BUILDNICK)/iupcd/iup_cd.o : srccd/iup_cd.c ; gcc $(CF_ALL) $(CF_iupcd) $^ -o $@
+
+$(SLIB_iupcd): $(OBJS_iupcd)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupcd) $(DLIB_iupcd) : $(OBJS_iupcd)
+	g++ -s -shared -o $(ILIB_iupcd) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcd) $(LF_iupcd) $(LF_ALL)
+	-strip $(ILIB_iupcd)
+
+### START OF iupcontrols ###
+CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include  
+LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liupwin -liupcd -lcdwin -lfreetype6 -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.a
+DLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.dll.a
+ILIB_iupcontrols = ./lib/$(BUILDNICK)/iupcontrols_alien_.dll
+OBJS_iupcontrols = ./obj/$(BUILDNICK)/iupcontrols/iup_cdutil.o ./obj/$(BUILDNICK)/iupcontrols/iup_gauge.o ./obj/$(BUILDNICK)/iupcontrols/iup_cells.o ./obj/$(BUILDNICK)/iupcontrols/iup_colorbar.o ./obj/$(BUILDNICK)/iupcontrols/iup_controls.o ./obj/$(BUILDNICK)/iupcontrols/iup_dial.o ./obj/$(BUILDNICK)/iupcontrols/iup_oldmask.o ./obj/$(BUILDNICK)/iupcontrols/iup_colorbrowser.o ./obj/$(BUILDNICK)/iupcontrols/iup_colorhsi.o ./obj/$(BUILDNICK)/iupcontrols/iup_colorbrowserdlg.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_key.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_mark.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_aux.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_mem.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_mouse.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_numlc.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_colres.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_draw.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_focus.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_getset.o ./obj/$(BUILDNICK)/iupcontrols/iupmatrix.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_scroll.o ./obj/$(BUILDNICK)/iupcontrols/iupmat_edit.o
+
+./obj/$(BUILDNICK)/iupcontrols/iup_cdutil.o : srccontrols/iup_cdutil.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_gauge.o : srccontrols/iup_gauge.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_cells.o : srccontrols/iup_cells.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_colorbar.o : srccontrols/iup_colorbar.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_controls.o : srccontrols/iup_controls.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_dial.o : srccontrols/iup_dial.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_oldmask.o : srccontrols/iup_oldmask.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_colorbrowser.o : srccontrols/color/iup_colorbrowser.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_colorhsi.o : srccontrols/color/iup_colorhsi.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iup_colorbrowserdlg.o : srccontrols/color/iup_colorbrowserdlg.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_key.o : srccontrols/matrix/iupmat_key.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_mark.o : srccontrols/matrix/iupmat_mark.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_aux.o : srccontrols/matrix/iupmat_aux.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_mem.o : srccontrols/matrix/iupmat_mem.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_mouse.o : srccontrols/matrix/iupmat_mouse.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_numlc.o : srccontrols/matrix/iupmat_numlc.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_colres.o : srccontrols/matrix/iupmat_colres.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_draw.o : srccontrols/matrix/iupmat_draw.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_focus.o : srccontrols/matrix/iupmat_focus.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_getset.o : srccontrols/matrix/iupmat_getset.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmatrix.o : srccontrols/matrix/iupmatrix.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_scroll.o : srccontrols/matrix/iupmat_scroll.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupcontrols/iupmat_edit.o : srccontrols/matrix/iupmat_edit.c ; gcc $(CF_ALL) $(CF_iupcontrols) $^ -o $@
+
+$(SLIB_iupcontrols): $(OBJS_iupcontrols)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupcontrols) $(DLIB_iupcontrols) : $(OBJS_iupcontrols)
+	g++ -s -shared -o $(ILIB_iupcontrols) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcontrols) $(LF_iupcontrols) $(LF_ALL)
+	-strip $(ILIB_iupcontrols)
+
+### START OF iupim ###
+CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include  
+LF_iupim   = -L../im/lib/$(BUILDNICK) -liupwin -lim -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupim = ./lib/$(BUILDNICK)/libiupim.a
+DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
+ILIB_iupim = ./lib/$(BUILDNICK)/iupim_alien_.dll
+OBJS_iupim = ./obj/$(BUILDNICK)/iupim/iup_im.o
+
+./obj/$(BUILDNICK)/iupim/iup_im.o : srcim/iup_im.c ; gcc $(CF_ALL) $(CF_iupim) $^ -o $@
+
+$(SLIB_iupim): $(OBJS_iupim)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupim) $(DLIB_iupim) : $(OBJS_iupim)
+	g++ -s -shared -o $(ILIB_iupim) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupim) $(LF_iupim) $(LF_ALL)
+	-strip $(ILIB_iupim)
+
+### START OF iupimglib ###
+CF_iupimglib   = -c  -Wall -Iinclude -Isrc  
+LF_iupimglib   = -liupwin -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
+DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
+ILIB_iupimglib = ./lib/$(BUILDNICK)/iupimglib_alien_.dll
+OBJS_iupimglib = ./obj/$(BUILDNICK)/iupimglib/iup_image_library.o
+
+./obj/$(BUILDNICK)/iupimglib/iup_image_library.o : srcimglib/iup_image_library.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+
+$(SLIB_iupimglib): $(OBJS_iupimglib)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupimglib) $(DLIB_iupimglib) : $(OBJS_iupimglib)
+	g++ -s -shared -o $(ILIB_iupimglib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupimglib) $(LF_iupimglib) $(LF_ALL)
+	-strip $(ILIB_iupimglib)
+
+### START OF iup_pplot ###
+CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE
+LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liupwin -liupcd -lcdwin -lfreetype6 -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.a
+DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
+ILIB_iup_pplot = ./lib/$(BUILDNICK)/iup_pplot_alien_.dll
+OBJS_iup_pplot = ./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o ./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o ./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o
+
+./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o : srcpplot/iupPPlot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o : srcpplot/iupPPlotInteraction.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o : srcpplot/iup_pplot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+
+$(SLIB_iup_pplot): $(OBJS_iup_pplot)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iup_pplot) $(DLIB_iup_pplot) : $(OBJS_iup_pplot)
+	g++ -s -shared -o $(ILIB_iup_pplot) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup_pplot) $(LF_iup_pplot) $(LF_ALL)
+	-strip $(ILIB_iup_pplot)
+
+### START OF iupgl ###
+CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc  
+LF_iupgl   = -liupwin -lopengl32 -lglu32 -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -lm
+SLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.a
+DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
+ILIB_iupgl = ./lib/$(BUILDNICK)/iupgl_alien_.dll
+OBJS_iupgl = ./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o
+
+./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o : srcgl/iup_glcanvas_win.c ; gcc $(CF_ALL) $(CF_iupgl) $^ -o $@
+
+$(SLIB_iupgl): $(OBJS_iupgl)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupgl) $(DLIB_iupgl) : $(OBJS_iupgl)
+	g++ -s -shared -o $(ILIB_iupgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupgl) $(LF_iupgl) $(LF_ALL)
+	-strip $(ILIB_iupgl)
+
+### compile RC
+
+$(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $^ -o $@
+
+all-static: build-dirs $(STATIC_LIBS)
+
+all-dynamic: build-dirs $(DYNAMIC_LIBS)
+
+install: all
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) ./include/*.h "$(INCDIR)"
+
+install-static: all-static
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(STATIC_LIBS) "$(LIBDIR)"
+	$(CP) ./include/*.h "$(INCDIR)"
+
+install-dynamic: all-dynamic
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(DYNAMIC_LIBS) "$(LIBDIR)"
+	$(CP) ./include/*.h "$(INCDIR)"
+
+build-dirs:
+	$(MKPATH) $(BUILD_DIRS)
+
+clean:
+	$(RM_F) $(ALL_OBJS) $(ALL_LIBS) $(VER_OBJ)

@@ -5,9 +5,10 @@ use warnings;
 use base 'Module::Build';
 
 use lib "inc";
-use File::Spec::Functions qw(catfile);
+use File::Spec::Functions qw(catfile rel2abs);
 use ExtUtils::Command;
 use File::Fetch;
+use File::Find;
 use File::Temp qw(tempdir tempfile);
 use Digest::SHA qw(sha1_hex);
 use Archive::Extract;
@@ -20,7 +21,6 @@ sub ACTION_code {
   my $self = shift;
 
   unless (-e 'build_done') {
-    $self->add_to_cleanup('build_done');
     my $inst = $self->notes('already_installed_lib');
     if (defined $inst) {
       $self->config_data('config', { LIBS   => $inst->{lflags},
@@ -36,7 +36,6 @@ sub ACTION_code {
       # troubles when user reinstalls the newer version of Alien package
       my $build_out = catfile('sharedir', $self->{properties}->{dist_version});
       $self->add_to_cleanup($build_out);
-      $self->add_to_cleanup($build_src);
 
       # store info into CofigData
       $self->config_data('iup_url', $self->notes('iup_url'));
@@ -280,16 +279,48 @@ sub apply_patch {
   }
 }
 
-sub do_system_output_tail {
+sub run_output_tail {
   my ($self, $limit, @cmd) = @_;
   my $output;
-  print "CMD: " . join(' ',@cmd) . "\n";
-  print "Running (stdout+stderr redirected)...\n";
-  my $rv = run3 \@cmd, \undef, \$output, \$output;
+  print STDERR "CMD: " . join(' ',@cmd) . "\n";
+  print STDERR "Running (stdout+stderr redirected)...\n";
+  my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
+  my $success = ($rv == 1 && $? == 0) ? 1 : 0;
   $output = substr $output, -$limit if defined $limit; # we want just last N chars
-  print ( (defined $limit) ? "OUTPUT: (only last $limit chars)\n" : "OUTPUT:\n");
-  print $output, "\n";
-  return $rv;
+  if (!defined($limit)) {
+    print STDERR "OUTPUT:\n", $output, "\n";
+  }
+  elsif ($limit>0) {
+    print STDERR "OUTPUT: (only last $limit chars)\n", $output, "\n";
+  }
+  return $success;
+}
+
+sub run_stdout2str {
+  my ($self, @cmd) = @_;
+  my $output;
+  my $rv = run3(\@cmd, \undef, \$output, \undef, { return_if_system_error => 1 } );
+  $output =~ s/[\r\n]*$//;
+  return $output;
+}
+
+sub run_bothout2str {
+  my ($self, @cmd) = @_;
+  my $output;
+  my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
+  $output =~ s/[\r\n]*$//;
+  return $output;
+}
+
+sub find_file {
+  my ($self, $dir, $re) = @_;
+  my @files;
+  $re ||= qr/.*/;
+  {    
+    no warnings 'File::Find'; #hide warning "Can't opendir(...): Permission denied
+    find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
+  };
+  return @files;
 }
 
 1;

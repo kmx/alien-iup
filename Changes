@@ -1,5 +1,22 @@
 Revision history for Alien-IUP
 
+0.0.10	18/08/2010
+	- added MS Win build (gcc, msvc)
+	- improved lib/inc dir detection (unix)
+	- building static libs
+	- using IPC::Run3 for launching external commands
+
+0.0.9	05/08/2010
+	- FAIL ALWAYS debug version
+	- fixed bug in setting GTK make param
+	- more lib detection diagnostics
+
+0.0.8	04/08/2010
+	- FAIL ALWAYS debug version
+	- typo in opengl target selection
+	- fixed return value from make command
+	- improved debug diagnostic
+
 0.0.7	03/08/2010
 	- running make via IPC::Run3 (cutting output to last 1000 chars)
 

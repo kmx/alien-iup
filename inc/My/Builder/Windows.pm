@@ -5,70 +5,76 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
+use File::Glob qw(bsd_glob glob);
 use Config;
 
 sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $prefixdir = rel2abs($build_out);
   my $perl = $^X;
+  
+  #targets: install-static install-dynamic install
+  my $target = 'install-static';
+  my @iup_libs = qw/iupwin cdwin im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
 
-  print "Checking available libraries/headers...\n";
-  my %has;
-
-  $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>nul` ? 1 : 0;        #iupgtk
-  $has{gdk}     = `pkg-config --modversion gdk-2.0 2>nul` ? 1 : 0;        #cdgdk
-  $has{cairo}   = `pkg-config --modversion cairo 2>nul` ? 1 : 0;                 #cdcairo
-  $has{pango}   = `pkg-config --modversion pango 2>nul` ? 1 : 0;                #cdcairo
-
-  $has{l_cairo} = $self->check_lib( [] , `pkg-config --cflags cairo 2>nul`, `pkg-config --libs cairo 2>nul`);
-  $has{l_pango} = $self->check_lib( [] , `pkg-config --cflags pango 2>nul`, `pkg-config --libs pango 2>nul`);
-  $has{l_pangox}= $self->check_lib( [] , `pkg-config --cflags pangox 2>nul`, `pkg-config --libs pangox 2>nul`);
-  $has{l_gtk}   = $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>nul`, `pkg-config --libs gtk+-2.0 2>nul`);
-  $has{l_gtkx11}= $self->check_lib( [] , `pkg-config --cflags gtk+-x11-2.0 2>nul`, `pkg-config --libs gtk+-x11-2.0 2>nul`);
-  $has{l_gdk}   = $self->check_lib( [] , `pkg-config --cflags gdk-2.0 2>nul`, `pkg-config --libs gdk-2.0 2>nul`);
-  $has{l_gdkx11}= $self->check_lib( [] , `pkg-config --cflags gdk-x11-2.0 2>nul`, `pkg-config --libs gdk-x11-2.0 2>nul`);
-  $has{l_GL}    = $self->check_lib( 'GL' );
-  $has{l_GLU}   = $self->check_lib( 'GLU' );
-  $has{l_glut}  = $self->check_lib( 'glut' );
-  $has{l_gdi32} = $self->check_lib( 'gdi32' );  # cygwin only
-  $has{l_glu32} = $self->check_lib( 'glu32' );  # cygwin only
-
-  $has{glx}     = $self->check_header('GL/glx.h');                     #iupgl
-  $has{win}     = $self->check_header('windows.h');                #iupwin
-  $has{wmsdk}   = $self->check_header('wmsdk.h');                #im_wmv
-  $has{fftw3}   = $self->check_header('fftw3.h');                #im_fftw3 = http://www.fftw.org/
-  $has{ecw}     = $self->check_header('NCSECWClient.h');        #im_format_ecw = ECW (Enhanced Compression Wavelet) format
-  $has{XxXxX}   = $self->check_header('XxXxX/XxXxX.h');           #non existing header
-
-  print "Has: $has{$_} - $_\n" foreach (sort keys %has);
-
-  die "###ERROR### Build for MS Windows not implemented yet"; # xxx kmx todo
-
-  # for GNU make on MS Windows it is safer to convert \ to /
-  $perl =~ s|\\|/|g;
-  $prefixdir =~ s|\\|/|g;
-
-  my $make = $self->get_make;
-  print "Gonna call make install ...\n";
-  my @cmd;
-  if($make =~ /nmake/ && $Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
-    my $makefile = rel2abs('patches\Makefile.nmake');
+  my (@cmd_im, @cmd_cd, @cmd_iup);
+  if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
+    @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),  "PERL=perl", "PREFIX=$prefixdir", $target );
+    @cmd_cd  = ( $Config{make}, '-f', rel2abs('patches\Makefile_cd.nmake'),  "PERL=perl", "PREFIX=$prefixdir", $target );
+    @cmd_iup = ( $Config{make}, '-f', rel2abs('patches\Makefile_iup.nmake'), "PERL=perl", "PREFIX=$prefixdir", $target );
     if ($Config{archname} =~ /x64/) { #64bit
-      @cmd = ( $make, '-f', $makefile, "PERL=perl", "PREFIX=$prefixdir", "CFG=Win64", "install" );
-    }
-    else { #32bit
-      @cmd = ( $make, '-f', $makefile, "PERL=perl", "PREFIX=$prefixdir", "install" );
+      push(@cmd_im,  'CFG=Win64');
+      push(@cmd_cd,  'CFG=Win64');
+      push(@cmd_iup, 'CFG=Win64');      
     }
   }
   else { # gcc compiler
-    my $makefile = rel2abs('patches\Makefile.mingw');
-    @cmd = ( $make, '-f', $makefile, "PERL=$perl", "PREFIX=$prefixdir", "CC=$Config{cc}", "install" );
+    my $make = $self->get_make;
+    # for GNU make on MS Windows it is safer to convert \ to /
+    $perl =~ s|\\|/|g;
+    $prefixdir =~ s|\\|/|g;
+    @cmd_im  = ( $make, '-f', rel2abs('patches\Makefile_im.mingw'),  "PERL=$perl", "PREFIX=$prefixdir", $target );
+    @cmd_cd  = ( $make, '-f', rel2abs('patches\Makefile_cd.mingw'),  "PERL=$perl", "PREFIX=$prefixdir", $target );
+    @cmd_iup = ( $make, '-f', rel2abs('patches\Makefile_iup.mingw'), "PERL=$perl", "PREFIX=$prefixdir", $target );
+    if ($Config{archname} =~ /x64/) { #64bit
+      push(@cmd_im,  'BUILDBITS=64');
+      push(@cmd_cd,  'BUILDBITS=64');
+      push(@cmd_iup, 'BUILDBITS=64');      
+    }
   }
-  print "[cmd: ".join(' ',@cmd)."]\n";
-  chdir $srcdir;
-  $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
-  chdir $self->base_dir();
+  
+  if(-d "$srcdir/im/src") {
+    print "Gonna build 'im'\n";
+    chdir "$srcdir/im/src";
+    $self->run_output_tail(10000, @cmd_im) or die "###ERROR### [$?] during make(im)";
+    chdir $self->base_dir();
+  }
+  
+  if (-d "$srcdir/cd/src") {
+    print "Gonna build 'cd'\n";
+    chdir "$srcdir/cd/src";
+    $self->run_output_tail(10000, @cmd_cd) or die "###ERROR### [$?] during make(cd)";
+    chdir $self->base_dir();
+  }
 
+  if (-d "$srcdir/iup") {
+    print "Gonna build 'iup'\n";
+    chdir "$srcdir/iup";
+    $self->run_output_tail(10000, @cmd_iup) or die "###ERROR### [$?] during make(iup)";
+    chdir $self->base_dir();
+  }
+
+  #XXX DEBUG ONLY
+  #my @l = bsd_glob("$prefixdir/lib/*");
+  #foreach (@l) {
+  #  print "DEBUG_XXX_LIB: $_\n";
+  #}
+  
+  $self->config_data('extra_cflags', '');
+  $self->config_data('extra_lflags', '');
+  $self->config_data('linker_libs', [ @iup_libs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
+
+  print "Build finished sucessfully!\n";
   return 1;
 }
 

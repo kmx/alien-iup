@@ -26,14 +26,14 @@ Text after
 
 <p>
   <table border="1">
-    <tbody>
+    <tbody align="center">
       <tr>
         <th style="text-align: center;">GTK</th>
-        <td style="text-align: center;"><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_gtk.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_gtk.png"></td>
       </tr>
       <tr>
         <th style="text-align: center;">Windows<br>Vista</th>
-        <td style="text-align: center;"><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_vista.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_vista.png"></td>
       </tr>
     </tbody>
   </table>

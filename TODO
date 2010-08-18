@@ -1,27 +1,18 @@
 (serious)
 - compile.t: Linux linker failure (cairo/pango related)
-- XmScaleSetTicks: missing on cygwin/freebsd (iupmot)
+- in "no gui detected" we do not know what libs to add to config('libs')
 
 (medium priority)
-- at least basic Win32 Build
-- switch from dynamic to static linking
-- more complex comiple text (use some advanced iup C/C++ example)
+- more complex compile text (use some advanced iup C example)
 - move lib detection into "perl Build.PL" phase
 
 (low priority)
 - MacOS - why autoenabling GTK?
-- MacOS - /opt/local/include?
 - detection iup+cd+im: does not work with msvc 
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
 - tecmake: warning
   # tecmake.mak:1256: warning: overriding commands for target `../bin/Linux26g4'
   # tecmake.mak:1216: warning: ignoring old commands for target `../bin/Linux26g4'
-- require perl 5.8+
-
-(cpan testers)
-NetBSD: http://www.cpantesters.org/cpan/report/ed6e9260-9f03-11df-8246-59ba6e8696e0
-- gdk/gdk.h: No such file or directory
-- /usr/include/atk-1.0 /usr/include/gtk-2.0 /usr/include/cairo /usr/include/pango-1.0 /usr/include/glib-2.0 /usr/lib/glib-2.0/include /usr/lib/gtk-2.0/include
 
 (errors to be reported to tecgraf)
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7

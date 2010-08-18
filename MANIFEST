@@ -9,6 +9,12 @@ META.yml
 patches/cd.diff
 patches/im.diff
 patches/iup.diff
+patches/Makefile_cd.mingw
+patches/Makefile_cd.nmake
+patches/Makefile_im.mingw
+patches/Makefile_im.nmake
+patches/Makefile_iup.mingw
+patches/Makefile_iup.nmake
 pics/Demo.pod
 pics/iupbutton_gtk_image.png
 pics/iupbutton_gtk_imagetext.png
