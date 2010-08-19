@@ -25,7 +25,7 @@ sub build_binaries {
   my $dir_opengl_lib = ($d && -d $d && $d ne '/usr/lib') ? $d : '';
   $d = $self->run_stdout2str(qw[pkg-config --variable=includedir gl]);
   my $dir_opengl_inc = ($d && -d $d && $d ne '/usr/include') ? $d : '';
-  $d = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0 2]);
+  $d = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
   my $dir_gtk = ($d && -d $d) ? $d : '';
 
   #platform specific hacks
