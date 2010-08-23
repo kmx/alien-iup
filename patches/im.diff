@@ -1,6 +1,6 @@
-diff -ru im.orig/src/Makefile im/src/Makefile
+diff -ru --strip-trailing-cr im.orig/src/Makefile im/src/Makefile
 --- im.orig/src/Makefile	2010-04-23 14:30:22.000000000 +0200
-+++ im/src/Makefile	2010-07-30 00:56:45.583968900 +0200
++++ im/src/Makefile	2010-08-23 21:44:01.968924500 +0200
 @@ -1,7 +1,6 @@
 -
 -.PHONY: do_all im im_jp2 im_process im_fftw imlua3 imlua5 imlua_jp2 imlua_process5 imlua_fftw5
@@ -25,10 +25,9 @@ diff -ru im.orig/src/Makefile im/src/Makefile
 +	@$(MAKE) --no-print-directory -f tecmake.mak MF=im_fftw3
 +im_ecw:
 +	@$(MAKE) --no-print-directory -f tecmake.mak MF=im_ecw
-\ No newline at end of file
-diff -ru im.orig/src/config.mak im/src/config.mak
+diff -ru --strip-trailing-cr im.orig/src/config.mak im/src/config.mak
 --- im.orig/src/config.mak	2010-06-23 22:56:34.000000000 +0200
-+++ im/src/config.mak	2010-07-30 00:50:42.936226600 +0200
++++ im/src/config.mak	2010-08-23 21:44:01.968924500 +0200
 @@ -114,7 +114,11 @@
        USE_EXIF = Yes
      endif
@@ -42,9 +41,9 @@ diff -ru im.orig/src/config.mak im/src/config.mak
  endif
  
  ifdef USE_EXIF
-diff -ru im.orig/src/im_capture.mak im/src/im_capture.mak
+diff -ru --strip-trailing-cr im.orig/src/im_capture.mak im/src/im_capture.mak
 --- im.orig/src/im_capture.mak	2010-06-22 19:47:20.000000000 +0200
-+++ im/src/im_capture.mak	2010-07-29 23:58:26.960859100 +0200
++++ im/src/im_capture.mak	2010-08-23 21:44:01.968924500 +0200
 @@ -51,13 +51,14 @@
  ifneq ($(findstring Win, $(TEC_SYSNAME)), )
    INCLUDES += $(DXSDK)/include
@@ -61,9 +60,9 @@ diff -ru im.orig/src/im_capture.mak im/src/im_capture.mak
  
  mingw3-dll:                    
  	@echo Importing MingW stub library
-diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
+diff -ru --strip-trailing-cr im.orig/src/tecmake.mak im/src/tecmake.mak
 --- im.orig/src/tecmake.mak	2010-06-23 21:23:20.000000000 +0200
-+++ im/src/tecmake.mak	2010-08-03 17:36:51.154110600 +0200
++++ im/src/tecmake.mak	2010-08-23 21:45:13.813664700 +0200
 @@ -8,9 +8,8 @@
  # Tecmake Version
  VERSION = 4.1
@@ -767,11 +766,11 @@ diff -ru im.orig/src/tecmake.mak im/src/tecmake.mak
 +    endif
 +  endif
 +  ifdef CHECK_GTK
-+    ifdef UNIX_POSIX
++    ifndef GTK_BASE
++      ifdef UNIX_POSIX
 +		@echo ''; echo 'Tecmake: check failed, GTK NOT available in this system.'; echo ''; exit 1;
-+    else
-+      ifneq ($(findstring Linux24, $(TEC_UNAME)), )
-+        ifndef GTK_BASE
++      else
++        ifneq ($(findstring Linux24, $(TEC_UNAME)), )
 +					@echo ''; echo 'Tecmake: check failed, GTK too OLD in this system.'; echo ''; exit 1;
 +        endif
 +      endif

@@ -1,6 +1,6 @@
-diff -ru iup.orig/src/config.mak iup/src/config.mak
+diff -ru --strip-trailing-cr iup.orig/src/config.mak iup/src/config.mak
 --- iup.orig/src/config.mak	2010-06-26 19:22:14.000000000 +0200
-+++ iup/src/config.mak	2010-07-30 01:57:01.932812200 +0200
++++ iup/src/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -2,27 +2,7 @@
  LIBNAME := iup
  OPT = YES
@@ -48,9 +48,9 @@ diff -ru iup.orig/src/config.mak iup/src/config.mak
  endif
  endif
  
-diff -ru iup.orig/srccd/config.mak iup/srccd/config.mak
+diff -ru --strip-trailing-cr iup.orig/srccd/config.mak iup/srccd/config.mak
 --- iup.orig/srccd/config.mak	2010-06-26 19:22:14.000000000 +0200
-+++ iup/srccd/config.mak	2010-07-30 01:53:02.429113400 +0200
++++ iup/srccd/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -10,7 +10,7 @@
  # Can not use USE_IUP because Tecmake will include "iupcd" in linker
  
@@ -60,9 +60,9 @@ diff -ru iup.orig/srccd/config.mak iup/srccd/config.mak
  LDIR = ../lib/$(TEC_UNAME)
  
  ifneq ($(findstring MacOS, $(TEC_UNAME)), )
-diff -ru iup.orig/srccontrols/config.mak iup/srccontrols/config.mak
+diff -ru --strip-trailing-cr iup.orig/srccontrols/config.mak iup/srccontrols/config.mak
 --- iup.orig/srccontrols/config.mak	2010-06-26 19:22:14.000000000 +0200
-+++ iup/srccontrols/config.mak	2010-07-30 00:30:25.111571000 +0200
++++ iup/srccontrols/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -16,7 +16,7 @@
        iup_dial.c iup_oldmask.c \
        $(SRCCOLOR) $(SRCMATRIX)
@@ -72,9 +72,9 @@ diff -ru iup.orig/srccontrols/config.mak iup/srccontrols/config.mak
  LDIR = ../lib/$(TEC_UNAME)
  USE_CD = Yes
  
-diff -ru iup.orig/srcgl/config.mak iup/srcgl/config.mak
+diff -ru --strip-trailing-cr iup.orig/srcgl/config.mak iup/srcgl/config.mak
 --- iup.orig/srcgl/config.mak	2010-06-26 19:36:06.000000000 +0200
-+++ iup/srcgl/config.mak	2010-07-30 08:52:33.520952600 +0200
++++ iup/srcgl/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -8,11 +8,11 @@
  
  INCLUDES = ../include ../src
@@ -89,9 +89,9 @@ diff -ru iup.orig/srcgl/config.mak iup/srcgl/config.mak
    SRC = iup_glcanvas_win.c
  else
    SRC = iup_glcanvas_x.c
-diff -ru iup.orig/srcim/config.mak iup/srcim/config.mak
+diff -ru --strip-trailing-cr iup.orig/srcim/config.mak iup/srcim/config.mak
 --- iup.orig/srcim/config.mak	2010-06-26 19:22:14.000000000 +0200
-+++ iup/srcim/config.mak	2010-07-29 22:26:52.089570400 +0200
++++ iup/srcim/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -10,7 +10,7 @@
  
  INCLUDES = ../include ../src
@@ -101,9 +101,9 @@ diff -ru iup.orig/srcim/config.mak iup/srcim/config.mak
  
  SRC = iup_im.c
  
-diff -ru iup.orig/srcimglib/config.mak iup/srcimglib/config.mak
+diff -ru --strip-trailing-cr iup.orig/srcimglib/config.mak iup/srcimglib/config.mak
 --- iup.orig/srcimglib/config.mak	2010-06-26 19:22:14.000000000 +0200
-+++ iup/srcimglib/config.mak	2010-07-30 00:30:56.615372900 +0200
++++ iup/srcimglib/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -6,7 +6,7 @@
  
  SRC = iup_image_library.c
@@ -113,9 +113,9 @@ diff -ru iup.orig/srcimglib/config.mak iup/srcimglib/config.mak
  LDIR = ../lib/$(TEC_UNAME)
  
  ifneq ($(findstring AIX, $(TEC_UNAME)), )
-diff -ru iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
+diff -ru --strip-trailing-cr iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
 --- iup.orig/srcpplot/config.mak	2010-06-26 20:05:00.000000000 +0200
-+++ iup/srcpplot/config.mak	2010-07-30 00:31:45.192151400 +0200
++++ iup/srcpplot/config.mak	2010-08-23 21:44:00.533722000 +0200
 @@ -10,7 +10,7 @@
  
  INCLUDES = ../include ../src
@@ -125,9 +125,9 @@ diff -ru iup.orig/srcpplot/config.mak iup/srcpplot/config.mak
  
  DEFINES = _IUP_PPLOT_ CD_NO_OLD_INTERFACE
  
-diff -ru iup.orig/tecmake.mak iup/tecmake.mak
+diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
 --- iup.orig/tecmake.mak	2010-06-26 19:31:33.000000000 +0200
-+++ iup/tecmake.mak	2010-08-03 17:36:51.154110600 +0200
++++ iup/tecmake.mak	2010-08-23 21:45:13.813664700 +0200
 @@ -9,7 +9,7 @@
  VERSION = 4.1
  
@@ -272,7 +272,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
    GTK_DEFAULT :=
 -endif  
 +endif
-+
+ 
 +ifndef USE_X11
 +  ifndef USE_MOTIF
 +    ifndef USE_WIN
@@ -325,7 +325,7 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
 +  override IUPSUFX := mot
 +  override CDSUFX := x11
 +endif
- 
++
 +ifdef USE_WIN
 +  override USE_X11 :=
 +  override USE_MOTIF :=
@@ -746,9 +746,19 @@ diff -ru iup.orig/tecmake.mak iup/tecmake.mak
      tecmake: print-start system-check directories dynamic-lib
    else
      tecmake: print-start system-check directories static-lib dynamic-lib
-@@ -1050,8 +1171,8 @@
-       ifneq ($(findstring Linux24, $(TEC_UNAME)), )
-         ifndef GTK_BASE
+@@ -1044,14 +1165,14 @@
+     endif
+   endif
+   ifdef CHECK_GTK
+-    ifdef UNIX_POSIX
++    ifndef GTK_BASE
++      ifdef UNIX_POSIX
+ 		@echo ''; echo 'Tecmake: check failed, GTK NOT available in this system.'; echo ''; exit 1;
+-    else
+-      ifneq ($(findstring Linux24, $(TEC_UNAME)), )
+-        ifndef GTK_BASE
++      else
++        ifneq ($(findstring Linux24, $(TEC_UNAME)), )
  					@echo ''; echo 'Tecmake: check failed, GTK too OLD in this system.'; echo ''; exit 1;
 -        endif  
 -      endif  

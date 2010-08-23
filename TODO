@@ -1,8 +1,8 @@
 (serious)
-- compile.t: Linux linker failure (cairo/pango related)
-- in "no gui detected" we do not know what libs to add to config('libs')
+- in "no gui detected" - we do not know what libs to add to config('libs'); we should rather die in this case
 
 (medium priority)
+- remove old sharedir content during install
 - more complex compile text (use some advanced iup C example)
 - move lib detection into "perl Build.PL" phase
 
