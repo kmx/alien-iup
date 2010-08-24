@@ -1,7 +1,10 @@
-(serious)
-- in "no gui detected" - we do not know what libs to add to config('libs'); we should rather die in this case
+(important)
+- lib order is broken (at least on Win32)
+- dump full error log on make failure (or tail ~40000)
+- NetBSD no default selected (set X11 for noGUI detected)
 
 (medium priority)
+- in "no gui detected" - we do not know what libs to add to config('libs'); we should rather die in this case
 - remove old sharedir content during install
 - more complex compile text (use some advanced iup C example)
 - move lib detection into "perl Build.PL" phase
