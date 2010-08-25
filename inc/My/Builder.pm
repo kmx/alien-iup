@@ -296,6 +296,28 @@ sub run_output_tail {
   return $success;
 }
 
+sub run_output_on_error {
+  my ($self, $limit, @cmd) = @_;
+  my $output;
+  print STDERR "CMD: " . join(' ',@cmd) . "\n";
+  print STDERR "Running (stdout+stderr redirected)...\n";
+  my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
+  my $success = ($rv == 1 && $? == 0) ? 1 : 0;
+  if ($success) {
+    print STDERR "Finished successfully (output suppressed)\n";    
+  }
+  else {
+    $output = substr $output, -$limit if defined $limit; # we want just last N chars
+    if (!defined($limit)) {
+      print STDERR "OUTPUT:\n", $output, "\n";
+    }
+    elsif ($limit>0) {
+      print STDERR "OUTPUT: (only last $limit chars)\n", $output, "\n";
+    }
+  }
+  return $success;
+}
+
 sub run_stdout2str {
   my ($self, @cmd) = @_;
   my $output;

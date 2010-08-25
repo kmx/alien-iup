@@ -1,6 +1,5 @@
 (important)
 - lib order is broken (at least on Win32)
-- dump full error log on make failure (or tail ~40000)
 - NetBSD no default selected (set X11 for noGUI detected)
 
 (medium priority)

@@ -3,7 +3,7 @@ NAME
     <http://www.tecgraf.puc-rio.br/iup/>
 
 VERSION
-    Version v0.0.11 of Alien::IUP is based on the following:
+    Version v0.0.12 of Alien::IUP is based on the following:
 
     *   *iup* library 3.2 - see <http://www.tecgraf.puc-rio.br/iup/>
 

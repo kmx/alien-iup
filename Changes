@@ -1,5 +1,9 @@
 Revision history for Alien-IUP
 
+0.0.12	25/08/2010
+	- GTK vs. GTK_BASE fix
+	- printing output of make commands only on failure
+
 0.0.11	23/08/2010
 	- GTK_BASE detection fix
 

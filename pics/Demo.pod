@@ -8,7 +8,7 @@ Alien::IUP::Demo - Demo POD for testing embedded images
 
 =begin HTML
 
-<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/topdown.gif"></p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/topdown.gif"></p>
 
 =end HTML
 
@@ -16,7 +16,7 @@ Alien::IUP::Demo - Demo POD for testing embedded images
 
 Text before
 
-=for HTML <p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/topdown.gif"></p>
+=for HTML <p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/topdown.gif"></p>
 
 Text after
 
@@ -29,11 +29,11 @@ Text after
     <tbody align="center">
       <tr>
         <th style="text-align: center;">GTK</th>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_gtk.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/sample_gtk.png"></td>
       </tr>
       <tr>
         <th style="text-align: center;">Windows<br>Vista</th>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/sample_vista.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/sample_vista.png"></td>
       </tr>
     </tbody>
   </table>
@@ -59,22 +59,22 @@ Text after
         <th style="text-align: center;">Motif</th>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_image.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_text.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_winxp_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_win2k_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_gtk_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.7/pics/iupbutton_mot_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_imagetext.png"></td>
       </tr>
     </tbody>
   </table>

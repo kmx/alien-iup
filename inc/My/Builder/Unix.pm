@@ -116,6 +116,7 @@ sub build_binaries {
   print "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
   print "[/System ] $_\n" foreach ($self->find_file('/System', $re));
   print "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
+  print "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
   
   print "Dumping some pkg-info:\n";
   print "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
@@ -267,7 +268,8 @@ sub build_via_tecmake {
     $im_si = $self->run_output_tail(undef, $make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts});
     print "$im_si\n";
     foreach my $t (@{$imtgs}) {
-      $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -280,7 +282,8 @@ sub build_via_tecmake {
     print "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
-      $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -293,7 +296,8 @@ sub build_via_tecmake {
     print "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
-      $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
+      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
