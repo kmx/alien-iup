@@ -166,7 +166,7 @@ sub build_binaries {
   elsif ($has{gtk}) {
     push(@makeopts, 'USE_GTK=Yes');
     #detected libs
-    push(@makeopts, "GTK=$dir_gtk") if $dir_gtk;
+    push(@makeopts, "GTK_BASE=$dir_gtk") if $dir_gtk;
     push(@makeopts, "X11_LIBS=" . join(' ', @x11_libs));
     push(@makeopts, "X11_LIB=$dir_x11_lib") if $dir_x11_lib;
     push(@makeopts, "X11_INC=$dir_x11_inc") if $dir_x11_inc;
