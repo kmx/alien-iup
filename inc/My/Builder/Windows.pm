@@ -14,8 +14,7 @@ sub build_binaries {
   my $perl = $^X;
   
   #targets: install-static install-dynamic install
-  my $target = 'install-static';
-  my @iup_libs = qw/iupwin cdwin im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
+  my $target = 'install-static';  
 
   my (@cmd_im, @cmd_cd, @cmd_iup);
   if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
@@ -42,6 +41,9 @@ sub build_binaries {
       push(@cmd_iup, 'BUILDBITS=64');      
     }
   }
+
+  my @iup_libs = qw/iupwin cdwin im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
+  # xxx TODO maybe detect real existing libs after make
   
   if(-d "$srcdir/im/src") {
     print "Gonna build 'im'\n";
@@ -63,7 +65,7 @@ sub build_binaries {
     $self->run_output_tail(10000, @cmd_iup) or die "###ERROR### [$?] during make(iup)";
     chdir $self->base_dir();
   }
-
+  
   #XXX DEBUG ONLY
   #my @l = bsd_glob("$prefixdir/lib/*");
   #foreach (@l) {
@@ -72,7 +74,7 @@ sub build_binaries {
   
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
-  $self->config_data('linker_libs', [ @iup_libs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
+  $self->config_data('linker_libs', [ $self->sort_libs(@iup_libs), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
 
   print "Build finished sucessfully!\n";
   return 1;

@@ -1,12 +1,16 @@
 (important)
-- lib order is broken (at least on Win32)
-- NetBSD no default selected (set X11 for noGUI detected)
+- print '1' during Unix build
+- lib order Unix - needs little fix
+- mingw 64bit build fails: liblzf\lzf_c.c - unsigned _int64 off; (-> long long)
+- tecmake - use pkg-config for getting gtk cflags + lflags
 
 (medium priority)
-- in "no gui detected" - we do not know what libs to add to config('libs'); we should rather die in this case
+- die if gnumake not found
+- in "no gui detected" - we do not know what libs to add to config('libs'); we should rather die in this case (now defaulting to X11)
 - remove old sharedir content during install
-- more complex compile text (use some advanced iup C example)
+- more complex compile text (use some advanced iup C example, using more then just iup)
 - move lib detection into "perl Build.PL" phase
+- add olecontrol to windows build
 
 (low priority)
 - MacOS - why autoenabling GTK?

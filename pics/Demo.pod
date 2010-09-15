@@ -8,7 +8,7 @@ Alien::IUP::Demo - Demo POD for testing embedded images
 
 =begin HTML
 
-<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/topdown.gif"></p>
+<p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/topdown.gif"></p>
 
 =end HTML
 
@@ -16,7 +16,7 @@ Alien::IUP::Demo - Demo POD for testing embedded images
 
 Text before
 
-=for HTML <p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/topdown.gif"></p>
+=for HTML <p><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/topdown.gif"></p>
 
 Text after
 
@@ -29,11 +29,11 @@ Text after
     <tbody align="center">
       <tr>
         <th style="text-align: center;">GTK</th>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/sample_gtk.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/sample_gtk.png"></td>
       </tr>
       <tr>
         <th style="text-align: center;">Windows<br>Vista</th>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/sample_vista.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/sample_vista.png"></td>
       </tr>
     </tbody>
   </table>
@@ -41,7 +41,143 @@ Text after
 
 =end HTML
 
-=head1 DEMO4
+=head1 DESCRIPTION
+
+text text L<Name xxx|http://www.perl.org/>
+
+text text L<http://www.perl.org/>
+
+text text L<Module name|Alien::IUP>
+
+text text B<L<Module name|Alien::IUP>>
+
+text text L<Alien::IUP>
+
+
+ this is code
+ this is code
+ this is code
+
+text text
+
+=head1 Creation
+
+=head1 Methods
+
+=head1 Callbacks
+
+=head1 Attributes
+
+=head1 Examples
+
+=head2 Heading 2
+
+text text
+
+ this is code
+ this is code
+ this is code
+
+text text
+
+=head3 Heading 3
+
+text text
+
+ this is code
+ this is code
+ this is code
+
+text text
+
+=head4 L<Heading 4|Alien::IUP/"license"> bleeee
+
+text text
+
+ this is code
+ this is code
+ this is code
+
+text text
+
+=over
+
+=item AUTOTOGGLE (non inheritable):
+
+enables the automatic toggle of VALUE state when the item is activated. Default: NO. (since 3.0)
+
+=item KEY (non inheritable):
+
+Underlines a key character in the submenu title. It is updated only when TITLE is updated. Deprecated (since 3.0), use the mnemonic support directly in the TITLE attribute.
+
+=item HIDEMARK [Motif and GTK Only]:
+
+If enabled the item cannot be checked, since the check box will not be shown. If all items in a menu enable it, then no empty space will be shown in front of the items. Normally the unmarked check box will not be shown, but since GTK 2.14 the unmarked check box is always shown. If your item will not be marked you must set HIDEMARK=YES, since this is the most common case we changed the default value to YES for this version of GTK, but if VALUE is defined the default goes back to NO. Default: NO. (since 3.0)
+
+=item IMAGE [Windows and GTK Only] (non inheritable):
+
+Image name of the check mark image when VALUE=OFF. In Windows, an item in a menu bar cannot have a check mark. Ignored if item in a menu bar. A recommended size would be 16x16 to fit the image in the menu item. In Windows, if larger than the check mark area it will be cropped.
+
+=item L<NAME1|Alien::IUP/"license"> bleeee
+
+text text
+
+=item B<L<NAME1|Alien::IUP/"license">> bleeee
+
+text text
+
+=back
+
+=head2 Callbacks Heading 2
+
+generic intro text to callbacks text text text text text text text text text text text text 
+text text text text text text text text text text text text text text text text text text
+text text text text text text text text text text text text text text text text text text
+
+=over
+
+=item * AUTOTOGGLE (non inheritable)
+
+enables the automatic toggle of VALUE state when the item is activated. Default: NO. (since 3.0)
+
+=item * KEY (non inheritable)
+
+Underlines a key character in the submenu title. It is updated only when TITLE is updated. Deprecated (since 3.0), use the mnemonic support directly in the TITLE attribute.
+
+=item * HIDEMARK [Motif and GTK Only]:
+
+If enabled the item cannot be checked, since the check box will not be shown. If all items in a menu enable it, then no empty space will be shown in front of the items. Normally the unmarked check box will not be shown, but since GTK 2.14 the unmarked check box is always shown. If your item will not be marked you must set HIDEMARK=YES, since this is the most common case we changed the default value to YES for this version of GTK, but if VALUE is defined the default goes back to NO. Default: NO. (since 3.0)
+
+=item * IMAGE
+
+[Windows and GTK Only] (non inheritable)
+
+Image name of the check mark image when VALUE=OFF. In Windows, an item in a menu bar cannot have a check mark. Ignored if item in a menu bar. A recommended size would be 16x16 to fit the image in the menu item. In Windows, if larger than the check mark area it will be cropped.
+
+=item * L<NAME1|Alien::IUP/"license"> bleeee
+
+text text
+
+=item * B<L<NAME1|Alien::IUP/"license">> bleeee
+
+text text
+
+=item * BL<NAME1|Alien::IUP/"license">> bleeee
+
+text text
+
+=back
+
+=head1 XNAME
+
+one line description one line description one line description
+
+=head1 DESCRIPTION
+
+Creates an item of the menu interface element. When selected, it
+generates an action.
+
+=head1 EXAMPLES
 
 =begin HTML
 
@@ -59,27 +195,180 @@ Text after
         <th style="text-align: center;">Motif</th>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_image.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_winxp_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_win2k_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_gtk_image.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_mot_image.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_text.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_winxp_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_win2k_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_gtk_text.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_mot_text.png"></td>
       </tr>
       <tr>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_winxp_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_win2k_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_gtk_imagetext.png"></td>
-        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.12/pics/iupbutton_mot_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_winxp_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_win2k_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_gtk_imagetext.png"></td>
+        <td><img src="http://cpansearch.perl.org/src/KMX/Alien-IUP-v0.0.13/pics/iupbutton_mot_imagetext.png"></td>
       </tr>
     </tbody>
   </table>
 </p>
 
 =end HTML
+
+ code
+ code
+ code
+ code
+
+=head2 Creation
+
+ Ihandle* IupItem(const char *title, const char *action); [in C]
+ iup.item{[title = title: string]} -> elem: ihandle [in Lua]
+ item(title, action) [in LED]
+
+B<title>: Text to be shown on the item. It can be NULL. It will set the
+TITLE attribute.
+
+B<action>: Name of the action generated when the item is selected. It
+can be NULL.
+
+Returns: the identifier of the created element, or NULL if an error
+occurs.
+
+=head2 Methods
+
+text text text text text text text text text text text text text text
+text text text text text text text text
+
+=head2 Attributes
+
+Generic intro text for attributes text text text text text text text text text text text text text text text text text text text text text text
+
+Attributes can be set when creating object: C<<IUP::Item->new( ATTRIBNAME=>'value' ...)>> or later via $obj->ATTRIBNAME('value') or C<<$obj->SetAttribute('ATTRIBNAME','value')>>.
+
+=over
+
+=item * B<AUTOTOGGLE> (non inheritable)
+
+enables the automatic toggle of VALUE
+state when the item is activated. Default: NO. (since 3.0)
+
+=item * B<L<KEY|Alien::IUP/"KEY">> (non inheritable)
+
+Underlines a key character in the submenu title.
+It is updated only when TITLE is updated. B<Deprecated (since 3.0)>,
+use the mnemonic support directly in the TITLE attribute.
+
+=item * B<HIDEMARK> [Motif and GTK Only]
+
+If enabled the item cannot be
+checked, since the check box will not be shown. If all items in a menu
+enable it, then no empty space will be shown in front of the items.
+Normally the unmarked check box will not be shown, but since GTK 2.14
+the unmarked check box is always shown. If your item will not be marked
+you must set HIDEMARK=YES, since this is the most common case we
+changed the default value to YES for this version of GTK, but if VALUE
+is defined the default goes back to NO. Default: NO. (since 3.0)
+
+=item * B<IMAGE> [Windows and GTK Only] (non inheritable)
+
+Image name of the check mark image when VALUE=OFF. In Windows, an item in a menu bar
+cannot have a check mark. Ignored if item in a menu bar. A recommended
+size would be 16x16 to fit the image in the menu item. In Windows, if
+larger than the check mark area it will be cropped.
+
+=item * B<IMPRESS> [Windows and GTK Only] (non inheritable)
+
+Image name of the check mark image when VALUE=ON.
+
+=item * TITLE (non inheritable)
+
+Item text. The "&" character can be used to
+define a mnemonic, the next character will be used as key. Use "&&" to
+show the "&" character instead on defining a mnemonic. When in a menu
+bar an item that has a mnemonic can be activated from any control in
+the dialog using the "Alt+key" combination.
+
+The text also accepts the control character '\t' to force text
+alignment to the right after this character. This is used to add
+shortcut keys to the menu, aligned to the right, ex: "Save\tCtrl+S",
+but notice that the shortcut key (also known as Accelerator or Hot Key)
+still has to be implemented. To implement a shortcut use the K_*
+callbacks in the dialog.
+
+=item * B<TITLEIMAGE> (non inheritable)
+
+Image name of the title image. In
+Windows, it appears before of the title text and after the check mark
+area (so both title and title image can be visible). In Motif, it must
+be at least defined during map, it replaces the text, and only images
+will be possible to set (TITLE will be hidden). In GTK, it will appear
+on the check mark area. (since 3.0)
+
+=item * B<VALUE> (non inheritable)
+
+Indicates the item's state. When the value
+is ON, a mark will be displayed to the left of the item. Default: OFF.
+An item in a menu bar cannot have a check mark. When IMAGE is used, the
+checkmark is not shown. See the item AUTOTOGGLE attribute and the menu
+RADIO attribute.
+
+=item * WID (non inheritable)
+
+In Windows, returns the HMENU of the parent menu.
+
+=back
+
+The following common attributes discussed in L<IUP::Manual::Attributes> are also accepted:
+
+=over
+
+=item * B<L<ACTIVE|Alien::IUP/"ACTIVE">>, B<L<PASIVE|Alien::IUP/"PASIVE">>
+
+=back
+
+=head2 Callbacks
+
+Generic intro text for callbacks text text text text text text text text text text text text text text text text text text text text text text
+
+=over
+
+=item * B<L<ACTION|Alien::IUP/"ACTION">>
+
+Action generated when the item is selected. IUP_CLOSE will be
+processed. Even if inside a popup menu when IUP_CLOSE is returned, the
+current popup dialog or the main loop will be closed.
+
+=item * B<L<HIGHLIGHT_CB|Alien::IUP/"HIGHLIGHT_CB">>
+
+Action generated when the item is highlighted.
+
+=back
+
+The following common callbacks discussed in L<IUP::Manual::Attributes> are also accepted:
+
+=over
+
+=item * B<L<MAP_CB|Alien::IUP/"MAP_CB">>, B<L<UNMAP_CB|Alien::IUP/"UNMAP_CB">>, B<L<UNMAP_CB|Alien::IUP/"HELP_CB">>
+
+=back
+
+=head2 Notes
+
+Menu items are activated using the Enter key.
+
+In Motif and GTK, the text font will be affected by the dialog font
+when the menu is mapped.
+
+Since GTK 2.14 to have a menu item that can be marked you must set the
+VALUE attribute to ON or OFF, or set HIDEMARK=NO, before mapping the
+control.
+
+=head2 See Also
+
+L<IUP::Separator>, L<IUP::Submenu>, L<IUP::Menu>.
 
 =cut

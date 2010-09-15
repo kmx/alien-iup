@@ -345,4 +345,27 @@ sub find_file {
   return @files;
 }
 
+sub sort_libs {
+  my ($self, @unsorted) = @_;  
+  my @wanted_order = qw/iupwin iupx11 iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib cdwin im cdgl cdpdf freetype6 freetype freetype-6 ftgl im_fftw im_jp2 im_process pdflib/;
+  my @sorted;
+  my %u;    
+ 
+  for (my $i=0; $i<scalar(@unsorted); $i++) {
+    $u{$unsorted[$i]} = $i;
+  }
+  for (@wanted_order) {
+    if ($u{$_}) {
+      push(@sorted, $_);
+      delete($unsorted[$u{$_}]);
+    }
+  }
+  for (@unsorted) {
+    push(@sorted, $_) if defined $_;
+  }
+
+  return @sorted;
+}
+
+
 1;

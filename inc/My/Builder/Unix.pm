@@ -109,7 +109,7 @@ sub build_binaries {
 
   #DEBUG ONLY - remove in the release version
   print "Brute force lookup:\n";
-  my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
+  my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|gtkprintunixdialog.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
   print "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
   print "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
   print "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
@@ -181,7 +181,11 @@ sub build_binaries {
     $extra_cflags = $self->run_stdout2str(qw[pkg-config --cflags], @mods) . " $extra_cflags";
     $extra_lflags = $self->run_stdout2str(qw[pkg-config --libs], @mods) . " $extra_lflags";
   }
-  elsif ($has{Xlib} && $has{Xm}) {
+  else {
+    unless ($has{Xlib} && $has{Xm}) {
+      warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
+      $success = 0;
+    }
     push(@makeopts, 'USE_X11=Yes');
     #additional X11 related libs
     push(@x11_libs, 'Xp')   if $has{l_Xp};
@@ -198,10 +202,6 @@ sub build_binaries {
 
     push(@libs, @x11_libs, @opengl_libs);
     #Note: $extra_?flags set at the beginning of this sub
-  }
-  else {
-    warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected!";
-    $success = 0;
   }
 
   #do the job
@@ -230,7 +230,7 @@ sub build_binaries {
     }
   }
   print "Output libs: $_\n" foreach (sort keys %seen);
-  @libs = ( sort keys %seen, @libs );
+  @libs = $self->sort_libs(keys %seen, @libs );
 
   $self->config_data('linker_libs', \@libs);
   $self->config_data('extra_cflags', $extra_cflags);
@@ -269,7 +269,7 @@ sub build_via_tecmake {
     print "$im_si\n";
     foreach my $t (@{$imtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -283,7 +283,7 @@ sub build_via_tecmake {
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -297,7 +297,7 @@ sub build_via_tecmake {
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(20000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
