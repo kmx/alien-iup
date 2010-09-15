@@ -347,7 +347,7 @@ sub find_file {
 
 sub sort_libs {
   my ($self, @unsorted) = @_;  
-  my @wanted_order = qw/iupwin iupx11 iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib cdwin im cdgl cdpdf freetype6 freetype freetype-6 ftgl im_fftw im_jp2 im_process pdflib/;
+  my @wanted_order = qw/iupwin iupmot iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib cdwin cdx11 cdgdk cdgl cdpdf freetype6 freetype freetype-6 ftgl pdflib im im_fftw im_jp2 im_process/;
   my @sorted;
   my %u;    
  
@@ -355,9 +355,9 @@ sub sort_libs {
     $u{$unsorted[$i]} = $i;
   }
   for (@wanted_order) {
-    if ($u{$_}) {
+    if (defined $u{$_}) {
       push(@sorted, $_);
-      delete($unsorted[$u{$_}]);
+      $unsorted[$u{$_}] = undef;
     }
   }
   for (@unsorted) {

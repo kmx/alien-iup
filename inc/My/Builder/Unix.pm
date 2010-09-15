@@ -230,7 +230,7 @@ sub build_binaries {
     }
   }
   print "Output libs: $_\n" foreach (sort keys %seen);
-  @libs = $self->sort_libs(keys %seen, @libs );
+  @libs = ( $self->sort_libs(keys %seen), @libs );
 
   $self->config_data('linker_libs', \@libs);
   $self->config_data('extra_cflags', $extra_cflags);
@@ -266,7 +266,7 @@ sub build_via_tecmake {
     print "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
     $im_si = $self->run_output_tail(undef, $make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts});
-    print "$im_si\n";
+    print "make sysinfo retval: $im_si\n";
     foreach my $t (@{$imtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
       $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      

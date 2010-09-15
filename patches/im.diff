@@ -60,6 +60,18 @@ diff -ru --strip-trailing-cr im.orig/src/im_capture.mak im/src/im_capture.mak
  
  mingw3-dll:                    
  	@echo Importing MingW stub library
+diff -ru --strip-trailing-cr im.orig/src/liblzf/lzf_c.c im/src/liblzf/lzf_c.c
+--- im.orig/src/liblzf/lzf_c.c	2009-05-01 02:26:38.000000000 +0200
++++ im/src/liblzf/lzf_c.c	2010-09-15 09:59:29.735768400 +0200
+@@ -121,7 +121,7 @@
+    * special workaround for it.
+    */
+ #if defined (WIN32) && defined (_M_X64)
+-  unsigned _int64 off; /* workaround for missing POSIX compliance */
++  unsigned long long off; /* workaround for missing POSIX compliance */
+ #else
+   unsigned long off;
+ #endif
 diff -ru --strip-trailing-cr im.orig/src/tecmake.mak im/src/tecmake.mak
 --- im.orig/src/tecmake.mak	2010-06-23 21:23:20.000000000 +0200
 +++ im/src/tecmake.mak	2010-08-23 21:45:13.813664700 +0200
