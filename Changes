@@ -1,5 +1,14 @@
 Revision history for Alien-IUP
 
+0.0.14	16/09/2010
+	- cygwin+Win64 fixes
+	- removing testing pod
+
+0.0.13	15/09/2010
+	- fixing liborder
+	- if "No GUI lib" then defaulting to X11
+	- another POD test
+
 0.0.12	25/08/2010
 	- GTK vs. GTK_BASE fix
 	- printing output of make commands only on failure
