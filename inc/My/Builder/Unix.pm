@@ -229,6 +229,9 @@ sub build_binaries {
       $success = 0;
     }
   }
+
+  push(@libs, 'stdc++'); # -lstdc++ needed by Linux (at least)
+  
   print "Output libs: $_\n" foreach (sort keys %seen);
   @libs = ( $self->sort_libs(keys %seen), @libs );
 

@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.15	17/09/2010
+	- stdc++ fix (needed by Linux)
+
 0.0.14	16/09/2010
 	- cygwin+Win64 fixes
 	- removing testing pod

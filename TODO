@@ -12,6 +12,7 @@
 - add olecontrol to windows build
 
 (low priority)
+- consistently print all messages to STDERR
 - MacOS - why autoenabling GTK?
 - detection iup+cd+im: does not work with msvc 
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
