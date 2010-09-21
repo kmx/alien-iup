@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.16	21/09/2010
+	- using pkg-config in tecmake.mak
+
 0.0.15	17/09/2010
 	- stdc++ fix (needed by Linux)
 

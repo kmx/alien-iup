@@ -272,7 +272,7 @@ sub build_via_tecmake {
     print "make sysinfo retval: $im_si\n";
     foreach my $t (@{$imtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -286,7 +286,7 @@ sub build_via_tecmake {
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
@@ -300,7 +300,7 @@ sub build_via_tecmake {
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(30000, $make, $t, @{$mopts});      
+      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
       warn "###WARN### [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
