@@ -4,8 +4,7 @@ IMPORTANT
 MEDIUM PRIORITY
 - Solaris - having GTK2 but no pkg-config
   http://www.cpantesters.org/cpan/report/5df5662e-c02b-11df-8a85-1117d48374d3
-- remove old sharedir content during install
-- more complex compile text (use some advanced iup C example, using more then just iup)
+- more complex compile test (use some advanced iup C example, using more then just iup)
 - add olecontrol to windows build
 
 LOW PRIORITY

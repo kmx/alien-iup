@@ -25,7 +25,9 @@ my $builder = $package->new(
   },
   configure_requires => {
     'perl'              => '5.008',
+    'File::ShareDir'    => 0,
     'File::Spec'        => 0,
+    'File::Path'        => 0,
     'File::Temp'        => 0,
     'File::Find'        => 0,
     'ExtUtils::CBuilder'=> 0,
@@ -42,6 +44,7 @@ my $builder = $package->new(
     'Test::More'        => 0,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,
+    'File::Path'        => 0,
     'File::Temp'        => 0,
     'File::Find'        => 0,
     'ExtUtils::CBuilder'=> 0,
