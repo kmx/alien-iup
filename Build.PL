@@ -10,7 +10,7 @@ my %platforms =(
   cygwin => 'Unix',
 );
 my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
-print "Gonna use '$package' class ...\n";
+print STDERR "Gonna use '$package' class ...\n";
 eval "require $package" or die "###ERROR### Require '$package' failed: $@\n";
 
 my $builder = $package->new(

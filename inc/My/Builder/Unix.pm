@@ -61,9 +61,9 @@ sub build_binaries {
   $extra_cflags .= " -I$dir_opengl_inc" if $dir_opengl_inc;
   $extra_lflags .= " -I$dir_opengl_lib" if $dir_opengl_lib;
     
-  print "Checking available libraries/headers...\n";
-  print "extra_cflags=$extra_cflags\n";
-  print "extra_lflags=$extra_lflags\n";
+  print STDERR "Checking available libraries/headers...\n";
+  print STDERR "extra_cflags=$extra_cflags\n";
+  print STDERR "extra_lflags=$extra_lflags\n";
   my %has;
 
   $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>/dev/null` ? 1 : 0;        #iupgtk
@@ -105,26 +105,26 @@ sub build_binaries {
   $has{ecw}     = $self->check_header('NCSECWClient.h');           #im_format_ecw = ECW (Enhanced Compression Wavelet) format
   $has{XxXxX}   = $self->check_header('XxXxX/XxXxX.h');            #non existing header
 
-  print "Has: $has{$_} - $_\n" foreach (sort keys %has);
+  print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
 
   #DEBUG ONLY - remove in the release version
-  print "Brute force lookup:\n";
+  print STDERR "Brute force lookup:\n";
   my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|gtkprintunixdialog.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
-  print "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
-  print "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
-  print "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
-  print "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
-  print "[/System ] $_\n" foreach ($self->find_file('/System', $re));
-  print "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
-  print "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
+  print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
+  print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
+  print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
+  print STDERR "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
+  print STDERR "[/System ] $_\n" foreach ($self->find_file('/System', $re));
+  print STDERR "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
+  print STDERR "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
   
-  print "Dumping some pkg-info:\n";
-  print "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
-  print "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
+  print STDERR "Dumping some pkg-info:\n";
+  print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
+  print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
   for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
-    print "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
-    print "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
-    print "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
+    print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
+    print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
+    print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
   }
   #DEBUG ONLY - end
 
@@ -205,7 +205,7 @@ sub build_binaries {
   }
 
   #do the job
-  print "Gonna make these targets: " . join(' ', @iuptargets, @cdtargets, @imtargets) . "\n";
+  print STDERR "Gonna make these targets: " . join(' ', @iuptargets, @cdtargets, @imtargets) . "\n";
   unless ($self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets)) {
     warn "###MAKE FAILED###";
     $success = 0;
@@ -215,7 +215,7 @@ sub build_binaries {
   my %seen;
   my @gl_l = glob("$build_out/lib/*");
   my @gl_i = glob("$build_out/include/*");
-  print "Output counts: lib=" . scalar(@gl_l) . " include=" . scalar(@gl_i) . "\n";
+  print STDERR "Output counts: lib=" . scalar(@gl_l) . " include=" . scalar(@gl_i) . "\n";
   if ((scalar(@gl_l) < 3) || (scalar(@gl_i) < 3)) {
     warn "###WARN### $build_out/lib/ or $build_out/include/ not complete";
     $success = 0;
@@ -232,7 +232,7 @@ sub build_binaries {
 
   push(@libs, 'stdc++'); # -lstdc++ needed by Linux (at least)
   
-  print "Output libs: $_\n" foreach (sort keys %seen);
+  print STDERR "Output libs: $_\n" foreach (sort keys %seen);
   @libs = ( $self->sort_libs(keys %seen), @libs );
 
   $self->config_data('linker_libs', \@libs);
@@ -240,7 +240,7 @@ sub build_binaries {
   $self->config_data('extra_lflags', $extra_lflags);
   
   die "###BUILD ABORTED###" unless $success;
-  print "Build finished sucessfully!\n";
+  print STDERR "Build finished sucessfully!\n";
     
   #DEBUG: fail intentionally here if you want to see build details from cpan testers
   #die "Intentionally failing";
@@ -266,10 +266,10 @@ sub build_via_tecmake {
   my %done;
 
   if(-d "$srcdir/im/src") {
-    print "Gonna build 'im'\n";
+    print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
     $im_si = $self->run_output_tail(undef, $make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts});
-    print "make sysinfo retval: $im_si\n";
+    print STDERR "make sysinfo retval: $im_si\n";
     foreach my $t (@{$imtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
       $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
@@ -282,7 +282,7 @@ sub build_via_tecmake {
   }
 
   if (-d "$srcdir/cd/src") {
-    print "Gonna build 'cd'\n";
+    print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
@@ -296,7 +296,7 @@ sub build_via_tecmake {
   }
 
   if (-d "$srcdir/iup") {
-    print "Gonna build 'iup'\n";
+    print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
       #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
@@ -314,7 +314,7 @@ sub build_via_tecmake {
     $success = 0;
   }
 
-  print "Done: $done{$_} - $_\n" foreach (sort keys %done);
+  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
   $self->config_data('debug_done', \%done);
   $self->config_data('debug_si', $im_si);
 
@@ -323,22 +323,31 @@ sub build_via_tecmake {
 
 sub get_make {
   my ($self) = @_;
+      
   my $devnull = File::Spec->devnull();
   my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
   my %tested;
-  print "Gonna detect GNU make:\n";
+  print STDERR "Gonna detect GNU make:\n";
+  
+  if ($^O eq 'cygwin') {
+    print STDERR "- on cygwin always 'make'\n";
+    return 'make'
+  }
+  
   foreach my $name ( @try ) {
     next unless $name;
     next if $tested{$name};
     $tested{$name} = 1;
-    print "- testing: '$name'\n";
+    print STDERR "- testing: '$name'\n";
     my $ver = `$name --version 2> $devnull`;
     if ($ver =~ /GNU Make/i) {
-      print "- found: '$name'\n";
+      print STDERR "- found: '$name'\n";
       return $name
     }
   }  
-  print "- fallback to: 'make'\n";
+  
+  warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
+  print STDERR "- fallback to: 'make'\n";
   return 'make';
 }
 

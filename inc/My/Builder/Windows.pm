@@ -46,21 +46,21 @@ sub build_binaries {
   # xxx TODO maybe detect real existing libs after make
   
   if(-d "$srcdir/im/src") {
-    print "Gonna build 'im'\n";
+    print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
     $self->run_output_tail(10000, @cmd_im) or die "###ERROR### [$?] during make(im)";
     chdir $self->base_dir();
   }
   
   if (-d "$srcdir/cd/src") {
-    print "Gonna build 'cd'\n";
+    print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     $self->run_output_tail(10000, @cmd_cd) or die "###ERROR### [$?] during make(cd)";
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/iup") {
-    print "Gonna build 'iup'\n";
+    print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     $self->run_output_tail(10000, @cmd_iup) or die "###ERROR### [$?] during make(iup)";
     chdir $self->base_dir();
@@ -69,32 +69,32 @@ sub build_binaries {
   #XXX DEBUG ONLY
   #my @l = bsd_glob("$prefixdir/lib/*");
   #foreach (@l) {
-  #  print "DEBUG_XXX_LIB: $_\n";
+  #  print STDERR "DEBUG_XXX_LIB: $_\n";
   #}
   
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
   $self->config_data('linker_libs', [ $self->sort_libs(@iup_libs), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
 
-  print "Build finished sucessfully!\n";
+  print STDERR "Build finished sucessfully!\n";
   return 1;
 }
 
 sub get_make {
   my ($self) = @_;
   my @try = ( 'dmake', 'mingw32-make', 'gmake', 'make', $Config{make}, $Config{gmake} );
-  print "Gonna detect make:\n";
+  print STDERR "Gonna detect make:\n";
   foreach my $name ( @try ) {
     next unless $name;
-    print "- testing: '$name'\n";
+    print STDERR "- testing: '$name'\n";
     if (system("$name --help 2>nul 1>nul") != 256) {
       # I am not sure if this is the right way to detect non existing executable
       # but it seems to work on MS Windows (more or less)
-      print "- found: '$name'\n";
+      print STDERR "- found: '$name'\n";
       return $name;
     };
   }
-  print "- fallback to: 'dmake'\n";
+  print STDERR "- fallback to: 'dmake'\n";
   return 'dmake';
 }
 

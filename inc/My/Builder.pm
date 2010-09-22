@@ -103,15 +103,15 @@ sub fetch_file {
   my $ff = File::Fetch->new(uri => $url);
   my $fn = catfile($download, $ff->file);
   if (-e $fn) {
-    print "Checking checksum for already existing '$fn'...\n";
+    print STDERR "Checking checksum for already existing '$fn'...\n";
     return 1 if $self->check_sha1sum($fn, $sha1sum);
     unlink $fn; #exists but wrong checksum
   }
-  print "Fetching '$url'...\n";
+  print STDERR "Fetching '$url'...\n";
   my $fullpath = $ff->fetch(to => $download);
   die "###ERROR### Unable to fetch '$url'" unless $fullpath;
   if (-e $fn) {
-    print "Checking checksum for '$fn'...\n";
+    print STDERR "Checking checksum for '$fn'...\n";
     return 1 if $self->check_sha1sum($fn, $sha1sum);
     die "###ERROR### Checksum failed '$fn'";
   }
@@ -149,37 +149,37 @@ sub check_installed_lib {
   push(@candidates, { L => '/usr/local/lib', I => '/usr/local/include' }) if -d '/usr/local/lib' && -d '/usr/local/include';
   push(@candidates, { L => '/usr/lib', I => '/usr/include' }) if -d '/usr/lib' && -d '/usr/include';
 
-  print "Gonna detect iup+im+cd already installed on your system:\n";
+  print STDERR "Gonna detect iup+im+cd already installed on your system:\n";
   foreach my $i (@candidates) {
     my $lflags = $i->{L} ? '-L'.$self->quote_literal($i->{L}) : '';
     my $cflags = $i->{I} ? '-I'.$self->quote_literal($i->{I}) : '';
     #xxx does not work with MSVC compiler
     #xxx $lflags = ExtUtils::Liblist->ext($lflags) if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/); # MSVC compiler hack
-    print "- testing: $cflags $lflags\n";
+    print STDERR "- testing: $cflags $lflags\n";
     my $rv1 = $self->check_header( [ 'iup.h', 'im.h', 'cd.h' ], $cflags);
     #xxx maybe we need to link with more libs
     if ($self->check_lib( [ 'iup', 'im', 'cd' ], $cflags, $lflags)){
-      print "- iup+im+cd FOUND!\n";
+      print STDERR "- iup+im+cd FOUND!\n";
       $self->notes('already_installed_lib', { lflags => "$lflags -liup -lim -lcd", cflags => $cflags } );
       return 1;
     }
     elsif ($self->check_lib( [ 'iupwin', 'im', 'cdwin' ], $cflags, $lflags)) {
-      print "- iupwin+im+cdwin FOUND!\n";
+      print STDERR "- iupwin+im+cdwin FOUND!\n";
       $self->notes('already_installed_lib', { lflags => "$lflags -liupwin -lim -lcdwin", cflags => $cflags } );
       return 1;
     }
     elsif ($self->check_lib( [ 'iupgtk', 'im', 'cdgdk' ], $cflags, $lflags)) {
-      print "- iupgtk+im+cdgdk FOUND!\n";
+      print STDERR "- iupgtk+im+cdgdk FOUND!\n";
       $self->notes('already_installed_lib', { lflags => "$lflags -liupgtk -lim -lcdgdk", cflags => $cflags } );
       return 1;
     }
     elsif ($self->check_lib( [ 'iupmot', 'im', 'cdx11' ], $cflags, $lflags)) {
-      print "- iupmot+im+cdx11 FOUND!\n";
+      print STDERR "- iupmot+im+cdx11 FOUND!\n";
       $self->notes('already_installed_lib', { lflags => "$lflags -liupmot -lim -lcdx11", cflags => $cflags } );
       return 1;
     }
   }
-  print "- iup+im+cd not found (we have to build it from sources)!\n";
+  print STDERR "- iup+im+cd not found (we have to build it from sources)!\n";
   return 0;
 }
 
@@ -260,7 +260,7 @@ sub apply_patch {
     $k =~ s|\\|/|g;
     $k =~ s|^[^/]*/(.*)$|$1|;
     $k = catfile($dir_to_be_patched, $k);
-    print "Gonna patch file '$k'\n";
+    print STDERR "Gonna patch file '$k'\n";
 
     open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
     $src  = <SRC>;

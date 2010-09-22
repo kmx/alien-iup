@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.17	22/09/2010
+	- fix for cygwin CPAN Tester failure
+
 0.0.16	21/09/2010
 	- using pkg-config in tecmake.mak
 
