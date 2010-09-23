@@ -1,8 +1,5 @@
 IMPORTANT
-- fix freetype related failure (linux+gtk)
-  perhaps collision with already installed freetype (macro FT_ADVANCES_H)
-  maybe broken by the last GTK2_LIBS & co. change
-  http://www.cpantesters.org/cpan/report/6875b8aa-c68a-11df-830f-381963b334dc
+- none
 
 MEDIUM PRIORITY
 - Solaris - having GTK2 but no pkg-config

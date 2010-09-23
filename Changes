@@ -1,8 +1,8 @@
 Revision history for Alien-IUP
 
-0.0.18	NEXT
+0.0.18	24/09/2010
 	- using File::Path legacy functions
-	- fixed gtk2 - freetype2 collision
+	- fixed gtk2 - freetype2 collision (tecmake.mak)
 
 0.0.17	22/09/2010
 	- fix for cygwin CPAN Tester failure
