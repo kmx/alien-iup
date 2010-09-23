@@ -19,18 +19,17 @@ use ExtUtils::Liblist;
 use Text::Patch;
 use IPC::Run3;
 
-sub ACTION_install
-{
- my $self = shift;
- my $sharedir = eval {File::ShareDir::dist_dir('Alien-IUP')} || '';
+sub ACTION_install {
+  my $self = shift;
+  my $sharedir = eval {File::ShareDir::dist_dir('Alien-IUP')} || '';
  
- if ( -d $sharedir ) {
-   print STDERR "Removing the old '$sharedir'\n";
-   remove_tree($sharedir);
-   make_path($sharedir);
- }
- 
- return $self->SUPER::ACTION_install(@_);
+  if ( -d $sharedir ) {
+    print STDERR "Removing the old '$sharedir'\n";
+    remove_tree($sharedir);
+    make_path($sharedir);
+  }
+
+  return $self->SUPER::ACTION_install(@_);
 }
 
 sub ACTION_code {
