@@ -1,5 +1,9 @@
 Revision history for Alien-IUP
 
+0.0.18	NEXT
+	- using File::Path legacy functions
+	- fixed gtk2 - freetype2 collision
+
 0.0.17	22/09/2010
 	- fix for cygwin CPAN Tester failure
 	- cleaning sharedir during install

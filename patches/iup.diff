@@ -127,7 +127,7 @@ diff -ru --strip-trailing-cr iup.orig/srcpplot/config.mak iup/srcpplot/config.ma
  
 diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
 --- iup.orig/tecmake.mak	2010-06-26 19:31:33.000000000 +0200
-+++ iup/tecmake.mak	2010-09-21 22:03:07.496062900 +0200
++++ iup/tecmake.mak	2010-09-24 00:37:53.310977300 +0200
 @@ -9,7 +9,7 @@
  VERSION = 4.1
  
@@ -235,7 +235,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  
  #---------------------------------#
-@@ -178,32 +225,100 @@
+@@ -178,32 +225,102 @@
  # Compilation Flags
  STDFLAGS := -Wall
  STDDEFS  := -DTEC_UNAME=$(TEC_UNAME) -DTEC_SYSNAME=$(TEC_SYSNAME) -D$(TEC_SYSNAME)=$(TEC_SYSRELEASE) -D$(TEC_BYTEORDER) -D$(TEC_WORDSIZE) -DFUNCPROTO=15
@@ -274,7 +274,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
    GTK_DEFAULT :=
 -endif  
 +endif
-+
+ 
 +ifndef USE_X11
 +  ifndef USE_MOTIF
 +    ifndef USE_WIN
@@ -291,7 +291,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
 +    endif
 +  endif
 +endif
- 
++
 +ifdef USE_GTK
 +  override USE_GDK := Yes
 +  override USE_MOTIF :=
@@ -337,13 +337,15 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
 +  override CDSUFX := win
 +endif
 +
++ifdef USE_GTK
 +# get compile/link flags via pkg-config
-+GTK2_CFLAGS:=$(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
-+GTK2_LIBS:=$(shell pkg-config --libs gtk+-2.0 gdk-2.0)
++  GTK2_CFLAGS:=$(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
++  GTK2_LIBS:=$(shell pkg-config --libs gtk+-2.0 gdk-2.0)
++endif
  
  #---------------------------------#
  # Tools
-@@ -214,7 +329,7 @@
+@@ -214,7 +331,7 @@
  RANLIB   := $(TEC_TOOLCHAIN)ranlib
  AR       := $(TEC_TOOLCHAIN)ar
  DEBUGGER := $(TEC_TOOLCHAIN)gdb
@@ -352,7 +354,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  # Remote build script
  REMOTE  = $(TECMAKE_HOME)/remote
-@@ -238,7 +353,7 @@
+@@ -238,7 +355,7 @@
  
  
  #---------------------------------#
@@ -361,7 +363,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef LIBNAME
    TARGETNAME = $(LIBNAME)
-@@ -249,7 +364,7 @@
+@@ -249,7 +366,7 @@
  endif
  
  ifndef TARGETNAME
@@ -370,7 +372,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  PROJNAME ?= $(TARGETNAME)
-@@ -284,7 +399,7 @@
+@@ -284,7 +401,7 @@
  ifdef BUILD_64
    ifneq ($(findstring SunOS, $(TEC_UNAME)), )
      USE_CC = Yes
@@ -379,7 +381,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
    endif
    ifneq ($(findstring AIX, $(TEC_UNAME)), )
      USE_CC = Yes
-@@ -295,11 +410,11 @@
+@@ -295,11 +412,11 @@
      BUILD_64_DIR = Yes
    endif
  endif
@@ -393,7 +395,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
    UNAMES := $(UNAMES_CC)
    ifdef USE_CC_DIR
      TEC_UNAME := $(TEC_UNAME)cc
-@@ -386,22 +501,22 @@
+@@ -386,22 +503,22 @@
  
  # Definitions for X11
  X11_LIBS := Xmu Xt Xext X11
@@ -422,7 +424,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  # Definitions for GTK
  ifdef GTK_BASE
-@@ -431,7 +546,7 @@
+@@ -431,7 +548,7 @@
      X11_LIB := /usr/X11R6/lib
    endif
    X11_INC := /usr/X11R6/include
@@ -431,7 +433,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  ifneq ($(findstring IRIX, $(TEC_UNAME)), )
-@@ -440,8 +555,8 @@
+@@ -440,8 +557,8 @@
    STDLDFLAGS := -elf -shared -rdata_shared -soname lib$(TARGETNAME).so
    RANLIB := /bin/true
    X11_LIBS := Xmu Xt X11
@@ -442,7 +444,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
        STDFLAGS += -64 -KPIC
        STDLDFLAGS += -64
        LINKER += -64
-@@ -455,11 +570,11 @@
+@@ -455,11 +572,11 @@
    MOTIF_INC = /usr/Motif-2.1/include
  endif
  
@@ -456,7 +458,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
        STDFLAGS += -q64 # to compilers C and C++
        STDLFLAGS := -X64 $(STDLFLAGS) # to librarian
        STDLDFLAGS += -64
-@@ -493,10 +608,10 @@
+@@ -493,10 +610,10 @@
    GLUT_LIB := /usr/local/glut-3.7/lib/glut
    GLUT_INC := /usr/local/glut-3.7/include
    ifdef BUILD_64
@@ -469,7 +471,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
        LINKER += -xarch=v9
      endif
    endif
-@@ -529,6 +644,31 @@
+@@ -529,6 +646,31 @@
    BSD = Yes
    X11_LIB := /usr/X11R6/lib
    X11_INC := /usr/X11R6/include
@@ -501,7 +503,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  #---------------------------------#
-@@ -602,23 +742,23 @@
+@@ -602,23 +744,23 @@
  
  ifdef USE_IUP3
    override USE_IUP = Yes
@@ -530,7 +532,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef USE_GLUT
    override USE_OPENGL = Yes
-@@ -645,7 +785,7 @@
+@@ -645,7 +787,7 @@
      LIBS += iupcontrols
    endif
  endif
@@ -539,7 +541,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  ifdef USE_IMLUA
    override USE_IM = Yes
    ifdef USE_STATIC
-@@ -706,39 +846,24 @@
+@@ -706,39 +848,24 @@
        endif
      endif
    endif
@@ -585,7 +587,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
      endif
      ifdef USE_OPENGL
        SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiupgl.a
-@@ -746,7 +871,7 @@
+@@ -746,7 +873,7 @@
      SLIB += $(IUP)/lib/$(TEC_UNAME_LIB_DIR)/libiup$(IUPSUFX).a
    else
      ifdef USE_CD
@@ -594,7 +596,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
      endif
      ifdef USE_OPENGL
        LIBS += iupgl
-@@ -758,18 +883,8 @@
+@@ -758,18 +885,8 @@
  endif
  
  ifdef USE_CD
@@ -615,7 +617,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
    endif
    ifdef USE_STATIC
      ifdef USE_XRENDER
-@@ -804,7 +919,15 @@
+@@ -804,7 +921,15 @@
      LDIR += $(CD)/lib/$(TEC_UNAME_LIB_DIR)
      ifndef USE_GTK
        # Freetype is already included in GTK
@@ -632,7 +634,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
      endif
    endif
    INCLUDES += $(CD)/include
-@@ -824,7 +947,7 @@
+@@ -824,7 +949,7 @@
    LIBS += glut
    LDIR += $(GLUT_LIB)
    STDINCS += $(GLUT_INC)
@@ -641,7 +643,7 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  ifdef USE_OPENGL
    override USE_X11 = Yes
-@@ -836,22 +959,25 @@
+@@ -836,22 +961,23 @@
    LIBS += $(OPENGL_LIBS)
    LDIR += $(OPENGL_LIB)
    STDINCS += $(OPENGL_INC)
@@ -663,10 +665,8 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  endif
  
  ifdef USE_GTK
-+ ifneq ($(GTK2_CFLAGS), )  
-+    LFLAGS += $(GTK2_LIBS)
-+    STDFLAGS += $(GTK2_CFLAGS)
-+ else
++ ifeq ($(GTK2_CFLAGS), )
++  # we do not have pkg-info data 
    CHECK_GTK = Yes
    ifneq ($(findstring MacOS, $(TEC_UNAME)), )
  # Option 1 - Fink GTK port
@@ -732,6 +732,21 @@ diff -ru --strip-trailing-cr iup.orig/tecmake.mak iup/tecmake.mak
  
  #---------------------------------#
  #  Building compilation flags that are sets
+@@ -952,11 +1084,11 @@
+ # Definitions of private variables
+ 
+ # Library flags for application and dynamic library linker
+-LFLAGS += $(LDIR) $(LIBS)
++LFLAGS += $(LDIR) $(LIBS) $(GTK2_LFLAGS)
+ # C compiler flags
+-CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS) $(GTK2_CFLAGS)
+ # C++ compiler flags
+-CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS) $(GTK2_CFLAGS)
+ 
+ # Sources with relative path
+ SOURCES := $(addprefix $(SRCDIR)/, $(SRC))
 @@ -969,10 +1101,10 @@
  ifeq ($(MAKETYPE), APP)
    TARGET := $(TARGETDIR)/$(TARGETAPPNAME)
