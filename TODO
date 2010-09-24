@@ -2,6 +2,7 @@ IMPORTANT
 - none
 
 MEDIUM PRIORITY
+- if more Build options (GTK2, X11, ...) ask user what to build
 - Solaris - having GTK2 but no pkg-config
   http://www.cpantesters.org/cpan/report/5df5662e-c02b-11df-8a85-1117d48374d3
 - more complex compile test (use some advanced iup C example, using more then just iup)
