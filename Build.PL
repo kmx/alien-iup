@@ -59,6 +59,7 @@ my $builder = $package->new(
   share_dir          => 'sharedir',
   add_to_cleanup     => [ 'Alien-IUP-*', 'build_done', 'build_src' ],
   create_readme      => 1,
+  create_makefile_pl => 'small', # creating Makefile.PL to satisfy old CPAN clients
   meta_merge => {
     resources  => {
       bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP',

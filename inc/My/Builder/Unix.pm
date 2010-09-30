@@ -346,9 +346,12 @@ sub get_make {
     }
   }  
   
-  warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
-  print STDERR "- fallback to: 'make'\n";
-  return 'make';
+  warn "###ERROR### it seems we do not have GNU make, gonna exit!";
+  exit 0;
+  #### it does not make a sense to continue
+  #warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
+  #print STDERR "- fallback to: 'make'\n";
+  #return 'make';
 }
 
 sub quote_literal {

@@ -1,5 +1,16 @@
 Revision history for Alien-IUP
 
+0.0.19_2 30/09/2010
+	- DragonFly patch for 'sizeof(FILE)'
+	- exit if GNU make not found
+
+0.0.19_1 29/09/2010
+	- DragonFly patch for libjasper/jasper/jas_types.h
+	- create_makefile_pl => 'small' (creating Makefile.PL to satisfy old CPAN clients)
+
+0.0.19	28/09/2010
+	- iup patch - fixing newlines in the main Makefile (troubles on solaris)
+
 0.0.18	24/09/2010
 	- using File::Path legacy functions
 	- fixed gtk2 - freetype2 collision (tecmake.mak)

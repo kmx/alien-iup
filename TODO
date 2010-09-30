@@ -1,16 +1,19 @@
 IMPORTANT
-- none
-
+- Solaris - has GTK2 but pkg-config does not work
+  http://www.cpantesters.org/cpan/report/ae333f6e-c7b8-11df-9f3b-d01fd48374d3
+- OpenBSD - im : process/im_distance.cpp compile error
+  g++ -c ... -o ../obj/im_process/OpenBSD47/im_distance.o process/im_distance.cpp
+  virtual memory exhausted: Cannot allocate memory
+  http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
+  
 MEDIUM PRIORITY
 - if more Build options (GTK2, X11, ...) ask user what to build
-- Solaris - having GTK2 but no pkg-config
-  http://www.cpantesters.org/cpan/report/5df5662e-c02b-11df-8a85-1117d48374d3
 - more complex compile test (use some advanced iup C example, using more then just iup)
 - add olecontrol to windows build
+- enhance interface: Alien::IUP->has('iupcd')
 
 LOW PRIORITY
-- die if "gnumake not found"
-- die if "no gui detected" (now defaulting to X11)
+- maybe die if "no gui detected" (now defaulting to X11)
 - MacOS - why autoenabling GTK?
 - detection iup+cd+im: does not work with msvc 
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
@@ -18,8 +21,9 @@ LOW PRIORITY
 - tecmake: warning
   # tecmake.mak:1256: warning: overriding commands for target `../bin/Linux26g4'
   # tecmake.mak:1216: warning: ignoring old commands for target `../bin/Linux26g4'
-- tecmake: pkg-config only when USE_GTK
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
 - using -fpic on FreeBSD 64bit
+- Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
+- Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
