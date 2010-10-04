@@ -146,6 +146,10 @@ sub build_binaries {
 
   #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
   my @imtargets = qw[im im_process im_jp2 im_fftw];
+  if ($^O eq 'openbsd') {
+    warn "###WARN### Skipping im_process on OpenBSD"; # xxx TODO xxx
+    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+  }
 
   #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
