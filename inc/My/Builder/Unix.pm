@@ -27,11 +27,19 @@ sub build_binaries {
   my $dir_opengl_inc = ($d && -d $d && $d ne '/usr/include') ? $d : '';
   $d = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
   my $dir_gtk = ($d && -d $d) ? $d : '';
+  
+  my $dir_mot_inc = ''; # Xm/Xm.h (do not know where to get a sane default)
+  $dir_mot_inc  ||= '/usr/local/include'         if (-f '/usr/local/include/Xm/Xm.h');
 
+  my $dir_mot_lib = ''; # -lXm (do not know where to get a sane default)
+  $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.a');
+  $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.so');
+  $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.la');
+ 
   #platform specific hacks
   if ($^O eq 'solaris') {
-    $dir_x11_inc    ||= '/usr/dt/include'            if (-f '/usr/dt/include/Xm/Xm.h');
-    $dir_x11_lib    ||= '/usr/dt/lib'                if (-f '/usr/dt/lib/libXm.so');
+    $dir_mot_inc    ||= '/usr/dt/include'            if (-f '/usr/dt/include/Xm/Xm.h');
+    $dir_mot_lib    ||= '/usr/dt/lib'                if (-f '/usr/dt/lib/libXm.so');
     $dir_opengl_inc ||= '/usr/X11/include'           if (-f '/usr/X11/include/GL/gl.h');
     $dir_opengl_lib ||= '/usr/X11/lib/GL'            if (-f '/usr/X11/lib/GL/libGL.so');
     $dir_x11_inc    ||= '/usr/openwin/include'       if (-f '/usr/openwin/include/X11/Xlib.h');
@@ -84,12 +92,12 @@ sub build_binaries {
 
   $has{l_Xp}    = $self->check_lib( 'Xp',   $extra_cflags, $extra_lflags );
   $has{l_Xt}    = $self->check_lib( 'Xt',   $extra_cflags, $extra_lflags );
-  $has{l_Xm}    = $self->check_lib( 'Xm',   $extra_cflags, $extra_lflags );
+  $has{l_Xm}    = $self->check_lib( 'Xm',   $extra_cflags, $extra_lflags . ' -lX11 -lXt' );
   $has{l_Xmu}   = $self->check_lib( 'Xmu',  $extra_cflags, $extra_lflags );
   $has{l_Xext}  = $self->check_lib( 'Xext', $extra_cflags, $extra_lflags );
   $has{l_X11}   = $self->check_lib( 'X11',  $extra_cflags, $extra_lflags );
   $has{l_GL}    = $self->check_lib( 'GL',   $extra_cflags, $extra_lflags );
-  $has{l_GLU}   = $self->check_lib( 'GLU',  $extra_cflags, $extra_lflags );
+  $has{l_GLU}   = $self->check_lib( 'GLU',  $extra_cflags, $extra_lflags . ' -lGL -lm' );
   $has{l_glut}  = $self->check_lib( 'glut', $extra_cflags, $extra_lflags );
   $has{l_gdi32} = $self->check_lib( 'gdi32' );  # cygwin only
   $has{l_glu32} = $self->check_lib( 'glu32' );  # cygwin only
@@ -199,7 +207,8 @@ sub build_binaries {
     push(@makeopts, "OPENGL_LIBS=" . join(' ', @opengl_libs));
     push(@makeopts, "OPENGL_LIB=$dir_opengl_lib") if $dir_opengl_lib;
     push(@makeopts, "OPENGL_INC=$dir_opengl_inc") if $dir_opengl_inc;
-
+    push(@makeopts, "MOTIF_INC=$dir_mot_inc") if $dir_mot_inc;
+    push(@makeopts, "MOTIF_LIB=$dir_mot_inc") if $dir_mot_lib;
     push(@libs, @x11_libs, @opengl_libs);
     #Note: $extra_?flags set at the beginning of this sub
   }

@@ -5,9 +5,18 @@ IMPORTANT
   g++ -c ... -o ../obj/im_process/OpenBSD47/im_distance.o process/im_distance.cpp
   virtual memory exhausted: Cannot allocate memory
   http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-  
-MEDIUM PRIORITY
+- OpenBSD + lesstif
+  > /usr/local/include/Xm ->link-> /usr/local/LessTif/Motif1.2/include/Xm
+  > building iup fails: -I/usr/local/include missing
+  > maybe hard check for: -d /usr/local/include/Xm
+  > /usr/local/lib/libXm.[a|la|so...] exists but test for l_Xm with -L/usr/local/lib failspkg%
+  we need to:
+  1/ set MOTIF_LIB + MOTIF_INC
+  2/ fix l_Xm detection
 - if more Build options (GTK2, X11, ...) ask user what to build
+- ask if user wants to see all compile message
+
+MEDIUM PRIORITY
 - more complex compile test (use some advanced iup C example, using more then just iup)
 - add olecontrol to windows build
 - enhance interface: Alien::IUP->has('iupcd')
