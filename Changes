@@ -1,5 +1,13 @@
 Revision history for Alien-IUP
 
+0.0.20	05/10/2010
+	- more questions/prompts during build
+	- cleaning up + cosmetics
+
+0.0.19_3 04/10/2010
+	- OpenBSD - not building im_process (g++ internal error)
+	- OpenBSD - lesstif related fixes
+
 0.0.19_2 30/09/2010
 	- DragonFly patch for 'sizeof(FILE)'
 	- exit if GNU make not found

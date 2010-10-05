@@ -22,11 +22,11 @@ use IPC::Run3;
 sub ACTION_install {
   my $self = shift;
   my $sharedir = eval {File::ShareDir::dist_dir('Alien-IUP')} || '';
- 
+
   if ( -d $sharedir ) {
     print STDERR "Removing the old '$sharedir'\n";
     File::Path::rmtree($sharedir);
-    File::Path::mkpath($sharedir);    
+    File::Path::mkpath($sharedir);
   }
 
   return $self->SUPER::ACTION_install(@_);
@@ -59,7 +59,7 @@ sub ACTION_code {
 
       # prepare sources
       my $unpack;
-      $unpack = (-d "$build_src/iup") ? $self->prompt("Dir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/iup") ? $self->prompt("\nDir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
         if ($self->notes('iup_patches')) {
@@ -67,7 +67,7 @@ sub ACTION_code {
         }
       }
 
-      $unpack = (-d "$build_src/im") ? $self->prompt("Dir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/im") ? $self->prompt("\nDir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         $self->prepare_sources($self->notes('im_url'), $self->notes('im_sha1'), $download, $build_src);
         if ($self->notes('im_patches')) {
@@ -75,13 +75,16 @@ sub ACTION_code {
         }
       }
 
-      $unpack = (-d "$build_src/cd") ? $self->prompt("Dir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/cd") ? $self->prompt("\nDir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
         if ($self->notes('cd_patches')) {
           $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
         }
       }
+
+      my $m = $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n');
+      $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
 
       # go for build
       $self->build_binaries($build_out, $build_src);
@@ -164,7 +167,7 @@ sub check_installed_lib {
   push(@candidates, { L => '/usr/local/lib', I => '/usr/local/include' }) if -d '/usr/local/lib' && -d '/usr/local/include';
   push(@candidates, { L => '/usr/lib', I => '/usr/include' }) if -d '/usr/lib' && -d '/usr/include';
 
-  print STDERR "Gonna detect iup+im+cd already installed on your system:\n";
+  print STDERR "Checking iup+im+cd already installed on your system ...\n";
   foreach my $i (@candidates) {
     my $lflags = $i->{L} ? '-L'.$self->quote_literal($i->{L}) : '';
     my $cflags = $i->{I} ? '-I'.$self->quote_literal($i->{I}) : '';
@@ -269,13 +272,14 @@ sub apply_patch {
   $diff =~ s/\ndiff /\nSpLiTmArKeRdiff /g;
   my @patches = split('SpLiTmArKeR', $diff);
 
+  print STDERR "Applying patch file: '$patch_file'\n";
   foreach my $p (@patches) {
     my ($k) = map{$_ =~ /\n---\s*([\S]+)/} $p;
     # doing the same like -p1 for 'patch'
     $k =~ s|\\|/|g;
     $k =~ s|^[^/]*/(.*)$|$1|;
     $k = catfile($dir_to_be_patched, $k);
-    print STDERR "Gonna patch file '$k'\n";
+    print STDERR "Gonna patch file '$k'\n" if $self->notes('build_debug_info');
 
     open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
     $src  = <SRC>;
@@ -319,7 +323,7 @@ sub run_output_on_error {
   my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
   my $success = ($rv == 1 && $? == 0) ? 1 : 0;
   if ($success) {
-    print STDERR "Finished successfully (output suppressed)\n";    
+    print STDERR "Finished successfully (output suppressed)\n";
   }
   else {
     $output = substr $output, -$limit if defined $limit; # we want just last N chars
@@ -330,6 +334,15 @@ sub run_output_on_error {
       print STDERR "OUTPUT: (only last $limit chars)\n", $output, "\n";
     }
   }
+  return $success;
+}
+
+sub run_output_std {
+  my ($self, @cmd) = @_;
+  print STDERR "CMD: " . join(' ',@cmd) . "\n";
+  my $rv = run3(\@cmd, undef, undef, undef, { return_if_system_error => 1 } );
+  my $success = ($rv == 1 && $? == 0) ? 1 : 0;
+  print STDERR "Finished successfully\n" if ($success);
   return $success;
 }
 
@@ -353,7 +366,7 @@ sub find_file {
   my ($self, $dir, $re) = @_;
   my @files;
   $re ||= qr/.*/;
-  {    
+  {
     no warnings 'File::Find'; #hide warning "Can't opendir(...): Permission denied
     find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
   };
@@ -361,11 +374,11 @@ sub find_file {
 }
 
 sub sort_libs {
-  my ($self, @unsorted) = @_;  
+  my ($self, @unsorted) = @_;
   my @wanted_order = qw/iupwin iupmot iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib cdwin cdx11 cdgdk cdgl cdpdf freetype6 freetype freetype-6 ftgl pdflib im im_fftw im_jp2 im_process/;
   my @sorted;
-  my %u;    
- 
+  my %u;
+
   for (my $i=0; $i<scalar(@unsorted); $i++) {
     $u{$unsorted[$i]} = $i;
   }

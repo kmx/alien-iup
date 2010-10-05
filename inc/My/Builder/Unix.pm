@@ -11,10 +11,10 @@ use File::Copy;
 use Config;
 
 sub build_binaries {
-  my ($self, $build_out, $srcdir) = @_; 
-  my $success = 1;    
-  my ($extra_cflags, $extra_lflags) = ('-I/usr/local/include', '-L/usr/local/lib');  
-  
+  my ($self, $build_out, $srcdir) = @_;
+  my $success = 1;
+  my ($extra_cflags, $extra_lflags) = ('-I/usr/local/include', '-L/usr/local/lib');
+
   #try to detect some inc/lib directories
   my $d;
   $d = $self->run_stdout2str(qw[pkg-config --variable=libdir x11]);
@@ -27,7 +27,7 @@ sub build_binaries {
   my $dir_opengl_inc = ($d && -d $d && $d ne '/usr/include') ? $d : '';
   $d = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
   my $dir_gtk = ($d && -d $d) ? $d : '';
-  
+
   my $dir_mot_inc = ''; # Xm/Xm.h (do not know where to get a sane default)
   $dir_mot_inc  ||= '/usr/local/include'         if (-f '/usr/local/include/Xm/Xm.h');
 
@@ -35,7 +35,7 @@ sub build_binaries {
   $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.a');
   $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.so');
   $dir_mot_lib  ||= '/usr/local/lib'             if (-f '/usr/local/lib/libXm.la');
- 
+
   #platform specific hacks
   if ($^O eq 'solaris') {
     $dir_mot_inc    ||= '/usr/dt/include'            if (-f '/usr/dt/include/Xm/Xm.h');
@@ -47,7 +47,7 @@ sub build_binaries {
     $dir_x11_inc    ||= '/usr/openwin/share/include' if (-f '/usr/openwin/share/include/X11/Xlib.h');
     $dir_x11_lib    ||= '/usr/openwin/share/lib'     if (-f '/usr/openwin/share/lib/libX11.so');
   }
-  
+
   if ($^O eq 'darwin') {
     $extra_cflags .= ' -I/opt/local/include';
     $extra_lflags .= ' -L/opt/local/lib';
@@ -63,15 +63,17 @@ sub build_binaries {
   $dir_x11_lib    ||= '/usr/X11R7/lib'     if (-f '/usr/X11R7/lib/libX11.so');
   $dir_opengl_inc ||= '/usr/X11R7/include' if (-f '/usr/X11R7/include/GL/gl.h');
   $dir_opengl_lib ||= '/usr/X11R7/lib'     if (-f '/usr/X11R7/lib/libGL.so');
-    
+
   $extra_cflags .= " -I$dir_x11_inc"    if $dir_x11_inc;
   $extra_lflags .= " -L$dir_x11_lib"    if $dir_x11_lib;
   $extra_cflags .= " -I$dir_opengl_inc" if $dir_opengl_inc;
   $extra_lflags .= " -I$dir_opengl_lib" if $dir_opengl_lib;
-    
+
   print STDERR "Checking available libraries/headers...\n";
-  print STDERR "extra_cflags=$extra_cflags\n";
-  print STDERR "extra_lflags=$extra_lflags\n";
+  if ($self->notes('build_debug_info')) {
+    print STDERR "extra_cflags=$extra_cflags\n";
+    print STDERR "extra_lflags=$extra_lflags\n";
+  }
   my %has;
 
   $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>/dev/null` ? 1 : 0;        #iupgtk
@@ -80,7 +82,7 @@ sub build_binaries {
   $has{gdkx11}  = `pkg-config --modversion gdk-x11-2.0 2>/dev/null` ? 1 : 0;
   $has{cairo}   = `pkg-config --modversion cairo 2>/dev/null` ? 1 : 0;                 #cdcairo
   $has{pango}   = `pkg-config --modversion pango 2>/dev/null` ? 1 : 0;                #cdcairo
-  $has{pangox}  = `pkg-config --modversion pangox 2>/dev/null` ? 1 : 0;
+  #$has{pangox}  = `pkg-config --modversion pangox 2>/dev/null` ? 1 : 0;
 
   $has{l_gtk}   = $has{gtk}    && $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>/dev/null`,     `pkg-config --libs gtk+-2.0 2>/dev/null`);
   $has{l_gtkx11}= $has{gtkx11} && $self->check_lib( [] , `pkg-config --cflags gtk+-x11-2.0 2>/dev/null`, `pkg-config --libs gtk+-x11-2.0 2>/dev/null`);
@@ -88,7 +90,7 @@ sub build_binaries {
   $has{l_gdkx11}= $has{gdkx11} && $self->check_lib( [] , `pkg-config --cflags gdk-x11-2.0 2>/dev/null`,  `pkg-config --libs gdk-x11-2.0 2>/dev/null`);
   $has{l_cairo} = $has{cairo}  && $self->check_lib( [] , `pkg-config --cflags cairo 2>/dev/null`,        `pkg-config --libs cairo 2>/dev/null`);
   $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);
-  $has{l_pangox}= $has{pangox} && $self->check_lib( [] , `pkg-config --cflags pangox 2>/dev/null`,       `pkg-config --libs pangox 2>/dev/null`);
+  #$has{l_pangox}= $has{pangox} && $self->check_lib( [] , `pkg-config --cflags pangox 2>/dev/null`,       `pkg-config --libs pangox 2>/dev/null`);
 
   $has{l_Xp}    = $self->check_lib( 'Xp',   $extra_cflags, $extra_lflags );
   $has{l_Xt}    = $self->check_lib( 'Xt',   $extra_cflags, $extra_lflags );
@@ -107,34 +109,34 @@ sub build_binaries {
   $has{glx}     = $self->check_header('GL/glx.h',  $extra_cflags); #iupgl
   $has{glu}     = $self->check_header('GL/glu.h',  $extra_cflags);
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
-  $has{fftw3}   = $self->check_header('fftw3.h',   $extra_cflags); #im_fftw3 = http://www.fftw.org/
   $has{windows} = $self->check_header('windows.h');                #iupwin
-  $has{wmsdk}   = $self->check_header('wmsdk.h');                  #im_wmv
-  $has{ecw}     = $self->check_header('NCSECWClient.h');           #im_format_ecw = ECW (Enhanced Compression Wavelet) format
-  $has{XxXxX}   = $self->check_header('XxXxX/XxXxX.h');            #non existing header
 
-  print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
+  if ($self->notes('build_debug_info')) {
+    #$has{fftw3}   = $self->check_header('fftw3.h',   $extra_cflags); #im_fftw3 = http://www.fftw.org/
+    #$has{wmsdk}   = $self->check_header('wmsdk.h');                  #im_wmv
+    #$has{ecw}     = $self->check_header('NCSECWClient.h');           #im_format_ecw = ECW (Enhanced Compression Wavelet) format
+    #$has{XxXxX}   = $self->check_header('XxXxX/XxXxX.h');            #non existing header
+    print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
 
-  #DEBUG ONLY - remove in the release version
-  print STDERR "Brute force lookup:\n";
-  my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|gtkprintunixdialog.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
-  print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
-  print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
-  print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
-  print STDERR "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
-  print STDERR "[/System ] $_\n" foreach ($self->find_file('/System', $re));
-  print STDERR "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
-  print STDERR "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
-  
-  print STDERR "Dumping some pkg-info:\n";
-  print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
-  print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
-  for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
-    print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
-    print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
-    print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
+    print STDERR "Brute force lookup:\n";
+    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|gtkprintunixdialog.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
+    print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
+    print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
+    print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
+    print STDERR "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
+    print STDERR "[/System ] $_\n" foreach ($self->find_file('/System', $re));
+    print STDERR "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
+    print STDERR "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
+
+    print STDERR "Dumping some pkg-info:\n";
+    print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
+    print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
+    for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
+      print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
+      print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
+      print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
+    }
   }
-  #DEBUG ONLY - end
 
   my @x11_libs; # just base X11 libs
   push(@x11_libs, 'X11')  if $has{l_X11};
@@ -170,13 +172,39 @@ sub build_binaries {
 
   #choose GUI subsystem, priorities if multiple subsystems detected: 1. Win32(cygwin), 2. GTK, 3. X11/Motif
   my @libs;
-  if ($has{windows}) { #cygwin only
+  my @build_opts;
+  my $build_target = '';
+
+  push(@build_opts, 'MS Windows native') if $has{windows}; #cygwin only
+  push(@build_opts, 'GTK2') if $has{gtk};
+  push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
+
+  if (scalar(@build_opts) == 1) {
+    $build_target = $build_opts[0];
+  }
+  elsif (scalar(@build_opts) > 1) {
+    my $n = 1;
+    my $msg = "\nYou have the following build options available:\n" .
+              join("\n", map ($n++ . ") $_", @build_opts)) .
+	      "\nWhat do you wanna build?";
+    my $i = $self->prompt($msg, 1);
+    $build_target = $build_opts[$i-1];
+    die "###ERROR### Wrong selection!" unless $build_target;
+  }
+  else {
+    warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
+    $success = 0;
+    $build_target = 'X11/Motif';
+  }
+
+  print STDERR "Build target=", ($build_target || ''), "\n";
+  if ($build_target eq 'MS Windows native') { #cygwin only
     push(@makeopts, 'USE_WIN=Yes');
     push(@makeopts, 'X11_LIBS='); #no X11 libs on cygwin
     push(@libs, qw[gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32]); #xxx ???glut
     ($extra_cflags, $extra_lflags) = ('', '');
   }
-  elsif ($has{gtk}) {
+  elsif ($build_target eq 'GTK2') {
     push(@makeopts, 'USE_GTK=Yes');
     #detected libs
     push(@makeopts, "GTK_BASE=$dir_gtk") if $dir_gtk;
@@ -186,18 +214,14 @@ sub build_binaries {
     push(@makeopts, "OPENGL_LIBS=" . join(' ', @opengl_libs));
     push(@makeopts, "OPENGL_LIB=$dir_opengl_lib") if $dir_opengl_lib;
     push(@makeopts, "OPENGL_INC=$dir_opengl_inc") if $dir_opengl_inc;
- 
+
     push(@libs, @opengl_libs);
     #Note: $extra_?flags will be stored into ConfigData - they are not used for building
     my @mods = qw[gtk+-2.0 gdk-2.0 pango cairo];
     $extra_cflags = $self->run_stdout2str(qw[pkg-config --cflags], @mods) . " $extra_cflags";
     $extra_lflags = $self->run_stdout2str(qw[pkg-config --libs], @mods) . " $extra_lflags";
   }
-  else {
-    unless ($has{Xlib} && $has{Xm}) {
-      warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
-      $success = 0;
-    }
+  elsif ($build_target eq 'X11/Motif') {
     push(@makeopts, 'USE_X11=Yes');
     #additional X11 related libs
     push(@x11_libs, 'Xp')   if $has{l_Xp};
@@ -212,9 +236,12 @@ sub build_binaries {
     push(@makeopts, "OPENGL_LIB=$dir_opengl_lib") if $dir_opengl_lib;
     push(@makeopts, "OPENGL_INC=$dir_opengl_inc") if $dir_opengl_inc;
     push(@makeopts, "MOTIF_INC=$dir_mot_inc") if $dir_mot_inc;
-    push(@makeopts, "MOTIF_LIB=$dir_mot_inc") if $dir_mot_lib;
+    push(@makeopts, "MOTIF_LIB=$dir_mot_lib") if $dir_mot_lib;
     push(@libs, @x11_libs, @opengl_libs);
     #Note: $extra_?flags set at the beginning of this sub
+  }
+  else {
+    die "###ERROR### Wrong build target '$build_target!";
   }
 
   #do the job
@@ -244,17 +271,17 @@ sub build_binaries {
   }
 
   push(@libs, 'stdc++'); # -lstdc++ needed by Linux (at least)
-  
+
   print STDERR "Output libs: $_\n" foreach (sort keys %seen);
   @libs = ( $self->sort_libs(keys %seen), @libs );
 
   $self->config_data('linker_libs', \@libs);
   $self->config_data('extra_cflags', $extra_cflags);
   $self->config_data('extra_lflags', $extra_lflags);
-  
+
   die "###BUILD ABORTED###" unless $success;
   print STDERR "Build finished sucessfully!\n";
-    
+
   #DEBUG: fail intentionally here if you want to see build details from cpan testers
   #die "Intentionally failing";
 };
@@ -281,12 +308,16 @@ sub build_via_tecmake {
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
-    $im_si = $self->run_output_tail(undef, $make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts});
-    print STDERR "make sysinfo retval: $im_si\n";
+    # some debug info
+    $im_si = $self->run_output_std($make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts}) if $self->notes('build_debug_info');    
     foreach my $t (@{$imtgs}) {
-      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
-      warn "###WARN### [$?] during make $t" unless $done{$t};
+      if ($self->notes('build_msgs')) {
+        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
+      }
+      else {
+        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
+      }
+      warn "###WARN### error [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -298,9 +329,13 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
-      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
-      warn "###WARN### [$?] during make $t" unless $done{$t};
+      if ($self->notes('build_msgs')) {
+        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
+      }
+      else {
+        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
+      }
+      warn "###WARN### error [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -312,9 +347,13 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
-      #xxx $done{$t} = $self->run_output_tail(2000, $make, $t, @{$mopts});
-      $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});      
-      warn "###WARN### [$?] during make $t" unless $done{$t};
+      if ($self->notes('build_msgs')) {
+        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
+      }
+      else {
+        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
+      }
+      warn "###WARN### error [$?] during make $t" unless $done{$t};
       $success = 0 unless $done{$t};
     }
     copy($_, "$prefixdir/include/") foreach (glob("./include/*.h"));
@@ -322,7 +361,7 @@ sub build_via_tecmake {
     chdir $self->base_dir();
   }
 
-  unless ($done{iup} && $done{iupim} && $done{iupcd}) {    
+  unless ($done{iup} && $done{iupim} && $done{iupcd}) {
     warn "###WARN### essential libs not built!";
     $success = 0;
   }
@@ -336,17 +375,17 @@ sub build_via_tecmake {
 
 sub get_make {
   my ($self) = @_;
-      
+
   my $devnull = File::Spec->devnull();
   my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
   my %tested;
   print STDERR "Gonna detect GNU make:\n";
-  
+
   if ($^O eq 'cygwin') {
     print STDERR "- on cygwin always 'make'\n";
     return 'make'
   }
-  
+
   foreach my $name ( @try ) {
     next unless $name;
     next if $tested{$name};
@@ -357,8 +396,8 @@ sub get_make {
       print STDERR "- found: '$name'\n";
       return $name
     }
-  }  
-  
+  }
+
   warn "###ERROR### it seems we do not have GNU make, gonna exit!";
   exit 0;
   #### it does not make a sense to continue

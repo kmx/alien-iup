@@ -58,6 +58,7 @@ my $builder = $package->new(
   },
   share_dir          => 'sharedir',
   add_to_cleanup     => [ 'Alien-IUP-*', 'build_done', 'build_src' ],
+  #create_makefile_pl => 'small', # creating Makefile.PL to satisfy old CPAN clients (does not work well with our style of M::B use)
   create_readme      => 1,
   meta_merge => {
     resources  => {
@@ -69,8 +70,10 @@ my $builder = $package->new(
 
 $builder->create_build_script();
 
+$builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'y')) eq 'y' ? 1 : 0);
+
 if ($builder->check_installed_lib()) {
-  my $ans = $builder->prompt("IUP detected, wanna use IUP already installed on your system?", 'y');
+  my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
   $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');
 }
 

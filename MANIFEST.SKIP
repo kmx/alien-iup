@@ -5,6 +5,7 @@ _internals
 blib
 ^ignore.txt$
 ^Build$
+^Makefile$
 ^Build.bat$
 ^build_done$
 ^build_src

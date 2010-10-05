@@ -1,25 +1,18 @@
 IMPORTANT
-- Solaris - has GTK2 but pkg-config does not work
-  http://www.cpantesters.org/cpan/report/ae333f6e-c7b8-11df-9f3b-d01fd48374d3
+- none
+
+MEDIUM PRIORITY
+- OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
+- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 - OpenBSD - im : process/im_distance.cpp compile error
   g++ -c ... -o ../obj/im_process/OpenBSD47/im_distance.o process/im_distance.cpp
   virtual memory exhausted: Cannot allocate memory
   http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-- OpenBSD + lesstif
-  > /usr/local/include/Xm ->link-> /usr/local/LessTif/Motif1.2/include/Xm
-  > building iup fails: -I/usr/local/include missing
-  > maybe hard check for: -d /usr/local/include/Xm
-  > /usr/local/lib/libXm.[a|la|so...] exists but test for l_Xm with -L/usr/local/lib failspkg%
-  we need to:
-  1/ set MOTIF_LIB + MOTIF_INC
-  2/ fix l_Xm detection
-- if more Build options (GTK2, X11, ...) ask user what to build
-- ask if user wants to see all compile message
-
-MEDIUM PRIORITY
+  (dirty fix: skipping im_process build on OpenBSD)
 - more complex compile test (use some advanced iup C example, using more then just iup)
 - add olecontrol to windows build
-- enhance interface: Alien::IUP->has('iupcd')
+- enhance interface: Alien::IUP->has('iupcd') ... = 1 | 0
+- enhance interface: Alien::IUP->gui ... = 'win' | 'gtk2' | 'x11/mot'
 
 LOW PRIORITY
 - maybe die if "no gui detected" (now defaulting to X11)
@@ -36,3 +29,4 @@ ERRORS TO BE REPORTED TO TECGRAF
 - using -fpic on FreeBSD 64bit
 - Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
+- OpenBSD - im_process g++ crash

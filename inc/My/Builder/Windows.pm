@@ -12,9 +12,9 @@ sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $prefixdir = rel2abs($build_out);
   my $perl = $^X;
-  
+
   #targets: install-static install-dynamic install
-  my $target = 'install-static';  
+  my $target = 'install-static';
 
   my (@cmd_im, @cmd_cd, @cmd_iup);
   if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
@@ -24,7 +24,7 @@ sub build_binaries {
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'CFG=Win64');
       push(@cmd_cd,  'CFG=Win64');
-      push(@cmd_iup, 'CFG=Win64');      
+      push(@cmd_iup, 'CFG=Win64');
     }
   }
   else { # gcc compiler
@@ -38,40 +38,58 @@ sub build_binaries {
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'BUILDBITS=64');
       push(@cmd_cd,  'BUILDBITS=64');
-      push(@cmd_iup, 'BUILDBITS=64');      
+      push(@cmd_iup, 'BUILDBITS=64');
     }
   }
 
   my @iup_libs = qw/iupwin cdwin im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
+  my $success;
   # xxx TODO maybe detect real existing libs after make
-  
+
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
-    $self->run_output_tail(10000, @cmd_im) or die "###ERROR### [$?] during make(im)";
+    if ($self->notes('build_msgs')) {
+      $success = $self->run_output_std(@cmd_im);
+    }
+    else {
+      $success = $self->run_output_on_error(undef, @cmd_im);
+    }
+    die "###ERROR### error [$?] during make(im)" unless $success;
     chdir $self->base_dir();
   }
-  
+
   if (-d "$srcdir/cd/src") {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
-    $self->run_output_tail(10000, @cmd_cd) or die "###ERROR### [$?] during make(cd)";
+    if ($self->notes('build_msgs')) {
+      $success = $self->run_output_std(@cmd_cd);
+    }
+    else {
+      $success = $self->run_output_on_error(undef, @cmd_cd);
+    }
+    die "###ERROR### error [$?] during make(cd)" unless $success;
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/iup") {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
-    $self->run_output_tail(10000, @cmd_iup) or die "###ERROR### [$?] during make(iup)";
+    if ($self->notes('build_msgs')) {
+      $success = $self->run_output_std(@cmd_iup);
+    }
+    else {
+      $success = $self->run_output_on_error(undef, @cmd_iup);
+    }
+    die "###ERROR### error [$?] during make(iup)" unless $success;
     chdir $self->base_dir();
   }
-  
-  #XXX DEBUG ONLY
-  #my @l = bsd_glob("$prefixdir/lib/*");
-  #foreach (@l) {
-  #  print STDERR "DEBUG_XXX_LIB: $_\n";
-  #}
-  
+
+  if ($self->notes('build_debug_info')) {
+    my @l = bsd_glob("$prefixdir/lib/*");
+    print STDERR "Created lib: $_\n" foreach (@l);
+  }
+
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
   $self->config_data('linker_libs', [ $self->sort_libs(@iup_libs), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
