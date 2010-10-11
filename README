@@ -12,6 +12,11 @@ VERSION
     *   *cd* library 5.4 - see <http://www.tecgraf.puc-rio.br/cd/>
 
 SYNOPSIS
+    IMPORTANT: This module is not a perl binding for *iup + related*
+    libraries; it is just a helper module. The real perl binding is
+    implemented by IUP module, which is using Alien::IUP to locate *iup +
+    related* libraries on your system (or build it from source codes).
+
     Alien::IUP tries (in given order) during its installation:
 
     *   Locate an already installed *iup* and related libraries + ask user
@@ -28,7 +33,8 @@ SYNOPSIS
 
     *   Download *iup* & co. source code tarballs
 
-    *   Build *iup* & co. binaries from source codes
+    *   Build *iup* & co. binaries from source codes (note: static libraries
+        are build in this case)
 
     *   Install libs and dev files (*.h, *.a) into *share* directory of
         Alien::IUP distribution - *share* directory is usually something
@@ -37,31 +43,36 @@ SYNOPSIS
     Later on you can use Alien::IUP in your module that needs to link with
     *iup* and/or related libs like this:
 
-        # Sample Makefile.pl
-        use ExtUtils::MakeMaker;
-        use Alien::IUP;
+     # Sample Makefile.pl
+     use ExtUtils::MakeMaker;
+     use Alien::IUP;
+     
+ WriteMakefile(
+       NAME         => 'Any::IUP::Module',
+       VERSION_FROM => 'lib/Any/IUP/Module.pm',
+       LIBS         => Alien::IUP->config('LIBS'),
+       INC          => Alien::IUP->config('INC'),
+       # + additional params
+     );
 
-        WriteMakefile(
-          NAME         => 'Any::IUP::Module',
-          VERSION_FROM => 'lib/Any/IUP/Module.pm',
-          LIBS         => Alien::IUP->config('LIBS'),
-          INC          => Alien::IUP->config('INC'),
-          # + additional params
-        );
+    IMPORTANT: As Alien::IUP builds static libraries the modules using
+    Alien::IUP (e.g. IUP) need to have Alien::IUP just for building, not for
+    later use. In other words Alien:IUP is just "build dependency" not
+    "run-time dependency".
 
 METHODS
   config()
     This function is the main public interface to this module.
 
-        Alien::IUP->config('LIBS');
+     Alien::IUP->config('LIBS');
 
     Returns a string like: '-L/path/to/iupdir/lib -liup -lim -lcd'
 
-        Alien::IUP->config('INC');
+     Alien::IUP->config('INC');
 
     Returns a string like: '-I/path/to/iupdir/include'
 
-        Alien::IUP->config('PREFIX');
+     Alien::IUP->config('PREFIX');
 
     Returns a string like: '/path/to/iupdir' (note: if using the already
     installed *iup* config('PREFIX') returns undef)
