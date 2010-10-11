@@ -1,7 +1,7 @@
 IMPORTANT
 - Solaris: cairo.h: No such file or directory
   http://www.cpantesters.org/cpan/report/6fb109a8-d17a-11df-9e2d-9e9e6e8696e0
-  (maybe 1/ add cairo.h into brute force search; 2/ require $has{cairo}; 3/ show gtk2 verion in debug info; 4/ disable cd unless $has{pango})
+  (maybe 1/ add cairo.h into brute force search; 2/ require $has{cairo}; 3/ show gtk2 verion in debug info; 4/ disable cd unless $has{cairo})
 
 MEDIUM PRIORITY
 - OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
