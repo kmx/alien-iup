@@ -28,7 +28,8 @@ sub build_binaries {
     }
   }
   else { # gcc compiler
-    my $make = $self->get_make;
+    my $make = $self->notes('gnu_make') || $self->get_make;
+    die "###ERROR## make command not defined" unless $make;
     # for GNU make on MS Windows it is safer to convert \ to /
     $perl =~ s|\\|/|g;
     $prefixdir =~ s|\\|/|g;

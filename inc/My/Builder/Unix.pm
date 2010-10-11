@@ -290,7 +290,8 @@ sub build_via_tecmake {
   my ($self, $build_out, $srcdir, $mopts, $iuptgs, $cdtgs, $imtgs) = @_;
   $srcdir ||= 'src';
   my $prefixdir = rel2abs($build_out);
-  my $make = $self->get_make;
+  my $make = $self->notes('gnu_make') || $self->get_make;
+  die "###ERROR## make command not defined" unless $make;
   my $im_si;
   my $success = 1;
 
@@ -398,10 +399,9 @@ sub get_make {
     }
   }
 
-  warn "###ERROR### it seems we do not have GNU make, gonna exit!";
-  exit 0;
-  #### it does not make a sense to continue
-  #warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
+  warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
+  return undef;
+  
   #print STDERR "- fallback to: 'make'\n";
   #return 'make';
 }

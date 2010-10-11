@@ -13,11 +13,11 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = 'v0.0.20';
+our $VERSION = 'v0.0.21';
 
 =head1 VERSION
 
-Version 0.0.20 of Alien::IUP is based on the following:
+Version 0.0.21 of Alien::IUP is based on the following:
 
 =over
 
@@ -30,6 +30,10 @@ Version 0.0.20 of Alien::IUP is based on the following:
 =back
 
 =head1 SYNOPSIS
+
+B<IMPORTANT:> This module is not a perl binding for I<iup + related> libraries; it is just
+a helper module. The real perl binding is implemented by L<IUP|http://github.com/kmx/perl-iup> module,
+which is using Alien::IUP to locate I<iup + related> libraries on your system (or build it from source codes).
 
 Alien::IUP tries (in given order) during its installation:
 
@@ -47,7 +51,7 @@ the following steps
 
 =item * Download I<iup> & co. source code tarballs
 
-=item * Build I<iup> & co. binaries from source codes
+=item * Build I<iup> & co. binaries from source codes (note: static libraries are build in this case)
 
 =item * Install libs and dev files (*.h, *.a) into I<share> directory of Alien::IUP
 distribution - I<share> directory is usually something like this: /usr/lib/perl5/site_perl/5.10/auto/share/dist/Alien-IUP
@@ -57,17 +61,21 @@ distribution - I<share> directory is usually something like this: /usr/lib/perl5
 Later on you can use Alien::IUP in your module that needs to link with
 I<iup> and/or related libs like this:
 
-    # Sample Makefile.pl
-    use ExtUtils::MakeMaker;
-    use Alien::IUP;
+ # Sample Makefile.pl
+ use ExtUtils::MakeMaker;
+ use Alien::IUP;
+ 
+ WriteMakefile(
+   NAME         => 'Any::IUP::Module',
+   VERSION_FROM => 'lib/Any/IUP/Module.pm',
+   LIBS         => Alien::IUP->config('LIBS'),
+   INC          => Alien::IUP->config('INC'),
+   # + additional params
+ );
 
-    WriteMakefile(
-      NAME         => 'Any::IUP::Module',
-      VERSION_FROM => 'lib/Any/IUP/Module.pm',
-      LIBS         => Alien::IUP->config('LIBS'),
-      INC          => Alien::IUP->config('INC'),
-      # + additional params
-    );
+B<IMPORTANT:> As Alien::IUP builds static libraries the modules using Alien::IUP (e.g. L<IUP|http://github.com/kmx/perl-iup>)
+need to have Alien::IUP just for building, not for later use. In other words Alien:IUP is just
+"build dependency" not "run-time dependency".
 
 =head1 METHODS
 
@@ -75,15 +83,15 @@ I<iup> and/or related libs like this:
 
 This function is the main public interface to this module.
 
-    Alien::IUP->config('LIBS');
+ Alien::IUP->config('LIBS');
 
 Returns a string like: '-L/path/to/iupdir/lib -liup -lim -lcd'
 
-    Alien::IUP->config('INC');
+ Alien::IUP->config('INC');
 
 Returns a string like: '-I/path/to/iupdir/include'
 
-    Alien::IUP->config('PREFIX');
+ Alien::IUP->config('PREFIX');
 
 Returns a string like: '/path/to/iupdir' (note: if using the already installed
 I<iup> config('PREFIX') returns undef)

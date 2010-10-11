@@ -1,3 +1,4 @@
+use 5.008;
 use strict;
 use warnings;
 use Module::Build;
@@ -19,12 +20,12 @@ my $builder = $package->new(
   dist_author        => 'KMX, kmx@cpan.org',
   license            => 'mit',
   requires => {
-    'perl'              => '5.008',
+    'perl'              => 5.008,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,
   },
   configure_requires => {
-    'perl'              => '5.008',
+    'perl'              => 5.008,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,
     'File::Path'        => 0,
@@ -37,10 +38,10 @@ my $builder = $package->new(
     'Digest::SHA'       => 0,
     'Archive::Extract'  => 0,
     'Text::Patch'       => 0,
-    'IPC::Run3'         => 0,
+    'IPC::Run3'         => 0.041, # we need return_if_system_error
   },
   build_requires => {
-    'perl'              => '5.008',
+    'perl'              => 5.008,
     'Test::More'        => 0,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,
@@ -69,16 +70,14 @@ my $builder = $package->new(
 );
 
 $builder->create_build_script();
-
-$builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'y')) eq 'y' ? 1 : 0);
+unlink 'build_done'; # delete build marker (= force rebuild after running Build.PL)
 
 if ($builder->check_installed_lib()) {
   my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
-  $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');
+  $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');  
 }
 
-# delete build marker (= force rebuild after running Build.PL)
-unlink 'build_done';
+$builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'y')) eq 'y' ? 1 : 0);
 
 # set what tarballs we are gonna use
 $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.2_Sources.tar.gz');
@@ -92,3 +91,8 @@ $builder->notes('im_patches', [ 'patches/im.diff' ] );
 $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4_Sources.tar.gz');
 $builder->notes('cd_sha1', '6d1d1c6a6348be19c8cba1a0b7368c64b4532911');
 $builder->notes('cd_patches', [ 'patches/cd.diff' ] );
+
+# check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
+my $m = $builder->get_make;
+exit 0 if defined $m; # we do not have GNU make, therefore exiting
+$builder->notes('gnu_make', $m);

@@ -1,5 +1,9 @@
 Revision history for Alien-IUP
 
+0.0.21	NEXT
+	- GNU make check moved to Build.pl (now cpan testers should report "N/A
+	- small POD changes
+
 0.0.20	05/10/2010
 	- more questions/prompts during build
 	- cleaning up + cosmetics
