@@ -1,7 +1,10 @@
 Revision history for Alien-IUP
 
+0.0.22	12/10/2010
+	- fixed GNU make check exit code
+
 0.0.21	11/10/2010
-	- GNU make check moved to Build.pl (now cpan testers should report "N/A
+	- GNU make check moved to Build.pl (now cpan testers should report "N/A)
 	- more messages on sha1 check failure
 	- small POD changes
 

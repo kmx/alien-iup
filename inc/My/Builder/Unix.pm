@@ -400,7 +400,7 @@ sub get_make {
   }
 
   warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
-  return undef;
+  return;
   
   #print STDERR "- fallback to: 'make'\n";
   #return 'make';

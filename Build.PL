@@ -92,7 +92,7 @@ $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4_Sources.tar.
 $builder->notes('cd_sha1', '6d1d1c6a6348be19c8cba1a0b7368c64b4532911');
 $builder->notes('cd_patches', [ 'patches/cd.diff' ] );
 
-# check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
 my $m = $builder->get_make;
-exit 0 if defined $m; # we do not have GNU make, therefore exiting
+# check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
+exit 0 unless $m;
 $builder->notes('gnu_make', $m);
