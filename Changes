@@ -1,5 +1,8 @@
 Revision history for Alien-IUP
 
+0.0.23	20/10/2010
+	- create_build_script moved after GNU make check
+
 0.0.22	12/10/2010
 	- fixed GNU make check exit code
 

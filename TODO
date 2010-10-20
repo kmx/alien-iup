@@ -1,4 +1,9 @@
 IMPORTANT
+- Windows: tests
+  # Detected libraries/headers: - empty
+  # Build/make results per target: - empty
+  # Tecmake sysinfo: - undef
+  http://www.cpantesters.org/cpan/report/fb785046-c90c-1020-989f-a42816a75fc7
 - Solaris: cairo.h: No such file or directory
   http://www.cpantesters.org/cpan/report/6fb109a8-d17a-11df-9e2d-9e9e6e8696e0
   (maybe 1/ add cairo.h into brute force search; 2/ require $has{cairo}; 3/ show gtk2 verion in debug info; 4/ disable cd unless $has{cairo})

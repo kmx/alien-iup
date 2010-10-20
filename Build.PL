@@ -69,7 +69,6 @@ my $builder = $package->new(
   }
 );
 
-$builder->create_build_script();
 unlink 'build_done'; # delete build marker (= force rebuild after running Build.PL)
 
 if ($builder->check_installed_lib()) {
@@ -96,3 +95,5 @@ my $m = $builder->get_make;
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
 exit 0 unless $m;
 $builder->notes('gnu_make', $m);
+
+$builder->create_build_script();
