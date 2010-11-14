@@ -66,7 +66,7 @@ my $builder = $package->new(
       bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP',
       repository => 'http://github.com/kmx/alien-iup',
     }
-  }
+  },
 );
 
 unlink 'build_done'; # delete build marker (= force rebuild after running Build.PL)
@@ -91,8 +91,8 @@ $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4_Sources.tar.
 $builder->notes('cd_sha1', '6d1d1c6a6348be19c8cba1a0b7368c64b4532911');
 $builder->notes('cd_patches', [ 'patches/cd.diff' ] );
 
-my $m = $builder->get_make;
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
+my $m = $builder->get_make;
 exit 0 unless $m;
 $builder->notes('gnu_make', $m);
 

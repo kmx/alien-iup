@@ -1,98 +1,129 @@
-Revision history for Alien-IUP
+=head1 Revision history for Alien-IUP
 
-0.0.23	20/10/2010
-	- create_build_script moved after GNU make check
+=head2 0.024 - 14/11/2010
 
-0.0.22	12/10/2010
-	- fixed GNU make check exit code
+ - die if no GUI lib detected
+ - switching Changes fromat from plain text to POD
+ - changing version numbering
+ - IMPORTANT: latest release with IUP 3.2
 
-0.0.21	11/10/2010
-	- GNU make check moved to Build.pl (now cpan testers should report "N/A)
-	- more messages on sha1 check failure
-	- small POD changes
+=head2 0.0.23 - 20/10/2010
 
-0.0.20	05/10/2010
-	- more questions/prompts during build
-	- cleaning up + cosmetics
+ - create_build_script moved after GNU make check
 
-0.0.19_3 04/10/2010
-	- OpenBSD - not building im_process (g++ internal error)
-	- OpenBSD - lesstif related fixes
+=head2 0.0.22 - 12/10/2010
 
-0.0.19_2 30/09/2010
-	- DragonFly patch for 'sizeof(FILE)'
-	- exit if GNU make not found
+ - fixed GNU make check exit code
 
-0.0.19_1 29/09/2010
-	- DragonFly patch for libjasper/jasper/jas_types.h
-	- create_makefile_pl => 'small' (creating Makefile.PL to satisfy old CPAN clients)
+=head2 0.0.21 - 11/10/2010
 
-0.0.19	28/09/2010
-	- iup patch - fixing newlines in the main Makefile (troubles on solaris)
+ - GNU make check moved to Build.pl (now cpan testers should report "N/A)
+ - more messages on sha1 check failure
+ - small POD changes
 
-0.0.18	24/09/2010
-	- using File::Path legacy functions
-	- fixed gtk2 - freetype2 collision (tecmake.mak)
+=head2 0.0.20 - 05/10/2010
 
-0.0.17	22/09/2010
-	- fix for cygwin CPAN Tester failure
-	- cleaning sharedir during install
+ - more questions/prompts during build
+ - cleaning up + cosmetics
 
-0.0.16	21/09/2010
-	- using pkg-config in tecmake.mak
+=head2 0.0.19_3 - 04/10/2010
 
-0.0.15	17/09/2010
-	- stdc++ fix (needed by Linux)
+ - OpenBSD - not building im_process (g++ internal error)
+ - OpenBSD - lesstif related fixes
 
-0.0.14	16/09/2010
-	- cygwin+Win64 fixes
-	- removing testing pod
+=head2 0.0.19_2 - 30/09/2010
 
-0.0.13	15/09/2010
-	- fixing liborder
-	- if "No GUI lib" then defaulting to X11
-	- another POD test
+ - DragonFly patch for 'sizeof(FILE)'
+ - exit if GNU make not found
 
-0.0.12	25/08/2010
-	- GTK vs. GTK_BASE fix
-	- printing output of make commands only on failure
+=head2 0.0.19_1 - 29/09/2010
 
-0.0.11	23/08/2010
-	- GTK_BASE detection fix
+ - DragonFly patch for libjasper/jasper/jas_types.h
+ - create_makefile_pl => 'small' (creating Makefile.PL to satisfy old CPAN clients)
 
-0.0.10	18/08/2010
-	- added MS Win build (gcc, msvc)
-	- improved lib/inc dir detection (unix)
-	- building static libs
-	- using IPC::Run3 for launching external commands
+=head2 0.0.19 - 28/09/2010
 
-0.0.9	05/08/2010
-	- FAIL ALWAYS debug version
-	- fixed bug in setting GTK make param
-	- more lib detection diagnostics
+ - iup patch - fixing newlines in the main Makefile (troubles on solaris)
 
-0.0.8	04/08/2010
-	- FAIL ALWAYS debug version
-	- typo in opengl target selection
-	- fixed return value from make command
-	- improved debug diagnostic
+=head2 0.0.18 - 24/09/2010
 
-0.0.7	03/08/2010
-	- running make via IPC::Run3 (cutting output to last 1000 chars)
+ - using File::Path legacy functions
+ - fixed gtk2 - freetype2 collision (tecmake.mak)
 
-0.0.5+0.0.6	03/08/2010
-	- another HTML in POD doc testing
+=head2 0.0.17 - 22/09/2010
 
-0.0.4	03/08/2010
-	- tuning Linux/FreeBSD builds
-	- HTML in POD doc testing
+ - fix for cygwin CPAN Tester failure
+ - cleaning sharedir during install
 
-0.0.3	02/08/2010
-	- missing prereq Text::Patch (+ patching redesign)
-	- better lib/header detection
-	- build dies on make failure (to see cpan tester failure details)
-	- keeping tecmake's sysinfo for debug purposes
+=head2 0.0.16 - 21/09/2010
 
-0.0.2	30/07/2010
-	- First version, released on CPAN.
-	- Without MS Win build support
+ - using pkg-config in tecmake.mak
+
+=head2 0.0.15 - 17/09/2010
+
+ - stdc++ fix (needed by Linux)
+
+=head2 0.0.14 - 16/09/2010
+
+ - cygwin+Win64 fixes
+ - removing testing pod
+
+=head2 0.0.13 - 15/09/2010
+
+ - fixing liborder
+ - if "No GUI lib" then defaulting to X11
+ - another POD test
+
+=head2 0.0.12 - 25/08/2010
+
+ - GTK vs. GTK_BASE fix
+ - printing output of make commands only on failure
+
+=head2 0.0.11 - 23/08/2010
+
+ - GTK_BASE detection fix
+
+=head2 0.0.10 - 18/08/2010
+
+ - added MS Win build (gcc, msvc)
+ - improved lib/inc dir detection (unix)
+ - building static libs
+ - using IPC::Run3 for launching external commands
+
+=head2 0.0.9 - 05/08/2010
+
+ - FAIL ALWAYS debug version
+ - fixed bug in setting GTK make param
+ - more lib detection diagnostics
+
+=head2 0.0.8 - 04/08/2010
+
+ - FAIL ALWAYS debug version
+ - typo in opengl target selection
+ - fixed return value from make command
+ - improved debug diagnostic
+
+=head2 0.0.7 - 03/08/2010
+
+ - running make via IPC::Run3 (cutting output to last 1000 chars)
+
+=head2 0.0.5+0.0.6 - 03/08/2010
+
+ - another HTML in POD doc testing
+
+=head2 0.0.4 - 03/08/2010
+
+ - tuning Linux/FreeBSD builds
+ - HTML in POD doc testing
+
+=head2 0.0.3 - 02/08/2010
+
+ - missing prereq Text::Patch (+ patching redesign)
+ - better lib/header detection
+ - build dies on make failure (to see cpan tester failure details)
+ - keeping tecmake's sysinfo for debug purposes
+
+=head2 0.0.2 - 30/07/2010
+
+ - First version, released on CPAN.
+ - Without MS Win build support

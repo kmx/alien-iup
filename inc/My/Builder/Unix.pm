@@ -192,7 +192,8 @@ sub build_binaries {
     die "###ERROR### Wrong selection!" unless $build_target;
   }
   else {
-    warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
+    die "###FATAL### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
+    #warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
     $success = 0;
     $build_target = 'X11/Motif';
   }

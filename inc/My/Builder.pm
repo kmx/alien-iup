@@ -234,12 +234,13 @@ MARKER
 
 # check presence of lib(s) specified as params
 sub check_lib {
-  my ($self, $l, $cflags, $lflags) = @_;
+  my ($self, $l, $cflags, $lflags, $output) = @_;
   $cflags ||= '';
   $lflags ||= '';
   $cflags =~ s/[\r\n]//g;
   $lflags =~ s/[\r\n]//g;
   my @libs = ref($l) ? @$l : ( $l );
+  my $liblist = scalar(@libs) ? '-l' . join(' -l', @libs) : '';
 
   my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
   my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
@@ -249,21 +250,24 @@ int main() { return 0; }
 
 MARKER
   close($fs);
-  local *OLDERR;
-  open OLDERR, ">&", STDERR;
-  open STDERR, ">", File::Spec->devnull();
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
-  $exe = $self->quote_literal($exe);
+  $exe = $self->quote_literal($exe);    
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
-  my $rv1 = system("$Config{cc} -c -o $obj $src $cflags");
-  my $liblist = scalar(@libs) ? '-l' . join(' -l', @libs) : '';
-  my $rv2 = ($rv1 == 0) ? system("$Config{ld} $obj -o $exe $lflags $liblist") : -1;
-  open(STDERR, ">&", OLDERR);
-  return ($rv2 == 0) ? 1 : 0;
+  my $rv1 = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \$output, \$output, { return_if_system_error => 1 } );  
+  unless ($rv1 == 1 && $? == 0) {
+    #print STDERR "OUTPUT(compile):\n$output\n" if $output;
+    return 0 
+  }
+  my $rv2 = run3("$Config{ld} $obj -o $exe $lflags $liblist", \undef, \$output, \$output, { return_if_system_error => 1 } );
+  unless ($rv2 == 1 && $? == 0) {
+    #print STDERR "OUTPUT(link):\n$output\n" if $output;
+    return 0
+  }
+  return 1;
 }
 
-# pude perl implementation of patch functionality
+# pure perl implementation of patch functionality
 sub apply_patch {
   my ($self, $dir_to_be_patched, $patch_file) = @_;
   my ($src, $diff);
