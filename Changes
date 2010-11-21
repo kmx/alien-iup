@@ -1,5 +1,24 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.1000_04 - 21/11/2010
+
+ - fixing netbsd failure (using USE_PKGCONFIG)
+
+=head2 0.1000_03 - 21/11/2010
+
+ - webkit/webkit.h test (disabling iupweb if no webkit)
+ - patches for DragonFly BSD
+
+=head2 0.1000_02 - 20/11/2010
+
+ - improved cygwin build
+ - new checksum for updated iup-3.3_Sources.tar.gz
+
+=head2 0.1000_01 - 20/11/2010
+
+ - switch to IUP 3.3 (+ upgrade of other libs as well)
+ - new builder for cygwin (separated from generic UNIX)
+
 =head2 0.024 - 14/11/2010
 
  - die if no GUI lib detected

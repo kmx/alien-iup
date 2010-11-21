@@ -144,8 +144,9 @@ sub check_sha1sum {
   binmode($fh);
   $sha1->addfile($fh);
   close($fh);
-  my $rv = ($sha1->hexdigest eq $sha1sum) ? 1 : 0;
-  warn "###WARN## sha1 mismatch: got      '", $sha1->hexdigest , "'\n",
+  my $file_sha1sum = $sha1->hexdigest;
+  my $rv = ($file_sha1sum eq $sha1sum) ? 1 : 0;
+  warn "###WARN## sha1 mismatch: got      '", $file_sha1sum , "'\n",
        "###WARN## sha1 mismatch: expected '", $sha1sum, "'\n",
        "###WARN## sha1 mismatch: filesize ", (-s $file) unless $rv;
   return $rv;
@@ -370,6 +371,19 @@ sub run_bothout2str {
   return $output;
 }
 
+sub run_custom {
+  my ($self, @cmd) = @_;
+  my $rv;
+  if ($self->notes('build_msgs')) {
+    $rv = $self->run_output_std(@cmd);
+  }
+  else {
+    $rv = $self->run_output_on_error($self->notes('build_msgs_limit'), @cmd);
+  }
+  warn "###WARN### error during run_custom()" unless $rv;
+  return $rv;
+}
+
 sub find_file {
   my ($self, $dir, $re) = @_;
   my @files;
@@ -383,7 +397,7 @@ sub find_file {
 
 sub sort_libs {
   my ($self, @unsorted) = @_;
-  my @wanted_order = qw/iupwin iupmot iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib cdwin cdx11 cdgdk cdgl cdpdf freetype6 freetype freetype-6 ftgl pdflib im im_fftw im_jp2 im_process/;
+  my @wanted_order = qw/iupwin iupmot iupgtk iup iupcontrols iup_pplot iupcd iupgl iupim iupimglib iupole iupweb iuptuio cdwin cdx11 cdgdk cd cdgl cdpdf freetype6 freetype freetype-6 ftgl pdflib im im_fftw im_jp2 im_process/;
   my @sorted;
   my %u;
 

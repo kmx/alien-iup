@@ -7,6 +7,10 @@ IMPORTANT
 - Solaris: cairo.h: No such file or directory
   http://www.cpantesters.org/cpan/report/6fb109a8-d17a-11df-9e2d-9e9e6e8696e0
   (maybe 1/ add cairo.h into brute force search; 2/ require $has{cairo}; 3/ show gtk2 verion in debug info; 4/ disable cd unless $has{cairo})
+- MSVC - OscPrintReceivedElements.cpp
+  srctuio\oscpack\osc\OscPrintReceivedElements.cpp(113) : error C2039: 'time_t' : is not a member of 'std'
+  srctuio\oscpack\osc\OscPrintReceivedElements.cpp(117) : error C2039: 'ctime' : is not a member of 'std'
+- maybe not include iuptuio and iupweb
 
 MEDIUM PRIORITY
 - OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
@@ -17,8 +21,7 @@ MEDIUM PRIORITY
   http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
   (dirty fix: skipping im_process build on OpenBSD)
 - more complex compile test (use some advanced iup C example, using more then just iup)
-- add olecontrol to windows build
-- enhance interface: Alien::IUP->has('iupcd') ... = 1 | 0
+- enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
 - enhance interface: Alien::IUP->gui ... = 'win' | 'gtk2' | 'x11/mot'
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 

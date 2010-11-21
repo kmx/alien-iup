@@ -1,20 +1,21 @@
 Build.PL
 Changes
 inc/My/Builder.pm
+inc/My/Builder/Cygwin.pm
 inc/My/Builder/Unix.pm
 inc/My/Builder/Windows.pm
 lib/Alien/IUP.pm
 MANIFEST			This list of files
 META.yml
-patches/cd.diff
-patches/im.diff
-patches/iup.diff
+patches/cd-dragonfly.diff
+patches/im-3.6.3.diff
+patches/im-dragonfly.diff
+patches/iup-3.3.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
 patches/Makefile_im.nmake
 patches/Makefile_iup.mingw
-patches/Makefile_iup.mingw_ole
 patches/Makefile_iup.nmake
 README
 sharedir/share

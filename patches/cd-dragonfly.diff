@@ -1,0 +1,16 @@
+diff -ru --strip-trailing-cr cd.orig/src/pdflib/pdflib/p_document.c cd/src/pdflib/pdflib/p_document.c
+--- cd.orig/src/pdflib/pdflib/p_document.c	2010-06-22 15:26:40.000000000 +0200
++++ cd/src/pdflib/pdflib/p_document.c	2010-09-30 15:30:08.673589100 +0200
+@@ -1407,7 +1407,12 @@
+ #endif
+ 
+         doc->fp = fp;
++#ifdef __DragonFly__
++/* ugly hack by kmx, however otherwise it does not compile on DragonFly BSD */
++        doc->len = 1;
++#else
+         doc->len = sizeof(FILE);
++#endif
+     }
+     else if (filename && (*filename || len > 0))
+     {

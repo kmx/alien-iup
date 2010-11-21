@@ -76,12 +76,12 @@ sub build_binaries {
   }
   my %has;
 
-  $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>/dev/null` ? 1 : 0;        #iupgtk
+  $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>/dev/null` ? 1 : 0;
   $has{gtkx11}  = `pkg-config --modversion gtk+-x11-2.0 2>/dev/null` ? 1 : 0;
-  $has{gdk}     = `pkg-config --modversion gdk-2.0 2>/dev/null` ? 1 : 0;        #cdgdk
+  $has{gdk}     = `pkg-config --modversion gdk-2.0 2>/dev/null` ? 1 : 0;
   $has{gdkx11}  = `pkg-config --modversion gdk-x11-2.0 2>/dev/null` ? 1 : 0;
-  $has{cairo}   = `pkg-config --modversion cairo 2>/dev/null` ? 1 : 0;                 #cdcairo
-  $has{pango}   = `pkg-config --modversion pango 2>/dev/null` ? 1 : 0;                #cdcairo
+  $has{cairo}   = `pkg-config --modversion cairo 2>/dev/null` ? 1 : 0;
+  $has{pango}   = `pkg-config --modversion pango 2>/dev/null` ? 1 : 0;
   #$has{pangox}  = `pkg-config --modversion pangox 2>/dev/null` ? 1 : 0;
 
   $has{l_gtk}   = $has{gtk}    && $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>/dev/null`,     `pkg-config --libs gtk+-2.0 2>/dev/null`);
@@ -89,7 +89,7 @@ sub build_binaries {
   $has{l_gdk}   = $has{gdk}    && $self->check_lib( [] , `pkg-config --cflags gdk-2.0 2>/dev/null`,      `pkg-config --libs gdk-2.0 2>/dev/null`);
   $has{l_gdkx11}= $has{gdkx11} && $self->check_lib( [] , `pkg-config --cflags gdk-x11-2.0 2>/dev/null`,  `pkg-config --libs gdk-x11-2.0 2>/dev/null`);
   $has{l_cairo} = $has{cairo}  && $self->check_lib( [] , `pkg-config --cflags cairo 2>/dev/null`,        `pkg-config --libs cairo 2>/dev/null`);
-  $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);
+  $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);  
   #$has{l_pangox}= $has{pangox} && $self->check_lib( [] , `pkg-config --cflags pangox 2>/dev/null`,       `pkg-config --libs pangox 2>/dev/null`);
 
   $has{l_Xp}    = $self->check_lib( 'Xp',   $extra_cflags, $extra_lflags );
@@ -101,21 +101,16 @@ sub build_binaries {
   $has{l_GL}    = $self->check_lib( 'GL',   $extra_cflags, $extra_lflags );
   $has{l_GLU}   = $self->check_lib( 'GLU',  $extra_cflags, $extra_lflags . ' -lGL -lm' );
   $has{l_glut}  = $self->check_lib( 'glut', $extra_cflags, $extra_lflags );
-  $has{l_gdi32} = $self->check_lib( 'gdi32' );  # cygwin only
-  $has{l_glu32} = $self->check_lib( 'glu32' );  # cygwin only
 
   $has{Xm}      = $self->check_header('Xm/Xm.h',   $extra_cflags);
   $has{Xlib}    = $self->check_header('X11/Xlib.h',$extra_cflags); #iupgl cdx11
   $has{glx}     = $self->check_header('GL/glx.h',  $extra_cflags); #iupgl
   $has{glu}     = $self->check_header('GL/glu.h',  $extra_cflags);
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
-  $has{windows} = $self->check_header('windows.h');                #iupwin
+  
+  $has{webkit}  = $self->check_header('webkit/webkit.h',   $extra_cflags); #xxx TODO not tested properly
 
   if ($self->notes('build_debug_info')) {
-    #$has{fftw3}   = $self->check_header('fftw3.h',   $extra_cflags); #im_fftw3 = http://www.fftw.org/
-    #$has{wmsdk}   = $self->check_header('wmsdk.h');                  #im_wmv
-    #$has{ecw}     = $self->check_header('NCSECWClient.h');           #im_format_ecw = ECW (Enhanced Compression Wavelet) format
-    #$has{XxXxX}   = $self->check_header('XxXxX/XxXxX.h');            #non existing header
     print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
 
     print STDERR "Brute force lookup:\n";
@@ -142,24 +137,25 @@ sub build_binaries {
   push(@x11_libs, 'X11')  if $has{l_X11};
   push(@x11_libs, 'Xext') if $has{l_Xext};
 
-  my @opengl_libs; # for non MS Windows
+  my @opengl_libs;
   push(@opengl_libs, 'GL')  if $has{l_GL};
   push(@opengl_libs, 'GLU') if $has{l_GLU};
 
   #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
   my @imtargets = qw[im im_process im_jp2 im_fftw];
-  if ($^O eq 'openbsd') {
-    warn "###WARN### Skipping im_process on OpenBSD"; # xxx TODO xxx
-    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
-  }
+#  if ($^O eq 'openbsd') {
+#    warn "###WARN### Skipping im_process on OpenBSD"; # xxx TODO xxx
+#    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+#  }
 
   #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
   @cdtargets = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
 
   #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl
-  my @iuptargets = qw[iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl];
-  @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless ($has{windows} && $has{gl}) || ($has{glx});
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
+  @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
+  @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 
   #store debug info into ConfigData
   $self->config_data('debug_has', \%has);
@@ -169,13 +165,12 @@ sub build_binaries {
 
   my @makeopts  = qw[NO_DYNAMIC=Yes USE_NODEPEND=Yes];
   #my @makeopts  = qw[NO_STATIC=Yes USE_NODEPEND=Yes];
-
-  #choose GUI subsystem, priorities if multiple subsystems detected: 1. Win32(cygwin), 2. GTK, 3. X11/Motif
+  
+  #choose GUI subsystem, priorities if multiple subsystems detected: 1. GTK, 2. X11/Motif
   my @libs;
   my @build_opts;
   my $build_target = '';
-
-  push(@build_opts, 'MS Windows native') if $has{windows}; #cygwin only
+  
   push(@build_opts, 'GTK2') if $has{gtk};
   push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
 
@@ -198,17 +193,11 @@ sub build_binaries {
     $build_target = 'X11/Motif';
   }
 
-  print STDERR "Build target=", ($build_target || ''), "\n";
-  if ($build_target eq 'MS Windows native') { #cygwin only
-    push(@makeopts, 'USE_WIN=Yes');
-    push(@makeopts, 'X11_LIBS='); #no X11 libs on cygwin
-    push(@libs, qw[gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32]); #xxx ???glut
-    ($extra_cflags, $extra_lflags) = ('', '');
-  }
-  elsif ($build_target eq 'GTK2') {
+  print STDERR "Build target=", ($build_target || ''), "\n";  
+  if ($build_target eq 'GTK2') {
     push(@makeopts, 'USE_GTK=Yes');
+    push(@makeopts, 'USE_PKGCONFIG=Yes');
     #detected libs
-    push(@makeopts, "GTK_BASE=$dir_gtk") if $dir_gtk;
     push(@makeopts, "X11_LIBS=" . join(' ', @x11_libs));
     push(@makeopts, "X11_LIB=$dir_x11_lib") if $dir_x11_lib;
     push(@makeopts, "X11_INC=$dir_x11_inc") if $dir_x11_inc;
@@ -291,9 +280,10 @@ sub build_via_tecmake {
   my ($self, $build_out, $srcdir, $mopts, $iuptgs, $cdtgs, $imtgs) = @_;
   $srcdir ||= 'src';
   my $prefixdir = rel2abs($build_out);
+
   my $make = $self->notes('gnu_make') || $self->get_make;
   die "###ERROR## make command not defined" unless $make;
-  my $im_si;
+
   my $success = 1;
 
   # save it for future use in ConfigData
@@ -310,17 +300,9 @@ sub build_via_tecmake {
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
-    # some debug info
-    $im_si = $self->run_output_std($make, qw/-f tecmake.mak sysinfo MAKENAME= USE_NODEPEND=Yes/, @{$mopts}) if $self->notes('build_debug_info');    
     foreach my $t (@{$imtgs}) {
-      if ($self->notes('build_msgs')) {
-        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
-      }
-      else {
-        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
-      }
-      warn "###WARN### error [$?] during make $t" unless $done{$t};
-      $success = 0 unless $done{$t};
+      $done{"im:$t"} = $self->run_custom($make, $t, @{$mopts});
+      $success = 0 unless $done{"im:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
     copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
@@ -331,14 +313,8 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     foreach my $t (@{$cdtgs}) {
-      if ($self->notes('build_msgs')) {
-        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
-      }
-      else {
-        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
-      }
-      warn "###WARN### error [$?] during make $t" unless $done{$t};
-      $success = 0 unless $done{$t};
+      $done{"cd:$t"} = $self->run_custom($make, $t, @{$mopts});
+      $success = 0 unless $done{"cd:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
     copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
@@ -349,28 +325,21 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@{$iuptgs}) {
-      if ($self->notes('build_msgs')) {
-        $done{$t} = $self->run_output_std($make, $t, @{$mopts});
-      }
-      else {
-        $done{$t} = $self->run_output_on_error(undef, $make, $t, @{$mopts});
-      }
-      warn "###WARN### error [$?] during make $t" unless $done{$t};
-      $success = 0 unless $done{$t};
+      $done{"iup:$t"} = $self->run_custom($make, $t, @{$mopts});
+      $success = 0 unless $done{"iup:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("./include/*.h"));
     copy($_, "$prefixdir/lib/") foreach (glob("./lib/*/*"));
     chdir $self->base_dir();
   }
 
-  unless ($done{iup} && $done{iupim} && $done{iupcd}) {
+  unless ($done{"iup:iup"} && $done{"iup:iupim"} && $done{"iup:iupcd"}) {
     warn "###WARN### essential libs not built!";
     $success = 0;
   }
 
   print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
   $self->config_data('debug_done', \%done);
-  $self->config_data('debug_si', $im_si);
 
   return $success;
 }
