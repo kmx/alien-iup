@@ -1,5 +1,15 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.1000_06 - NEXT
+
+ - skip im_process on OpenBSD
+ - do not build freetype if we halready have freetype on our system
+
+=head2 0.1000_05 - 22/11/2010
+
+ - more diagnostics (freetype)
+ - require installed cairo for GTK2 build
+
 =head2 0.1000_04 - 21/11/2010
 
  - fixing netbsd failure (using USE_PKGCONFIG)

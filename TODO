@@ -10,16 +10,16 @@ IMPORTANT
 - MSVC - OscPrintReceivedElements.cpp
   srctuio\oscpack\osc\OscPrintReceivedElements.cpp(113) : error C2039: 'time_t' : is not a member of 'std'
   srctuio\oscpack\osc\OscPrintReceivedElements.cpp(117) : error C2039: 'ctime' : is not a member of 'std'
-- maybe not include iuptuio and iupweb
-
-MEDIUM PRIORITY
-- OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
-- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
+- maybe exclude iuptuio and iupweb from building
 - OpenBSD - im : process/im_distance.cpp compile error
   g++ -c ... -o ../obj/im_process/OpenBSD47/im_distance.o process/im_distance.cpp
   virtual memory exhausted: Cannot allocate memory
   http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
   (dirty fix: skipping im_process build on OpenBSD)
+
+MEDIUM PRIORITY
+- OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
+- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 - more complex compile test (use some advanced iup C example, using more then just iup)
 - enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
 - enhance interface: Alien::IUP->gui ... = 'win' | 'gtk2' | 'x11/mot'
@@ -37,7 +37,6 @@ LOW PRIORITY
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
-- using -fpic on FreeBSD 64bit
 - Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
 - OpenBSD - im_process g++ crash

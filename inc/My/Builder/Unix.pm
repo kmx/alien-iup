@@ -108,13 +108,15 @@ sub build_binaries {
   $has{glu}     = $self->check_header('GL/glu.h',  $extra_cflags);
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
   
+  $has{freetype}= $self->check_header('freetype/freetype.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
+  
   $has{webkit}  = $self->check_header('webkit/webkit.h',   $extra_cflags); #xxx TODO not tested properly
 
   if ($self->notes('build_debug_info')) {
     print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
 
     print STDERR "Brute force lookup:\n";
-    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|glu.h|glut.h|gl.h|gtkprintunixdialog.h|libX11\.[^\d]*|libGL\.[^\d]*|libXm\.[^\d]*)$/;
+    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
     print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
     print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
     print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
@@ -143,10 +145,11 @@ sub build_binaries {
 
   #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
   my @imtargets = qw[im im_process im_jp2 im_fftw];
-#  if ($^O eq 'openbsd') {
-#    warn "###WARN### Skipping im_process on OpenBSD"; # xxx TODO xxx
-#    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
-#  }
+  if ($^O eq 'openbsd') {
+#    warn "###WARN### im_process is known to fail on OpenBSD";
+    warn "###WARN### skipping im_process on OpenBSD";
+    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+  }
 
   #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
@@ -171,7 +174,7 @@ sub build_binaries {
   my @build_opts;
   my $build_target = '';
   
-  push(@build_opts, 'GTK2') if $has{gtk};
+  push(@build_opts, 'GTK2') if ($has{gtk} && $has{cairo} && $has{Xlib});
   push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
 
   if (scalar(@build_opts) == 1) {
@@ -187,7 +190,7 @@ sub build_binaries {
     die "###ERROR### Wrong selection!" unless $build_target;
   }
   else {
-    die "###FATAL### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
+    die "###FATAL### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (gonna exit)";
     #warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
     $success = 0;
     $build_target = 'X11/Motif';
@@ -197,6 +200,12 @@ sub build_binaries {
   if ($build_target eq 'GTK2') {
     push(@makeopts, 'USE_GTK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
+
+    if ($has{freetype}) {
+      #handle existing freetype
+      @cdtargets = grep { $_ !~ /^(cd_freetype)$/ } @cdtargets;
+    }
+    
     #detected libs
     push(@makeopts, "X11_LIBS=" . join(' ', @x11_libs));
     push(@makeopts, "X11_LIB=$dir_x11_lib") if $dir_x11_lib;
