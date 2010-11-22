@@ -2,11 +2,11 @@
 
 =head2 0.101 - NEXT
 
- - stable non-dev release (technically same as latest dev release)
+ - NetBSD ntohl() related patch (#include <sys/types.h>)
 
 =head2 0.1000_06 - 22/11/2010
 
- - warn by im_process on OpenBSD
+ - warn (not skip) by im_process on OpenBSD
  - do not build freetype if we halready have freetype on our system
  - ms64bit build patch
 
