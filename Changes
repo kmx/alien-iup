@@ -1,9 +1,10 @@
 =head1 Revision history for Alien-IUP
 
-=head2 0.1000_06 - NEXT
+=head2 0.1000_06 - 22/11/2010
 
  - skip im_process on OpenBSD
  - do not build freetype if we halready have freetype on our system
+ - ms64bit build patch
 
 =head2 0.1000_05 - 22/11/2010
 
