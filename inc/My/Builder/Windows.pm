@@ -44,38 +44,41 @@ sub build_binaries {
   }
 
   my @iup_libs = qw/iup cd im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
-  my $success;
-  # xxx TODO maybe detect real existing libs after make
+  my ($s_im, $s_iup, $s_cd);
 
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
-    $success = $self->run_custom(@cmd_im);
-    die "###ERROR### error [$?] during make(im)" unless $success;
+    $s_im = $self->run_custom(@cmd_im);
+    warn "###WARNING### error [$?] during make(im)" unless $s_im;
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/cd/src") {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";    
-    $success = $self->run_custom(@cmd_cd);
-    die "###ERROR### error [$?] during make(cd)" unless $success;
+    $s_cd = $self->run_custom(@cmd_cd);
+    warn "###WARNING### error [$?] during make(cd)" unless $s_cd;
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/iup") {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
-    $success = $self->run_custom(@cmd_iup);
-    die "###ERROR### error [$?] during make(iup)" unless $success;
+    $s_iup = $self->run_custom(@cmd_iup);
+    warn "###WARNING### error [$?] during make(iup)" unless $s_iup;
     chdir $self->base_dir();
   }
-
+  
+  my $success = ($s_iup && $s_im && $s_cd) ? 1 : 0;
+  die "###BUILD ABORTED### iup=$s_iup im=$s_im cd=$s_cd" unless $success;
+  
+  # xxx TODO maybe detect real existing libs after make
   if ($self->notes('build_debug_info')) {
     my @l = bsd_glob("$prefixdir/lib/*");
     print STDERR "Created lib: $_\n" foreach (@l);
   }
-
+  
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
   $self->config_data('linker_libs', [ $self->sort_libs(@iup_libs), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );

@@ -1,8 +1,11 @@
 blib*
 Build
 _build*
+build_src
 pm_to_blib*
 *.tar.gz
+*.o
+*.obj
 tmp*
 META.yml
 MYMETA.yml

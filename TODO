@@ -1,5 +1,5 @@
 IMPORTANT
-- none
+- MSVC6 build fails
 
 MEDIUM PRIORITY
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
@@ -25,3 +25,5 @@ ERRORS TO BE REPORTED TO TECGRAF
 - (reported) iup/src/config.mak - _WIN32_WINNT=0x0500 vs. 0x0501
 - (reported) lzf_c.c - '_int64' vs. 'long long'
 - (reported) iup_tuio.cpp - on 64bit Windows: (int)(long)(params[0]) => (int)(long long)(params[0]);
+- (reported) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
+- (reported) MSVC6 - iup: src/win/iupwin_common.c(505) : error C2065: 'GWLP_WNDPROC' : undeclared identifier ...
