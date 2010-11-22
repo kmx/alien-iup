@@ -25,6 +25,3 @@ diag " $h->{$_} - $_" foreach (sort keys %$h);
 diag "Build/make results per target:";
 my $d = Alien::IUP::ConfigData->config('debug_done');
 diag " $d->{$_} - $_" foreach (sort keys %$d);
-
-diag "Tecmake sysinfo:";
-diag Alien::IUP::ConfigData->config('debug_si');

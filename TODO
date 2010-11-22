@@ -1,21 +1,6 @@
 IMPORTANT
-- Windows: tests
-  # Detected libraries/headers: - empty
-  # Build/make results per target: - empty
-  # Tecmake sysinfo: - undef
-  http://www.cpantesters.org/cpan/report/fb785046-c90c-1020-989f-a42816a75fc7
-- Solaris: cairo.h: No such file or directory
-  http://www.cpantesters.org/cpan/report/6fb109a8-d17a-11df-9e2d-9e9e6e8696e0
-  (maybe 1/ add cairo.h into brute force search; 2/ require $has{cairo}; 3/ show gtk2 verion in debug info; 4/ disable cd unless $has{cairo})
-- MSVC - OscPrintReceivedElements.cpp
-  srctuio\oscpack\osc\OscPrintReceivedElements.cpp(113) : error C2039: 'time_t' : is not a member of 'std'
-  srctuio\oscpack\osc\OscPrintReceivedElements.cpp(117) : error C2039: 'ctime' : is not a member of 'std'
-- maybe exclude iuptuio and iupweb from building
-- OpenBSD - im : process/im_distance.cpp compile error
-  g++ -c ... -o ../obj/im_process/OpenBSD47/im_distance.o process/im_distance.cpp
-  virtual memory exhausted: Cannot allocate memory
-  http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-  (dirty fix: skipping im_process build on OpenBSD)
+- UNIX/GTK2 - more iupweb/webkit testing
+- OpenBSD - im : process/im_distance.cpp compile error 
 
 MEDIUM PRIORITY
 - OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
@@ -39,4 +24,5 @@ ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
 - Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
-- OpenBSD - im_process g++ crash
+- OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
+- MSVC - OscPrintReceivedElements.cpp

@@ -82,7 +82,7 @@ $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug 
 # set what tarballs we are gonna use
 $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.3_Sources.tar.gz');
 $builder->notes('iup_sha1', '6ce0badbad9e27131010bf6fd296b1d5c8eda0a8');
-$builder->notes('iup_patches', [ 'patches/iup-3.3.diff' ] );
+$builder->notes('iup_patches', [ 'patches/iup-3.3.diff', 'patches/iup-tuio-ms64bit.diff' ] );
 
 $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
 $builder->notes('im_sha1', '93f5e1fef25d9ac42a8c3a628411156b695cd7d1');

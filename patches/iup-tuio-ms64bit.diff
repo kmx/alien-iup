@@ -1,0 +1,17 @@
+diff -ru --strip-trailing-cr iup.orig/srctuio/oscpack/osc/OscPrintReceivedElements.cpp iup/srctuio/oscpack/osc/OscPrintReceivedElements.cpp
+--- iup.orig/srctuio/oscpack/osc/OscPrintReceivedElements.cpp	2009-05-16 03:40:18.000000000 +0200
++++ iup/srctuio/oscpack/osc/OscPrintReceivedElements.cpp	2010-11-20 23:38:21.166594300 +0100
+@@ -110,11 +110,11 @@
+             {
+                 os << "OSC-timetag:" << arg.AsTimeTagUnchecked();
+ 
+-                std::time_t t =
++                time_t t =
+                         (unsigned long)( arg.AsTimeTagUnchecked() >> 32 );
+ 
+                 // strip trailing newline from string returned by ctime
+-                const char *timeString = std::ctime( &t );
++                const char *timeString = ctime( &t );
+                 size_t len = strlen( timeString );
+                 char *s = new char[ len + 1 ];
+                 strcpy( s, timeString );
