@@ -19,24 +19,3 @@ diff -ru --strip-trailing-cr iup.orig/src/config.mak iup/src/config.mak
  endif
  endif
  
-diff -ru --strip-trailing-cr iup.orig/srctuio/iup_tuio.cpp iup/srctuio/iup_tuio.cpp
---- iup.orig/srctuio/iup_tuio.cpp	2010-07-22 21:00:13.000000000 +0200
-+++ iup/srctuio/iup_tuio.cpp	2010-11-19 12:18:54.751318000 +0100
-@@ -377,7 +377,7 @@
- {
-   int port = 3333;
-   if (params && params[0])
--    port = (int)(long)(params[0]); /* must cast to long first to avoid 64bit compiler error */
-+    port = *(int*)params[0];
-   
-   ih->data = iupALLOCCTRLDATA();
-   
-@@ -398,7 +398,7 @@
- Ihandle* IupTuioClient(int port)
- {
-   void *params[2];
--  params[0] = (void*)port;
-+  params[0] = &port;
-   params[1] = NULL;
-   return IupCreatev("tuioclient", params);
- }

@@ -1,0 +1,16 @@
+diff -ru --strip-trailing-cr iup.orig/srctuio/iup_tuio.cpp iup/srctuio/iup_tuio.cpp
+--- iup.orig/srctuio/iup_tuio.cpp	2010-07-22 21:00:13.000000000 +0200
++++ iup/srctuio/iup_tuio.cpp	2010-11-22 16:53:31.030922700 +0100
+@@ -377,7 +377,11 @@
+ {
+   int port = 3333;
+   if (params && params[0])
+-    port = (int)(long)(params[0]); /* must cast to long first to avoid 64bit compiler error */
++#if defined (WIN32) && defined (_M_X64)
++    port = (int)(long long)(params[0]);
++#else
++    port = (int)(long)(params[0]); /* must cast to long first to avoid 64bit C++ compiler error */
++#endif
+   
+   ih->data = iupALLOCCTRLDATA();
+   

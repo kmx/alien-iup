@@ -1,0 +1,11 @@
+diff -ru --strip-trailing-cr iup.orig/srctuio/oscpack/ip/posix/NetworkingUtils.cpp iup/srctuio/oscpack/ip/posix/NetworkingUtils.cpp
+--- iup.orig/srctuio/oscpack/ip/posix/NetworkingUtils.cpp	2009-05-16 03:40:16.000000000 +0200
++++ iup/srctuio/oscpack/ip/posix/NetworkingUtils.cpp	2010-11-22 16:47:18.990722400 +0100
+@@ -31,6 +31,7 @@
+ 
+ #include <netdb.h>
+ #include <sys/socket.h>
++#include <sys/types.h>
+ #include <netinet/in.h>
+ #include <string.h>
+ #include <stdio.h>

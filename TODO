@@ -21,6 +21,7 @@ ERRORS TO BE REPORTED TO TECGRAF
 - (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
 - (reported) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
 - (reported) MSVC - OscPrintReceivedElements.cpp
+- (reported) NetBSD - ntohl & #include <sys/types.h>
 - (reported) iup/src/config.mak - _WIN32_WINNT=0x0500 vs. 0x0501
 - (reported) lzf_c.c - '_int64' vs. 'long long'
 - (reported) iup_tuio.cpp - on 64bit Windows: (int)(long)(params[0]) => (int)(long long)(params[0]);
