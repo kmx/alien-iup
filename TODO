@@ -1,28 +1,26 @@
 IMPORTANT
-- UNIX/GTK2 - more iupweb/webkit testing
-- OpenBSD - im : process/im_distance.cpp compile error 
+- none
 
 MEDIUM PRIORITY
-- OpenBSD + lesstif - undefined: XmCHARSET_TEXT??? (perhaps old LessTif version, does not happed on Cygwin/lesstif)
-- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
-- more complex compile test (use some advanced iup C example, using more then just iup)
+- more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
+- UNIX/GTK2 - more iupweb/webkit testing
 - enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
 - enhance interface: Alien::IUP->gui ... = 'win' | 'gtk2' | 'x11/mot'
-- remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 
 LOW PRIORITY
-- maybe die if "no gui detected" (now defaulting to X11)
-- MacOS - why autoenabling GTK?
 - detection iup+cd+im: does not work with msvc 
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
-- move lib detection into "perl Build.PL" phase
-- tecmake: warning
-  # tecmake.mak:1256: warning: overriding commands for target `../bin/Linux26g4'
-  # tecmake.mak:1216: warning: ignoring old commands for target `../bin/Linux26g4'
+- remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
+- Unix - move lib detection into "perl Build.PL" phase (maybe)
+- OpenBSD - im : process/im_distance.cpp compile error 
+- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
-- Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
-- Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
-- OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-- MSVC - OscPrintReceivedElements.cpp
+- (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
+- (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
+- (reported) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
+- (reported) MSVC - OscPrintReceivedElements.cpp
+- (reported) iup/src/config.mak - _WIN32_WINNT=0x0500 vs. 0x0501
+- (reported) lzf_c.c - '_int64' vs. 'long long'
+- (reported) iup_tuio.cpp - on 64bit Windows: (int)(long)(params[0]) => (int)(long long)(params[0]);
