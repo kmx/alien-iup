@@ -1,0 +1,98 @@
+#PLEASE NOTE: this Makefile was designed to be compatible with GNU make and dmake
+
+CC       = gcc
+AR       = ar
+ARFLAGS  = csr
+PERL     = perl
+
+ifeq ($(PERL)X, X)
+  CP     = cp
+  RM_F   = rm -f
+  MKPATH = mkdir -p
+else
+  CP     = $(PERL) -MExtUtils::Command -e cp --
+  RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
+  MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
+endif
+
+### GLOBAL PART ###
+
+BUILDBITS= 32
+BUILDNICK= [% global.COMPILER %]
+
+PREFIX   = [% global.PRE_PRE %]_output_
+INCDIR   = $(PREFIX)/include
+LIBDIR   = $(PREFIX)/lib
+
+CF_ALL   = [% global.CF %] -I"$(INCDIR)"
+LF_ALL   = -L[% global.LIB_PRE %]/$(BUILDNICK) -L"$(LIBDIR)"
+
+VER_OBJ      = [% global.VER_OBJ %]
+VER_RC       = [% global.VER_RC %]
+
+BUILD_DIRS   =[% FOREACH t IN targets -%] [% global.OBJ_PRE %]/$(BUILDNICK)/[% t.NAME %][% END %] [% global.LIB_PRE %]/$(BUILDNICK)
+
+ALL_OBJS     =[% FOREACH t IN targets -%] $(OBJS_[% t.NAME %])[% END %]
+
+STATIC_LIBS  =[% FOREACH t IN targets -%] $(SLIB_[% t.NAME %])[% END %]
+
+DYNAMIC_LIBS =[% FOREACH t IN targets -%] $(DLIB_[% t.NAME %]) $(ILIB_[% t.NAME %])[% END %]
+
+ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
+
+.PHONY: install install-static install-dynamic all all-static all-dynamic clean build-dirs
+
+all: all-static all-dynamic
+
+[% FOREACH t IN targets %]
+### START OF [% t.NAME %] ###
+CF_[% t.NAME %]   = [% t.CF %]
+LF_[% t.NAME %]   = [% t.LF %]
+SLIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/lib[% t.LNAME %].a
+DLIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/lib[% t.LNAME %].dll.a
+ILIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/[% t.LNAME %]_alien_.dll
+OBJS_[% t.NAME %] =[%  FOREACH o IN t.OBJS -%] [% global.OBJ_PRE %]/$(BUILDNICK)/[% t.NAME %]/[% o.OBJ %][% END %]
+
+[%  FOREACH o IN t.OBJS -%]
+[% global.OBJ_PRE %]/$(BUILDNICK)/[% t.NAME %]/[% o.OBJ %] : [% t.SRC_PRE %]/[% o.SRC %] ; [% o.COMPILER %] $(CF_ALL) $(CF_[% t.NAME %]) $^ -o $@
+[% END -%]
+
+$(SLIB_[% t.NAME %]): $(OBJS_[% t.NAME %])
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_[% t.NAME %]) $(DLIB_[% t.NAME %]) : $(OBJS_[% t.NAME %])
+	g++ -s -shared -o $(ILIB_[% t.NAME %]) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_[% t.NAME %]) $(LF_[% t.NAME %]) $(LF_ALL)
+	-strip $(ILIB_[% t.NAME %])
+[% END -%]
+
+### compile RC
+
+$(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $^ -o $@
+
+all-static: build-dirs $(STATIC_LIBS)
+
+all-dynamic: build-dirs $(DYNAMIC_LIBS)
+
+install: all
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) [% global.INC_PRE %]include/*.h "$(INCDIR)"
+
+install-static: all-static
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(STATIC_LIBS) "$(LIBDIR)"
+	$(CP) [% global.INC_PRE %]include/*.h "$(INCDIR)"
+
+install-dynamic: all-dynamic
+	$(MKPATH) "$(LIBDIR)"
+	$(MKPATH) "$(INCDIR)"
+	$(CP) $(DYNAMIC_LIBS) "$(LIBDIR)"
+	$(CP) [% global.INC_PRE %]include/*.h "$(INCDIR)"
+
+build-dirs:
+	$(MKPATH) $(BUILD_DIRS)
+
+clean:
+	$(RM_F) $(ALL_OBJS) $(ALL_LIBS) $(VER_OBJ)

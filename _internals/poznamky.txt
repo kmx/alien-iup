@@ -1,0 +1,23 @@
+0/ download source tarballs to the current dictionsry
+
+wget http://download.sf.net/iup/iup-3.3_Sources.tar.gz
+wget http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz
+wget http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz
+
+1/ uzip all sources
+
+# sh prepare-source.sh 
+
+(+ apply patches of your choice)
+
+2/ from MSYS shell run:
+
+# sh build-all.sh 
+
+3/ generate makefiles from 'build-dynamic.log' produced in step 2/
+
+# perl log2makefile.pl
+
+4/ generate diffs
+
+# sh create-diffs.sh
