@@ -34,8 +34,6 @@ DYNAMIC_LIBS = $(DLIB_cd_freetype) $(ILIB_cd_freetype) $(DLIB_cd_ftgl) $(ILIB_cd
 
 ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 
-.PHONY: install install-static install-dynamic all all-static all-dynamic clean build-dirs
-
 all: all-static all-dynamic
 
 
@@ -371,7 +369,7 @@ all-static: build-dirs $(STATIC_LIBS)
 
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install:
+install-all:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
 	$(CP) ../lib/$(BUILDNICK)/*.lib "$(LIBDIR)"

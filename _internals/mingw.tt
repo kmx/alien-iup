@@ -34,7 +34,7 @@ DYNAMIC_LIBS =[% FOREACH t IN targets -%] $(DLIB_[% t.NAME %]) $(ILIB_[% t.NAME 
 
 ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 
-.PHONY: install install-static install-dynamic all all-static all-dynamic clean build-dirs
+.PHONY: install-all install-static install-dynamic all all-static all-dynamic clean build-dirs
 
 all: all-static all-dynamic
 
@@ -70,7 +70,7 @@ all: build-dirs $(STATIC_LIBS) $(DYNAMIC_LIBS)
 all-static: build-dirs $(STATIC_LIBS)
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install:
+install-all:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
 	$(CP) [% global.LIB_PRE %]/$(BUILDNICK)/* "$(LIBDIR)"

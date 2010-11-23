@@ -61,7 +61,7 @@ sub build_binaries {
       warn "###WARNING### error during make(im:$t)" unless $done{"im:$t"};
       $success = 0 unless $done{"im:$t"};
     }
-    $self->run_custom(@cmd_im, 'install');
+    $self->run_custom(@cmd_im, 'install-all');
     chdir $self->base_dir();
   }
 
@@ -74,7 +74,7 @@ sub build_binaries {
       warn "###WARNING### error during make(cd:$t)" unless $done{"cd:$t"};
       $success = 0 unless $done{"cd:$t"};
     }
-    $self->run_custom(@cmd_cd, 'install');
+    $self->run_custom(@cmd_cd, 'install-all');
     chdir $self->base_dir();
   }
 
@@ -87,6 +87,7 @@ sub build_binaries {
       warn "###WARNING### error during make(iup:$t)" unless $done{"iup:$t"};
       $success = 0 unless $done{"iup:$t"};
     }
+    $self->run_custom(@cmd_iup, 'install-all');
     chdir $self->base_dir();
   }
   
