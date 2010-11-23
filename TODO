@@ -1,7 +1,16 @@
 IMPORTANT
-- MSVC6 build fails
+- Do you want STABLE or UNSTABLE (devel version from CVS) build [STABLE]?
+- Win: disable ftgl and iuptuio on VC6
+  ($Config{ccversion} =~ /^12\./)
+  (`cl 2>&1` =~ /^12\./)
+- Unix: disable iuptuio on cygwin/gcc-3.4.4
+  Unix: ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/)
 
 MEDIUM PRIORITY
+- generate makefiles for contextplus/iupweb
+- enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
+- enable iupweb - MS compiler
+- enable cdcairo - when has{cairo}
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - UNIX/GTK2 - more iupweb/webkit testing
 - enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
@@ -12,21 +21,14 @@ LOW PRIORITY
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 - Unix - move lib detection into "perl Build.PL" phase (maybe)
-- OpenBSD - im : process/im_distance.cpp compile error 
 - Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 - Makefile*.nmake - dynamic lib build not supported
-- MS Windows - more testing for cdcontextplus and iupweb (MS compiler only)
-- MS Windows - ftgl (currently disable as it does not compile on VC6)
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
-- (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
-- (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
-- (reported) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-- (reported) MSVC - OscPrintReceivedElements.cpp
-- (reported) NetBSD - ntohl & #include <sys/types.h>
-- (reported) iup/src/config.mak - _WIN32_WINNT=0x0500 vs. 0x0501
-- (reported) lzf_c.c - '_int64' vs. 'long long'
-- (reported) iup_tuio.cpp - on 64bit Windows: (int)(long)(params[0]) => (int)(long long)(params[0]);
-- (reported) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
-- (reported) MSVC6 - iup: src/win/iupwin_common.c(505) : error C2065: 'GWLP_WNDPROC' : undeclared identifier ...
+- (reported-wontfix) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
+- (reported-wontfix) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
+- (reported-wontfix) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
+- (reported-wontfix) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
+- (reported) MSVC6 - iuptuio fails
+- (reported) Cygwin - iuptuio fails (gcc3)
