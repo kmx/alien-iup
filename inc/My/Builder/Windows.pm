@@ -12,15 +12,20 @@ sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $prefixdir = rel2abs($build_out);
   my $perl = $^X;
-
-  #targets: install-static install-dynamic install
-  my $target = 'install-static';
+    
+  my @imtargets = qw[im im_process im_jp2 im_fftw]; #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
+  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus]; #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iuptuio]; #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl iupweb iuptuio
+  
+  @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
+  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;       # xxx TODO: remove just when compiling via VC6
+  @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
 
   my (@cmd_im, @cmd_cd, @cmd_iup);
   if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
-    @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),  "PERL=perl", "PREFIX=$prefixdir", $target );
-    @cmd_cd  = ( $Config{make}, '-f', rel2abs('patches\Makefile_cd.nmake'),  "PERL=perl", "PREFIX=$prefixdir", $target );
-    @cmd_iup = ( $Config{make}, '-f', rel2abs('patches\Makefile_iup.nmake'), "PERL=perl", "PREFIX=$prefixdir", $target );
+    @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),  "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_cd  = ( $Config{make}, '-f', rel2abs('patches\Makefile_cd.nmake'),  "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_iup = ( $Config{make}, '-f', rel2abs('patches\Makefile_iup.nmake'), "PERL=perl", "PREFIX=$prefixdir" );
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'CFG=Win64');
       push(@cmd_cd,  'CFG=Win64');
@@ -33,55 +38,91 @@ sub build_binaries {
     # for GNU make on MS Windows it is safer to convert \ to /
     $perl =~ s|\\|/|g;
     $prefixdir =~ s|\\|/|g;
-    @cmd_im  = ( $make, '-f', rel2abs('patches\Makefile_im.mingw'),  "PERL=$perl", "PREFIX=$prefixdir", $target );
-    @cmd_cd  = ( $make, '-f', rel2abs('patches\Makefile_cd.mingw'),  "PERL=$perl", "PREFIX=$prefixdir", $target );
-    @cmd_iup = ( $make, '-f', rel2abs('patches\Makefile_iup.mingw'), "PERL=$perl", "PREFIX=$prefixdir", $target );
+    @cmd_im  = ( $make, '-f', rel2abs('patches\Makefile_im.mingw'),  "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_cd  = ( $make, '-f', rel2abs('patches\Makefile_cd.mingw'),  "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_iup = ( $make, '-f', rel2abs('patches\Makefile_iup.mingw'), "PERL=$perl", "PREFIX=$prefixdir" );
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'BUILDBITS=64');
       push(@cmd_cd,  'BUILDBITS=64');
       push(@cmd_iup, 'BUILDBITS=64');
     }
   }
-
-  my @iup_libs = qw/iup cd im cdgl cdpdf freetype6 ftgl im_fftw im_jp2 im_process iup_pplot iupcd iupcontrols iupgl iupim iupimglib pdflib/;
-  my ($s_im, $s_iup, $s_cd);
+      
+  my $libtype = 'static';
+  my $success = 1;
+  my %done;
 
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
-    $s_im = $self->run_custom(@cmd_im);
-    warn "###WARNING### error [$?] during make(im)" unless $s_im;
+    foreach my $t (@imtargets) {
+      print STDERR ">>>>> Building 'im:$t'\n";
+      $done{"im:$t"} = $self->run_custom(@cmd_im, $t.'-'.$libtype);
+      warn "###WARNING### error during make(im:$t)" unless $done{"im:$t"};
+      $success = 0 unless $done{"im:$t"};
+    }
+    $self->run_custom(@cmd_im, 'install');
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/cd/src") {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";    
-    $s_cd = $self->run_custom(@cmd_cd);
-    warn "###WARNING### error [$?] during make(cd)" unless $s_cd;
+    foreach my $t (@cdtargets) {
+      print STDERR ">>>>> Building 'cd:$t'\n";
+      $done{"cd:$t"} = $self->run_custom(@cmd_cd, $t.'-'.$libtype);
+      warn "###WARNING### error during make(cd:$t)" unless $done{"cd:$t"};
+      $success = 0 unless $done{"cd:$t"};
+    }
+    $self->run_custom(@cmd_cd, 'install');
     chdir $self->base_dir();
   }
 
   if (-d "$srcdir/iup") {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
-    $s_iup = $self->run_custom(@cmd_iup);
-    warn "###WARNING### error [$?] during make(iup)" unless $s_iup;
+    foreach my $t (@iuptargets) {
+      print STDERR ">>>>> Building 'iup:$t'\n";
+      $done{"iup:$t"} = $self->run_custom(@cmd_iup, $t.'-'.$libtype);
+      warn "###WARNING### error during make(iup:$t)" unless $done{"iup:$t"};
+      $success = 0 unless $done{"iup:$t"};
+    }
     chdir $self->base_dir();
   }
   
-  my $success = ($s_iup && $s_im && $s_cd) ? 1 : 0;
-  die "###BUILD ABORTED### iup=$s_iup im=$s_im cd=$s_cd" unless $success;
+  unless ($done{"iup:iup"} && $done{"iup:iupim"} && $done{"iup:iupcd"}) {
+    warn "###WARN### essential libs not built!";
+    $success = 0;
+  }
+
+  # print build results
+  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);  
   
-  # xxx TODO maybe detect real existing libs after make
-  if ($self->notes('build_debug_info')) {
-    my @l = bsd_glob("$prefixdir/lib/*");
-    print STDERR "Created lib: $_\n" foreach (@l);
+  # go through really existing libs
+  my %seen;
+  my @gl_l = glob("$prefixdir/lib/*");
+  foreach (@gl_l) {
+    print STDERR "Created lib: $_\n" if $self->notes('build_debug_info');
+    if ($_ =~ /lib([a-zA-Z0-9\_\-\.]*?)\.(a|dll\.a)$/) { #gcc
+      $seen{$1} = 1;
+    }
+    elsif ($_ =~ /([a-zA-Z0-9\_\-\.]*?)\.(lib)$/) { #msvc
+      $seen{$1} = 1;
+    }
+    else {
+      warn "###WARN### Unexpected filename '$_'";
+    }
   }
   
+  # xxx TODO: maybe more libs needed like - gdiplus ...
+  my @libs = ( $self->sort_libs(keys %seen), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ );
+  
+  $self->config_data('debug_done', \%done);
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
-  $self->config_data('linker_libs', [ $self->sort_libs(@iup_libs), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
+  $self->config_data('linker_libs', \@libs);
+
+  die "###BUILD ABORTED###" unless $success;
 
   print STDERR "Build finished sucessfully!\n";
   return 1;

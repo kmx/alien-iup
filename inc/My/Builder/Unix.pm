@@ -144,20 +144,19 @@ sub build_binaries {
   push(@opengl_libs, 'GL')  if $has{l_GL};
   push(@opengl_libs, 'GLU') if $has{l_GLU};
 
-  #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
-  my @imtargets = qw[im im_process im_jp2 im_fftw];
+  
+  my @imtargets = qw[im im_process im_jp2 im_fftw]; #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
+  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio]; #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl iupweb iuptuio
+  
   if ($^O eq 'openbsd') {
     warn "###WARN### im_process is known to fail on some OpenBSD!!!";
 #    warn "###WARN### skipping im_process on OpenBSD";
 #    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
-  }
-
-  #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
-  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
+  }  
+  
   @cdtargets = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
 
-  #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
   @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 

@@ -14,6 +14,9 @@ LOW PRIORITY
 - Unix - move lib detection into "perl Build.PL" phase (maybe)
 - OpenBSD - im : process/im_distance.cpp compile error 
 - Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
+- Makefile*.nmake - dynamic lib build not supported
+- MS Windows - more testing for cdcontextplus and iupweb (MS compiler only)
+- MS Windows - ftgl (currently disable as it does not compile on VC6)
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
