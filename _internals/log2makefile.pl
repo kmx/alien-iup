@@ -8,9 +8,10 @@ my $input = 'build-dynamic.log';
 my %flags1 = ();
 my $flags2 = {};
 
-my %libtranslate = ( 
-	cd => 'cdwin',
-	iupim => 'xxxxxx',
+my %fixtarget = ( 
+    ftgl => 'cd_ftgl',
+    freetype6 => 'cd_freetype',
+    pdflib => 'cd_pdflib',
 );
 
 my @targets = ();
@@ -122,11 +123,11 @@ while (<DAT>) {
   }
   elsif (/^Tecmake: Starting \[ ([^:]*)/) {
     flush_target();
-    $curtarget = $1;
+    $curtarget = $fixtarget{$1} || $1;
     $curlname = $1;    
     $curlobjs = [];
-    $curlf = '';
-    print STDERR "New target=$1\n";
+    $curlf = '';    
+    print STDERR "New target=$curtarget\n";
   }
   elsif (/^(gcc|g\+\+) (-shared).*? -o .*?([^\/]*?)\.dll .*?\.a * (.*?)( *-L[^ ]*)* (-l.*)$/) {
     $curlf = $6;

@@ -5,15 +5,9 @@ AR       = ar
 ARFLAGS  = csr
 PERL     = perl
 
-ifeq ($(PERL)X, X)
-  CP     = cp
-  RM_F   = rm -f
-  MKPATH = mkdir -p
-else
-  CP     = $(PERL) -MExtUtils::Command -e cp --
-  RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
-  MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
-endif
+CP     = $(PERL) -MExtUtils::Command -e cp --
+RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
+MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
 
 ### GLOBAL PART ###
 
@@ -30,13 +24,13 @@ LF_ALL   = -L../lib/$(BUILDNICK) -L"$(LIBDIR)"
 VER_OBJ      = version.o
 VER_RC       = version.rc
 
-BUILD_DIRS   = ../obj/$(BUILDNICK)/freetype6 ../obj/$(BUILDNICK)/ftgl ../obj/$(BUILDNICK)/cd ../obj/$(BUILDNICK)/pdflib ../obj/$(BUILDNICK)/cdpdf ../obj/$(BUILDNICK)/cdgl ../lib/$(BUILDNICK)
+BUILD_DIRS   = ../obj/$(BUILDNICK)/cd_freetype ../obj/$(BUILDNICK)/cd_ftgl ../obj/$(BUILDNICK)/cd ../obj/$(BUILDNICK)/cd_pdflib ../obj/$(BUILDNICK)/cdpdf ../obj/$(BUILDNICK)/cdgl ../lib/$(BUILDNICK)
 
-ALL_OBJS     = $(OBJS_freetype6) $(OBJS_ftgl) $(OBJS_cd) $(OBJS_pdflib) $(OBJS_cdpdf) $(OBJS_cdgl)
+ALL_OBJS     = $(OBJS_cd_freetype) $(OBJS_cd_ftgl) $(OBJS_cd) $(OBJS_cd_pdflib) $(OBJS_cdpdf) $(OBJS_cdgl)
 
-STATIC_LIBS  = $(SLIB_freetype6) $(SLIB_ftgl) $(SLIB_cd) $(SLIB_pdflib) $(SLIB_cdpdf) $(SLIB_cdgl)
+STATIC_LIBS  = $(SLIB_cd_freetype) $(SLIB_cd_ftgl) $(SLIB_cd) $(SLIB_cd_pdflib) $(SLIB_cdpdf) $(SLIB_cdgl)
 
-DYNAMIC_LIBS = $(DLIB_freetype6) $(ILIB_freetype6) $(DLIB_ftgl) $(ILIB_ftgl) $(DLIB_cd) $(ILIB_cd) $(DLIB_pdflib) $(ILIB_pdflib) $(DLIB_cdpdf) $(ILIB_cdpdf) $(DLIB_cdgl) $(ILIB_cdgl)
+DYNAMIC_LIBS = $(DLIB_cd_freetype) $(ILIB_cd_freetype) $(DLIB_cd_ftgl) $(ILIB_cd_ftgl) $(DLIB_cd) $(ILIB_cd) $(DLIB_cd_pdflib) $(ILIB_cd_pdflib) $(DLIB_cdpdf) $(ILIB_cdpdf) $(DLIB_cdgl) $(ILIB_cdgl)
 
 ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 
@@ -45,111 +39,117 @@ ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 all: all-static all-dynamic
 
 
-### START OF freetype6 ###
-CF_freetype6   = -c  -Wall -O2 -Ifreetype2   -DFT2_BUILD_LIBRARY
-LF_freetype6   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
-SLIB_freetype6 = ../lib/$(BUILDNICK)/libfreetype6.a
-DLIB_freetype6 = ../lib/$(BUILDNICK)/libfreetype6.dll.a
-ILIB_freetype6 = ../lib/$(BUILDNICK)/freetype6_alien_.dll
-OBJS_freetype6 = ../obj/$(BUILDNICK)/freetype6/autofit.o ../obj/$(BUILDNICK)/freetype6/bdf.o ../obj/$(BUILDNICK)/freetype6/cff.o ../obj/$(BUILDNICK)/freetype6/ftbase.o ../obj/$(BUILDNICK)/freetype6/ftcid.o ../obj/$(BUILDNICK)/freetype6/ftfstype.o ../obj/$(BUILDNICK)/freetype6/ftcache.o ../obj/$(BUILDNICK)/freetype6/ftgzip.o ../obj/$(BUILDNICK)/freetype6/ftlzw.o ../obj/$(BUILDNICK)/freetype6/gxvalid.o ../obj/$(BUILDNICK)/freetype6/otvalid.o ../obj/$(BUILDNICK)/freetype6/pcf.o ../obj/$(BUILDNICK)/freetype6/pfr.o ../obj/$(BUILDNICK)/freetype6/psaux.o ../obj/$(BUILDNICK)/freetype6/pshinter.o ../obj/$(BUILDNICK)/freetype6/psnames.o ../obj/$(BUILDNICK)/freetype6/raster.o ../obj/$(BUILDNICK)/freetype6/sfnt.o ../obj/$(BUILDNICK)/freetype6/smooth.o ../obj/$(BUILDNICK)/freetype6/truetype.o ../obj/$(BUILDNICK)/freetype6/type1.o ../obj/$(BUILDNICK)/freetype6/type1cid.o ../obj/$(BUILDNICK)/freetype6/type42.o ../obj/$(BUILDNICK)/freetype6/winfnt.o ../obj/$(BUILDNICK)/freetype6/ftapi.o ../obj/$(BUILDNICK)/freetype6/ftbbox.o ../obj/$(BUILDNICK)/freetype6/ftbdf.o ../obj/$(BUILDNICK)/freetype6/ftbitmap.o ../obj/$(BUILDNICK)/freetype6/ftdebug.o ../obj/$(BUILDNICK)/freetype6/ftgasp.o ../obj/$(BUILDNICK)/freetype6/ftglyph.o ../obj/$(BUILDNICK)/freetype6/ftgxval.o ../obj/$(BUILDNICK)/freetype6/ftinit.o ../obj/$(BUILDNICK)/freetype6/ftlcdfil.o ../obj/$(BUILDNICK)/freetype6/ftmm.o ../obj/$(BUILDNICK)/freetype6/ftotval.o ../obj/$(BUILDNICK)/freetype6/ftpatent.o ../obj/$(BUILDNICK)/freetype6/ftpfr.o ../obj/$(BUILDNICK)/freetype6/ftstroke.o ../obj/$(BUILDNICK)/freetype6/ftsynth.o ../obj/$(BUILDNICK)/freetype6/ftsystem.o ../obj/$(BUILDNICK)/freetype6/fttype1.o ../obj/$(BUILDNICK)/freetype6/ftwinfnt.o ../obj/$(BUILDNICK)/freetype6/ftxf86.o
+### START OF cd_freetype ###
+CF_cd_freetype   = -c  -Wall -O2 -Ifreetype2   -DFT2_BUILD_LIBRARY
+LF_cd_freetype   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
+SLIB_cd_freetype = ../lib/$(BUILDNICK)/libfreetype6.a
+DLIB_cd_freetype = ../lib/$(BUILDNICK)/libfreetype6.dll.a
+ILIB_cd_freetype = ../lib/$(BUILDNICK)/freetype6_alien_.dll
+OBJS_cd_freetype = ../obj/$(BUILDNICK)/cd_freetype/autofit.o ../obj/$(BUILDNICK)/cd_freetype/bdf.o ../obj/$(BUILDNICK)/cd_freetype/cff.o ../obj/$(BUILDNICK)/cd_freetype/ftbase.o ../obj/$(BUILDNICK)/cd_freetype/ftcid.o ../obj/$(BUILDNICK)/cd_freetype/ftfstype.o ../obj/$(BUILDNICK)/cd_freetype/ftcache.o ../obj/$(BUILDNICK)/cd_freetype/ftgzip.o ../obj/$(BUILDNICK)/cd_freetype/ftlzw.o ../obj/$(BUILDNICK)/cd_freetype/gxvalid.o ../obj/$(BUILDNICK)/cd_freetype/otvalid.o ../obj/$(BUILDNICK)/cd_freetype/pcf.o ../obj/$(BUILDNICK)/cd_freetype/pfr.o ../obj/$(BUILDNICK)/cd_freetype/psaux.o ../obj/$(BUILDNICK)/cd_freetype/pshinter.o ../obj/$(BUILDNICK)/cd_freetype/psnames.o ../obj/$(BUILDNICK)/cd_freetype/raster.o ../obj/$(BUILDNICK)/cd_freetype/sfnt.o ../obj/$(BUILDNICK)/cd_freetype/smooth.o ../obj/$(BUILDNICK)/cd_freetype/truetype.o ../obj/$(BUILDNICK)/cd_freetype/type1.o ../obj/$(BUILDNICK)/cd_freetype/type1cid.o ../obj/$(BUILDNICK)/cd_freetype/type42.o ../obj/$(BUILDNICK)/cd_freetype/winfnt.o ../obj/$(BUILDNICK)/cd_freetype/ftapi.o ../obj/$(BUILDNICK)/cd_freetype/ftbbox.o ../obj/$(BUILDNICK)/cd_freetype/ftbdf.o ../obj/$(BUILDNICK)/cd_freetype/ftbitmap.o ../obj/$(BUILDNICK)/cd_freetype/ftdebug.o ../obj/$(BUILDNICK)/cd_freetype/ftgasp.o ../obj/$(BUILDNICK)/cd_freetype/ftglyph.o ../obj/$(BUILDNICK)/cd_freetype/ftgxval.o ../obj/$(BUILDNICK)/cd_freetype/ftinit.o ../obj/$(BUILDNICK)/cd_freetype/ftlcdfil.o ../obj/$(BUILDNICK)/cd_freetype/ftmm.o ../obj/$(BUILDNICK)/cd_freetype/ftotval.o ../obj/$(BUILDNICK)/cd_freetype/ftpatent.o ../obj/$(BUILDNICK)/cd_freetype/ftpfr.o ../obj/$(BUILDNICK)/cd_freetype/ftstroke.o ../obj/$(BUILDNICK)/cd_freetype/ftsynth.o ../obj/$(BUILDNICK)/cd_freetype/ftsystem.o ../obj/$(BUILDNICK)/cd_freetype/fttype1.o ../obj/$(BUILDNICK)/cd_freetype/ftwinfnt.o ../obj/$(BUILDNICK)/cd_freetype/ftxf86.o
 
-../obj/$(BUILDNICK)/freetype6/autofit.o : ./freetype2/autofit/autofit.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/bdf.o : ./freetype2/bdf/bdf.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/cff.o : ./freetype2/cff/cff.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftbase.o : ./freetype2/base/ftbase.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftcid.o : ./freetype2/base/ftcid.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftfstype.o : ./freetype2/base/ftfstype.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftcache.o : ./freetype2/cache/ftcache.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftgzip.o : ./freetype2/gzip/ftgzip.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftlzw.o : ./freetype2/lzw/ftlzw.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/gxvalid.o : ./freetype2/gxvalid/gxvalid.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/otvalid.o : ./freetype2/otvalid/otvalid.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/pcf.o : ./freetype2/pcf/pcf.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/pfr.o : ./freetype2/pfr/pfr.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/psaux.o : ./freetype2/psaux/psaux.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/pshinter.o : ./freetype2/pshinter/pshinter.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/psnames.o : ./freetype2/psnames/psnames.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/raster.o : ./freetype2/raster/raster.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/sfnt.o : ./freetype2/sfnt/sfnt.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/smooth.o : ./freetype2/smooth/smooth.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/truetype.o : ./freetype2/truetype/truetype.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/type1.o : ./freetype2/type1/type1.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/type1cid.o : ./freetype2/cid/type1cid.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/type42.o : ./freetype2/type42/type42.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/winfnt.o : ./freetype2/winfonts/winfnt.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftapi.o : ./freetype2/base/ftapi.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftbbox.o : ./freetype2/base/ftbbox.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftbdf.o : ./freetype2/base/ftbdf.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftbitmap.o : ./freetype2/base/ftbitmap.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftdebug.o : ./freetype2/base/ftdebug.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftgasp.o : ./freetype2/base/ftgasp.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftglyph.o : ./freetype2/base/ftglyph.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftgxval.o : ./freetype2/base/ftgxval.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftinit.o : ./freetype2/base/ftinit.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftlcdfil.o : ./freetype2/base/ftlcdfil.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftmm.o : ./freetype2/base/ftmm.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftotval.o : ./freetype2/base/ftotval.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftpatent.o : ./freetype2/base/ftpatent.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftpfr.o : ./freetype2/base/ftpfr.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftstroke.o : ./freetype2/base/ftstroke.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftsynth.o : ./freetype2/base/ftsynth.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftsystem.o : ./freetype2/base/ftsystem.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/fttype1.o : ./freetype2/base/fttype1.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftwinfnt.o : ./freetype2/base/ftwinfnt.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
-../obj/$(BUILDNICK)/freetype6/ftxf86.o : ./freetype2/base/ftxf86.c ; gcc $(CF_ALL) $(CF_freetype6) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/autofit.o : ./freetype2/autofit/autofit.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/bdf.o : ./freetype2/bdf/bdf.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/cff.o : ./freetype2/cff/cff.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftbase.o : ./freetype2/base/ftbase.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftcid.o : ./freetype2/base/ftcid.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftfstype.o : ./freetype2/base/ftfstype.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftcache.o : ./freetype2/cache/ftcache.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftgzip.o : ./freetype2/gzip/ftgzip.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftlzw.o : ./freetype2/lzw/ftlzw.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/gxvalid.o : ./freetype2/gxvalid/gxvalid.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/otvalid.o : ./freetype2/otvalid/otvalid.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/pcf.o : ./freetype2/pcf/pcf.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/pfr.o : ./freetype2/pfr/pfr.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/psaux.o : ./freetype2/psaux/psaux.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/pshinter.o : ./freetype2/pshinter/pshinter.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/psnames.o : ./freetype2/psnames/psnames.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/raster.o : ./freetype2/raster/raster.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/sfnt.o : ./freetype2/sfnt/sfnt.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/smooth.o : ./freetype2/smooth/smooth.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/truetype.o : ./freetype2/truetype/truetype.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/type1.o : ./freetype2/type1/type1.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/type1cid.o : ./freetype2/cid/type1cid.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/type42.o : ./freetype2/type42/type42.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/winfnt.o : ./freetype2/winfonts/winfnt.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftapi.o : ./freetype2/base/ftapi.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftbbox.o : ./freetype2/base/ftbbox.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftbdf.o : ./freetype2/base/ftbdf.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftbitmap.o : ./freetype2/base/ftbitmap.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftdebug.o : ./freetype2/base/ftdebug.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftgasp.o : ./freetype2/base/ftgasp.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftglyph.o : ./freetype2/base/ftglyph.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftgxval.o : ./freetype2/base/ftgxval.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftinit.o : ./freetype2/base/ftinit.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftlcdfil.o : ./freetype2/base/ftlcdfil.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftmm.o : ./freetype2/base/ftmm.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftotval.o : ./freetype2/base/ftotval.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftpatent.o : ./freetype2/base/ftpatent.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftpfr.o : ./freetype2/base/ftpfr.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftstroke.o : ./freetype2/base/ftstroke.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftsynth.o : ./freetype2/base/ftsynth.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftsystem.o : ./freetype2/base/ftsystem.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/fttype1.o : ./freetype2/base/fttype1.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftwinfnt.o : ./freetype2/base/ftwinfnt.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
+../obj/$(BUILDNICK)/cd_freetype/ftxf86.o : ./freetype2/base/ftxf86.c ; gcc $(CF_ALL) $(CF_cd_freetype) $^ -o $@
 
-$(SLIB_freetype6): $(OBJS_freetype6)
+$(SLIB_cd_freetype): $(OBJS_cd_freetype)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(ILIB_freetype6) $(DLIB_freetype6) : $(OBJS_freetype6)
-	g++ -s -shared -o $(ILIB_freetype6) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_freetype6) $(LF_freetype6) $(LF_ALL)
-	-strip $(ILIB_freetype6)
+$(ILIB_cd_freetype) $(DLIB_cd_freetype) : $(OBJS_cd_freetype)
+	g++ -s -shared -o $(ILIB_cd_freetype) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cd_freetype) $(LF_cd_freetype) $(LF_ALL)
+	-strip $(ILIB_cd_freetype)
 
-### START OF ftgl ###
-CF_ftgl   = -c  -Wall -O2 -Iftgl -Ifreetype2   -DFTGL_LIBRARY
-LF_ftgl   = -lfreetype6 -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
-SLIB_ftgl = ../lib/$(BUILDNICK)/libftgl.a
-DLIB_ftgl = ../lib/$(BUILDNICK)/libftgl.dll.a
-ILIB_ftgl = ../lib/$(BUILDNICK)/ftgl_alien_.dll
-OBJS_ftgl = ../obj/$(BUILDNICK)/ftgl/FTBuffer.o ../obj/$(BUILDNICK)/ftgl/FTCharmap.o ../obj/$(BUILDNICK)/ftgl/FTContour.o ../obj/$(BUILDNICK)/ftgl/FTFace.o ../obj/$(BUILDNICK)/ftgl/FTGlyphContainer.o ../obj/$(BUILDNICK)/ftgl/FTLibrary.o ../obj/$(BUILDNICK)/ftgl/FTPoint.o ../obj/$(BUILDNICK)/ftgl/FTSize.o ../obj/$(BUILDNICK)/ftgl/FTVectoriser.o ../obj/$(BUILDNICK)/ftgl/FTGlyph.o ../obj/$(BUILDNICK)/ftgl/FTGlyphGlue.o ../obj/$(BUILDNICK)/ftgl/FTBitmapGlyph.o ../obj/$(BUILDNICK)/ftgl/FTBufferGlyph.o ../obj/$(BUILDNICK)/ftgl/FTExtrudeGlyph.o ../obj/$(BUILDNICK)/ftgl/FTOutlineGlyph.o ../obj/$(BUILDNICK)/ftgl/FTPixmapGlyph.o ../obj/$(BUILDNICK)/ftgl/FTPolygonGlyph.o ../obj/$(BUILDNICK)/ftgl/FTTextureGlyph.o ../obj/$(BUILDNICK)/ftgl/FTFont.o ../obj/$(BUILDNICK)/ftgl/FTFontGlue.o ../obj/$(BUILDNICK)/ftgl/FTBitmapFont.o ../obj/$(BUILDNICK)/ftgl/FTBufferFont.o ../obj/$(BUILDNICK)/ftgl/FTExtrudeFont.o ../obj/$(BUILDNICK)/ftgl/FTOutlineFont.o ../obj/$(BUILDNICK)/ftgl/FTPixmapFont.o ../obj/$(BUILDNICK)/ftgl/FTPolygonFont.o ../obj/$(BUILDNICK)/ftgl/FTTextureFont.o ../obj/$(BUILDNICK)/ftgl/FTLayout.o ../obj/$(BUILDNICK)/ftgl/FTLayoutGlue.o ../obj/$(BUILDNICK)/ftgl/FTSimpleLayout.o
+cd_freetype-static: $(SLIB_cd_freetype)
+cd_freetype-dynamic: $(ILIB_cd_freetype) $(DLIB_cd_freetype)
 
-../obj/$(BUILDNICK)/ftgl/FTBuffer.o : ./ftgl/FTBuffer.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTCharmap.o : ./ftgl/FTCharmap.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTContour.o : ./ftgl/FTContour.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTFace.o : ./ftgl/FTFace.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTGlyphContainer.o : ./ftgl/FTGlyphContainer.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTLibrary.o : ./ftgl/FTLibrary.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTPoint.o : ./ftgl/FTPoint.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTSize.o : ./ftgl/FTSize.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTVectoriser.o : ./ftgl/FTVectoriser.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTGlyph.o : ./ftgl/FTGlyph/FTGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTGlyphGlue.o : ./ftgl/FTGlyph/FTGlyphGlue.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTBitmapGlyph.o : ./ftgl/FTGlyph/FTBitmapGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTBufferGlyph.o : ./ftgl/FTGlyph/FTBufferGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTExtrudeGlyph.o : ./ftgl/FTGlyph/FTExtrudeGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTOutlineGlyph.o : ./ftgl/FTGlyph/FTOutlineGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTPixmapGlyph.o : ./ftgl/FTGlyph/FTPixmapGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTPolygonGlyph.o : ./ftgl/FTGlyph/FTPolygonGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTTextureGlyph.o : ./ftgl/FTGlyph/FTTextureGlyph.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTFont.o : ./ftgl/FTFont/FTFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTFontGlue.o : ./ftgl/FTFont/FTFontGlue.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTBitmapFont.o : ./ftgl/FTFont/FTBitmapFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTBufferFont.o : ./ftgl/FTFont/FTBufferFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTExtrudeFont.o : ./ftgl/FTFont/FTExtrudeFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTOutlineFont.o : ./ftgl/FTFont/FTOutlineFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTPixmapFont.o : ./ftgl/FTFont/FTPixmapFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTPolygonFont.o : ./ftgl/FTFont/FTPolygonFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTTextureFont.o : ./ftgl/FTFont/FTTextureFont.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTLayout.o : ./ftgl/FTLayout/FTLayout.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTLayoutGlue.o : ./ftgl/FTLayout/FTLayoutGlue.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
-../obj/$(BUILDNICK)/ftgl/FTSimpleLayout.o : ./ftgl/FTLayout/FTSimpleLayout.cpp ; g++ $(CF_ALL) $(CF_ftgl) $^ -o $@
+### START OF cd_ftgl ###
+CF_cd_ftgl   = -c  -Wall -O2 -Iftgl -Ifreetype2   -DFTGL_LIBRARY
+LF_cd_ftgl   = -lfreetype6 -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
+SLIB_cd_ftgl = ../lib/$(BUILDNICK)/libftgl.a
+DLIB_cd_ftgl = ../lib/$(BUILDNICK)/libftgl.dll.a
+ILIB_cd_ftgl = ../lib/$(BUILDNICK)/ftgl_alien_.dll
+OBJS_cd_ftgl = ../obj/$(BUILDNICK)/cd_ftgl/FTBuffer.o ../obj/$(BUILDNICK)/cd_ftgl/FTCharmap.o ../obj/$(BUILDNICK)/cd_ftgl/FTContour.o ../obj/$(BUILDNICK)/cd_ftgl/FTFace.o ../obj/$(BUILDNICK)/cd_ftgl/FTGlyphContainer.o ../obj/$(BUILDNICK)/cd_ftgl/FTLibrary.o ../obj/$(BUILDNICK)/cd_ftgl/FTPoint.o ../obj/$(BUILDNICK)/cd_ftgl/FTSize.o ../obj/$(BUILDNICK)/cd_ftgl/FTVectoriser.o ../obj/$(BUILDNICK)/cd_ftgl/FTGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTGlyphGlue.o ../obj/$(BUILDNICK)/cd_ftgl/FTBitmapGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTBufferGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTExtrudeGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTOutlineGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTPixmapGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTPolygonGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTTextureGlyph.o ../obj/$(BUILDNICK)/cd_ftgl/FTFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTFontGlue.o ../obj/$(BUILDNICK)/cd_ftgl/FTBitmapFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTBufferFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTExtrudeFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTOutlineFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTPixmapFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTPolygonFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTTextureFont.o ../obj/$(BUILDNICK)/cd_ftgl/FTLayout.o ../obj/$(BUILDNICK)/cd_ftgl/FTLayoutGlue.o ../obj/$(BUILDNICK)/cd_ftgl/FTSimpleLayout.o
 
-$(SLIB_ftgl): $(OBJS_ftgl)
+../obj/$(BUILDNICK)/cd_ftgl/FTBuffer.o : ./ftgl/FTBuffer.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTCharmap.o : ./ftgl/FTCharmap.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTContour.o : ./ftgl/FTContour.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTFace.o : ./ftgl/FTFace.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTGlyphContainer.o : ./ftgl/FTGlyphContainer.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTLibrary.o : ./ftgl/FTLibrary.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTPoint.o : ./ftgl/FTPoint.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTSize.o : ./ftgl/FTSize.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTVectoriser.o : ./ftgl/FTVectoriser.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTGlyph.o : ./ftgl/FTGlyph/FTGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTGlyphGlue.o : ./ftgl/FTGlyph/FTGlyphGlue.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTBitmapGlyph.o : ./ftgl/FTGlyph/FTBitmapGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTBufferGlyph.o : ./ftgl/FTGlyph/FTBufferGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTExtrudeGlyph.o : ./ftgl/FTGlyph/FTExtrudeGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTOutlineGlyph.o : ./ftgl/FTGlyph/FTOutlineGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTPixmapGlyph.o : ./ftgl/FTGlyph/FTPixmapGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTPolygonGlyph.o : ./ftgl/FTGlyph/FTPolygonGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTTextureGlyph.o : ./ftgl/FTGlyph/FTTextureGlyph.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTFont.o : ./ftgl/FTFont/FTFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTFontGlue.o : ./ftgl/FTFont/FTFontGlue.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTBitmapFont.o : ./ftgl/FTFont/FTBitmapFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTBufferFont.o : ./ftgl/FTFont/FTBufferFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTExtrudeFont.o : ./ftgl/FTFont/FTExtrudeFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTOutlineFont.o : ./ftgl/FTFont/FTOutlineFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTPixmapFont.o : ./ftgl/FTFont/FTPixmapFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTPolygonFont.o : ./ftgl/FTFont/FTPolygonFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTTextureFont.o : ./ftgl/FTFont/FTTextureFont.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTLayout.o : ./ftgl/FTLayout/FTLayout.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTLayoutGlue.o : ./ftgl/FTLayout/FTLayoutGlue.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+../obj/$(BUILDNICK)/cd_ftgl/FTSimpleLayout.o : ./ftgl/FTLayout/FTSimpleLayout.cpp ; g++ $(CF_ALL) $(CF_cd_ftgl) $^ -o $@
+
+$(SLIB_cd_ftgl): $(OBJS_cd_ftgl)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(ILIB_ftgl) $(DLIB_ftgl) : $(OBJS_ftgl)
-	g++ -s -shared -o $(ILIB_ftgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_ftgl) $(LF_ftgl) $(LF_ALL)
-	-strip $(ILIB_ftgl)
+$(ILIB_cd_ftgl) $(DLIB_cd_ftgl) : $(OBJS_cd_ftgl)
+	g++ -s -shared -o $(ILIB_cd_ftgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cd_ftgl) $(LF_cd_ftgl) $(LF_ALL)
+	-strip $(ILIB_cd_ftgl)
+
+cd_ftgl-static: $(SLIB_cd_ftgl)
+cd_ftgl-dynamic: $(ILIB_cd_ftgl) $(DLIB_cd_ftgl)
 
 ### START OF cd ###
 CF_cd   = -c  -Wall -O2 -I. -Idrv -Ix11 -Iwin32 -Iintcgm -Ifreetype2 -Isim -Icairo -I../include   -DCD_NO_OLD_INTERFACE
@@ -217,111 +217,117 @@ $(ILIB_cd) $(DLIB_cd) : $(OBJS_cd)
 	g++ -s -shared -o $(ILIB_cd) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cd) $(LF_cd) $(LF_ALL)
 	-strip $(ILIB_cd)
 
-### START OF pdflib ###
-CF_pdflib   = -c  -Wall -O2 -Ipdflib/font -Ipdflib/flate -Ipdflib/pdcore -Ipdflib/pdflib   
-LF_pdflib   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
-SLIB_pdflib = ../lib/$(BUILDNICK)/libpdflib.a
-DLIB_pdflib = ../lib/$(BUILDNICK)/libpdflib.dll.a
-ILIB_pdflib = ../lib/$(BUILDNICK)/pdflib_alien_.dll
-OBJS_pdflib = ../obj/$(BUILDNICK)/pdflib/pdflib.o ../obj/$(BUILDNICK)/pdflib/p_3d.o ../obj/$(BUILDNICK)/pdflib/p_actions.o ../obj/$(BUILDNICK)/pdflib/p_afm.o ../obj/$(BUILDNICK)/pdflib/p_annots.o ../obj/$(BUILDNICK)/pdflib/p_block.o ../obj/$(BUILDNICK)/pdflib/p_bmp.o ../obj/$(BUILDNICK)/pdflib/p_ccitt.o ../obj/$(BUILDNICK)/pdflib/p_cid.o ../obj/$(BUILDNICK)/pdflib/p_color.o ../obj/$(BUILDNICK)/pdflib/p_document.o ../obj/$(BUILDNICK)/pdflib/p_draw.o ../obj/$(BUILDNICK)/pdflib/p_encoding.o ../obj/$(BUILDNICK)/pdflib/p_fields.o ../obj/$(BUILDNICK)/pdflib/p_filter.o ../obj/$(BUILDNICK)/pdflib/p_font.o ../obj/$(BUILDNICK)/pdflib/p_gif.o ../obj/$(BUILDNICK)/pdflib/p_gstate.o ../obj/$(BUILDNICK)/pdflib/p_hyper.o ../obj/$(BUILDNICK)/pdflib/p_icc.o ../obj/$(BUILDNICK)/pdflib/p_icclib.o ../obj/$(BUILDNICK)/pdflib/p_image.o ../obj/$(BUILDNICK)/pdflib/p_jpeg.o ../obj/$(BUILDNICK)/pdflib/p_jpx.o ../obj/$(BUILDNICK)/pdflib/p_kerning.o ../obj/$(BUILDNICK)/pdflib/p_layer.o ../obj/$(BUILDNICK)/pdflib/p_mbox.o ../obj/$(BUILDNICK)/pdflib/p_object.o ../obj/$(BUILDNICK)/pdflib/p_opi.o ../obj/$(BUILDNICK)/pdflib/p_page.o ../obj/$(BUILDNICK)/pdflib/p_params.o ../obj/$(BUILDNICK)/pdflib/p_pattern.o ../obj/$(BUILDNICK)/pdflib/p_pdi.o ../obj/$(BUILDNICK)/pdflib/p_pfm.o ../obj/$(BUILDNICK)/pdflib/p_photoshp.o ../obj/$(BUILDNICK)/pdflib/p_png.o ../obj/$(BUILDNICK)/pdflib/p_shading.o ../obj/$(BUILDNICK)/pdflib/p_subsett.o ../obj/$(BUILDNICK)/pdflib/p_table.o ../obj/$(BUILDNICK)/pdflib/p_tagged.o ../obj/$(BUILDNICK)/pdflib/p_template.o ../obj/$(BUILDNICK)/pdflib/p_text.o ../obj/$(BUILDNICK)/pdflib/p_textflow.o ../obj/$(BUILDNICK)/pdflib/p_tiff.o ../obj/$(BUILDNICK)/pdflib/p_truetype.o ../obj/$(BUILDNICK)/pdflib/p_type1.o ../obj/$(BUILDNICK)/pdflib/p_type3.o ../obj/$(BUILDNICK)/pdflib/p_util.o ../obj/$(BUILDNICK)/pdflib/p_xgstate.o ../obj/$(BUILDNICK)/pdflib/p_xmp.o ../obj/$(BUILDNICK)/pdflib/pc_aes.o ../obj/$(BUILDNICK)/pdflib/pc_aescbc.o ../obj/$(BUILDNICK)/pdflib/pc_arc4.o ../obj/$(BUILDNICK)/pdflib/pc_chartabs.o ../obj/$(BUILDNICK)/pdflib/pc_contain.o ../obj/$(BUILDNICK)/pdflib/pc_core.o ../obj/$(BUILDNICK)/pdflib/pc_crypt.o ../obj/$(BUILDNICK)/pdflib/pc_ctype.o ../obj/$(BUILDNICK)/pdflib/pc_digsig.o ../obj/$(BUILDNICK)/pdflib/pc_ebcdic.o ../obj/$(BUILDNICK)/pdflib/pc_encoding.o ../obj/$(BUILDNICK)/pdflib/pc_file.o ../obj/$(BUILDNICK)/pdflib/pc_geom.o ../obj/$(BUILDNICK)/pdflib/pc_md5.o ../obj/$(BUILDNICK)/pdflib/pc_optparse.o ../obj/$(BUILDNICK)/pdflib/pc_output.o ../obj/$(BUILDNICK)/pdflib/pc_resource.o ../obj/$(BUILDNICK)/pdflib/pc_scan.o ../obj/$(BUILDNICK)/pdflib/pc_scope.o ../obj/$(BUILDNICK)/pdflib/pc_string.o ../obj/$(BUILDNICK)/pdflib/pc_unicode.o ../obj/$(BUILDNICK)/pdflib/pc_util.o ../obj/$(BUILDNICK)/pdflib/pc_xmp.o ../obj/$(BUILDNICK)/pdflib/adler32.o ../obj/$(BUILDNICK)/pdflib/compress.o ../obj/$(BUILDNICK)/pdflib/crc32.o ../obj/$(BUILDNICK)/pdflib/deflate.o ../obj/$(BUILDNICK)/pdflib/inffast.o ../obj/$(BUILDNICK)/pdflib/inflate.o ../obj/$(BUILDNICK)/pdflib/inftrees.o ../obj/$(BUILDNICK)/pdflib/trees.o ../obj/$(BUILDNICK)/pdflib/uncompr.o ../obj/$(BUILDNICK)/pdflib/zutil.o ../obj/$(BUILDNICK)/pdflib/ft_cid.o ../obj/$(BUILDNICK)/pdflib/ft_corefont.o ../obj/$(BUILDNICK)/pdflib/ft_font.o ../obj/$(BUILDNICK)/pdflib/ft_hostfont.o ../obj/$(BUILDNICK)/pdflib/ft_pdffont.o ../obj/$(BUILDNICK)/pdflib/ft_truetype.o ../obj/$(BUILDNICK)/pdflib/ft_type1.o
+cd-static: $(SLIB_cd)
+cd-dynamic: $(ILIB_cd) $(DLIB_cd)
 
-../obj/$(BUILDNICK)/pdflib/pdflib.o : ./pdflib/pdflib/pdflib.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_3d.o : ./pdflib/pdflib/p_3d.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_actions.o : ./pdflib/pdflib/p_actions.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_afm.o : ./pdflib/pdflib/p_afm.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_annots.o : ./pdflib/pdflib/p_annots.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_block.o : ./pdflib/pdflib/p_block.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_bmp.o : ./pdflib/pdflib/p_bmp.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_ccitt.o : ./pdflib/pdflib/p_ccitt.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_cid.o : ./pdflib/pdflib/p_cid.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_color.o : ./pdflib/pdflib/p_color.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_document.o : ./pdflib/pdflib/p_document.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_draw.o : ./pdflib/pdflib/p_draw.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_encoding.o : ./pdflib/pdflib/p_encoding.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_fields.o : ./pdflib/pdflib/p_fields.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_filter.o : ./pdflib/pdflib/p_filter.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_font.o : ./pdflib/pdflib/p_font.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_gif.o : ./pdflib/pdflib/p_gif.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_gstate.o : ./pdflib/pdflib/p_gstate.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_hyper.o : ./pdflib/pdflib/p_hyper.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_icc.o : ./pdflib/pdflib/p_icc.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_icclib.o : ./pdflib/pdflib/p_icclib.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_image.o : ./pdflib/pdflib/p_image.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_jpeg.o : ./pdflib/pdflib/p_jpeg.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_jpx.o : ./pdflib/pdflib/p_jpx.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_kerning.o : ./pdflib/pdflib/p_kerning.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_layer.o : ./pdflib/pdflib/p_layer.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_mbox.o : ./pdflib/pdflib/p_mbox.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_object.o : ./pdflib/pdflib/p_object.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_opi.o : ./pdflib/pdflib/p_opi.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_page.o : ./pdflib/pdflib/p_page.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_params.o : ./pdflib/pdflib/p_params.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_pattern.o : ./pdflib/pdflib/p_pattern.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_pdi.o : ./pdflib/pdflib/p_pdi.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_pfm.o : ./pdflib/pdflib/p_pfm.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_photoshp.o : ./pdflib/pdflib/p_photoshp.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_png.o : ./pdflib/pdflib/p_png.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_shading.o : ./pdflib/pdflib/p_shading.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_subsett.o : ./pdflib/pdflib/p_subsett.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_table.o : ./pdflib/pdflib/p_table.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_tagged.o : ./pdflib/pdflib/p_tagged.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_template.o : ./pdflib/pdflib/p_template.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_text.o : ./pdflib/pdflib/p_text.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_textflow.o : ./pdflib/pdflib/p_textflow.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_tiff.o : ./pdflib/pdflib/p_tiff.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_truetype.o : ./pdflib/pdflib/p_truetype.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_type1.o : ./pdflib/pdflib/p_type1.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_type3.o : ./pdflib/pdflib/p_type3.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_util.o : ./pdflib/pdflib/p_util.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_xgstate.o : ./pdflib/pdflib/p_xgstate.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/p_xmp.o : ./pdflib/pdflib/p_xmp.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_aes.o : ./pdflib/pdcore/pc_aes.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_aescbc.o : ./pdflib/pdcore/pc_aescbc.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_arc4.o : ./pdflib/pdcore/pc_arc4.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_chartabs.o : ./pdflib/pdcore/pc_chartabs.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_contain.o : ./pdflib/pdcore/pc_contain.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_core.o : ./pdflib/pdcore/pc_core.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_crypt.o : ./pdflib/pdcore/pc_crypt.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_ctype.o : ./pdflib/pdcore/pc_ctype.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_digsig.o : ./pdflib/pdcore/pc_digsig.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_ebcdic.o : ./pdflib/pdcore/pc_ebcdic.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_encoding.o : ./pdflib/pdcore/pc_encoding.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_file.o : ./pdflib/pdcore/pc_file.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_geom.o : ./pdflib/pdcore/pc_geom.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_md5.o : ./pdflib/pdcore/pc_md5.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_optparse.o : ./pdflib/pdcore/pc_optparse.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_output.o : ./pdflib/pdcore/pc_output.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_resource.o : ./pdflib/pdcore/pc_resource.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_scan.o : ./pdflib/pdcore/pc_scan.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_scope.o : ./pdflib/pdcore/pc_scope.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_string.o : ./pdflib/pdcore/pc_string.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_unicode.o : ./pdflib/pdcore/pc_unicode.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_util.o : ./pdflib/pdcore/pc_util.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/pc_xmp.o : ./pdflib/pdcore/pc_xmp.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/adler32.o : ./pdflib/flate/adler32.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/compress.o : ./pdflib/flate/compress.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/crc32.o : ./pdflib/flate/crc32.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/deflate.o : ./pdflib/flate/deflate.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/inffast.o : ./pdflib/flate/inffast.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/inflate.o : ./pdflib/flate/inflate.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/inftrees.o : ./pdflib/flate/inftrees.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/trees.o : ./pdflib/flate/trees.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/uncompr.o : ./pdflib/flate/uncompr.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/zutil.o : ./pdflib/flate/zutil.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_cid.o : ./pdflib/font/ft_cid.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_corefont.o : ./pdflib/font/ft_corefont.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_font.o : ./pdflib/font/ft_font.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_hostfont.o : ./pdflib/font/ft_hostfont.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_pdffont.o : ./pdflib/font/ft_pdffont.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_truetype.o : ./pdflib/font/ft_truetype.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
-../obj/$(BUILDNICK)/pdflib/ft_type1.o : ./pdflib/font/ft_type1.c ; gcc $(CF_ALL) $(CF_pdflib) $^ -o $@
+### START OF cd_pdflib ###
+CF_cd_pdflib   = -c  -Wall -O2 -Ipdflib/font -Ipdflib/flate -Ipdflib/pdcore -Ipdflib/pdflib   
+LF_cd_pdflib   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
+SLIB_cd_pdflib = ../lib/$(BUILDNICK)/libpdflib.a
+DLIB_cd_pdflib = ../lib/$(BUILDNICK)/libpdflib.dll.a
+ILIB_cd_pdflib = ../lib/$(BUILDNICK)/pdflib_alien_.dll
+OBJS_cd_pdflib = ../obj/$(BUILDNICK)/cd_pdflib/pdflib.o ../obj/$(BUILDNICK)/cd_pdflib/p_3d.o ../obj/$(BUILDNICK)/cd_pdflib/p_actions.o ../obj/$(BUILDNICK)/cd_pdflib/p_afm.o ../obj/$(BUILDNICK)/cd_pdflib/p_annots.o ../obj/$(BUILDNICK)/cd_pdflib/p_block.o ../obj/$(BUILDNICK)/cd_pdflib/p_bmp.o ../obj/$(BUILDNICK)/cd_pdflib/p_ccitt.o ../obj/$(BUILDNICK)/cd_pdflib/p_cid.o ../obj/$(BUILDNICK)/cd_pdflib/p_color.o ../obj/$(BUILDNICK)/cd_pdflib/p_document.o ../obj/$(BUILDNICK)/cd_pdflib/p_draw.o ../obj/$(BUILDNICK)/cd_pdflib/p_encoding.o ../obj/$(BUILDNICK)/cd_pdflib/p_fields.o ../obj/$(BUILDNICK)/cd_pdflib/p_filter.o ../obj/$(BUILDNICK)/cd_pdflib/p_font.o ../obj/$(BUILDNICK)/cd_pdflib/p_gif.o ../obj/$(BUILDNICK)/cd_pdflib/p_gstate.o ../obj/$(BUILDNICK)/cd_pdflib/p_hyper.o ../obj/$(BUILDNICK)/cd_pdflib/p_icc.o ../obj/$(BUILDNICK)/cd_pdflib/p_icclib.o ../obj/$(BUILDNICK)/cd_pdflib/p_image.o ../obj/$(BUILDNICK)/cd_pdflib/p_jpeg.o ../obj/$(BUILDNICK)/cd_pdflib/p_jpx.o ../obj/$(BUILDNICK)/cd_pdflib/p_kerning.o ../obj/$(BUILDNICK)/cd_pdflib/p_layer.o ../obj/$(BUILDNICK)/cd_pdflib/p_mbox.o ../obj/$(BUILDNICK)/cd_pdflib/p_object.o ../obj/$(BUILDNICK)/cd_pdflib/p_opi.o ../obj/$(BUILDNICK)/cd_pdflib/p_page.o ../obj/$(BUILDNICK)/cd_pdflib/p_params.o ../obj/$(BUILDNICK)/cd_pdflib/p_pattern.o ../obj/$(BUILDNICK)/cd_pdflib/p_pdi.o ../obj/$(BUILDNICK)/cd_pdflib/p_pfm.o ../obj/$(BUILDNICK)/cd_pdflib/p_photoshp.o ../obj/$(BUILDNICK)/cd_pdflib/p_png.o ../obj/$(BUILDNICK)/cd_pdflib/p_shading.o ../obj/$(BUILDNICK)/cd_pdflib/p_subsett.o ../obj/$(BUILDNICK)/cd_pdflib/p_table.o ../obj/$(BUILDNICK)/cd_pdflib/p_tagged.o ../obj/$(BUILDNICK)/cd_pdflib/p_template.o ../obj/$(BUILDNICK)/cd_pdflib/p_text.o ../obj/$(BUILDNICK)/cd_pdflib/p_textflow.o ../obj/$(BUILDNICK)/cd_pdflib/p_tiff.o ../obj/$(BUILDNICK)/cd_pdflib/p_truetype.o ../obj/$(BUILDNICK)/cd_pdflib/p_type1.o ../obj/$(BUILDNICK)/cd_pdflib/p_type3.o ../obj/$(BUILDNICK)/cd_pdflib/p_util.o ../obj/$(BUILDNICK)/cd_pdflib/p_xgstate.o ../obj/$(BUILDNICK)/cd_pdflib/p_xmp.o ../obj/$(BUILDNICK)/cd_pdflib/pc_aes.o ../obj/$(BUILDNICK)/cd_pdflib/pc_aescbc.o ../obj/$(BUILDNICK)/cd_pdflib/pc_arc4.o ../obj/$(BUILDNICK)/cd_pdflib/pc_chartabs.o ../obj/$(BUILDNICK)/cd_pdflib/pc_contain.o ../obj/$(BUILDNICK)/cd_pdflib/pc_core.o ../obj/$(BUILDNICK)/cd_pdflib/pc_crypt.o ../obj/$(BUILDNICK)/cd_pdflib/pc_ctype.o ../obj/$(BUILDNICK)/cd_pdflib/pc_digsig.o ../obj/$(BUILDNICK)/cd_pdflib/pc_ebcdic.o ../obj/$(BUILDNICK)/cd_pdflib/pc_encoding.o ../obj/$(BUILDNICK)/cd_pdflib/pc_file.o ../obj/$(BUILDNICK)/cd_pdflib/pc_geom.o ../obj/$(BUILDNICK)/cd_pdflib/pc_md5.o ../obj/$(BUILDNICK)/cd_pdflib/pc_optparse.o ../obj/$(BUILDNICK)/cd_pdflib/pc_output.o ../obj/$(BUILDNICK)/cd_pdflib/pc_resource.o ../obj/$(BUILDNICK)/cd_pdflib/pc_scan.o ../obj/$(BUILDNICK)/cd_pdflib/pc_scope.o ../obj/$(BUILDNICK)/cd_pdflib/pc_string.o ../obj/$(BUILDNICK)/cd_pdflib/pc_unicode.o ../obj/$(BUILDNICK)/cd_pdflib/pc_util.o ../obj/$(BUILDNICK)/cd_pdflib/pc_xmp.o ../obj/$(BUILDNICK)/cd_pdflib/adler32.o ../obj/$(BUILDNICK)/cd_pdflib/compress.o ../obj/$(BUILDNICK)/cd_pdflib/crc32.o ../obj/$(BUILDNICK)/cd_pdflib/deflate.o ../obj/$(BUILDNICK)/cd_pdflib/inffast.o ../obj/$(BUILDNICK)/cd_pdflib/inflate.o ../obj/$(BUILDNICK)/cd_pdflib/inftrees.o ../obj/$(BUILDNICK)/cd_pdflib/trees.o ../obj/$(BUILDNICK)/cd_pdflib/uncompr.o ../obj/$(BUILDNICK)/cd_pdflib/zutil.o ../obj/$(BUILDNICK)/cd_pdflib/ft_cid.o ../obj/$(BUILDNICK)/cd_pdflib/ft_corefont.o ../obj/$(BUILDNICK)/cd_pdflib/ft_font.o ../obj/$(BUILDNICK)/cd_pdflib/ft_hostfont.o ../obj/$(BUILDNICK)/cd_pdflib/ft_pdffont.o ../obj/$(BUILDNICK)/cd_pdflib/ft_truetype.o ../obj/$(BUILDNICK)/cd_pdflib/ft_type1.o
 
-$(SLIB_pdflib): $(OBJS_pdflib)
+../obj/$(BUILDNICK)/cd_pdflib/pdflib.o : ./pdflib/pdflib/pdflib.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_3d.o : ./pdflib/pdflib/p_3d.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_actions.o : ./pdflib/pdflib/p_actions.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_afm.o : ./pdflib/pdflib/p_afm.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_annots.o : ./pdflib/pdflib/p_annots.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_block.o : ./pdflib/pdflib/p_block.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_bmp.o : ./pdflib/pdflib/p_bmp.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_ccitt.o : ./pdflib/pdflib/p_ccitt.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_cid.o : ./pdflib/pdflib/p_cid.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_color.o : ./pdflib/pdflib/p_color.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_document.o : ./pdflib/pdflib/p_document.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_draw.o : ./pdflib/pdflib/p_draw.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_encoding.o : ./pdflib/pdflib/p_encoding.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_fields.o : ./pdflib/pdflib/p_fields.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_filter.o : ./pdflib/pdflib/p_filter.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_font.o : ./pdflib/pdflib/p_font.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_gif.o : ./pdflib/pdflib/p_gif.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_gstate.o : ./pdflib/pdflib/p_gstate.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_hyper.o : ./pdflib/pdflib/p_hyper.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_icc.o : ./pdflib/pdflib/p_icc.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_icclib.o : ./pdflib/pdflib/p_icclib.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_image.o : ./pdflib/pdflib/p_image.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_jpeg.o : ./pdflib/pdflib/p_jpeg.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_jpx.o : ./pdflib/pdflib/p_jpx.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_kerning.o : ./pdflib/pdflib/p_kerning.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_layer.o : ./pdflib/pdflib/p_layer.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_mbox.o : ./pdflib/pdflib/p_mbox.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_object.o : ./pdflib/pdflib/p_object.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_opi.o : ./pdflib/pdflib/p_opi.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_page.o : ./pdflib/pdflib/p_page.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_params.o : ./pdflib/pdflib/p_params.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_pattern.o : ./pdflib/pdflib/p_pattern.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_pdi.o : ./pdflib/pdflib/p_pdi.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_pfm.o : ./pdflib/pdflib/p_pfm.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_photoshp.o : ./pdflib/pdflib/p_photoshp.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_png.o : ./pdflib/pdflib/p_png.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_shading.o : ./pdflib/pdflib/p_shading.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_subsett.o : ./pdflib/pdflib/p_subsett.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_table.o : ./pdflib/pdflib/p_table.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_tagged.o : ./pdflib/pdflib/p_tagged.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_template.o : ./pdflib/pdflib/p_template.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_text.o : ./pdflib/pdflib/p_text.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_textflow.o : ./pdflib/pdflib/p_textflow.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_tiff.o : ./pdflib/pdflib/p_tiff.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_truetype.o : ./pdflib/pdflib/p_truetype.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_type1.o : ./pdflib/pdflib/p_type1.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_type3.o : ./pdflib/pdflib/p_type3.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_util.o : ./pdflib/pdflib/p_util.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_xgstate.o : ./pdflib/pdflib/p_xgstate.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/p_xmp.o : ./pdflib/pdflib/p_xmp.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_aes.o : ./pdflib/pdcore/pc_aes.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_aescbc.o : ./pdflib/pdcore/pc_aescbc.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_arc4.o : ./pdflib/pdcore/pc_arc4.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_chartabs.o : ./pdflib/pdcore/pc_chartabs.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_contain.o : ./pdflib/pdcore/pc_contain.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_core.o : ./pdflib/pdcore/pc_core.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_crypt.o : ./pdflib/pdcore/pc_crypt.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_ctype.o : ./pdflib/pdcore/pc_ctype.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_digsig.o : ./pdflib/pdcore/pc_digsig.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_ebcdic.o : ./pdflib/pdcore/pc_ebcdic.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_encoding.o : ./pdflib/pdcore/pc_encoding.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_file.o : ./pdflib/pdcore/pc_file.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_geom.o : ./pdflib/pdcore/pc_geom.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_md5.o : ./pdflib/pdcore/pc_md5.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_optparse.o : ./pdflib/pdcore/pc_optparse.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_output.o : ./pdflib/pdcore/pc_output.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_resource.o : ./pdflib/pdcore/pc_resource.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_scan.o : ./pdflib/pdcore/pc_scan.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_scope.o : ./pdflib/pdcore/pc_scope.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_string.o : ./pdflib/pdcore/pc_string.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_unicode.o : ./pdflib/pdcore/pc_unicode.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_util.o : ./pdflib/pdcore/pc_util.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/pc_xmp.o : ./pdflib/pdcore/pc_xmp.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/adler32.o : ./pdflib/flate/adler32.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/compress.o : ./pdflib/flate/compress.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/crc32.o : ./pdflib/flate/crc32.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/deflate.o : ./pdflib/flate/deflate.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/inffast.o : ./pdflib/flate/inffast.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/inflate.o : ./pdflib/flate/inflate.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/inftrees.o : ./pdflib/flate/inftrees.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/trees.o : ./pdflib/flate/trees.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/uncompr.o : ./pdflib/flate/uncompr.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/zutil.o : ./pdflib/flate/zutil.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_cid.o : ./pdflib/font/ft_cid.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_corefont.o : ./pdflib/font/ft_corefont.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_font.o : ./pdflib/font/ft_font.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_hostfont.o : ./pdflib/font/ft_hostfont.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_pdffont.o : ./pdflib/font/ft_pdffont.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_truetype.o : ./pdflib/font/ft_truetype.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+../obj/$(BUILDNICK)/cd_pdflib/ft_type1.o : ./pdflib/font/ft_type1.c ; gcc $(CF_ALL) $(CF_cd_pdflib) $^ -o $@
+
+$(SLIB_cd_pdflib): $(OBJS_cd_pdflib)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(ILIB_pdflib) $(DLIB_pdflib) : $(OBJS_pdflib)
-	g++ -s -shared -o $(ILIB_pdflib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_pdflib) $(LF_pdflib) $(LF_ALL)
-	-strip $(ILIB_pdflib)
+$(ILIB_cd_pdflib) $(DLIB_cd_pdflib) : $(OBJS_cd_pdflib)
+	g++ -s -shared -o $(ILIB_cd_pdflib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cd_pdflib) $(LF_cd_pdflib) $(LF_ALL)
+	-strip $(ILIB_cd_pdflib)
+
+cd_pdflib-static: $(SLIB_cd_pdflib)
+cd_pdflib-dynamic: $(ILIB_cd_pdflib) $(DLIB_cd_pdflib)
 
 ### START OF cdpdf ###
 CF_cdpdf   = -c  -Wall -O2 -I. -Isim -Ipdflib/pdflib -I../include   -DCD_NO_OLD_INTERFACE
@@ -340,6 +346,9 @@ $(ILIB_cdpdf) $(DLIB_cdpdf) : $(OBJS_cdpdf)
 	g++ -s -shared -o $(ILIB_cdpdf) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cdpdf) $(LF_cdpdf) $(LF_ALL)
 	-strip $(ILIB_cdpdf)
 
+cdpdf-static: $(SLIB_cdpdf)
+cdpdf-dynamic: $(ILIB_cdpdf) $(DLIB_cdpdf)
+
 ### START OF cdgl ###
 CF_cdgl   = -c  -Wall -O2 -I. -Isim -Iftgl -Ifreetype2 -I../include   -DCD_NO_OLD_INTERFACE
 LF_cdgl   = -lftgl -lcd -lfreetype6 -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
@@ -357,18 +366,21 @@ $(ILIB_cdgl) $(DLIB_cdgl) : $(OBJS_cdgl)
 	g++ -s -shared -o $(ILIB_cdgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cdgl) $(LF_cdgl) $(LF_ALL)
 	-strip $(ILIB_cdgl)
 
+cdgl-static: $(SLIB_cdgl)
+cdgl-dynamic: $(ILIB_cdgl) $(DLIB_cdgl)
+
 ### compile RC
 
 $(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $^ -o $@
 
+all: build-dirs $(STATIC_LIBS) $(DYNAMIC_LIBS)
 all-static: build-dirs $(STATIC_LIBS)
-
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install: all
+install:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
-	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) ../lib/$(BUILDNICK)/* "$(LIBDIR)"
 	$(CP) ../include/*.h "$(INCDIR)"
 
 install-static: all-static

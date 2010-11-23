@@ -56,6 +56,9 @@ $(SLIB_[% t.NAME %]): $(OBJS_[% t.NAME %])
 
 $(ILIB_[% t.NAME %]) $(DLIB_[% t.NAME %]) : $(OBJS_[% t.NAME %])
 	xxxg++ -s -shared -o $(ILIB_[% t.NAME %]) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_[% t.NAME %]) $(LF_[% t.NAME %]) $(LF_ALL)
+
+[% t.NAME %]-static: build-dirs $(SLIB_[% t.NAME %])
+[% t.NAME %]-dynamic: build-dirs $(ILIB_[% t.NAME %]) $(DLIB_[% t.NAME %]) 
 [% END -%]
 
 ### compile RC
@@ -66,10 +69,10 @@ all-static: build-dirs $(STATIC_LIBS)
 
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install: all
+install:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
-	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) [% global.LIB_PRE %]/$(BUILDNICK)/*.lib "$(LIBDIR)"
 	$(CP) [% global.INC_PRE %]include/*.h "$(INCDIR)"
 
 install-static: all-static

@@ -18,7 +18,7 @@ PREFIX   = ../../_output_
 INCDIR   = $(PREFIX)/include
 LIBDIR   = $(PREFIX)/lib
 
-CF_ALL   =  -I"$(INCDIR)"
+CF_ALL   = -DTEC_UNAME=vc9 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -I"$(INCDIR)"
 LF_ALL   = -L../lib/$(BUILDNICK) -L"$(LIBDIR)"
 
 VER_OBJ      = version.o
@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF im ###
-CF_im   = -c   -O2 -I. -I../include -Ilibtiff -Ilibjpeg -Ilibpng -Izlib -Ilibexif -Iliblzf   -DPNG_NO_STDIO -DPNG_TIME_RFC1123_SUPPORTED -DPNG_USE_PNGVCRD -DUSE_EXIF -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_im   = -c   -O2 -I. -I../include -Ilibtiff -Ilibjpeg -Ilibpng -Izlib -Ilibexif -Iliblzf   -DPNG_NO_STDIO -DPNG_TIME_RFC1123_SUPPORTED -DPNG_USE_PNGVCRD -DUSE_EXIF -DWIN32
 LF_im   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_im = ../lib/$(BUILDNICK)/im.lib
 DLIB_im = ../lib/$(BUILDNICK)/libim.dll.a
@@ -232,8 +232,11 @@ $(SLIB_im): $(OBJS_im)
 $(ILIB_im) $(DLIB_im) : $(OBJS_im)
 	xxxg++ -s -shared -o $(ILIB_im) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_im) $(LF_im) $(LF_ALL)
 
+im-static: build-dirs $(SLIB_im)
+im-dynamic: build-dirs $(ILIB_im) $(DLIB_im) 
+
 ### START OF im_process ###
-CF_im_process   = -c   -O2 -I../include    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_im_process   = -c   -O2 -I../include    -DWIN32
 LF_im_process   = -lim -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_im_process = ../lib/$(BUILDNICK)/im_process.lib
 DLIB_im_process = ../lib/$(BUILDNICK)/libim_process.dll.a
@@ -269,8 +272,11 @@ $(SLIB_im_process): $(OBJS_im_process)
 $(ILIB_im_process) $(DLIB_im_process) : $(OBJS_im_process)
 	xxxg++ -s -shared -o $(ILIB_im_process) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_im_process) $(LF_im_process) $(LF_ALL)
 
+im_process-static: build-dirs $(SLIB_im_process)
+im_process-dynamic: build-dirs $(ILIB_im_process) $(DLIB_im_process) 
+
 ### START OF im_jp2 ###
-CF_im_jp2   = -c   -O2 -Ilibjasper -I../include   -DEXCLUDE_JPG_SUPPORT -DEXCLUDE_MIF_SUPPORT -DEXCLUDE_PNM_SUPPORT -DEXCLUDE_BMP_SUPPORT -DEXCLUDE_PGX_SUPPORT -DEXCLUDE_RAS_SUPPORT -DEXCLUDE_TIFF_SUPPORT -DJAS_GEO_OMIT_PRINTING_CODE -DJAS_WIN_MSVC_BUILD -DJAS_TYPES -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_im_jp2   = -c   -O2 -Ilibjasper -I../include   -DEXCLUDE_JPG_SUPPORT -DEXCLUDE_MIF_SUPPORT -DEXCLUDE_PNM_SUPPORT -DEXCLUDE_BMP_SUPPORT -DEXCLUDE_PGX_SUPPORT -DEXCLUDE_RAS_SUPPORT -DEXCLUDE_TIFF_SUPPORT -DJAS_GEO_OMIT_PRINTING_CODE -DJAS_WIN_MSVC_BUILD -DJAS_TYPES -DWIN32
 LF_im_jp2   = -lim -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_im_jp2 = ../lib/$(BUILDNICK)/im_jp2.lib
 DLIB_im_jp2 = ../lib/$(BUILDNICK)/libim_jp2.dll.a
@@ -322,8 +328,11 @@ $(SLIB_im_jp2): $(OBJS_im_jp2)
 $(ILIB_im_jp2) $(DLIB_im_jp2) : $(OBJS_im_jp2)
 	xxxg++ -s -shared -o $(ILIB_im_jp2) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_im_jp2) $(LF_im_jp2) $(LF_ALL)
 
+im_jp2-static: build-dirs $(SLIB_im_jp2)
+im_jp2-dynamic: build-dirs $(ILIB_im_jp2) $(DLIB_im_jp2) 
+
 ### START OF im_fftw ###
-CF_im_fftw   = -c   -O2 -Ifftw -I../include   -DFFTW_ENABLE_FLOAT -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_im_fftw   = -c   -O2 -Ifftw -I../include   -DFFTW_ENABLE_FLOAT -DWIN32
 LF_im_fftw   = -lim_process -lim -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_im_fftw = ../lib/$(BUILDNICK)/im_fftw.lib
 DLIB_im_fftw = ../lib/$(BUILDNICK)/libim_fftw.dll.a
@@ -410,6 +419,9 @@ $(SLIB_im_fftw): $(OBJS_im_fftw)
 $(ILIB_im_fftw) $(DLIB_im_fftw) : $(OBJS_im_fftw)
 	xxxg++ -s -shared -o $(ILIB_im_fftw) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_im_fftw) $(LF_im_fftw) $(LF_ALL)
 
+im_fftw-static: build-dirs $(SLIB_im_fftw)
+im_fftw-dynamic: build-dirs $(ILIB_im_fftw) $(DLIB_im_fftw) 
+
 ### compile RC
 
 $(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $** -o $@
@@ -418,10 +430,10 @@ all-static: build-dirs $(STATIC_LIBS)
 
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install: all
+install:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
-	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) ../lib/$(BUILDNICK)/*.lib "$(LIBDIR)"
 	$(CP) ../include/*.h "$(INCDIR)"
 
 install-static: all-static

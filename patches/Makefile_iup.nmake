@@ -18,7 +18,7 @@ PREFIX   = ../_output_
 INCDIR   = $(PREFIX)/include
 LIBDIR   = $(PREFIX)/lib
 
-CF_ALL   =  -I"$(INCDIR)"
+CF_ALL   = -DTEC_UNAME=vc9 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DUSE_OPENGL32 -DNDEBUG -I"$(INCDIR)"
 LF_ALL   = -L./lib/$(BUILDNICK) -L"$(LIBDIR)"
 
 VER_OBJ      = version.o
@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF iup ###
-CF_iup   = -c   -O2 -Iinclude -Isrc -Isrc/win -Ietc   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x0501 -DWINVER=0x0501 -DNOTREEVIEW -DIUP_DLL -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iup   = -c   -O2 -Iinclude -Isrc -Isrc/win -Ietc   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x0501 -DWINVER=0x0501 -DNOTREEVIEW -DIUP_DLL -DWIN32
 LF_iup   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iup = ./lib/$(BUILDNICK)/iup.lib
 DLIB_iup = ./lib/$(BUILDNICK)/libiup.dll.a
@@ -153,8 +153,11 @@ $(SLIB_iup): $(OBJS_iup)
 $(ILIB_iup) $(DLIB_iup) : $(OBJS_iup)
 	xxxg++ -s -shared -o $(ILIB_iup) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup) $(LF_iup) $(LF_ALL)
 
+iup-static: build-dirs $(SLIB_iup)
+iup-dynamic: build-dirs $(ILIB_iup) $(DLIB_iup) 
+
 ### START OF iupcd ###
-CF_iupcd   = -c   -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iupcd   = -c   -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE -DWIN32
 LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupcd = ./lib/$(BUILDNICK)/iupcd.lib
 DLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.dll.a
@@ -169,8 +172,11 @@ $(SLIB_iupcd): $(OBJS_iupcd)
 $(ILIB_iupcd) $(DLIB_iupcd) : $(OBJS_iupcd)
 	xxxg++ -s -shared -o $(ILIB_iupcd) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcd) $(LF_iupcd) $(LF_ALL)
 
+iupcd-static: build-dirs $(SLIB_iupcd)
+iupcd-dynamic: build-dirs $(ILIB_iupcd) $(DLIB_iupcd) 
+
 ### START OF iupcontrols ###
-CF_iupcontrols   = -c   -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iupcontrols   = -c   -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include    -DWIN32
 LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupcontrols = ./lib/$(BUILDNICK)/iupcontrols.lib
 DLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.dll.a
@@ -206,8 +212,11 @@ $(SLIB_iupcontrols): $(OBJS_iupcontrols)
 $(ILIB_iupcontrols) $(DLIB_iupcontrols) : $(OBJS_iupcontrols)
 	xxxg++ -s -shared -o $(ILIB_iupcontrols) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcontrols) $(LF_iupcontrols) $(LF_ALL)
 
+iupcontrols-static: build-dirs $(SLIB_iupcontrols)
+iupcontrols-dynamic: build-dirs $(ILIB_iupcontrols) $(DLIB_iupcontrols) 
+
 ### START OF iup_pplot ###
-CF_iup_pplot   = -c   -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iup_pplot   = -c   -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE -DWIN32
 LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iup_pplot = ./lib/$(BUILDNICK)/iup_pplot.lib
 DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
@@ -224,8 +233,11 @@ $(SLIB_iup_pplot): $(OBJS_iup_pplot)
 $(ILIB_iup_pplot) $(DLIB_iup_pplot) : $(OBJS_iup_pplot)
 	xxxg++ -s -shared -o $(ILIB_iup_pplot) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup_pplot) $(LF_iup_pplot) $(LF_ALL)
 
+iup_pplot-static: build-dirs $(SLIB_iup_pplot)
+iup_pplot-dynamic: build-dirs $(ILIB_iup_pplot) $(DLIB_iup_pplot) 
+
 ### START OF iupgl ###
-CF_iupgl   = -c   -O2 -Iinclude -Isrc    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DUSE_OPENGL32 -DNDEBUG -DWIN32
+CF_iupgl   = -c   -O2 -Iinclude -Isrc    -DWIN32
 LF_iupgl   = -liup -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupgl = ./lib/$(BUILDNICK)/iupgl.lib
 DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
@@ -240,8 +252,11 @@ $(SLIB_iupgl): $(OBJS_iupgl)
 $(ILIB_iupgl) $(DLIB_iupgl) : $(OBJS_iupgl)
 	xxxg++ -s -shared -o $(ILIB_iupgl) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupgl) $(LF_iupgl) $(LF_ALL)
 
+iupgl-static: build-dirs $(SLIB_iupgl)
+iupgl-dynamic: build-dirs $(ILIB_iupgl) $(DLIB_iupgl) 
+
 ### START OF iupim ###
-CF_iupim   = -c   -O2 -Iinclude -Isrc -I../im/include    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iupim   = -c   -O2 -Iinclude -Isrc -I../im/include    -DWIN32
 LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupim = ./lib/$(BUILDNICK)/iupim.lib
 DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
@@ -256,8 +271,11 @@ $(SLIB_iupim): $(OBJS_iupim)
 $(ILIB_iupim) $(DLIB_iupim) : $(OBJS_iupim)
 	xxxg++ -s -shared -o $(ILIB_iupim) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupim) $(LF_iupim) $(LF_ALL)
 
+iupim-static: build-dirs $(SLIB_iupim)
+iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim) 
+
 ### START OF iupimglib ###
-CF_iupimglib   = -c   -O2 -Iinclude -Isrc    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iupimglib   = -c   -O2 -Iinclude -Isrc    -DWIN32
 LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupimglib = ./lib/$(BUILDNICK)/iupimglib.lib
 DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
@@ -277,8 +295,11 @@ $(SLIB_iupimglib): $(OBJS_iupimglib)
 $(ILIB_iupimglib) $(DLIB_iupimglib) : $(OBJS_iupimglib)
 	xxxg++ -s -shared -o $(ILIB_iupimglib) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupimglib) $(LF_iupimglib) $(LF_ALL)
 
+iupimglib-static: build-dirs $(SLIB_iupimglib)
+iupimglib-dynamic: build-dirs $(ILIB_iupimglib) $(DLIB_iupimglib) 
+
 ### START OF iupole ###
-CF_iupole   = -c   -O2 -Iinclude -Isrc    -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iupole   = -c   -O2 -Iinclude -Isrc    -DWIN32
 LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupole = ./lib/$(BUILDNICK)/iupole.lib
 DLIB_iupole = ./lib/$(BUILDNICK)/libiupole.dll.a
@@ -301,8 +322,11 @@ $(SLIB_iupole): $(OBJS_iupole)
 $(ILIB_iupole) $(DLIB_iupole) : $(OBJS_iupole)
 	xxxg++ -s -shared -o $(ILIB_iupole) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupole) $(LF_iupole) $(LF_ALL)
 
+iupole-static: build-dirs $(SLIB_iupole)
+iupole-dynamic: build-dirs $(ILIB_iupole) $(DLIB_iupole) 
+
 ### START OF iuptuio ###
-CF_iuptuio   = -c   -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack   -DOSC_HOST_LITTLE_ENDIAN -DTEC_UNAME=dllg4 -DTEC_SYSNAME=Win32 -DTEC_LITTLEENDIAN -DTEC_32 -DWIN32 -DNDEBUG -DWIN32
+CF_iuptuio   = -c   -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack   -DOSC_HOST_LITTLE_ENDIAN -DWIN32
 LF_iuptuio   = -liup -lws2_32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iuptuio = ./lib/$(BUILDNICK)/iuptuio.lib
 DLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.dll.a
@@ -326,6 +350,9 @@ $(SLIB_iuptuio): $(OBJS_iuptuio)
 $(ILIB_iuptuio) $(DLIB_iuptuio) : $(OBJS_iuptuio)
 	xxxg++ -s -shared -o $(ILIB_iuptuio) $** -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iuptuio) $(LF_iuptuio) $(LF_ALL)
 
+iuptuio-static: build-dirs $(SLIB_iuptuio)
+iuptuio-dynamic: build-dirs $(ILIB_iuptuio) $(DLIB_iuptuio) 
+
 ### compile RC
 
 $(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $** -o $@
@@ -334,10 +361,10 @@ all-static: build-dirs $(STATIC_LIBS)
 
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install: all
+install:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
-	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) ./lib/$(BUILDNICK)/*.lib "$(LIBDIR)"
 	$(CP) ./include/*.h "$(INCDIR)"
 
 install-static: all-static

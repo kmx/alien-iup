@@ -5,15 +5,9 @@ AR       = ar
 ARFLAGS  = csr
 PERL     = perl
 
-ifeq ($(PERL)X, X)
-  CP     = cp
-  RM_F   = rm -f
-  MKPATH = mkdir -p
-else
-  CP     = $(PERL) -MExtUtils::Command -e cp --
-  RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
-  MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
-endif
+CP     = $(PERL) -MExtUtils::Command -e cp --
+RM_F   = $(PERL) -MExtUtils::Command -e rm_f --
+MKPATH = $(PERL) -MExtUtils::Command -e mkpath --
 
 ### GLOBAL PART ###
 
@@ -160,6 +154,9 @@ $(ILIB_iup) $(DLIB_iup) : $(OBJS_iup)
 	g++ -s -shared -o $(ILIB_iup) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup) $(LF_iup) $(LF_ALL)
 	-strip $(ILIB_iup)
 
+iup-static: $(SLIB_iup)
+iup-dynamic: $(ILIB_iup) $(DLIB_iup)
+
 ### START OF iupcd ###
 CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE
 LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
@@ -176,6 +173,9 @@ $(SLIB_iupcd): $(OBJS_iupcd)
 $(ILIB_iupcd) $(DLIB_iupcd) : $(OBJS_iupcd)
 	g++ -s -shared -o $(ILIB_iupcd) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcd) $(LF_iupcd) $(LF_ALL)
 	-strip $(ILIB_iupcd)
+
+iupcd-static: $(SLIB_iupcd)
+iupcd-dynamic: $(ILIB_iupcd) $(DLIB_iupcd)
 
 ### START OF iupcontrols ###
 CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include   
@@ -215,6 +215,9 @@ $(ILIB_iupcontrols) $(DLIB_iupcontrols) : $(OBJS_iupcontrols)
 	g++ -s -shared -o $(ILIB_iupcontrols) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupcontrols) $(LF_iupcontrols) $(LF_ALL)
 	-strip $(ILIB_iupcontrols)
 
+iupcontrols-static: $(SLIB_iupcontrols)
+iupcontrols-dynamic: $(ILIB_iupcontrols) $(DLIB_iupcontrols)
+
 ### START OF iup_pplot ###
 CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE
 LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
@@ -234,6 +237,9 @@ $(ILIB_iup_pplot) $(DLIB_iup_pplot) : $(OBJS_iup_pplot)
 	g++ -s -shared -o $(ILIB_iup_pplot) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup_pplot) $(LF_iup_pplot) $(LF_ALL)
 	-strip $(ILIB_iup_pplot)
 
+iup_pplot-static: $(SLIB_iup_pplot)
+iup_pplot-dynamic: $(ILIB_iup_pplot) $(DLIB_iup_pplot)
+
 ### START OF iupgl ###
 CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc   
 LF_iupgl   = -liup -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
@@ -251,6 +257,9 @@ $(ILIB_iupgl) $(DLIB_iupgl) : $(OBJS_iupgl)
 	g++ -s -shared -o $(ILIB_iupgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupgl) $(LF_iupgl) $(LF_ALL)
 	-strip $(ILIB_iupgl)
 
+iupgl-static: $(SLIB_iupgl)
+iupgl-dynamic: $(ILIB_iupgl) $(DLIB_iupgl)
+
 ### START OF iupim ###
 CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include   
 LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
@@ -267,6 +276,9 @@ $(SLIB_iupim): $(OBJS_iupim)
 $(ILIB_iupim) $(DLIB_iupim) : $(OBJS_iupim)
 	g++ -s -shared -o $(ILIB_iupim) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupim) $(LF_iupim) $(LF_ALL)
 	-strip $(ILIB_iupim)
+
+iupim-static: $(SLIB_iupim)
+iupim-dynamic: $(ILIB_iupim) $(DLIB_iupim)
 
 ### START OF iupimglib ###
 CF_iupimglib   = -c  -Wall -O2 -Iinclude -Isrc   
@@ -289,6 +301,9 @@ $(SLIB_iupimglib): $(OBJS_iupimglib)
 $(ILIB_iupimglib) $(DLIB_iupimglib) : $(OBJS_iupimglib)
 	g++ -s -shared -o $(ILIB_iupimglib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupimglib) $(LF_iupimglib) $(LF_ALL)
 	-strip $(ILIB_iupimglib)
+
+iupimglib-static: $(SLIB_iupimglib)
+iupimglib-dynamic: $(ILIB_iupimglib) $(DLIB_iupimglib)
 
 ### START OF iupole ###
 CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc   
@@ -314,6 +329,9 @@ $(SLIB_iupole): $(OBJS_iupole)
 $(ILIB_iupole) $(DLIB_iupole) : $(OBJS_iupole)
 	g++ -s -shared -o $(ILIB_iupole) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupole) $(LF_iupole) $(LF_ALL)
 	-strip $(ILIB_iupole)
+
+iupole-static: $(SLIB_iupole)
+iupole-dynamic: $(ILIB_iupole) $(DLIB_iupole)
 
 ### START OF iuptuio ###
 CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack   -DOSC_HOST_LITTLE_ENDIAN
@@ -341,18 +359,21 @@ $(ILIB_iuptuio) $(DLIB_iuptuio) : $(OBJS_iuptuio)
 	g++ -s -shared -o $(ILIB_iuptuio) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iuptuio) $(LF_iuptuio) $(LF_ALL)
 	-strip $(ILIB_iuptuio)
 
+iuptuio-static: $(SLIB_iuptuio)
+iuptuio-dynamic: $(ILIB_iuptuio) $(DLIB_iuptuio)
+
 ### compile RC
 
 $(VER_OBJ) : $(VER_RC) ; windres --define GCC_WINDRES $^ -o $@
 
+all: build-dirs $(STATIC_LIBS) $(DYNAMIC_LIBS)
 all-static: build-dirs $(STATIC_LIBS)
-
 all-dynamic: build-dirs $(DYNAMIC_LIBS)
 
-install: all
+install:
 	$(MKPATH) "$(LIBDIR)"
 	$(MKPATH) "$(INCDIR)"
-	$(CP) $(ALL_LIBS) "$(LIBDIR)"
+	$(CP) ./lib/$(BUILDNICK)/* "$(LIBDIR)"
 	$(CP) ./include/*.h "$(INCDIR)"
 
 install-static: all-static
