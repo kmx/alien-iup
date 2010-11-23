@@ -59,7 +59,7 @@ my $builder = $package->new(
     'IPC::Run3'         => 0.041, # we need return_if_system_error
   },
   share_dir          => 'sharedir',
-  add_to_cleanup     => [ 'Alien-IUP-*', 'build_done', 'build_src' ],
+  add_to_cleanup     => [ 'Alien-IUP-*' ],
   #create_makefile_pl => 'small', # creating Makefile.PL to satisfy old CPAN clients (does not work well with our style of M::B use)
   create_readme      => 1,
   meta_merge => {
@@ -71,7 +71,10 @@ my $builder = $package->new(
 );
 
 unlink 'build_done'; # delete build marker (= force rebuild after running Build.PL)
-
+$builder->add_to_cleanup("sharedir/" . $builder->{properties}->{dist_version}); # catfile() would be better
+$builder->add_to_cleanup('build_done');
+$builder->add_to_cleanup('build_src');
+      
 if ($builder->check_installed_lib()) {
   my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
   $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');  

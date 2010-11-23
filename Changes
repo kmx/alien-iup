@@ -1,9 +1,10 @@
 =head1 Revision history for Alien-IUP
 
-=head2 0.101 - NEXT
+=head2 0.101 - 23/11/2010
 
+ - the first stable release based on iup 3.3
  - NetBSD ntohl() related patch (#include <sys/types.h>)
- - small Windows build changes
+ - significant Windows build changes
 
 =head2 0.1000_06 - 22/11/2010
 
