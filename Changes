@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.101_01 - 23/11/2010
+
+ - devel version - sources CVS-2010-11-23 (no custom patches)
+
 =head2 0.101 - 23/11/2010
 
  - the first stable release based on iup 3.3
