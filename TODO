@@ -1,8 +1,43 @@
 IMPORTANT
+- Linking order: move -liup after -lcdiup (otherwise link error on Win32)
+
+- print GTK version in build log
+
+- check removild old sharedir content on MSWin(ActivePerl)
+
+- Linux http://www.cpantesters.org/cpan/report/d90bc1c8-f86b-11df-9081-1b18960acfcc
+gtk/iupgtk_button.c: In function 'gtkButtonMapMethod':
+gtk/iupgtk_button.c:454:5: warning: implicit declaration of function 'GTK_OBJECT_FLAGS'
+gtk/iupgtk_button.c:454:5: error: lvalue required as left operand of assignment
+A workaround is to add
+  #define GTK_OBJECT_FLAGS(obj)             (GTK_OBJECT (obj)->flags)
+right before the lines where these two errors occur.
+
+iupgtk_button.c patch:
+-GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+
+from: http://library.gnome.org/devel/gtk/2.21/GtkWidget.html
+GTK_WIDGET_FLAGS has been deprecated since version 2.20 and should not be used in newly-written code.
+
+(
+- BSD
+im_format_jp2.cpp: In function 'void imFormatRegisterJP2()':
+im_format_jp2.cpp:175: error: 'jas_progress_proc_t' was not declared in this scope
+im_format_jp2.cpp:175: error: 'jas_set_progress_proc' was not declared in this scope
+im_format_jp2.cpp:176: error: 'jas_test_abort_proc_t' was not declared in this scope
+im_format_jp2.cpp:176: error: 'jas_set_test_abort_proc' was not declared in this scope
+
+- UNIX
+cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
+(-I/usr/include/gtk-unix-print-2.0 ??? maybe set GTK_BASE)
 - Do you want STABLE or UNSTABLE (devel version from CVS) build [STABLE]?
+  In devel build do not disable anything to see all failing targets
+
 - Win: disable ftgl and iuptuio on VC6
   ($Config{ccversion} =~ /^12\./)
   (`cl 2>&1` =~ /^12\./)
+
 - Unix: disable iuptuio on cygwin/gcc-3.4.4
   Unix: ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/)
 
