@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_button.c iup/src/gtk/iupgtk_button.c
+--- iup.orig/src/gtk/iupgtk_button.c	2010-10-28 15:30:43.000000000 +0200
++++ iup/src/gtk/iupgtk_button.c	2010-11-30 18:12:39.360991500 +0100
+@@ -451,7 +451,7 @@
+   iupgtkBaseAddToParent(ih);
+ 
+   if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-    GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++    GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+   value = iupAttribGet(ih, "IMPRESS");
+   impress = (ih->data->type & IUP_BUTTON_IMAGE && value)? 1: 0;

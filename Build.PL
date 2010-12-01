@@ -82,19 +82,38 @@ if ($builder->check_installed_lib()) {
 
 $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'y')) eq 'y' ? 1 : 0);
 
+# set to 0 (zero) if you do not want a devel distribution version
+$builder->notes('is_devel_version', 0);
+
 # set what tarballs we are gonna use
-
-$builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/testing/iup-cvs-101123.tar.gz');
-$builder->notes('iup_sha1', 'd26ee919ef57d4b7bcc2d909bb450309093ccf41');
-#$builder->notes('iup_patches', [ ] );
-
-$builder->notes('im_url', 'http://strawberryperl.com/package/kmx/testing/im-cvs-101123.tar.gz');
-$builder->notes('im_sha1', 'e29e026ad8d353d90b8b299778e4bc5512281b35');
-#$builder->notes('im_patches', [ 'patches/im-dragonfly.diff' ] );
-
-$builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/testing/cd-cvs-101123.tar.gz');
-$builder->notes('cd_sha1', 'ecea482eaf365df8805a6971704445b056c0893e');
-#$builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff' ] );
+if ($builder->notes('is_devel_version')) {
+  warn "###\n";
+  warn "###BEWARE: this is a devel version based on CVS sources (might be unstable)!\n";
+  warn "###\n";
+  $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/testing/iup-cvs-101123.tar.gz');
+  $builder->notes('iup_sha1', 'd26ee919ef57d4b7bcc2d909bb450309093ccf41');
+  $builder->notes('im_url', 'http://strawberryperl.com/package/kmx/testing/im-cvs-101123.tar.gz');
+  $builder->notes('im_sha1', 'e29e026ad8d353d90b8b299778e4bc5512281b35');
+  $builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/testing/cd-cvs-101123.tar.gz');
+  $builder->notes('cd_sha1', 'ecea482eaf365df8805a6971704445b056c0893e');
+}
+else {
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.3_Sources.tar.gz');
+  $builder->notes('iup_sha1', '6ce0badbad9e27131010bf6fd296b1d5c8eda0a8');
+  $builder->notes('iup_patches', [ 'patches/iup-long-long.diff', 
+                                   'patches/iup-tuio-ms64bit.diff', 
+                                   'patches/iup-tuio-ntohl.diff',
+                                   'patches/iup-GTK_WIDGET.diff',
+                                   'patches/iup-WIN32_WINNT.diff' ] );
+  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
+  $builder->notes('im_sha1', '93f5e1fef25d9ac42a8c3a628411156b695cd7d1');
+  $builder->notes('im_patches', [ 'patches/im-int64.diff',
+                                  'patches/im-dragonfly.diff' ] );
+  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz');
+  $builder->notes('cd_sha1', 'b771752f253ab3bf6ee8c4bea228d5d16f4352ec');
+  $builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff',
+                                  'patches/cd-GTK_BASE.diff'  ] );
+}
 
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
 my $m = $builder->get_make;

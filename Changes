@@ -1,5 +1,11 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.102 - 01/12/2010
+
+ - patches: cd-GTK_BASE.diff, iup-GTK_WIDGET.diff
+ - linking lib order fixed
+ - showing mod version in debug info
+
 =head2 0.101_01 - 23/11/2010
 
  - devel version - sources CVS-2010-11-23 (no custom patches)

@@ -1,0 +1,11 @@
+diff -ru --strip-trailing-cr cd.orig/tecmake.mak cd/tecmake.mak
+--- cd.orig/tecmake.mak	2010-11-12 18:04:08.000000000 +0100
++++ cd/tecmake.mak	2010-12-01 08:44:06.935511300 +0100
+@@ -921,6 +921,7 @@
+     # get compile/link flags via pkg-config
+     STDFLAGS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
+     LIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
++    GTK_BASE = $(shell pkg-config --variable=prefix gtk+-2.0)
+   else
+     CHECK_GTK = Yes
+     ifneq ($(findstring MacOS, $(TEC_UNAME)), )

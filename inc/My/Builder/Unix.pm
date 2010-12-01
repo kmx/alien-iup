@@ -74,15 +74,33 @@ sub build_binaries {
     print STDERR "extra_cflags=$extra_cflags\n";
     print STDERR "extra_lflags=$extra_lflags\n";
   }
-  my %has;
+  
+  my %list = (     
+    gtk        => 'gtk+-2.0',
+    gtkx11     => 'gtk+-x11-2.0',
+    gdk        => 'gdk-2.0',
+    gdkx11     => 'gdk-x11-2.0',
+    gtkprint   => 'gtk+-unix-print-2.0',
+    webkit     => 'webkit-1.0',
+    cairo      => 'cairo',
+    pango      => 'pango',
+    pangox     => 'pangox',
+    pangocairo => 'pangocairo',
+    freetype2  => 'freetype2',
+    x11        => 'x11',
+    xext       => 'xext',
+    xp         => 'xp',
+    xm         => 'xm',
+    xmu        => 'xmu',
+  );
 
-  $has{gtk}     = `pkg-config --modversion gtk+-2.0 2>/dev/null` ? 1 : 0;
-  $has{gtkx11}  = `pkg-config --modversion gtk+-x11-2.0 2>/dev/null` ? 1 : 0;
-  $has{gdk}     = `pkg-config --modversion gdk-2.0 2>/dev/null` ? 1 : 0;
-  $has{gdkx11}  = `pkg-config --modversion gdk-x11-2.0 2>/dev/null` ? 1 : 0;
-  $has{cairo}   = `pkg-config --modversion cairo 2>/dev/null` ? 1 : 0;
-  $has{pango}   = `pkg-config --modversion pango 2>/dev/null` ? 1 : 0;
-  #$has{pangox}  = `pkg-config --modversion pangox 2>/dev/null` ? 1 : 0;
+  my %has;
+  for (sort keys %list) {
+    my $v = $self->run_stdout2str("pkg-config --modversion $list{$_}") || '';
+    my $p = $self->run_stdout2str("pkg-config --variable=prefix $list{$_}") || '';
+    $has{$_} = $v ? 1 : 0;
+    printf STDERR ("mod:% 20s version:% 9s prefix:%s\n", $list{$_}, $v, $p) if $self->notes('build_debug_info');
+  }
 
   $has{l_gtk}   = $has{gtk}    && $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>/dev/null`,     `pkg-config --libs gtk+-2.0 2>/dev/null`);
   $has{l_gtkx11}= $has{gtkx11} && $self->check_lib( [] , `pkg-config --cflags gtk+-x11-2.0 2>/dev/null`, `pkg-config --libs gtk+-x11-2.0 2>/dev/null`);
@@ -110,11 +128,9 @@ sub build_binaries {
   
   #kind of a special hack
   $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
-  
-  $has{webkit}  = $self->check_header('webkit/webkit.h',   $extra_cflags); #xxx TODO not tested properly
 
   if ($self->notes('build_debug_info')) {
-    print STDERR "Has: $has{$_} - $_\n" foreach (sort keys %has);
+    print STDERR "has: $has{$_} - $_\n" foreach (sort keys %has);
 
     print STDERR "Brute force lookup:\n";
     my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
@@ -143,20 +159,19 @@ sub build_binaries {
   my @opengl_libs;
   push(@opengl_libs, 'GL')  if $has{l_GL};
   push(@opengl_libs, 'GLU') if $has{l_GLU};
-
   
   my @imtargets = qw[im im_process im_jp2 im_fftw]; #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
   my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio]; #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl iupweb iuptuio
   
-  if ($^O eq 'openbsd') {
-    warn "###WARN### im_process is known to fail on some OpenBSD!!!";
-#    warn "###WARN### skipping im_process on OpenBSD";
-#    @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+  if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
+    if ($^O eq 'openbsd') {
+      warn "###WARN### skipping im_process on OpenBSD";
+      @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+    }
   }  
   
-  @cdtargets = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
-
+  @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
   @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 
@@ -190,10 +205,10 @@ sub build_binaries {
     die "###ERROR### Wrong selection!" unless $build_target;
   }
   else {
-    die "###FATAL### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (gonna exit)";
-    #warn "###WARN### No supported GUI subsystem (Win32, GTK, X11/Motif) detected! (trying X11)";
-    $success = 0;
-    $build_target = 'X11/Motif';
+    warn "###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)\n";
+    warn "### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h\n";
+    warn "### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h\n";
+    die;
   }
 
   print STDERR "Build target=", ($build_target || ''), "\n";  
