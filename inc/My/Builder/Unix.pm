@@ -126,14 +126,14 @@ sub build_binaries {
   $has{glu}     = $self->check_header('GL/glu.h',  $extra_cflags);
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
   
-  #kind of a special hack
+  #kind of a special hack 
   $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
 
   if ($self->notes('build_debug_info')) {
     print STDERR "has: $has{$_} - $_\n" foreach (sort keys %has);
 
     print STDERR "Brute force lookup:\n";
-    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
+    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|jasper.h|jas_image.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
     print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
     print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
     print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
@@ -214,10 +214,11 @@ sub build_binaries {
   print STDERR "Build target=", ($build_target || ''), "\n";  
   if ($build_target eq 'GTK2') {
     push(@makeopts, 'USE_GTK=Yes');
+    push(@makeopts, 'USE_GDK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
 
-    if ($has{freetype}) {
-      #handle existing freetype
+    #handle existing freetype
+    if ($has{freetype}) { #xxx TODO: later replace with $has{freetype2}      
       @cdtargets = grep { $_ !~ /^(cd_freetype)$/ } @cdtargets;
     }
     
@@ -237,6 +238,7 @@ sub build_binaries {
   }
   elsif ($build_target eq 'X11/Motif') {
     push(@makeopts, 'USE_X11=Yes');
+    push(@makeopts, 'USE_MOTIF=Yes');
     #additional X11 related libs
     push(@x11_libs, 'Xp')   if $has{l_Xp};
     push(@x11_libs, 'Xt')   if $has{l_Xt};

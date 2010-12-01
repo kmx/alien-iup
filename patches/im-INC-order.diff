@@ -1,0 +1,15 @@
+diff -ru --strip-trailing-cr im.orig/tecmake.mak im/tecmake.mak
+--- im.orig/tecmake.mak	2010-11-12 18:04:08.000000000 +0100
++++ im/tecmake.mak	2010-12-01 14:07:21.887533400 +0100
+@@ -1031,9 +1031,9 @@
+ # Library flags for application and dynamic library linker
+ LFLAGS += $(LDIR) $(LIBS)
+ # C compiler flags
+-CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CFLAGS   = $(INCLUDES) $(EXTRAINCS) $(DEFINES) $(FLAGS) $(STDFLAGS) $(STDINCS) $(STDDEFS)
+ # C++ compiler flags
+-CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CXXFLAGS = $(INCLUDES) $(EXTRAINCS) $(DEFINES) $(CPPFLAGS) $(STDFLAGS) $(STDINCS) $(STDDEFS)
+ 
+ # Sources with relative path
+ SOURCES := $(addprefix $(SRCDIR)/, $(SRC))

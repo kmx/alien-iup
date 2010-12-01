@@ -1,5 +1,14 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.104 - 01/12/2010
+
+ - updated iup-GTK_WIDGET.diff 
+
+=head2 0.103 - 01/12/2010
+
+ - Motif/X11 build fix
+ - fix for http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
+
 =head2 0.102 - 01/12/2010
 
  - patches: cd-GTK_BASE.diff, iup-GTK_WIDGET.diff

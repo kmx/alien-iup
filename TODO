@@ -1,18 +1,14 @@
 IMPORTANT
+
 - [fixed] Linking order: move -liup after -lcdiup (otherwise link error on Win32)
 - [fixed] Linux http://www.cpantesters.org/cpan/report/d90bc1c8-f86b-11df-9081-1b18960acfcc
 - [fixed] UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
 - [fixed] print GTK version in build log
 - [fixed] Do you want STABLE or UNSTABLE (devel version from CVS) build [STABLE]?
+- [fixed] BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
+  im_format_jp2.cpp: In function 'void imFormatRegisterJP2()':
 
 - Win: check removing old sharedir content on MSWin (ActivePerl)
-
-- BSD
-im_format_jp2.cpp: In function 'void imFormatRegisterJP2()':
-im_format_jp2.cpp:175: error: 'jas_progress_proc_t' was not declared in this scope
-im_format_jp2.cpp:175: error: 'jas_set_progress_proc' was not declared in this scope
-im_format_jp2.cpp:176: error: 'jas_test_abort_proc_t' was not declared in this scope
-im_format_jp2.cpp:176: error: 'jas_set_test_abort_proc' was not declared in this scope
 
 - Win: disable ftgl and iuptuio on VC6
   ($Config{ccversion} =~ /^12\./)
@@ -20,7 +16,7 @@ im_format_jp2.cpp:176: error: 'jas_set_test_abort_proc' was not declared in this
 
 - Unix: disable iuptuio on cygwin/gcc-3.4.4
   Unix: ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/)
-
+  
 MEDIUM PRIORITY
 - generate makefiles for contextplus/iupweb
 - enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)

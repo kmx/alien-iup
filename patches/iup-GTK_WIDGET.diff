@@ -10,3 +10,108 @@ diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_button.c iup/src/gtk/iupgtk
  
    value = iupAttribGet(ih, "IMPRESS");
    impress = (ih->data->type & IUP_BUTTON_IMAGE && value)? 1: 0;
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_canvas.c iup/src/gtk/iupgtk_canvas.c
+--- iup.orig/src/gtk/iupgtk_canvas.c	2010-10-18 19:07:59.000000000 +0200
++++ iup/src/gtk/iupgtk_canvas.c	2010-12-01 14:30:23.715843800 +0100
+@@ -586,7 +586,7 @@
+   if (ih->iclass->is_interactive)
+   {
+     if (iupAttribGetBoolean(ih, "CANFOCUS"))
+-      GTK_WIDGET_FLAGS(ih->handle) |= GTK_CAN_FOCUS;
++      GTK_OBJECT(ih->handle)->flags |= GTK_CAN_FOCUS;
+   }
+ 
+   if (iupAttribGetBoolean(ih, "BORDER"))
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_list.c iup/src/gtk/iupgtk_list.c
+--- iup.orig/src/gtk/iupgtk_list.c	2010-10-28 15:30:43.000000000 +0200
++++ iup/src/gtk/iupgtk_list.c	2010-12-01 14:32:34.893074000 +0100
+@@ -1244,7 +1244,7 @@
+       g_signal_connect(G_OBJECT(entry), "button-release-event",G_CALLBACK(gtkListEditButtonEvent), ih);
+ 
+       if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-        GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++        GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+     }
+     else
+     {
+@@ -1265,9 +1265,9 @@
+       g_signal_connect(G_OBJECT(ih->handle), "show-help",       G_CALLBACK(iupgtkShowHelp), ih);
+ 
+       if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-        GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++        GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+       else
+-        GTK_WIDGET_FLAGS(box) |= GTK_CAN_FOCUS;
++        GTK_OBJECT(box)->flags |= GTK_CAN_FOCUS;
+     }
+ 
+     g_signal_connect(ih->handle, "changed", G_CALLBACK(gtkListComboBoxChanged), ih);
+@@ -1309,9 +1309,9 @@
+       iupAttribSetStr(ih, "_IUP_EXTRAPARENT", (char*)vbox);
+       iupAttribSetStr(ih, "_IUPGTK_SCROLLED_WINDOW", (char*)scrolled_window);
+ 
+-      GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS; /* focus goes only to the edit box */
++      GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS; /* focus goes only to the edit box */
+       if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-        GTK_WIDGET_FLAGS(entry) &= ~GTK_CAN_FOCUS;
++        GTK_OBJECT(entry)->flags &= ~GTK_CAN_FOCUS;
+ 
+       g_signal_connect(G_OBJECT(entry), "focus-in-event",     G_CALLBACK(iupgtkFocusInOutEvent), ih);
+       g_signal_connect(G_OBJECT(entry), "focus-out-event",    G_CALLBACK(iupgtkFocusInOutEvent), ih);
+@@ -1333,7 +1333,7 @@
+       iupAttribSetStr(ih, "_IUP_EXTRAPARENT", (char*)scrolled_window);
+ 
+       if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-        GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++        GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+       g_signal_connect(G_OBJECT(ih->handle), "focus-in-event",     G_CALLBACK(iupgtkFocusInOutEvent), ih);
+       g_signal_connect(G_OBJECT(ih->handle), "focus-out-event",    G_CALLBACK(iupgtkFocusInOutEvent), ih);
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_text.c iup/src/gtk/iupgtk_text.c
+--- iup.orig/src/gtk/iupgtk_text.c	2010-10-28 23:40:28.000000000 +0200
++++ iup/src/gtk/iupgtk_text.c	2010-12-01 14:30:46.925484800 +0100
+@@ -1684,7 +1684,7 @@
+   iupgtkBaseAddToParent(ih);
+ 
+   if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-    GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++    GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+   g_signal_connect(G_OBJECT(ih->handle), "enter-notify-event", G_CALLBACK(iupgtkEnterLeaveEvent), ih);
+   g_signal_connect(G_OBJECT(ih->handle), "leave-notify-event", G_CALLBACK(iupgtkEnterLeaveEvent), ih);
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_toggle.c iup/src/gtk/iupgtk_toggle.c
+--- iup.orig/src/gtk/iupgtk_toggle.c	2010-11-11 00:22:18.000000000 +0100
++++ iup/src/gtk/iupgtk_toggle.c	2010-12-01 14:30:52.661631800 +0100
+@@ -491,7 +491,7 @@
+   iupgtkBaseAddToParent(ih);
+ 
+   if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-    GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++    GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+   if (ih->data->type == IUP_TOGGLE_IMAGE && ih->data->flat)
+   {
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_tree.c iup/src/gtk/iupgtk_tree.c
+--- iup.orig/src/gtk/iupgtk_tree.c	2010-10-08 05:37:13.000000000 +0200
++++ iup/src/gtk/iupgtk_tree.c	2010-12-01 14:30:58.598318900 +0100
+@@ -2375,7 +2375,7 @@
+   iupgtkBaseAddToParent(ih);
+ 
+   if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-    GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++    GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+   gtk_widget_realize((GtkWidget*)scrolled_window);
+   gtk_widget_realize(ih->handle);
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_val.c iup/src/gtk/iupgtk_val.c
+--- iup.orig/src/gtk/iupgtk_val.c	2010-10-06 22:23:51.000000000 +0200
++++ iup/src/gtk/iupgtk_val.c	2010-12-01 14:31:04.438486700 +0100
+@@ -162,7 +162,7 @@
+   iupgtkBaseAddToParent(ih);
+ 
+   if (!iupAttribGetBoolean(ih, "CANFOCUS"))
+-    GTK_WIDGET_FLAGS(ih->handle) &= ~GTK_CAN_FOCUS;
++    GTK_OBJECT(ih->handle)->flags &= ~GTK_CAN_FOCUS;
+ 
+   g_signal_connect(G_OBJECT(ih->handle), "enter-notify-event", G_CALLBACK(iupgtkEnterLeaveEvent), ih);
+   g_signal_connect(G_OBJECT(ih->handle), "leave-notify-event", G_CALLBACK(iupgtkEnterLeaveEvent), ih);
