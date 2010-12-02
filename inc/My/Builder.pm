@@ -229,7 +229,7 @@ MARKER
   $obj = $self->quote_literal($obj);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
   my $rv = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \undef, \undef, { return_if_system_error => 1 } );
-  return ($rv == 0) ? 1 : 0;
+  return ($rv == 1 && $? == 0) ? 1 : 0;
 }
 
 # check presence of lib(s) specified as params
