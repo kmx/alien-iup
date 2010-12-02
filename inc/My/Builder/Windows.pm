@@ -12,13 +12,24 @@ sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $prefixdir = rel2abs($build_out);
   my $perl = $^X;
-    
-  my @imtargets = qw[im im_process im_jp2 im_fftw]; #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
-  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus]; #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iuptuio]; #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl iupweb iuptuio
-  
+
+  #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
+  #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio
+  my @imtargets  = qw[im im_process im_jp2 im_fftw];
+  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus];
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+
+  if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
+    if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) { #VC6
+      warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
+      @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
+      @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;    # disable just when compiling via VC6
+    }
+  }
+
+  #xxx TODO add cdcontextplus + iupweb support to makefiles
   @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
-  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;       # xxx TODO: remove just when compiling via VC6
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
 
   my (@cmd_im, @cmd_cd, @cmd_iup);
@@ -47,7 +58,7 @@ sub build_binaries {
       push(@cmd_iup, 'BUILDBITS=64');
     }
   }
-      
+
   my $libtype = 'static';
   my $success = 1;
   my %done;
@@ -67,7 +78,7 @@ sub build_binaries {
 
   if (-d "$srcdir/cd/src") {
     print STDERR "Gonna build 'cd'\n";
-    chdir "$srcdir/cd/src";    
+    chdir "$srcdir/cd/src";
     foreach my $t (@cdtargets) {
       print STDERR ">>>>> Building 'cd:$t'\n";
       $done{"cd:$t"} = $self->run_custom(@cmd_cd, $t.'-'.$libtype);
@@ -90,15 +101,15 @@ sub build_binaries {
     $self->run_custom(@cmd_iup, 'install-all');
     chdir $self->base_dir();
   }
-  
+
   unless ($done{"iup:iup"} && $done{"iup:iupim"} && $done{"iup:iupcd"}) {
     warn "###WARN### essential libs not built!";
     $success = 0;
   }
 
   # print build results
-  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);  
-  
+  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
+
   # go through really existing libs
   my %seen;
   my @gl_l = glob("$prefixdir/lib/*");
@@ -114,10 +125,10 @@ sub build_binaries {
       warn "###WARN### Unexpected filename '$_'";
     }
   }
-  
+
   # xxx TODO: maybe more libs needed like - gdiplus ...
   my @libs = ( $self->sort_libs(keys %seen), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ );
-  
+
   $self->config_data('debug_done', \%done);
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');

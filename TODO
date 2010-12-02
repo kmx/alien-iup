@@ -1,34 +1,17 @@
 IMPORTANT
-
-- [fixed] Linking order: move -liup after -lcdiup (otherwise link error on Win32)
-- [fixed] Linux http://www.cpantesters.org/cpan/report/d90bc1c8-f86b-11df-9081-1b18960acfcc
-- [fixed] UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
-- [fixed] print GTK version in build log
-- [fixed] Do you want STABLE or UNSTABLE (devel version from CVS) build [STABLE]?
-- [fixed] BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
-  im_format_jp2.cpp: In function 'void imFormatRegisterJP2()':
-
-- Win: check removing old sharedir content on MSWin (ActivePerl)
-
-- Win: disable ftgl and iuptuio on VC6
-  ($Config{ccversion} =~ /^12\./)
-  (`cl 2>&1` =~ /^12\./)
-
-- Unix: disable iuptuio on cygwin/gcc-3.4.4
-  Unix: ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/)
+- none
   
 MEDIUM PRIORITY
-- generate makefiles for contextplus/iupweb
-- enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
-- enable iupweb - MS compiler
-- enable cdcairo - when has{cairo}
+- Win: generate makefiles for contextplus/iupweb
+- Win: enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
-- UNIX/GTK2 - more iupweb/webkit testing
+- more iupweb/webkit testing (Win32 as well as GTK2)
 - enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
-- enhance interface: Alien::IUP->gui ... = 'win' | 'gtk2' | 'x11/mot'
+- enhance interface: Alien::IUP->config('gui') ... = 'win' | 'gtk2' | 'x11/mot'
+- try to build cdcairo - when has{cairo}
 
 LOW PRIORITY
-- detection iup+cd+im: does not work with msvc 
+- detection iup+cd+im: does not work with msvc (fix temporary *.obj files in dist root)
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 - Unix - move lib detection into "perl Build.PL" phase (maybe)
@@ -36,6 +19,8 @@ LOW PRIORITY
 - Makefile*.nmake - dynamic lib build not supported
 
 ERRORS TO BE REPORTED TO TECGRAF
+- GTK_BASE: UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
+- INC order: BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
 - (reported-wontfix) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported-wontfix) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af

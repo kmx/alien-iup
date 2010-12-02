@@ -1,4 +1,5 @@
 timestamp=`date +%y%m%d`
+fulltime=`date "+%Y/%m/%d-%H:%M:%S"`
 
 rm -rf iup iup-cvs-$timestamp.tar.gz
 cvs -d:pserver:anonymous:@iup.cvs.sourceforge.net:/cvsroot/iup login
@@ -18,6 +19,8 @@ tar czf im-cvs-$timestamp.tar.gz --owner=0 --group=0 im
 rm -rf iup cd im
 
 echo "### Build.PL fragment:"
+echo "  warn \"###sources exported from CVS at $fulltime\n\"";
+echo "  warn \"###\n\"";
 echo "  \$builder->notes('iup_url',  'http://strawberryperl.com/package/kmx/testing/iup-cvs-$timestamp.tar.gz');"
 echo "  \$builder->notes('iup_sha1', '`sha1sum iup-cvs-$timestamp.tar.gz | sed 's/ .*//'`');"
 echo "  \$builder->notes('im_url',   'http://strawberryperl.com/package/kmx/testing/im-cvs-$timestamp.tar.gz');"

@@ -1,5 +1,10 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.105 - 02/12/2010
+
+ - important fix: GTK2 + pkg-config
+ - improved build target autoselection
+
 =head2 0.104 - 01/12/2010
 
  - updated iup-GTK_WIDGET.diff 

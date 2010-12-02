@@ -13,12 +13,24 @@ use Config;
 sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $success = 1;
-  
-  my @imtargets = qw[im im_process im_jp2 im_fftw];
-  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iuptuio];
-  my @makeopts = qw[USE_NODEPEND=Yes];
-  
+
+  #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
+  #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio
+  my @imtargets  = qw[im im_process im_jp2 im_fftw];
+  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iuptuio]; #NOTE: we do not even try to build iupweb!
+
+  if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
+    if ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/) {
+      warn "###WARN### skipping iuptuio on Cygwin+gcc3";
+      @iuptargets = grep { $_ !~ /^iuptuio$/ } @iuptargets;
+    }
+  }
+
+  #make options
+  my @makeopts   = qw[USE_NODEPEND=Yes];
+
   #do the job
   $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);
   warn "###MAKE FAILED###" unless $success;
@@ -96,7 +108,7 @@ sub build_via_tecmake {
   }
 
   if (-d "$srcdir/iup") {
-    print STDERR "Gonna build 'iup'\n";    
+    print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@$iuptgs) {
       $done{"iup:$t"} = $self->run_custom(@basecmd, @$mopts, $t);
@@ -109,7 +121,7 @@ sub build_via_tecmake {
 
   print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
   $self->config_data('debug_done', \%done);
-  
+
   return $success;
 }
 

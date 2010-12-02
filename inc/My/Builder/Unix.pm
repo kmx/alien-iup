@@ -74,8 +74,8 @@ sub build_binaries {
     print STDERR "extra_cflags=$extra_cflags\n";
     print STDERR "extra_lflags=$extra_lflags\n";
   }
-  
-  my %list = (     
+
+  my %list = (
     gtk        => 'gtk+-2.0',
     gtkx11     => 'gtk+-x11-2.0',
     gdk        => 'gdk-2.0',
@@ -107,7 +107,7 @@ sub build_binaries {
   $has{l_gdk}   = $has{gdk}    && $self->check_lib( [] , `pkg-config --cflags gdk-2.0 2>/dev/null`,      `pkg-config --libs gdk-2.0 2>/dev/null`);
   $has{l_gdkx11}= $has{gdkx11} && $self->check_lib( [] , `pkg-config --cflags gdk-x11-2.0 2>/dev/null`,  `pkg-config --libs gdk-x11-2.0 2>/dev/null`);
   $has{l_cairo} = $has{cairo}  && $self->check_lib( [] , `pkg-config --cflags cairo 2>/dev/null`,        `pkg-config --libs cairo 2>/dev/null`);
-  $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);  
+  $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);
   #$has{l_pangox}= $has{pangox} && $self->check_lib( [] , `pkg-config --cflags pangox 2>/dev/null`,       `pkg-config --libs pangox 2>/dev/null`);
 
   $has{l_Xp}    = $self->check_lib( 'Xp',   $extra_cflags, $extra_lflags );
@@ -125,8 +125,8 @@ sub build_binaries {
   $has{glx}     = $self->check_header('GL/glx.h',  $extra_cflags); #iupgl
   $has{glu}     = $self->check_header('GL/glu.h',  $extra_cflags);
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
-  
-  #kind of a special hack 
+
+  #kind of a special hack
   $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
 
   if ($self->notes('build_debug_info')) {
@@ -159,18 +159,26 @@ sub build_binaries {
   my @opengl_libs;
   push(@opengl_libs, 'GL')  if $has{l_GL};
   push(@opengl_libs, 'GLU') if $has{l_GLU};
-  
-  my @imtargets = qw[im im_process im_jp2 im_fftw]; #possible targets: im im_process im_jp2 im_fftw im_capture im_avi im_wmv im_fftw3 im_ecw
-  my @cdtargets = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #possible targets: cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio]; #possible targets: iup iupcd iupcontrols iupim iupimglib iup_pplot iupgl iupweb iuptuio
-  
+
+  #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
+  #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio
+  my @imtargets  = qw[im im_process im_jp2 im_fftw];
+  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
+  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
+
   if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
     if ($^O eq 'openbsd') {
       warn "###WARN### skipping im_process on OpenBSD";
       @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
     }
-  }  
-  
+    @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;
+    ### disable following in all non-devel distributions
+    #@imtargets  = grep { $_ !~ /^(im_process|im_jp2|im_fftw)$/ } @imtargets;
+    #@iuptargets = grep { $_ !~ /^(iupweb|iuptuio)$/ } @iuptargets;
+    #@cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;
+  }
+
   @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
   @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
@@ -183,12 +191,12 @@ sub build_binaries {
 
   my @makeopts  = qw[NO_DYNAMIC=Yes USE_NODEPEND=Yes];
   #my @makeopts  = qw[NO_STATIC=Yes USE_NODEPEND=Yes];
-  
+
   #choose GUI subsystem, priorities if multiple subsystems detected: 1. GTK, 2. X11/Motif
   my @libs;
   my @build_opts;
   my $build_target = '';
-  
+
   push(@build_opts, 'GTK2') if ($has{gtk} && $has{cairo} && $has{Xlib});
   push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
 
@@ -211,17 +219,17 @@ sub build_binaries {
     die;
   }
 
-  print STDERR "Build target=", ($build_target || ''), "\n";  
+  print STDERR "Build target=", ($build_target || ''), "\n";
   if ($build_target eq 'GTK2') {
     push(@makeopts, 'USE_GTK=Yes');
     push(@makeopts, 'USE_GDK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
 
     #handle existing freetype
-    if ($has{freetype}) { #xxx TODO: later replace with $has{freetype2}      
+    if ($has{freetype}) { #xxx TODO: later replace with $has{freetype2}
       @cdtargets = grep { $_ !~ /^(cd_freetype)$/ } @cdtargets;
     }
-    
+
     #detected libs
     push(@makeopts, "X11_LIBS=" . join(' ', @x11_libs));
     push(@makeopts, "X11_LIB=$dir_x11_lib") if $dir_x11_lib;
@@ -261,11 +269,8 @@ sub build_binaries {
   }
 
   #do the job
-  print STDERR "Gonna make these targets: " . join(' ', @iuptargets, @cdtargets, @imtargets) . "\n";
-  unless ($self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets)) {
-    warn "###MAKE FAILED###";
-    $success = 0;
-  }
+  $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);
+  warn "###MAKE FAILED###" unless $success;
 
   #make a list of libs necessary to link with IUP and related libraries
   my %seen;
@@ -397,7 +402,7 @@ sub get_make {
 
   warn "###WARN### it seems we do not have GNU make, build is likely gonna fail!";
   return;
-  
+
   #print STDERR "- fallback to: 'make'\n";
   #return 'make';
 }

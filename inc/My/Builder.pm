@@ -61,6 +61,7 @@ sub ACTION_code {
       my $unpack;
       $unpack = (-d "$build_src/iup") ? $self->prompt("\nDir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/iup") if -d "$build_src/iup";
         $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
         if ($self->notes('iup_patches')) {
           $self->apply_patch("$build_src/iup", $_)  foreach (@{$self->notes('iup_patches')});
@@ -69,6 +70,7 @@ sub ACTION_code {
 
       $unpack = (-d "$build_src/im") ? $self->prompt("\nDir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/im") if -d "$build_src/im";
         $self->prepare_sources($self->notes('im_url'), $self->notes('im_sha1'), $download, $build_src);
         if ($self->notes('im_patches')) {
           $self->apply_patch("$build_src/im", $_)  foreach (@{$self->notes('im_patches')});
@@ -77,6 +79,7 @@ sub ACTION_code {
 
       $unpack = (-d "$build_src/cd") ? $self->prompt("\nDir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/cd") if -d "$build_src/cd";
         $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
         if ($self->notes('cd_patches')) {
           $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
@@ -109,9 +112,9 @@ sub ACTION_code {
 sub prepare_sources {
   my ($self, $url, $sha1, $download, $build_src) = @_;
   $self->fetch_file($url, $sha1, $download);
-   my $archive = catfile($download, File::Fetch->new(uri => $url)->file);
-   my $ae = Archive::Extract->new( archive => $archive );
-   die "###ERROR### Cannot extract tarball ", $ae->error unless $ae->extract(to => $build_src);
+  my $archive = catfile($download, File::Fetch->new(uri => $url)->file);
+  my $ae = Archive::Extract->new( archive => $archive );
+  die "###ERROR### Cannot extract tarball ", $ae->error unless $ae->extract(to => $build_src);
 }
 
 sub fetch_file {
@@ -222,14 +225,10 @@ int demofunc(void) { return 0; }
 
 MARKER
   close($fs);
-  local *OLDERR;
-  open OLDERR, ">&", STDERR;
-  open STDERR, ">", File::Spec->devnull();
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
-  my $rv = system("$Config{cc} -c -o $obj $src $cflags");
-  open(STDERR, ">&", OLDERR);
+  my $rv = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \undef, \undef, { return_if_system_error => 1 } );
   return ($rv == 0) ? 1 : 0;
 }
 
@@ -253,12 +252,12 @@ MARKER
   close($fs);
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
-  $exe = $self->quote_literal($exe);    
+  $exe = $self->quote_literal($exe);
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
-  my $rv1 = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \$output, \$output, { return_if_system_error => 1 } );  
+  my $rv1 = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \$output, \$output, { return_if_system_error => 1 } );
   unless ($rv1 == 1 && $? == 0) {
     #print STDERR "OUTPUT(compile):\n$output\n" if $output;
-    return 0 
+    return 0
   }
   my $rv2 = run3("$Config{ld} $obj -o $exe $lflags $liblist", \undef, \$output, \$output, { return_if_system_error => 1 } );
   unless ($rv2 == 1 && $? == 0) {
