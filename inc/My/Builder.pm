@@ -234,7 +234,7 @@ MARKER
 
 # check presence of lib(s) specified as params
 sub check_lib {
-  my ($self, $l, $cflags, $lflags, $output) = @_;
+  my ($self, $l, $cflags, $lflags) = @_;
   $cflags ||= '';
   $lflags ||= '';
   $cflags =~ s/[\r\n]//g;
@@ -253,6 +253,7 @@ MARKER
   $src = $self->quote_literal($src);
   $obj = $self->quote_literal($obj);
   $exe = $self->quote_literal($exe);
+  my $output;
   #Note: $Config{cc} might contain e.g. 'ccache cc' (FreeBSD 8.0)
   my $rv1 = run3("$Config{cc} -c -o $obj $src $cflags", \undef, \$output, \$output, { return_if_system_error => 1 } );
   unless ($rv1 == 1 && $? == 0) {
