@@ -167,7 +167,7 @@ sub build_binaries {
   my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
   my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
 
-  if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
+  if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
     if ($^O eq 'openbsd') {
       warn "###WARN### skipping im_process on OpenBSD";
       @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;

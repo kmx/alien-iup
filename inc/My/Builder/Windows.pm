@@ -20,7 +20,7 @@ sub build_binaries {
   my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus];
   my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
 
-  if (!$self->notes('is_devel_version')) { # xxx hack (skip some targets if not devel distribution)
+  if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
     if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) { #VC6
       warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
       @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6

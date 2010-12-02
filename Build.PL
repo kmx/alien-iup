@@ -81,10 +81,10 @@ if ($builder->check_installed_lib()) {
 }
 
 # set to 0 (zero) if you do not want a devel distribution version
-$builder->notes('is_devel_version', 0);
+$builder->notes('is_devel_cvs_version', 0);
 
 # set what tarballs we are gonna use
-if ($builder->notes('is_devel_version')) {
+if ($builder->notes('is_devel_cvs_version')) {
   $builder->notes('build_debug_info', 1);
   warn "###\n";
   warn "###BEWARE: this is a devel version based on CVS sources (might be unstable)!\n";
