@@ -96,8 +96,8 @@ sub build_binaries {
 
   my %has;
   for (sort keys %list) {
-    my $v = $self->run_stdout2str("pkg-config --modversion $list{$_}") || '';
-    my $p = $self->run_stdout2str("pkg-config --variable=prefix $list{$_}") || '';
+    my $v = $self->run_stdout2str(qw[pkg-config --modversion], $list{$_}) || '';
+    my $p = $self->run_stdout2str(qw[pkg-config --variable=prefix], $list{$_}) || '';
     $has{$_} = $v ? 1 : 0;
     printf STDERR ("mod:% 20s version:% 9s prefix:%s\n", $list{$_}, $v, $p) if $self->notes('build_debug_info');
   }
