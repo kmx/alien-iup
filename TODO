@@ -20,7 +20,6 @@ LOW PRIORITY
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
 - (reported) NetBSD+GTK-2.22.0 iup build failure http://www.cpantesters.org/cpan/report/069db84a-0121-11e0-afb0-adca6bb533f3
-- (reported) GTK_BASE: UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
 - (reported) INC order: BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
 - (reported-wontfix) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported-wontfix) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af

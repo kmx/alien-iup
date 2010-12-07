@@ -1,15 +1,12 @@
 diff -ru --strip-trailing-cr im.orig/tecmake.mak im/tecmake.mak
 --- im.orig/tecmake.mak	2010-11-12 18:04:08.000000000 +0100
-+++ im/tecmake.mak	2010-12-01 14:07:21.887533400 +0100
-@@ -1031,9 +1031,9 @@
- # Library flags for application and dynamic library linker
- LFLAGS += $(LDIR) $(LIBS)
- # C compiler flags
--CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
-+CFLAGS   = $(INCLUDES) $(EXTRAINCS) $(DEFINES) $(FLAGS) $(STDFLAGS) $(STDINCS) $(STDDEFS)
- # C++ compiler flags
--CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
-+CXXFLAGS = $(INCLUDES) $(EXTRAINCS) $(DEFINES) $(CPPFLAGS) $(STDFLAGS) $(STDINCS) $(STDDEFS)
- 
- # Sources with relative path
- SOURCES := $(addprefix $(SRCDIR)/, $(SRC))
++++ im/tecmake.mak	2010-12-07 20:51:19.777521800 +0100
+@@ -919,7 +919,7 @@
+ ifdef USE_GTK
+   ifdef USE_PKGCONFIG
+     # get compile/link flags via pkg-config
+-    STDFLAGS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
++    EXTRAINCS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
+     LIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
+   else
+     CHECK_GTK = Yes

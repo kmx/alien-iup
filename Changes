@@ -1,9 +1,14 @@
 =head1 Revision history for Alien-IUP
 
-=head2 0.107 - NEXT
+=head2 0.108 - NEXT
+
+ - info.t cosmetics
+
+=head2 0.107 - 07/12/2010
 
  - iuptuio target added (Unix.pm)
  - more debug info saved to config_data
+ - updated im-INC-order.diff
 
 =head2 0.106 - 02/12/2010
 
