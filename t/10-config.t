@@ -8,9 +8,9 @@ use Test::More tests => 4;
 use Alien::IUP;
 
 diag "CONFIG VALUES:";
-diag "LIBS=" . (Alien::IUP->config('LIBS') || '');
-diag "INC=" . (Alien::IUP->config('INC') || '');
 diag "PREFIX=" . (Alien::IUP->config('PREFIX') || '');
+diag "INC   =" . (Alien::IUP->config('INC') || '');
+diag "LIBS  =" . (Alien::IUP->config('LIBS') || '');
 
 like( Alien::IUP->config('LIBS'), qr/.+/, "Testing non empty config('LIBS')" );
 #note: INC and PREFIX might be empty, thus not testing here

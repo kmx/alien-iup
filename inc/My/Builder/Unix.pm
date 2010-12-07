@@ -95,10 +95,12 @@ sub build_binaries {
   );
 
   my %has;
+  my %has_details;
   for (sort keys %list) {
     my $v = $self->run_stdout2str(qw[pkg-config --modversion], $list{$_}) || '';
     my $p = $self->run_stdout2str(qw[pkg-config --variable=prefix], $list{$_}) || '';
     $has{$_} = $v ? 1 : 0;
+    $has_details{$_} = { version=>$v, prefix=>$p };    
     printf STDERR ("mod:% 20s version:% 9s prefix:%s\n", $list{$_}, $v, $p) if $self->notes('build_debug_info');
   }
 
@@ -183,10 +185,11 @@ sub build_binaries {
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 
   #store debug info into ConfigData
-  $self->config_data('debug_has', \%has);
-  $self->config_data('debug_imtargets', \@imtargets);
-  $self->config_data('debug_cdtargets', \@cdtargets);
-  $self->config_data('debug_iuptargets', \@iuptargets);
+  $self->config_data('info_has', \%has);
+  $self->config_data('info_lib_details', \%has_details);
+  $self->config_data('info_imtargets', \@imtargets);
+  $self->config_data('info_cdtargets', \@cdtargets);
+  $self->config_data('info_iuptargets', \@iuptargets);
 
   my @makeopts  = qw[NO_DYNAMIC=Yes USE_NODEPEND=Yes];
   #my @makeopts  = qw[NO_STATIC=Yes USE_NODEPEND=Yes];
@@ -217,6 +220,8 @@ sub build_binaries {
     warn "### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h\n";
     die;
   }
+  
+  $self->config_data('info_gui_driver', $build_target);
 
   print STDERR "Build target=", ($build_target || ''), "\n";
   if ($build_target eq 'GTK2') {
@@ -316,10 +321,6 @@ sub build_via_tecmake {
 
   my $success = 1;
 
-  # save it for future use in ConfigData
-  $self->config_data('build_prefix', $prefixdir);
-  $self->config_data('debug_makeopts', $mopts);
-
   #create output directory structure
   mkdir "$prefixdir" unless -d "$prefixdir";
   mkdir "$prefixdir/lib" unless -d "$prefixdir/lib";
@@ -369,7 +370,11 @@ sub build_via_tecmake {
   }
 
   print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
-  $self->config_data('debug_done', \%done);
+
+  # save it for future use in ConfigData
+  $self->config_data('build_prefix', $prefixdir);
+  $self->config_data('info_makeopts', $mopts);
+  $self->config_data('info_done', \%done);
 
   return $success;
 }

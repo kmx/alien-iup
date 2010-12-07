@@ -32,6 +32,12 @@ sub build_binaries {
   @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
 
+  #store debug info into ConfigData
+  $self->config_data('info_imtargets', \@imtargets);
+  $self->config_data('info_cdtargets', \@cdtargets);
+  $self->config_data('info_iuptargets', \@iuptargets);
+  $self->config_data('info_gui_driver', 'Win32/native');
+
   my (@cmd_im, @cmd_cd, @cmd_iup);
   if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
     @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),  "PERL=perl", "PREFIX=$prefixdir" );
@@ -129,7 +135,7 @@ sub build_binaries {
   # xxx TODO: maybe more libs needed like - gdiplus ...
   my @libs = ( $self->sort_libs(keys %seen), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ );
 
-  $self->config_data('debug_done', \%done);
+  $self->config_data('info_done', \%done);
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
   $self->config_data('linker_libs', \@libs);

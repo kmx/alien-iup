@@ -1,27 +1,27 @@
 IMPORTANT
-- none
+- enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0 (needed for #ifdefs in IUP module)
   
 MEDIUM PRIORITY
-- Win: generate makefiles for contextplus/iupweb
-- Win: enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
-- enhance interface: Alien::IUP->haslib('iupcd') ... = 1 | 0
-- enhance interface: Alien::IUP->config('gui') ... = 'win' | 'gtk2' | 'x11/mot'
+- Win: generate makefiles for contextplus/iupweb
+- Win: enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
+- enhance interface: Alien::IUP->config('gui_driver') ... = 'win' | 'gtk2' | 'x11/mot' (how to get this when iup is already installed)
 - try to build cdcairo - when has{cairo}
 
 LOW PRIORITY
 - detection iup+cd+im: does not work with msvc (fix temporary *.obj files in dist root)
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
-- Unix - move lib detection into "perl Build.PL" phase (maybe)
+- Unix - move essential lib detection into "perl Build.PL" phase (exit without creating Build script if essential libs not found)
 - Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 - Makefile*.nmake - dynamic lib build not supported
 
 ERRORS TO BE REPORTED TO TECGRAF
-- GTK_BASE: UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
-- INC order: BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
+- (reported) NetBSD+GTK-2.22.0 iup build failure http://www.cpantesters.org/cpan/report/069db84a-0121-11e0-afb0-adca6bb533f3
+- (reported) GTK_BASE: UNIX cairo/cdcairoprn_unix.c:13:36: error: gtk/gtkprintunixdialog.h: No such file or directory
+- (reported) INC order: BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
 - (reported-wontfix) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported-wontfix) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
 - (reported-wontfix) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af

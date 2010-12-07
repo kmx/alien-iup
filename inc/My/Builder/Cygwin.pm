@@ -31,6 +31,12 @@ sub build_binaries {
   #make options
   my @makeopts   = qw[USE_NODEPEND=Yes];
 
+  #store debug info into ConfigData
+  $self->config_data('info_imtargets', \@imtargets);
+  $self->config_data('info_cdtargets', \@cdtargets);
+  $self->config_data('info_iuptargets', \@iuptargets);
+  $self->config_data('info_gui_driver', 'Win32/native');
+
   #do the job
   $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);
   warn "###MAKE FAILED###" unless $success;
@@ -69,9 +75,6 @@ sub build_via_tecmake {
   my $prefixdir = rel2abs($build_out);
 
   my $success = 1;
-
-  # save it for future use in ConfigData
-  $self->config_data('build_prefix', $prefixdir);
 
   #create output directory structure
   mkdir "$prefixdir" unless -d "$prefixdir";
@@ -120,7 +123,10 @@ sub build_via_tecmake {
   }
 
   print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
-  $self->config_data('debug_done', \%done);
+  # save it for future use in ConfigData
+  $self->config_data('build_prefix', $prefixdir);
+  $self->config_data('info_makeopts', $mopts);
+  $self->config_data('info_done', \%done);
 
   return $success;
 }
