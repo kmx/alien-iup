@@ -1,6 +1,10 @@
 =head1 Revision history for Alien-IUP
 
-=head2 0.108_01+0.108_02 - 09/12/2010
+=head2 0.109 - 10/12/2010
+
+ - fixing im-INC-order.diff
+
+ =head2 0.108_01+0.108_02 - 09/12/2010
 
  - dev build with latest CVS sources
 
