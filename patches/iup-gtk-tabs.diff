@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr iup.orig/src/gtk/iupgtk_tabs.c iup/src/gtk/iupgtk_tabs.c
+--- iup.orig/src/gtk/iupgtk_tabs.c	2010-10-28 15:30:43.000000000 +0200
++++ iup/src/gtk/iupgtk_tabs.c	2010-12-01 16:25:43.000000000 +0100
+@@ -234,7 +234,7 @@
+ /* gtkTabs - Callbacks                                                       */
+ /* ------------------------------------------------------------------------- */
+ 
+-void gtkTabSwitchPage(GtkNotebook* notebook, GtkNotebookPage *page, int pos, Ihandle* ih)
++static void gtkTabSwitchPage(GtkNotebook* notebook, void* page, int pos, Ihandle* ih)
+ {
+   IFnnn cb;
+   Ihandle* child = IupGetChild(ih, pos);

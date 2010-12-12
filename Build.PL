@@ -81,7 +81,7 @@ if ($builder->check_installed_lib()) {
 }
 
 # set to 0 (zero) if you do not want a devel distribution version
-$builder->notes('is_devel_cvs_version', 1);
+$builder->notes('is_devel_cvs_version', 0);
 
 # set what tarballs we are gonna use
 if ($builder->notes('is_devel_cvs_version')) {
@@ -111,6 +111,7 @@ else {
                                    'patches/iup-tuio-ms64bit.diff',
                                    'patches/iup-tuio-ntohl.diff',
                                    'patches/iup-GTK_WIDGET.diff',
+                                   'patches/iup-gtk-tabs.diff',
                                    'patches/iup-WIN32_WINNT.diff' ] );
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
   $builder->notes('im_sha1', '93f5e1fef25d9ac42a8c3a628411156b695cd7d1');
