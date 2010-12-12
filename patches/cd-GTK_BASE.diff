@@ -1,12 +1,31 @@
 diff -ru --strip-trailing-cr cd.orig/tecmake.mak cd/tecmake.mak
 --- cd.orig/tecmake.mak	2010-11-12 18:04:08.000000000 +0100
-+++ cd/tecmake.mak	2010-12-02 18:36:43.294100800 +0100
-@@ -921,6 +921,8 @@
++++ cd/tecmake.mak	2010-12-10 18:35:22.000000000 +0100
+@@ -919,8 +947,10 @@
+ ifdef USE_GTK
+   ifdef USE_PKGCONFIG
      # get compile/link flags via pkg-config
-     STDFLAGS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
-     LIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
+-    STDFLAGS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
+-    LIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
++    PKGINCS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
++    PKGLIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
 +    GTK_BASE := $(shell pkg-config --variable=prefix gtk+-2.0)
-+    GTK := $(GTK_BASE)
++    GTK := $(GTK_BASE)    
    else
      CHECK_GTK = Yes
      ifneq ($(findstring MacOS, $(TEC_UNAME)), )
+@@ -1029,11 +1061,11 @@
+ # Definitions of private variables
+ 
+ # Library flags for application and dynamic library linker
+-LFLAGS += $(LDIR) $(LIBS)
++LFLAGS += $(LDIR) $(LIBS) $(PKGLIBS)
+ # C compiler flags
+-CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CFLAGS   = $(FLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(PKGINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
+ # C++ compiler flags
+-CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
++CXXFLAGS = $(CPPFLAGS) $(STDFLAGS) $(INCLUDES) $(STDINCS) $(PKGINCS) $(EXTRAINCS) $(DEFINES) $(STDDEFS)
+ 
+ # Sources with relative path
+ SOURCES := $(addprefix $(SRCDIR)/, $(SRC))

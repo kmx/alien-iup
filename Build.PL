@@ -88,14 +88,14 @@ if ($builder->notes('is_devel_cvs_version')) {
   $builder->notes('build_debug_info', 1);
   warn "###\n";
   warn "###BEWARE: this is a devel version based on CVS sources (might be unstable)!\n";
-  warn "###sources exported from CVS at 2010/12/09-17:36:03\n";
+  warn "###sources exported from CVS at 2010/12/12-08:55:06\n";
   warn "###\n";
-  $builder->notes('iup_url',  'http://strawberryperl.com/package/kmx/testing/iup-cvs-101209.tar.gz');
-  $builder->notes('iup_sha1', '05ebe6e7ebb075038bfeb1d56bb84740fb46a497');
-  $builder->notes('im_url',   'http://strawberryperl.com/package/kmx/testing/im-cvs-101209.tar.gz');
-  $builder->notes('im_sha1',  'ce38319e6dc6d90eaaf42110eac3a70c2bc558f5');
-  $builder->notes('cd_url',   'http://strawberryperl.com/package/kmx/testing/cd-cvs-101209.tar.gz');
-  $builder->notes('cd_sha1',  '298cbfa049bfcd5a41833aa23bbd042ad9cf6593');
+  $builder->notes('iup_url',  'http://strawberryperl.com/package/kmx/testing/iup-cvs-101212.tar.gz');
+  $builder->notes('iup_sha1', '763b8edf309adaffe05423f44c70a9ed66d93c81');
+  $builder->notes('im_url',   'http://strawberryperl.com/package/kmx/testing/im-cvs-101212.tar.gz');
+  $builder->notes('im_sha1',  '92127110e4e175afe81166299192cff20d14ad85');
+  $builder->notes('cd_url',   'http://strawberryperl.com/package/kmx/testing/cd-cvs-101212.tar.gz');
+  $builder->notes('cd_sha1',  'b5b10fce082ebf871391c77764a1826e0dc041cc');
 
   if ($builder->dist_version !~ /_/) {
     warn "###ERROR### version number:".$builder->dist_version." does not seem to be devel-like! Gonna exit\n";
