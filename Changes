@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.109_01 - 12/12/2010
+
+ - dev build with latest CVS sources
+
 =head2 0.109 - 12/12/2010
 
  - fixing im-INC-order.diff + cd-GTK_BASE.diff
