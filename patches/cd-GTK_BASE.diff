@@ -7,8 +7,8 @@ diff -ru --strip-trailing-cr cd.orig/tecmake.mak cd/tecmake.mak
      # get compile/link flags via pkg-config
 -    STDFLAGS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
 -    LIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
-+    PKGINCS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0)
-+    PKGLIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0)
++    PKGINCS += $(shell pkg-config --cflags gtk+-2.0 gdk-2.0 gtk+-unix-print-2.0)
++    PKGLIBS += $(shell pkg-config --libs gtk+-2.0 gdk-2.0 gtk+-unix-print-2.0)
 +    GTK_BASE := $(shell pkg-config --variable=prefix gtk+-2.0)
 +    GTK := $(GTK_BASE)    
    else

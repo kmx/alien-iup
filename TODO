@@ -1,4 +1,5 @@
 IMPORTANT
+- !!! gtkprintunixdialog.h failure http://www.cpantesters.org/cpan/report/9629bbba-0655-11e0-9ee0-f20c722eace1
 - extend interface: Alien::IUP->haslib('iupcd') ... = 1 | 0 (needed for #ifdefs in IUP module)
   
 MEDIUM PRIORITY

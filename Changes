@@ -1,8 +1,9 @@
 =head1 Revision history for Alien-IUP
 
-=head2 0.110 - NEXT
+=head2 0.110 - 13/12/2010
 
  - iup-gtk-tabs.diff fixing http://www.cpantesters.org/cpan/report/b524182a-04c1-11e0-afb0-adca6bb533f3
+ - fixing gtkprintunixdialog.h failure http://www.cpantesters.org/cpan/report/9629bbba-0655-11e0-9ee0-f20c722eace1
 
 =head2 0.109_01 - 12/12/2010
 
