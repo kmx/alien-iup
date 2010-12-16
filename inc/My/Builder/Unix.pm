@@ -228,6 +228,11 @@ sub build_binaries {
     push(@makeopts, 'USE_GTK=Yes');
     push(@makeopts, 'USE_GDK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
+    
+    #xxx maybe remove in the future (temporary fix)
+    my $gtk_base = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
+    push(@makeopts, "GTK_BASE=$gtk_base") if $gtk_base;
+    push(@makeopts, "GTK=$gtk_base") if $gtk_base;
 
     #handle existing freetype
     if ($has{freetype}) { #xxx TODO: later replace with $has{freetype2}

@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.111 - 16/12/2010
+
+ - GTK/GTK_BASE workaround fixing http://www.cpantesters.org/cpan/report/d67a6578-08aa-11e0-afb0-adca6bb533f3
+
 =head2 0.110 - 13/12/2010
 
  - iup-gtk-tabs.diff fixing http://www.cpantesters.org/cpan/report/b524182a-04c1-11e0-afb0-adca6bb533f3
