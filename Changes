@@ -1,5 +1,10 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.111_01 - 17/12/2010
+
+ - dev build with latest CVS sources
+ - testing POD doc
+
 =head2 0.111 - 16/12/2010
 
  - GTK/GTK_BASE workaround fixing http://www.cpantesters.org/cpan/report/d67a6578-08aa-11e0-afb0-adca6bb533f3
