@@ -174,6 +174,10 @@ sub build_binaries {
       warn "###WARN### skipping im_process on OpenBSD";
       @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
     }
+    if ($^O eq 'solaris') {
+      warn "###WARN### skipping iuptuio on Solaris";
+      @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;
+    }
     ### disable following in all non-devel distributions
     #@imtargets  = grep { $_ !~ /^(im_process|im_jp2|im_fftw)$/ } @imtargets;
     #@iuptargets = grep { $_ !~ /^(iupweb|iuptuio)$/ } @iuptargets;
