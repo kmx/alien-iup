@@ -81,7 +81,7 @@ if ($builder->check_installed_lib()) {
 }
 
 # set to 0 (zero) if you do not want a devel distribution version
-$builder->notes('is_devel_cvs_version', 1);
+$builder->notes('is_devel_cvs_version', 0);
 
 # set what tarballs we are gonna use
 if ($builder->notes('is_devel_cvs_version')) {
