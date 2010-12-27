@@ -22,10 +22,8 @@ sub build_binaries {
   my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iuptuio]; #NOTE: we do not even try to build iupweb!
 
   if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
-    if ($^O eq 'cygwin' && $Config{gccversion} =~ /^3\.4\.4/) {
-      warn "###WARN### skipping iuptuio on Cygwin+gcc3";
-      @iuptargets = grep { $_ !~ /^iuptuio$/ } @iuptargets;
-    }
+    warn "###WARN### skipping iuptuio on Cygwin";
+    @iuptargets = grep { $_ !~ /^iuptuio$/ } @iuptargets;
   }
 
   #make options

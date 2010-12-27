@@ -3,6 +3,7 @@
 =head2 0.112 - NEXT
 
  - skipping iuptuio on solaris - http://www.cpantesters.org/cpan/report/c39d9264-0ae3-11e0-afb0-adca6bb533f3
+ - skipping iuptuio on cygwin (not only gcc3)
 
 =head2 0.111_01 - 17/12/2010
 
