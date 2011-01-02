@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.112_01 - 02/01/2011
+
+ - fixing -lstdc++ issue on non-gcc compilers
+
 =head2 0.112 - 30/12/2010
 
  - skipping iuptuio on solaris - http://www.cpantesters.org/cpan/report/c39d9264-0ae3-11e0-afb0-adca6bb533f3

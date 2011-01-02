@@ -121,6 +121,7 @@ sub build_binaries {
   $has{l_GL}    = $self->check_lib( 'GL',   $extra_cflags, $extra_lflags );
   $has{l_GLU}   = $self->check_lib( 'GLU',  $extra_cflags, $extra_lflags . ' -lGL -lm' );
   $has{l_glut}  = $self->check_lib( 'glut', $extra_cflags, $extra_lflags );
+  $has{'l_stdc++'} = $self->check_lib( 'stdc++', $extra_cflags, $extra_lflags );
 
   $has{Xm}      = $self->check_header('Xm/Xm.h',   $extra_cflags);
   $has{Xlib}    = $self->check_header('X11/Xlib.h',$extra_cflags); #iupgl cdx11
@@ -304,7 +305,7 @@ sub build_binaries {
     }
   }
 
-  push(@libs, 'stdc++'); # -lstdc++ needed by Linux (at least)
+  push(@libs, 'stdc++') if $has{'l_stdc++'}; # -lstdc++ needed by Linux (at least)
 
   print STDERR "Output libs: $_\n" foreach (sort keys %seen);
   @libs = ( $self->sort_libs(keys %seen), @libs );
