@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.113_01 - 05/01/2011
+
+ - dev build with the latest CVS sources
+
 =head2 0.113 - 05/01/2011
 
  - same as 0.112_01 + updated TODO
@@ -15,8 +19,7 @@
 
 =head2 0.111_01 - 17/12/2010
 
- - dev build with latest CVS sources
- - testing POD doc
+ - dev build with the latest CVS sources
 
 =head2 0.111 - 16/12/2010
 
@@ -29,7 +32,7 @@
 
 =head2 0.109_01 - 12/12/2010
 
- - dev build with latest CVS sources
+ - dev build with the latest CVS sources
 
 =head2 0.109 - 12/12/2010
 
@@ -37,7 +40,7 @@
 
 =head2 0.108_01+0.108_02 - 09/12/2010
 
- - dev build with latest CVS sources
+ - dev build with the latest CVS sources
 
 =head2 0.108 - 08/12/2010
 
@@ -118,7 +121,7 @@
  - die if no GUI lib detected
  - switching Changes fromat from plain text to POD
  - changing version numbering
- - IMPORTANT: latest release with IUP 3.2
+ - IMPORTANT: the latest release with IUP 3.2
 
 =head2 0.0.23 - 20/10/2010
 
