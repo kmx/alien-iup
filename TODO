@@ -1,5 +1,4 @@
 IMPORTANT
-- !!! gtkprintunixdialog.h failure http://www.cpantesters.org/cpan/report/9629bbba-0655-11e0-9ee0-f20c722eace1
 - extend interface: Alien::IUP->haslib('iupcd') ... = 1 | 0 (needed for #ifdefs in IUP module)
   
 MEDIUM PRIORITY
@@ -15,16 +14,15 @@ LOW PRIORITY
 - detection iup+cd+im: maybe we need to link with more libs to handle static linking
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 - Unix - move essential lib detection into "perl Build.PL" phase (exit without creating Build script if essential libs not found)
-- Cygwin  + lesstif - iupmot_val.c:(.text+0x16c): undefined reference to '_XmScaleSetTicks'
 - Makefile*.nmake - dynamic lib build not supported
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
-- (reported) NetBSD+GTK-2.22.0 iup build failure http://www.cpantesters.org/cpan/report/069db84a-0121-11e0-afb0-adca6bb533f3
-- (reported) INC order: BSD http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
-- (reported-wontfix) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
-- (reported-wontfix) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
-- (reported-wontfix) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-- (reported-wontfix) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
-- (reported-wintfix) MSVC6 - iuptuio fails
-- (reported-wintfix) Cygwin - iuptuio fails (gcc3)
+- (reported) GTK, GTK_BASE not set correctly when using USE_PKGCONFIG=Yes
+- (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
+- (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
+- (reported) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
+- (reported) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
+- (reported) MSVC6 - iuptuio fails
+- (reported) Solaris + Sun C compiler - iuptuio fails
+- (reported) Cygwin - iuptuio fails (gcc3, gcc4)

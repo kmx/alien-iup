@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 0.113 - 05/01/2011
+
+ - same as 0.112_01 + updated TODO
+
 =head2 0.112_01 - 02/01/2011
 
  - fixing -lstdc++ issue on non-gcc compilers
