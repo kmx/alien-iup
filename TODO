@@ -6,7 +6,6 @@ MEDIUM PRIORITY
 - more iupweb/webkit testing (Win32 as well as GTK2)
 - Win: generate makefiles for contextplus/iupweb
 - Win: enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
-- enhance interface: Alien::IUP->config('gui_driver') ... = 'win' | 'gtk2' | 'x11/mot' (how to get this when iup is already installed?)
 - try to build cdcairo - when has{pangocairo}
 
 LOW PRIORITY

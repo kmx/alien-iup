@@ -163,26 +163,32 @@ sub build_binaries {
   push(@opengl_libs, 'GL')  if $has{l_GL};
   push(@opengl_libs, 'GLU') if $has{l_GLU};
 
+  my @imtargets;
+  my @cdtargets;
+  my @iuptargets;
+  
   #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
   #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio
-  my @imtargets  = qw[im im_process im_jp2 im_fftw];
-  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
-
-  if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
-    if ($^O eq 'openbsd') {
-      warn "###WARN### skipping im_process on OpenBSD";
-      @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
-    }
-    if ($^O eq 'solaris') {
-      warn "###WARN### skipping iuptuio on Solaris";
-      @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;
-    }
-    ### disable following in all non-devel distributions
-    #@imtargets  = grep { $_ !~ /^(im_process|im_jp2|im_fftw)$/ } @imtargets;
-    #@iuptargets = grep { $_ !~ /^(iupweb|iuptuio)$/ } @iuptargets;
-    #@cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;
+  
+  if ($self->notes('is_devel_cvs_version')) {
+    ### DEVEL BUILD ###
+    @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
+    @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+  }
+  else {
+    @imtargets  = qw[im];
+    @cdtargets  = qw[cd_freetype cd];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
+    #if ($^O eq 'openbsd') {
+    #  warn "###WARN### skipping im_process on OpenBSD";
+    #  @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+    #}
+    #if ($^O eq 'solaris') {
+    #  warn "###WARN### skipping iuptuio on Solaris";
+    #  @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;
+    #}
   }
 
   @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
@@ -395,21 +401,16 @@ sub get_make {
   my $devnull = File::Spec->devnull();
   my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
   my %tested;
-  print STDERR "Gonna detect GNU make:\n";
-
-  if ($^O eq 'cygwin') {
-    print STDERR "- on cygwin always 'make'\n";
-    return 'make'
-  }
+  print STDERR "Gonna detect GNU make\n" if $self->notes('build_debug_info');
 
   foreach my $name ( @try ) {
     next unless $name;
     next if $tested{$name};
     $tested{$name} = 1;
-    print STDERR "- testing: '$name'\n";
+    print STDERR "- testing: '$name'\n" if $self->notes('build_debug_info');
     my $ver = `$name --version 2> $devnull`;
     if ($ver =~ /GNU Make/i) {
-      print STDERR "- found: '$name'\n";
+      print STDERR "- found: '$name'\n" if $self->notes('build_debug_info');
       return $name
     }
   }

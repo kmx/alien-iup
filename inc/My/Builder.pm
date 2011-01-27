@@ -86,7 +86,7 @@ sub ACTION_code {
         }
       }
 
-      my $m = $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n');
+      my $m = $self->notes('build_debug_info') ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
 
       # go for build
@@ -288,7 +288,7 @@ sub apply_patch {
     $k =~ s|\\|/|g;
     $k =~ s|^[^/]*/(.*)$|$1|;
     $k = catfile($dir_to_be_patched, $k);
-    print STDERR "Gonna patch file '$k'\n" if $self->notes('build_debug_info');
+    print STDERR "- gonna patch '$k'\n" if $self->notes('build_debug_info');
 
     open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
     $src  = <SRC>;
@@ -311,7 +311,7 @@ sub run_output_tail {
   my ($self, $limit, @cmd) = @_;
   my $output;
   print STDERR "CMD: " . join(' ',@cmd) . "\n";
-  print STDERR "Running (stdout+stderr redirected)...\n";
+  print STDERR "- running (stdout+stderr redirected)...\n";
   my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
   my $success = ($rv == 1 && $? == 0) ? 1 : 0;
   $output = substr $output, -$limit if defined $limit; # we want just last N chars
@@ -328,11 +328,11 @@ sub run_output_on_error {
   my ($self, $limit, @cmd) = @_;
   my $output;
   print STDERR "CMD: " . join(' ',@cmd) . "\n";
-  print STDERR "Running (stdout+stderr redirected)...\n";
+  print STDERR "- running (stdout+stderr redirected)...\n";
   my $rv = run3(\@cmd, \undef, \$output, \$output, { return_if_system_error => 1 } );
   my $success = ($rv == 1 && $? == 0) ? 1 : 0;
   if ($success) {
-    print STDERR "Finished successfully (output suppressed)\n";
+    print STDERR "- finished successfully (output suppressed)\n";
   }
   else {
     $output = substr $output, -$limit if defined $limit; # we want just last N chars
@@ -351,7 +351,7 @@ sub run_output_std {
   print STDERR "CMD: " . join(' ',@cmd) . "\n";
   my $rv = run3(\@cmd, undef, undef, undef, { return_if_system_error => 1 } );
   my $success = ($rv == 1 && $? == 0) ? 1 : 0;
-  print STDERR "Finished successfully\n" if ($success);
+  print STDERR "- finished successfully\n" if ($success);
   return $success;
 }
 

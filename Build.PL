@@ -81,7 +81,7 @@ if ($builder->check_installed_lib()) {
 }
 
 # set to 0 (zero) if you do not want a devel CVS distribution version
-$builder->notes('is_devel_cvs_version', 1);
+$builder->notes('is_devel_cvs_version', 0);
 
 # set what tarballs we are gonna use
 if ($builder->notes('is_devel_cvs_version')) {
@@ -103,7 +103,7 @@ if ($builder->notes('is_devel_cvs_version')) {
   }
 }
 else {
-  $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'y')) eq 'y' ? 1 : 0);
+  $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.3_Sources.tar.gz');
   $builder->notes('iup_sha1', '6ce0badbad9e27131010bf6fd296b1d5c8eda0a8');

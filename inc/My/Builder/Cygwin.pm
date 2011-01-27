@@ -13,17 +13,24 @@ use Config;
 sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $success = 1;
+  my @imtargets;
+  my @cdtargets;
+  my @iuptargets;
 
   #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
   #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio
-  my @imtargets  = qw[im im_process im_jp2 im_fftw];
-  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl];
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iuptuio]; #NOTE: we do not even try to build iupweb!
 
-  if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
-    warn "###WARN### skipping iuptuio on Cygwin";
-    @iuptargets = grep { $_ !~ /^iuptuio$/ } @iuptargets;
+  if ($self->notes('is_devel_cvs_version')) {
+    ### DEVEL BUILD ###
+    @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
+    @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+  }
+  else {
+    @imtargets  = qw[im];
+    @cdtargets  = qw[cd_freetype cd];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
   }
 
   #make options

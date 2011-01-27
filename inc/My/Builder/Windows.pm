@@ -12,22 +12,31 @@ sub build_binaries {
   my ($self, $build_out, $srcdir) = @_;
   my $prefixdir = rel2abs($build_out);
   my $perl = $^X;
+  my @imtargets;
+  my @cdtargets;
+  my @iuptargets;
 
   #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
   #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
-  #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio
-  my @imtargets  = qw[im im_process im_jp2 im_fftw];
-  my @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus];
-  my @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
-
-  if (!$self->notes('is_devel_cvs_version')) { # xxx hack (skip some targets if not devel distribution)
-    if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) { #VC6
+  #possible targets:  iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio
+  
+  if ($self->notes('is_devel_cvs_version')) {
+    ### DEVEL BUILD ###
+    @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
+    @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+  }
+  else {
+    @imtargets  = qw[im];
+    @cdtargets  = qw[cd_freetype cd];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
+    if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) {
       warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
       @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
       @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;    # disable just when compiling via VC6
     }
   }
-
+  
   #xxx TODO add cdcontextplus + iupweb support to makefiles
   @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
@@ -149,18 +158,18 @@ sub build_binaries {
 sub get_make {
   my ($self) = @_;
   my @try = ( 'dmake', 'mingw32-make', 'gmake', 'make', $Config{make}, $Config{gmake} );
-  print STDERR "Gonna detect make:\n";
+  print STDERR "Gonna detect make\n" if $self->notes('build_debug_info');
   foreach my $name ( @try ) {
     next unless $name;
-    print STDERR "- testing: '$name'\n";
+    print STDERR "- testing: '$name'\n" if $self->notes('build_debug_info');
     if (system("$name --help 2>nul 1>nul") != 256) {
       # I am not sure if this is the right way to detect non existing executable
       # but it seems to work on MS Windows (more or less)
-      print STDERR "- found: '$name'\n";
+      print STDERR "- found: '$name'\n" if $self->notes('build_debug_info');
       return $name;
     };
   }
-  print STDERR "- fallback to: 'dmake'\n";
+  print STDERR "- fallback to: 'dmake'\n" if $self->notes('build_debug_info');
   return 'dmake';
 }
 
