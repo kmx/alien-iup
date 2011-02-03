@@ -175,12 +175,12 @@ sub build_binaries {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
     @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_freetype cd];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
     #  @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
@@ -302,6 +302,7 @@ sub build_binaries {
     $success = 0;
   }
   foreach (@gl_l) {
+    print STDERR "Created lib: $_\n" if $self->notes('build_debug_info');
     if ($_ =~ /lib([a-zA-Z0-9\_\-\.]*?)\.(so|dylib|bundle|a|dll\.a)$/) {
       $seen{$1} = 1;
     }
@@ -312,19 +313,14 @@ sub build_binaries {
   }
 
   push(@libs, 'stdc++') if $has{'l_stdc++'}; # -lstdc++ needed by Linux (at least)
-
-  print STDERR "Output libs: $_\n" foreach (sort keys %seen);
-  @libs = ( $self->sort_libs(keys %seen), @libs );
-
-  $self->config_data('linker_libs', \@libs);
+  my @iuplibs = $self->sort_libs(keys %seen);
+  $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
+  $self->config_data('linker_libs', [@iuplibs, @libs] );
   $self->config_data('extra_cflags', $extra_cflags);
   $self->config_data('extra_lflags', $extra_lflags);
 
-  die "###BUILD ABORTED###" unless $success;
-  print STDERR "Build finished sucessfully!\n";
-
-  #DEBUG: fail intentionally here if you want to see build details from cpan testers
-  #die "Intentionally failing";
+  print STDERR "Build finished!\n";
+  return $success;
 };
 
 sub build_via_tecmake {
@@ -379,13 +375,6 @@ sub build_via_tecmake {
     copy($_, "$prefixdir/lib/") foreach (glob("./lib/*/*"));
     chdir $self->base_dir();
   }
-
-  unless ($done{"iup:iup"} && $done{"iup:iupim"} && $done{"iup:iupcd"}) {
-    warn "###WARN### essential libs not built!";
-    $success = 0;
-  }
-
-  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
 
   # save it for future use in ConfigData
   $self->config_data('build_prefix', $prefixdir);

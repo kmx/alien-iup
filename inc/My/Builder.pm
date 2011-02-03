@@ -90,7 +90,17 @@ sub ACTION_code {
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
 
       # go for build
-      $self->build_binaries($build_out, $build_src);
+      my $success = $self->build_binaries($build_out, $build_src);
+      my $done    = $self->config_data('info_done');
+      my $iuplibs = $self->config_data('iup_libs');
+      if ($self->notes('build_debug_info')) {
+        print STDERR "Build result: $done->{$_} - $_\n" foreach (sort keys %$done);
+        print STDERR "Output libs : $iuplibs->{$_} - $_\n" foreach (sort keys %$iuplibs);
+      }
+      die "###BUILD FAILED### essential libs (iup/im/cd) not built!" unless $done->{"iup:iup"} && $done->{"iup:iupim"} && $done->{"iup:iupcd"};
+      die "###BUILD FAILED###" unless $success;
+      #DEBUG: die intentionally at this point if you want to see build details from cpan testers  
+      print STDERR "RESULT: OK!\n";
 
       # store info about build to ConfigData
       $self->config_data('share_subdir', $self->{properties}->{dist_version});
@@ -167,6 +177,12 @@ sub quote_literal {
 
 sub check_installed_lib {
   my ($self) = @_;
+  
+  #xxxTODO
+  #we not only need to detect the presence we also need to exactly know what libs are there - necessary for havelib() function
+  print STDERR "NOTICE:\nDetection of preinstalled iup+cd+im is disabled since v0.115!\nPlease contact the module author if you are missing this feature.\n";
+  return 0;
+  
   my $idir = $ENV{IUP_DIR} || '';
   my @candidates;
   push(@candidates, { L => "$idir/lib", I => "$idir/include" }) if -d $idir;
@@ -416,6 +432,5 @@ sub sort_libs {
 
   return @sorted;
 }
-
 
 1;

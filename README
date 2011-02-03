@@ -3,7 +3,7 @@ NAME
     <http://www.tecgraf.puc-rio.br/iup/>
 
 VERSION
-    Version 0.114 of Alien::IUP is based on the following:
+    Version 0.115 of Alien::IUP is based on the following:
 
     *   *iup* library 3.3 - see <http://www.tecgraf.puc-rio.br/iup/>
 
@@ -76,6 +76,18 @@ METHODS
 
     Returns a string like: '/path/to/iupdir' (note: if using the already
     installed *iup* config('PREFIX') returns undef)
+
+  havelib()
+    [since 0.115] Checks the presence of given iup related libraries.
+
+     Alien::IUP->havelib('iupim');
+     #or
+     Alien::IUP->havelib('iupim', 'iupcd', 'iupcontrols');
+
+    Parameter(s): One or more iup related lib names - e.g. iup, cd, im,
+    iupcd, iupim, iupcontrols, iup_pplot, iupimglib, iupgl, iupole.
+
+    Returns: 1 if all libs specified as a param are available; 0 otherwise.
 
 AUTHOR
     KMX, <kmx at cpan.org>

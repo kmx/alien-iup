@@ -14,12 +14,12 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.114";
+our $VERSION = "0.115";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
 
-Version 0.114 of Alien::IUP is based on the following:
+Version 0.115 of Alien::IUP is based on the following:
 
 =over
 
@@ -98,6 +98,18 @@ Returns a string like: '-I/path/to/iupdir/include'
 Returns a string like: '/path/to/iupdir' (note: if using the already installed
 I<iup> config('PREFIX') returns undef)
 
+=head2 havelib()
+
+[since 0.115] Checks the presence of given iup related libraries.
+
+ Alien::IUP->havelib('iupim');
+ #or
+ Alien::IUP->havelib('iupim', 'iupcd', 'iupcontrols');
+
+Parameter(s): One or more iup related lib names - e.g. iup, cd, im, iupcd, iupim, iupcontrols, iup_pplot, iupimglib, iupgl, iupole.
+
+Returns: 1 if all libs specified as a param are available; 0 otherwise.
+
 =head1 AUTHOR
 
 KMX, E<lt>kmx at cpan.orgE<gt>
@@ -140,8 +152,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-sub config
-{
+sub config {
   my ($package, $param) = @_;
   return unless ($param =~ /[a-z0-9_]*/i);
   my $subdir = Alien::IUP::ConfigData->config('share_subdir');
@@ -156,6 +167,16 @@ sub config
   return unless $val;
   $val =~ s/\@PrEfIx\@/$real_prefix/g; # handle @PrEfIx@ replacement
   return $val;
+}
+
+sub havelib {
+  my ($package, @libs) = @_;
+  my $iuplibs = my $subdir = Alien::IUP::ConfigData->config('iup_libs');
+  return 0 unless defined $iuplibs;
+  for (@libs) {
+    return 0 unless defined $iuplibs->{$_} && $iuplibs->{$_} == 1;
+  }
+  return 1;
 }
 
 1; # End of Alien::IUP

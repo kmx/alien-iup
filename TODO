@@ -1,6 +1,3 @@
-IMPORTANT
-- extend interface: Alien::IUP->haslib('iupcd') ... = 1 | 0 (needed for #ifdefs in IUP module)
-  
 MEDIUM PRIORITY
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
@@ -9,8 +6,7 @@ MEDIUM PRIORITY
 - try to build cdcairo - when has{pangocairo}
 
 LOW PRIORITY
-- detection iup+cd+im: does not work with msvc (fix temporary *.obj files in dist root)
-- detection iup+cd+im: maybe we need to link with more libs to handle static linking
+- complete redesign of iup+cd+im detection - compatible with havelib() - msvc support, fix temporary *.obj files in dist root
 - remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 - Unix - move essential lib detection into "perl Build.PL" phase (exit without creating Build script if essential libs not found)
 - Makefile*.nmake - dynamic lib build not supported

@@ -1,5 +1,10 @@
 =head1 Revision history for Alien-IUP
 
+=head2 03/02/2011 - 0.115
+
+ - Alien::IUP->havelib() introduced
+ - preinstalled lib detection disabled (untill somebody will ask for it)
+
 =head2 27/01/2011 - 0.114
 
  - not building libs that are currently not used by IUP

@@ -56,6 +56,7 @@ sub build_binaries {
     $success = 0;
   }
   foreach (@gl_l) {
+    print STDERR "Created lib: $_\n" if $self->notes('build_debug_info');
     if ($_ =~ /lib([a-zA-Z0-9\_\-\.]*?)\.(a|dll\.a)$/) {
       $seen{$1} = 1;
     }
@@ -64,15 +65,15 @@ sub build_binaries {
       $success = 0;
     }
   }
-  print STDERR "Output libs: $_\n" foreach (sort keys %seen);
-  my @libs = $self->sort_libs(keys %seen);
 
+  my @iuplibs = $self->sort_libs(keys %seen);
+  $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
+  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
-  $self->config_data('linker_libs', [ @libs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
 
-  die "###BUILD ABORTED###" unless $success;
-  print STDERR "Build finished sucessfully!\n";
+  print STDERR "Build finished!\n";
+  return $success;
 };
 
 sub build_via_tecmake {
@@ -127,7 +128,6 @@ sub build_via_tecmake {
     chdir $self->base_dir();
   }
 
-  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
   # save it for future use in ConfigData
   $self->config_data('build_prefix', $prefixdir);
   $self->config_data('info_makeopts', $mopts);

@@ -117,14 +117,6 @@ sub build_binaries {
     chdir $self->base_dir();
   }
 
-  unless ($done{"iup:iup"} && $done{"iup:iupim"} && $done{"iup:iupcd"}) {
-    warn "###WARN### essential libs not built!";
-    $success = 0;
-  }
-
-  # print build results
-  print STDERR "Done: $done{$_} - $_\n" foreach (sort keys %done);
-
   # go through really existing libs
   my %seen;
   my @gl_l = glob("$prefixdir/lib/*");
@@ -142,17 +134,15 @@ sub build_binaries {
   }
 
   # xxx TODO: maybe more libs needed like - gdiplus ...
-  my @libs = ( $self->sort_libs(keys %seen), qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ );
-
-  $self->config_data('info_done', \%done);
+  my @iuplibs = $self->sort_libs(keys %seen);
+  $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
+  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
-  $self->config_data('linker_libs', \@libs);
-
-  die "###BUILD ABORTED###" unless $success;
-
-  print STDERR "Build finished sucessfully!\n";
-  return 1;
+  $self->config_data('info_done', \%done);
+  
+  print STDERR "Build finished!\n";
+  return $success;
 }
 
 sub get_make {
