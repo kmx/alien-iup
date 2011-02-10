@@ -132,29 +132,6 @@ sub build_binaries {
   #kind of a special hack
   $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
 
-  if ($self->notes('build_debug_info')) {
-    print STDERR "has: $has{$_} - $_\n" foreach (sort keys %has);
-
-    print STDERR "Brute force lookup:\n";
-    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|jasper.h|jas_image.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
-    print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
-    print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
-    print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
-    print STDERR "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
-    print STDERR "[/System ] $_\n" foreach ($self->find_file('/System', $re));
-    print STDERR "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
-    print STDERR "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
-
-    print STDERR "Dumping some pkg-info:\n";
-    print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
-    print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
-    for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
-      print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
-      print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
-      print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
-    }
-  }
-
   my @x11_libs; # just base X11 libs
   push(@x11_libs, 'X11')  if $has{l_X11};
   push(@x11_libs, 'Xext') if $has{l_Xext};
@@ -208,7 +185,7 @@ sub build_binaries {
   #choose GUI subsystem, priorities if multiple subsystems detected: 1. GTK, 2. X11/Motif
   my @libs;
   my @build_opts;
-  my $build_target = '';
+  my $build_target;
 
   push(@build_opts, 'GTK2') if ($has{gtk} && $has{cairo} && $has{Xlib});
   push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
@@ -226,6 +203,33 @@ sub build_binaries {
     die "###ERROR### Wrong selection!" unless $build_target;
   }
   else {
+    warn "###WARNING### No supported GUI subsystem detected!\n";
+  }
+
+  if ($self->notes('build_debug_info') || !$build_target) {
+    print STDERR "has: $has{$_} - $_\n" foreach (sort keys %has);
+
+    print STDERR "Brute force lookup:\n";
+    my $re = qr/\/(Xlib.h|Xm.h|gtk.h|cairo.h|glu.h|glut.h|gl.h|freetype.h|gtkprintunixdialog.h|jasper.h|jas_image.h|lib(X11|GL|Xm|freetype)\.[^\d]*)$/;
+    print STDERR "[/usr    ] $_\n" foreach ($self->find_file('/usr', $re));
+    print STDERR "[/lib    ] $_\n" foreach ($self->find_file('/usr', $re));
+    print STDERR "[/opt    ] $_\n" foreach ($self->find_file('/opt', $re));
+    print STDERR "[/sw     ] $_\n" foreach ($self->find_file('/sw', $re));
+    print STDERR "[/System ] $_\n" foreach ($self->find_file('/System', $re));
+    print STDERR "[/Library] $_\n" foreach ($self->find_file('/Library', $re));
+    print STDERR "[/Network] $_\n" foreach ($self->find_file('/Network', $re));
+
+    print STDERR "Dumping some pkg-info:\n";
+    print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
+    print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
+    for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
+      print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
+      print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
+      print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
+    }
+  }
+  
+  unless ($build_target) {
     warn "###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)\n";
     warn "### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h\n";
     warn "### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h\n";

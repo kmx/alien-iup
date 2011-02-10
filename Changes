@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 10/02/2011 - 0.116
+
+ - Unix: if not enough libs found - show more debug info
+
 =head2 03/02/2011 - 0.115
 
  - Alien::IUP->havelib() introduced

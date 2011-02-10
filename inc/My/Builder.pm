@@ -180,7 +180,7 @@ sub check_installed_lib {
   
   #xxxTODO
   #we not only need to detect the presence we also need to exactly know what libs are there - necessary for havelib() function
-  print STDERR "NOTICE:\nDetection of preinstalled iup+cd+im is disabled since v0.115!\nPlease contact the module author if you are missing this feature.\n";
+  print STDERR "\nNOTICE:\nDetection of preinstalled iup+cd+im is disabled since v0.115!\nPlease contact the module author if you are missing this feature.\n";
   return 0;
   
   my $idir = $ENV{IUP_DIR} || '';
