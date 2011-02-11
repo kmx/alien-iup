@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 11/02/2011 - 0.116_01
+
+ - dev build with the latest CVS sources
+
 =head2 10/02/2011 - 0.116
 
  - Unix: if not enough libs found - show more debug info
