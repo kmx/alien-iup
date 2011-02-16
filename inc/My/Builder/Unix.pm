@@ -214,8 +214,8 @@ sub build_binaries {
   if ($self->notes('build_debug_info') || !$build_target) {
     foreach (sort keys %has) {
       my $msg = "has: $has{$_} - $_";
-      $msg .= "; version=" . $has_details{$_}->{version} if $$has_details{$_}->{version};
-      $msg .= "; prefix="  . $has_details{$_}->{prefix}  if $$has_details{$_}->{prefix};
+      $msg .= "; version=" . $has_details{$_}->{version} if $has_details{$_}->{version};
+      $msg .= "; prefix="  . $has_details{$_}->{prefix}  if $has_details{$_}->{prefix};
       print STDERR $msg, "\n";
     }
 
