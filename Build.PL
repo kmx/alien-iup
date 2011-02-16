@@ -107,7 +107,7 @@ else {
   $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.4_Sources.tar.gz');
-  $builder->notes('iup_sha1', '14a800e3e1642acb97c569bd7f50d413fa375d5a');
+  $builder->notes('iup_sha1', '87184ea4e28cb8986315ab1657028becf9f36563');
 #  $builder->notes('iup_patches', [ ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
