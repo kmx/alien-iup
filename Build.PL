@@ -112,14 +112,11 @@ else {
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
   $builder->notes('im_sha1', '14a800e3e1642acb97c569bd7f50d413fa375d5a');
-  $builder->notes('im_patches', [ 'patches/im-int64.diff',
-                                  'patches/im-INC-order.diff',
-                                  'patches/im-dragonfly.diff' ] );
+  $builder->notes('im_patches', [ 'patches/im-dragonfly.diff' ] );
 
   $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz');
-  $builder->notes('cd_sha1', 'b771752f253ab3bf6ee8c4bea228d5d16f4352ec');
-  $builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff',
-                                  'patches/cd-GTK_BASE.diff'  ] );
+  $builder->notes('cd_sha1', '07e6c6edbbfa76667a8cb8e59beb51a54dc59147');
+  $builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff' ] );
 }
 
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
