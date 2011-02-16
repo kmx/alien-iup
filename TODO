@@ -6,7 +6,6 @@ IMPORTANT
   http://www.cpantesters.org/cpan/report/0a95ce88-3786-11e0-bb29-ad544afd17af
   http://www.cpantesters.org/cpan/report/109b3b2a-3730-11e0-bb29-ad544afd17af
   * ask BINGOS whether there is a pkg-config or something else
-  * maybe: do not use USE_PKGCONFIG if pkg-config not found
   * http://osdir.com/ml/solaris.opensolaris.indiana/2008-02/msg00406.html
 - File::Find 1.14 warnings:
   Use of uninitialized value $Name in substr at /usr/share/perl/5.10/File/Find.pm line 519.

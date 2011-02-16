@@ -1,8 +1,8 @@
 =head1 Revision history for Alien-IUP
 
-=head2 16/02/2011 - 0.200_01
+=head2 16/02/2011 - 0.200_01+0.200_01
 
- - switch to iup-3.4
+ - switch to iup-3.4 + updated im, cd
 
 =head2 11/02/2011 - 0.116_01
 

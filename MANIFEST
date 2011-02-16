@@ -8,10 +8,7 @@ lib/Alien/IUP.pm
 MANIFEST			This list of files
 META.yml
 patches/cd-dragonfly.diff
-patches/cd-GTK_BASE.diff
 patches/im-dragonfly.diff
-patches/im-INC-order.diff
-patches/im-int64.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
