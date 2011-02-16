@@ -104,6 +104,11 @@ sub build_binaries {
     printf STDERR ("mod:% 20s version:% 9s prefix:%s\n", $list{$_}, $v, $p) if $self->notes('build_debug_info');
   }
 
+  #detect pkg-config
+  my $pkgcfg = $self->run_stdout2str(qw[pkg-config --version]);
+  $has{'pkg-config'} = $pkgcfg ? 1 : 0;
+  $has_details{'pkg-config'} = { version=>$pkgcfg, prefix=>$self->run_stdout2str(qw[which pkg-config]) };
+  
   $has{l_gtk}   = $has{gtk}    && $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>/dev/null`,     `pkg-config --libs gtk+-2.0 2>/dev/null`);
   $has{l_gtkx11}= $has{gtkx11} && $self->check_lib( [] , `pkg-config --cflags gtk+-x11-2.0 2>/dev/null`, `pkg-config --libs gtk+-x11-2.0 2>/dev/null`);
   $has{l_gdk}   = $has{gdk}    && $self->check_lib( [] , `pkg-config --cflags gdk-2.0 2>/dev/null`,      `pkg-config --libs gdk-2.0 2>/dev/null`);
