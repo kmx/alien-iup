@@ -5,15 +5,16 @@ use Module::Build;
 
 use lib 'inc';
 
-my %platforms =(
-  # Unix = default, thus not listing all UNIX like systems
-  MSWin32 => 'Windows',
-  cygwin  => 'Cygwin',
-  linux   => 'Unix',
+my %platforms =(  
+  MSWin32   => 'Windows',
+  cygwin    => 'Cygwin',
+  linux     => 'Unix',
+  _default_ => 'Unix', # Unix = default, thus not listing all UNIX like systems
 );
-my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
+
+my $package = 'My::Builder::' . ($platforms{$^O} || $platforms{_default_});
+eval "require $package" or die "###ERROR### Require '$package' failed: $@";
 print STDERR "Gonna use '$package' class ...\n";
-eval "require $package" or die "###ERROR### Require '$package' failed: $@\n";
 
 my $builder = $package->new(
   module_name        => 'Alien::IUP',
@@ -81,7 +82,7 @@ if ($builder->check_installed_lib()) {
 }
 
 # set to 0 (zero) if you do not want a devel CVS distribution version
-$builder->notes('is_devel_cvs_version', 1);
+$builder->notes('is_devel_cvs_version', 0);
 
 # set what tarballs we are gonna use
 if ($builder->notes('is_devel_cvs_version')) {
@@ -105,19 +106,16 @@ if ($builder->notes('is_devel_cvs_version')) {
 else {
   $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.3_Sources.tar.gz');
-  $builder->notes('iup_sha1', '6ce0badbad9e27131010bf6fd296b1d5c8eda0a8');
-  $builder->notes('iup_patches', [ 'patches/iup-long-long.diff',
-                                   'patches/iup-tuio-ms64bit.diff',
-                                   'patches/iup-tuio-ntohl.diff',
-                                   'patches/iup-GTK_WIDGET.diff',
-                                   'patches/iup-gtk-tabs.diff',
-                                   'patches/iup-WIN32_WINNT.diff' ] );
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.4_Sources.tar.gz');
+  $builder->notes('iup_sha1', '87184ea4e28cb8986315ab1657028becf9f36563');
+#  $builder->notes('iup_patches', [ ] );
+
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
   $builder->notes('im_sha1', '93f5e1fef25d9ac42a8c3a628411156b695cd7d1');
   $builder->notes('im_patches', [ 'patches/im-int64.diff',
                                   'patches/im-INC-order.diff',
                                   'patches/im-dragonfly.diff' ] );
+
   $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz');
   $builder->notes('cd_sha1', 'b771752f253ab3bf6ee8c4bea228d5d16f4352ec');
   $builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff',

@@ -1,5 +1,5 @@
 #uncomment to clean
-#mytarget=clean
+mytarget=$1
 
 function do_job {
     tecnick=$1
@@ -26,6 +26,7 @@ function do_job {
         echo curdir=`pwd`
         make -f ../tecmakewin.mak $tecparams MF=config $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_process $mytarget
+#	make -f ../tecmakewin.mak $tecparams MF=im_capture $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_jp2 $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_fftw $mytarget
     ) 2>&1 | tee -a build-$1.log 2>&1
@@ -43,13 +44,14 @@ function do_job {
         (cd srcimglib;   make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcole;      make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srctuio;     make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srcweb;      make -f ../tecmakewin.mak $tecparams $mytarget)
+#        (cd srcweb;      make -f ../tecmakewin.mak $tecparams $mytarget)
     ) 2>&1 | tee -a build-$1.log 2>&1
 
     echo "Job '$1' done!"
 }
 
-do_job mingw4    "NO_DEPEND=Yes TEC_UNAME=mingw4 MINGW4=z:/w32gcc4"
+#do_job mingw4    "NO_DEPEND=Yes TEC_UNAME=mingw4 MINGW4=z:/w32gcc4"
+do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/w32gcc4"
 #do_job mingw4_64 "NO_DEPEND=Yes TEC_UNAME=mingw4_64 MINGW4=z:/w64gcc4"
 #do_job gcc4      "NO_DEPEND=Yes TEC_UNAME=gcc4"
 #do_job dllg4     "NO_DEPEND=Yes TEC_UNAME=dllg4"
@@ -60,4 +62,4 @@ export Lib='Z:\vc6sp6\PlatformSDK\Lib;Z:\vc6sp6\LIB;Z:\vc6sp6\MFC\LIB'
 
 export Include='Z:\SDK-WinSrv-2003sp1\Include;Z:\SDK-WinSrv-2003sp1\Include\crt;Z:\SDK-WinSrv-2003sp1\Include\crt\sys;Z:\SDK-WinSrv-2003sp1\Include\mfc;Z:\SDK-WinSrv-2003sp1\Include\atl'
 export Lib='Z:\SDK-WinSrv-2003sp1\Lib\AMD64;Z:\SDK-WinSrv-2003sp1\Lib\AMD64\atlmfc'
-do_job vc8_64    "NO_DEPEND=Yes TEC_UNAME=vc8_64 VC8=z:/SDK-WinSrv-2003sp1 PLATSDK=z:/SDK-WinSrv-2003sp1 BIN=z:/SDK-WinSrv-2003sp1/bin/win64"
+#do_job vc8_64    "NO_DEPEND=Yes TEC_UNAME=vc8_64 VC8=z:/SDK-WinSrv-2003sp1 PLATSDK=z:/SDK-WinSrv-2003sp1 BIN=z:/SDK-WinSrv-2003sp1/bin/win64"

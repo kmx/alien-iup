@@ -1,11 +1,16 @@
 =head1 Revision history for Alien-IUP
 
+=head2 16/02/2011 - 0.200_01
+
+ - switch to iup-3.4
+
 =head2 11/02/2011 - 0.116_01
 
  - dev build with the latest CVS sources
 
 =head2 10/02/2011 - 0.116
 
+ - IMPORTANT: the last release with iup-3.3
  - Unix: if not enough libs found - show more debug info
 
 =head2 03/02/2011 - 0.115
@@ -136,10 +141,10 @@
 
 =head2 14/11/2010 - 0.024
 
+ - IMPORTANT: the last release with iup-3.2
  - die if no GUI lib detected
  - switching Changes fromat from plain text to POD
  - changing version numbering
- - IMPORTANT: the latest release with IUP 3.2
 
 =head2 20/10/2010 - 0.0.23
 

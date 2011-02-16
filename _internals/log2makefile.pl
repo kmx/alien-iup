@@ -3,7 +3,7 @@ use warnings;
 use Data::Dumper;
 use Template;
 
-my $input = 'build-dynamic.log';
+my $input = 'build-dllw4.log';
 
 my %flags1 = ();
 my $flags2 = {};
@@ -129,9 +129,18 @@ while (<DAT>) {
     $curlf = '';    
     print STDERR "New target=$curtarget\n";
   }
-  elsif (/^(gcc|g\+\+) (-shared).*? -o .*?([^\/]*?)\.dll .*?\.a * (.*?)( *-L[^ ]*)* (-l.*)$/) {
+  elsif (/^[^ ]*?ar rv ([^ ]*) (.*)$/) {
+    $curlname = $1;
+    $curlname =~ s|^.*/lib||;
+    $curlname =~ s|(\.dll)?\.a$||;
+    my @o = split / /, $2;
+    $curlobjs = \@o;
+  }
+  #elsif (/^(gcc|g\+\+) (-shared).*? -o .*?([^\/]*?)\.dll .*?\.a * (.*?)( *-L[^ ]*)* (-l.*)$/) {
+  elsif (/^[^ ]*?(gcc|g\+\+) (.*?) -o .*?([^\/]*?)\.dll .*?\.a * (.*?)(-L[^ ]*)* (-l.*)$/) {
     $curlf = $6;
     $curlname = $3;
+    warn "l=$curlname";
     my @tmp = grep {/^[^-].*?\.o$/} split(' ', $4); 
     my @o = map { s|^(.*?/obj/).*?([^/]*)$|$2|; $_ } @tmp;
 #    warn "###$curlf\n";
@@ -139,7 +148,7 @@ while (<DAT>) {
 #    warn "###". Dumper(\@o);
     $curlobjs = \@o;
   }
-  elsif (/^(gcc|g\+\+) (.*?) (-DTEC.*?) -o ([^ ]*) ([^ ]*)$/) {
+  elsif (/^[^ ]*?(gcc|g\+\+) (.*?) (-DTEC.*?) -o ([^ ]*) ([^ ]*)$/) {
     $flags1{$curtarget}->{$2}++;
     $flags2->{$3}++;
     my $item = { COMPILER => $1, SRC => $5, OBJ_orig => $4 };  

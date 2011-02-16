@@ -1,3 +1,23 @@
+IMPORTANT
+- have gtk, but not detected:
+  http://www.cpantesters.org/cpan/report/2930a93e-3840-11e0-bb29-ad544afd17af 
+  http://www.cpantesters.org/cpan/report/9db6e79a-380f-11e0-bb29-ad544afd17af
+  http://www.cpantesters.org/cpan/report/cc252382-37b3-11e0-bb29-ad544afd17af
+  http://www.cpantesters.org/cpan/report/0a95ce88-3786-11e0-bb29-ad544afd17af
+  http://www.cpantesters.org/cpan/report/109b3b2a-3730-11e0-bb29-ad544afd17af
+  * ask BINGOS whether there is a pkg-config or something else
+  * maybe: do not use USE_PKGCONFIG if pkg-config not found
+  * http://osdir.com/ml/solaris.opensolaris.indiana/2008-02/msg00406.html
+- File::Find 1.14 warnings:
+  Use of uninitialized value $Name in substr at /usr/share/perl/5.10/File/Find.pm line 519.
+  Use of uninitialized value $fn in string eq at /usr/share/perl/5.10/File/Find.pm line 442.
+  Use of uninitialized value $fn in substitution (s///) at /usr/share/perl/5.10/File/Find.pm line 446.
+  Use of uninitialized value $fn in concatenation (.) or string at /usr/share/perl/5.10/File/Find.pm line 448.
+  Use of uninitialized value $fn in substr at /usr/share/perl/5.10/File/Find.pm line 450.
+- error: JSON::PP 2.27103 is not available
+  http://www.cpantesters.org/cpan/report/44ebc228-3695-11e0-a8db-8151be137770
+- more explanatory message: not enough libs to build iup: solaris / linux / netbsd / freebsd / _default_
+  
 MEDIUM PRIORITY
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)

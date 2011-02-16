@@ -23,7 +23,7 @@ sub build_binaries {
 
   if ($self->notes('is_devel_cvs_version')) {
     ### DEVEL BUILD ###
-    @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
+    @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
     @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
   }
