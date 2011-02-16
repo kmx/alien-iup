@@ -111,7 +111,7 @@ else {
 #  $builder->notes('iup_patches', [ ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
-  $builder->notes('im_sha1', '87184ea4e28cb8986315ab1657028becf9f36563');
+  $builder->notes('im_sha1', '93f5e1fef25d9ac42a8c3a628411156b695cd7d1');
   $builder->notes('im_patches', [ 'patches/im-int64.diff',
                                   'patches/im-INC-order.diff',
                                   'patches/im-dragonfly.diff' ] );
