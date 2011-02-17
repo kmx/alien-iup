@@ -1,12 +1,16 @@
 =head1 Revision history for Alien-IUP
 
-=head2 16/02/2011 - 0.200_01+0.200_01
+=head2 18/02/2011 - 0.201
 
- - switch to iup-3.4 + updated im, cd
+ - the first stable release with iup-3.4
+
+=head2 16/02/2011 - 0.200_01+0.200_02
+
+ - dev build: switch to iup-3.4 + updated im, cd
 
 =head2 11/02/2011 - 0.116_01
 
- - dev build with the latest CVS sources
+ - dev build: with the latest CVS sources
 
 =head2 10/02/2011 - 0.116
 
@@ -25,7 +29,7 @@
 
 =head2 05/01/2011 - 0.113_01
 
- - dev build with the latest CVS sources
+ - dev build: with the latest CVS sources
 
 =head2 05/01/2011 - 0.113
 
@@ -42,7 +46,7 @@
 
 =head2 17/12/2010 - 0.111_01
 
- - dev build with the latest CVS sources
+ - dev build: with the latest CVS sources
 
 =head2 16/12/2010 - 0.111
 
@@ -55,7 +59,7 @@
 
 =head2 12/12/2010 - 0.109_01
 
- - dev build with the latest CVS sources
+ - dev build: with the latest CVS sources
 
 =head2 12/12/2010 - 0.109
 
@@ -63,7 +67,7 @@
 
 =head2 09/12/2010 - 0.108_01+0.108_02
 
- - dev build with the latest CVS sources
+ - dev build: with the latest CVS sources
 
 =head2 08/12/2010 - 0.108
 

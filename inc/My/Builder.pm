@@ -15,7 +15,6 @@ use File::Temp qw(tempdir tempfile);
 use Digest::SHA qw(sha1_hex);
 use Archive::Extract;
 use Config;
-use ExtUtils::Liblist;
 use Text::Patch;
 use IPC::Run3;
 
@@ -35,7 +34,7 @@ sub ACTION_install {
 sub ACTION_code {
   my $self = shift;
 
-  unless (-e 'build_done') {
+  if ( ! -e 'build_done' ) {
     my $inst = $self->notes('already_installed_lib');
     if (defined $inst) {
       $self->config_data('config', { LIBS   => $inst->{lflags},
@@ -113,8 +112,7 @@ sub ACTION_code {
                                    });
     }
     # mark sucessfully finished build
-    local @ARGV = ('build_done');
-    ExtUtils::Command::touch();
+    $self->touchfile('build_done');
   }
   $self->SUPER::ACTION_code;
 }
@@ -431,6 +429,16 @@ sub sort_libs {
   }
 
   return @sorted;
+}
+
+sub touchfile {
+  my $self = shift;
+  my $t    = time;
+  foreach my $file (@_) {
+    open(FILE,">>$file") || die "Cannot write $file:$!";
+    close(FILE);
+    utime($t,$t,$file);
+  }
 }
 
 1;
