@@ -8,6 +8,7 @@ CPAN TESTERS FAILURES
   * ask BINGOS whether there is a pkg-config or something else
   * http://osdir.com/ml/solaris.opensolaris.indiana/2008-02/msg00406.html
 - File::Find 1.14 warnings:
+  http://www.cpantesters.org/cpan/report/31039c2e-3c06-11e0-9518-41308a2f2f5b
   Use of uninitialized value $Name in substr at /usr/share/perl/5.10/File/Find.pm line 519.
   Use of uninitialized value $fn in string eq at /usr/share/perl/5.10/File/Find.pm line 442.
   Use of uninitialized value $fn in substitution (s///) at /usr/share/perl/5.10/File/Find.pm line 446.
