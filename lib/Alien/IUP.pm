@@ -14,12 +14,12 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.201";
+our $VERSION = "0.202";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
 
-Version 0.201 of Alien::IUP is based on the following:
+Version 0.202 of Alien::IUP is based on the following:
 
 =over
 

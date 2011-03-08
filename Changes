@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 NEXT/2011 - 0.202
+
+ - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6
+
 =head2 18/02/2011 - 0.201
 
  - the first stable release with iup-3.4
