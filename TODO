@@ -11,6 +11,7 @@ CPAN TESTERS FAILURES
   
 MEDIUM PRIORITY
 - more explanatory message: not enough libs to build iup: solaris / linux / netbsd / freebsd / _default_
+  debian: aptitude install libx11-dev libgtk2.0-dev libcairo2-dev libpango1.0-dev libwebkit-dev libglu-dev  
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
 - Win: generate makefiles for contextplus/iupweb
