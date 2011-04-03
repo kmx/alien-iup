@@ -30,11 +30,11 @@ sub build_binaries {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_freetype cd];
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
-    if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) {
-      warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
-      @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
-      @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;    # disable just when compiling via VC6
-    }
+    #if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) {
+    #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
+    #  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
+    #  @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;    # disable just when compiling via VC6
+    #}
   }
   
   #xxx TODO add cdcontextplus + iupweb support to makefiles

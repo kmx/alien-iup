@@ -1,8 +1,10 @@
 =head1 Revision history for Alien-IUP
 
-=head2 NEXT/2011 - 0.202
+=head2 03/04/2011 - 0.202
 
- - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6
+ - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6 (File::Spec & devnull)
+ - using LWP::Simple instead of File::Fetch for download
+ - using Digest::file instead of Digest::SHA1
 
 =head2 18/02/2011 - 0.201
 

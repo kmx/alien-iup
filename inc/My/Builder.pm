@@ -7,12 +7,12 @@ use base 'Module::Build';
 use lib "inc";
 use File::Spec::Functions qw(catfile rel2abs);
 use ExtUtils::Command;
-use File::Fetch;
+use LWP::Simple qw(getstore head);
 use File::Find;
 use File::Path qw();
 use File::ShareDir;
 use File::Temp qw(tempdir tempfile);
-use Digest::SHA qw(sha1_hex);
+use Digest::file qw(digest_file_hex);
 use Archive::Extract;
 use Config;
 use Text::Patch;
@@ -118,49 +118,71 @@ sub ACTION_code {
 }
 
 sub prepare_sources {
-  my ($self, $url, $sha1, $download, $build_src) = @_;
-  $self->fetch_file($url, $sha1, $download);
-  my $archive = catfile($download, File::Fetch->new(uri => $url)->file);
+  my ($self, $url, $sha1, $download, $build_src) = @_;  
+  my $archive = $self->fetch_file( url=>$url, sha1=>$sha1, localdir=>$download );
   my $ae = Archive::Extract->new( archive => $archive );
   die "###ERROR### Cannot extract tarball ", $ae->error unless $ae->extract(to => $build_src);
 }
 
 sub fetch_file {
-  my ($self, $url, $sha1sum, $download) = @_;
-  die "###ERROR### fetch_file() undefined url\n" unless $url;
-  die "###ERROR### fetch_file() undefined sha1sum\n" unless $sha1sum;
-  my $ff = File::Fetch->new(uri => $url);
-  my $fn = catfile($download, $ff->file);
-  if (-e $fn) {
-    print STDERR "Checking checksum for already existing '$fn'...\n";
-    return 1 if $self->check_sha1sum($fn, $sha1sum);
-    unlink $fn; #exists but wrong checksum
+  my ($self, %args) = @_;
+  
+  my $url = $args{url};
+  my $sha1 = $args{sha1};
+  my $localdir = $args{localdir};
+  my $localfile = $args{localfile};
+  die "###ERROR### fetch_file: undefined url\n" unless $url;
+  
+  # handle redirects
+  my $head = head($url);
+  $url = $head->request->uri if defined $head;  
+  
+  # download destination
+  unless ($localfile) {
+   $localfile = $url;
+   $localfile =~ s/^.*?([^\\\/]+)$/$1/; #skip all but file part of URL
+   $localfile =~ s/\?.*$//; #skip URL params
   }
-  print STDERR "Fetching '$url'...\n";
-  my $fullpath = $ff->fetch(to => $download);
-  die "###ERROR### Unable to fetch '$url'" unless $fullpath;
-  if (-e $fn) {
-    print STDERR "Checking checksum for '$fn'...\n";
-    return 1 if $self->check_sha1sum($fn, $sha1sum);
-    die "###ERROR### Checksum failed '$fn'";
+  $localfile = File::Spec->catfile($localdir, $localfile) if $localdir;
+  
+  # check existing file
+  if (-f $localfile) {
+    if ($sha1) {
+      warn "Checking checksum for existing '$localfile'...\n";
+      if ($self->check_sha1sum($localfile, $sha1)) {
+	return rel2abs($localfile);
+      }
+      else {
+	warn "Checksum FAILURE";	
+      }
+    }
+    unlink $localfile; # if sha1 not given we force re-download
   }
-  die "###ERROR### fetch_file() failed '$fn'";
+    
+  # download  
+  warn "Fetching '$url'...\n";
+  my $rv = getstore($url, $localfile);
+  die "###ERROR### fetch_file: download error - return code '$rv'\n" unless $rv == 200;
+  die "###ERROR### fetch_file: failure during download\n" unless -f $localfile;
+  
+  # checksum
+  if ($sha1) {
+    warn "Checking checksum for '$localfile'...\n";
+    die "###ERROR### fetch_file: checksum failed" unless $self->check_sha1sum($localfile, $sha1);
+  }
+  
+  return rel2abs($localfile);
 }
+
 
 sub check_sha1sum {
   my ($self, $file, $sha1sum) = @_;
-  my $sha1 = Digest::SHA->new;
-  my $fh;
-  open($fh, $file) or die "###ERROR## Cannot check checksum for '$file'\n";
-  binmode($fh);
-  $sha1->addfile($fh);
-  close($fh);
-  my $file_sha1sum = $sha1->hexdigest;
-  my $rv = ($file_sha1sum eq $sha1sum) ? 1 : 0;
+  my $file_sha1sum = digest_file_hex($file, 'SHA1');
+  return 1 if $file_sha1sum eq $sha1sum;
   warn "###WARN## sha1 mismatch: got      '", $file_sha1sum , "'\n",
        "###WARN## sha1 mismatch: expected '", $sha1sum, "'\n",
-       "###WARN## sha1 mismatch: filesize ", (-s $file) unless $rv;
-  return $rv;
+       "###WARN## sha1 mismatch: filesize ", (-s $file);
+  return 0;
 }
 
 sub build_binaries {
