@@ -133,6 +133,9 @@ sub fetch_file {
   my $localfile = $args{localfile};
   die "###ERROR### fetch_file: undefined url\n" unless $url;
   
+  # create $localdir if necessary
+  File::Path::mkpath($localdir) unless $localdir && -d $localdir;
+  
   # handle redirects
   my $head = head($url);
   $url = $head->request->uri if defined $head;  
@@ -163,7 +166,7 @@ sub fetch_file {
   warn "Fetching '$url'...\n";
   my $rv = getstore($url, $localfile);
   die "###ERROR### fetch_file: download error - return code '$rv'\n" unless $rv == 200;
-  die "###ERROR### fetch_file: failure during download\n" unless -f $localfile;
+  die "###ERROR### fetch_file: download error - '$localfile' not saved\n" unless -f $localfile;
   
   # checksum
   if ($sha1) {

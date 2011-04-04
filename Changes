@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 04/04/2011 - 0.203
+
+ - fixed "missing download dir" issue
+
 =head2 03/04/2011 - 0.202
 
  - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6 (File::Spec & devnull)
