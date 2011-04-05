@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 05/04/2011 - 0.204
+
+ - back from Digest::file to Digest::SHA1
+
 =head2 04/04/2011 - 0.203
 
  - fixed "missing download dir" issue

@@ -12,7 +12,7 @@ use File::Find;
 use File::Path qw();
 use File::ShareDir;
 use File::Temp qw(tempdir tempfile);
-use Digest::file qw(digest_file_hex);
+use Digest::SHA qw(sha1_hex);
 use Archive::Extract;
 use Config;
 use Text::Patch;
@@ -177,15 +177,20 @@ sub fetch_file {
   return rel2abs($localfile);
 }
 
-
 sub check_sha1sum {
   my ($self, $file, $sha1sum) = @_;
-  my $file_sha1sum = digest_file_hex($file, 'SHA1');
-  return 1 if $file_sha1sum eq $sha1sum;
+  my $sha1 = Digest::SHA->new;
+  my $fh;
+  open($fh, $file) or die "###ERROR## Cannot check checksum for '$file'\n";
+  binmode($fh);
+  $sha1->addfile($fh);
+  close($fh);
+  my $file_sha1sum = $sha1->hexdigest;
+  my $rv = ($file_sha1sum eq $sha1sum) ? 1 : 0;
   warn "###WARN## sha1 mismatch: got      '", $file_sha1sum , "'\n",
        "###WARN## sha1 mismatch: expected '", $sha1sum, "'\n",
-       "###WARN## sha1 mismatch: filesize ", (-s $file);
-  return 0;
+       "###WARN## sha1 mismatch: filesize ", (-s $file) unless $rv;
+  return $rv;
 }
 
 sub build_binaries {
