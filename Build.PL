@@ -37,7 +37,7 @@ my $builder = $package->new(
     'ExtUtils::Command' => 0,
     'ExtUtils::Liblist' => 0,
     'LWP::Simple'       => 0,
-    'Digest::SHA1'      => 0,
+    'Digest::SHA'       => 0,
     'Archive::Extract'  => 0,
     'Text::Patch'       => 0,
     'IPC::Run3'         => 0.041, # we need return_if_system_error
@@ -54,7 +54,7 @@ my $builder = $package->new(
     'ExtUtils::Command' => 0, #Win32 external makefiles need this
     'ExtUtils::Liblist' => 0,
     'LWP::Simple'       => 0,
-    'Digest::SHA1'      => 0,
+    'Digest::SHA'       => 0,
     'Archive::Extract'  => 0,
     'Text::Patch'       => 0,
     'IPC::Run3'         => 0.041, # we need return_if_system_error
@@ -106,8 +106,8 @@ if ($builder->notes('is_devel_cvs_version')) {
 else {
   $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.4_Sources.tar.gz');
-  $builder->notes('iup_sha1', '87184ea4e28cb8986315ab1657028becf9f36563');
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.5_Sources.tar.gz');
+  $builder->notes('iup_sha1', 'e5a3fdde13dcf77eeb5e690b21ff198389b1e889');
 #  $builder->notes('iup_patches', [ ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');

@@ -1,8 +1,13 @@
 =head1 Revision history for Alien-IUP
 
+=head2 08/05/2011 - 0.300_01
+
+- switch to iup-3.5
+
 =head2 05/04/2011 - 0.204
 
- - back from Digest::file to Digest::SHA1
+ - IMPORTANT: the last release with iup-3.4
+ - back from Digest::file to Digest::SHA
 
 =head2 04/04/2011 - 0.203
 
@@ -12,7 +17,7 @@
 
  - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6 (File::Spec & devnull)
  - using LWP::Simple instead of File::Fetch for download
- - using Digest::file instead of Digest::SHA1
+ - using Digest::file instead of Digest::SHA
 
 =head2 18/02/2011 - 0.201
 

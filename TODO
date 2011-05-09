@@ -1,5 +1,3 @@
-- add Digest::SHA1 as prereq (return original)
-
 CPAN TESTERS FAILURES
 - File::Find 1.14 warnings:
   http://www.cpantesters.org/cpan/report/31039c2e-3c06-11e0-9518-41308a2f2f5b
