@@ -30,8 +30,3 @@ ERRORS TO BE REPORTED TO TECGRAF
 - (reported) GTK, GTK_BASE not set correctly when using USE_PKGCONFIG=Yes
 - (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
-- (reported) OpenBSD - im_process g++ crash - http://www.cpantesters.org/cpan/report/90fda052-c9d8-11df-87cd-1c8c4afd17af
-- (reported) MSVC6 - cd: FTCharmap.cpp ./ftgl/FTFace.h(171) : error C2258: illegal pure syntax, must be '= 0' ...
-- (reported) MSVC6 - iuptuio fails
-- (reported) Solaris + Sun C compiler - iuptuio fails
-- (reported) Cygwin - iuptuio fails (gcc3, gcc4)
