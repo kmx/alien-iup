@@ -76,36 +76,31 @@ $builder->add_to_cleanup("sharedir/" . $builder->{properties}->{dist_version}); 
 $builder->add_to_cleanup('build_done');
 $builder->add_to_cleanup('build_src');
 
-if ($builder->check_installed_lib()) {
-  my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
-  $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');
-}
-
-# set to 0 (zero) if you do not want a devel CVS distribution version
-$builder->notes('is_devel_cvs_version', 0);
-
-# set what tarballs we are gonna use
-if ($builder->notes('is_devel_cvs_version')) {
-  $builder->notes('build_debug_info', 1);
+if (1) { ### change to 1 if you want to use the latest sources from iup repository
+  if ($builder->dist_version !~ /_/) {
+    warn "###ERROR### version number '".$builder->dist_version."' does not seem to be devel-like! Gonna exit\n";
+    exit 0;
+  }  
   warn "###\n";
   warn "###BEWARE: this is a devel version based on CVS sources (might be unstable)!\n";
-  warn "###sources exported from CVS at 2011/02/11-21:40:43\n";
   warn "###\n";
-  $builder->notes('iup_url',  'http://strawberryperl.com/package/kmx/testing/iup-cvs-110211.tar.gz');
-  $builder->notes('iup_sha1', 'e9c8a530385571cdb0a733ff46443eeb7cfaa7b8');
-  $builder->notes('im_url',   'http://strawberryperl.com/package/kmx/testing/im-cvs-110211.tar.gz');
-  $builder->notes('im_sha1',  '74c4842d02d88b908664ef45640b47301587e328');
-  $builder->notes('cd_url',   'http://strawberryperl.com/package/kmx/testing/cd-cvs-110211.tar.gz');
-  $builder->notes('cd_sha1',  'c8906ab3917d80195d04ef9d935aaf63f3a93d8a');
-
-  if ($builder->dist_version !~ /_/) {
-    warn "###ERROR### version number:".$builder->dist_version." does not seem to be devel-like! Gonna exit\n";
-    exit 0;
-  }
+  $builder->notes('iup_url',  'https://github.com/kmx/mirror-iup/tarball/master');
+  $builder->notes('iup_sha1', 'DO_NOT_CHECK_SHA1');
+  $builder->notes('im_url',   'https://github.com/kmx/mirror-im/tarball/master');
+  $builder->notes('im_sha1',  'DO_NOT_CHECK_SHA1');
+  $builder->notes('cd_url',   'https://github.com/kmx/mirror-cd/tarball/master');
+  $builder->notes('cd_sha1',  'DO_NOT_CHECK_SHA1');
+  $builder->notes('build_debug_info', 1);
+  $builder->notes('is_devel_cvs_version', 1)
 }
 else {
+  if ($builder->check_installed_lib()) {
+    my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
+    $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');
+  }
   $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
+  # set what tarballs we are gonna use
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.5_Sources.tar.gz');
   $builder->notes('iup_sha1', 'e5a3fdde13dcf77eeb5e690b21ff198389b1e889');
 #  $builder->notes('iup_patches', [ ] );

@@ -1,12 +1,16 @@
 =head1 Revision history for Alien-IUP
 
+=head2 01/06/2011 - 0.301_1
+
+ - devel version using the latest CVS sources
+
 =head2 12/05/2011 - 0.301
 
-- the same as dev release 0.300_01
+ - the same as dev release 0.300_01
 
 =head2 08/05/2011 - 0.300_01
 
-- switch to iup-3.5
+ - switch to iup-3.5
 
 =head2 05/04/2011 - 0.204
 

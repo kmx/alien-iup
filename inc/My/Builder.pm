@@ -84,6 +84,16 @@ sub ACTION_code {
           $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
         }
       }
+      
+      ### XXX hack for handling github tarballs
+      unless (-d "$build_src/cd" && -d "$build_src/im" && -d "$build_src/iup") {
+        for my $f (glob("$build_src/*")) {
+          if ($f =~ m!^\Q$build_src\E/.*?(im|cd|iup).*$!) {
+	    print "renaming: $f $build_src/$1\n";	   
+	    rename ($f, "$build_src/$1");
+	  }
+        }
+      }
 
       my $m = $self->notes('build_debug_info') ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
@@ -151,7 +161,6 @@ sub fetch_file {
   # check existing file
   if (-f $localfile) {
     if ($sha1) {
-      warn "Checking checksum for existing '$localfile'...\n";
       if ($self->check_sha1sum($localfile, $sha1)) {
 	return rel2abs($localfile);
       }
@@ -170,7 +179,6 @@ sub fetch_file {
   
   # checksum
   if ($sha1) {
-    warn "Checking checksum for '$localfile'...\n";
     die "###ERROR### fetch_file: checksum failed" unless $self->check_sha1sum($localfile, $sha1);
   }
   
@@ -179,6 +187,8 @@ sub fetch_file {
 
 sub check_sha1sum {
   my ($self, $file, $sha1sum) = @_;
+  return 1 if $sha1sum eq 'DO_NOT_CHECK_SHA1';
+  warn "Checking checksum for '$file'...\n";
   my $sha1 = Digest::SHA->new;
   my $fh;
   open($fh, $file) or die "###ERROR## Cannot check checksum for '$file'\n";
