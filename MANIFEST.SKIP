@@ -27,3 +27,4 @@ sharedir/.+/
 \.obj$
 \.pdb$
 ^MYMETA.yml$
+^MYMETA\.json$

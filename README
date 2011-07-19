@@ -1,15 +1,13 @@
 NAME
     Alien::IUP - Building, finding and using iup + related libraries -
-    <http://www.tecgraf.puc-rio.br/iup/>
+    http://www.tecgraf.puc-rio.br/iup/
 
 VERSION
-    Version 0.301_1 of Alien::IUP is based on the following:
+    Version 0.301_3 of Alien::IUP is based on the following:
 
-    *   *iup* library 3.5 - see <http://www.tecgraf.puc-rio.br/iup/>
-
-    *   *im* library 3.6.3 - see <http://www.tecgraf.puc-rio.br/im/>
-
-    *   *cd* library 5.4.1 - see <http://www.tecgraf.puc-rio.br/cd/>
+    * *iup* library 3.5 - see http://www.tecgraf.puc-rio.br/iup/
+    * *im* library 3.6.3 - see http://www.tecgraf.puc-rio.br/im/
+    * *cd* library 5.4.1 - see http://www.tecgraf.puc-rio.br/cd/
 
 SYNOPSIS
     IMPORTANT: This module is not a perl binding for *iup + related*
@@ -19,26 +17,20 @@ SYNOPSIS
 
     Alien::IUP tries (in given order) during its installation:
 
-    *   Locate an already installed *iup* and related libraries + ask user
-        whether to use the already installed *iup* or whether to build *iup*
-        from sources
-
-    *   Via env variable IUP_DIR you can specify where the build script
-        should look for the already installed *iup* and related libs
-        (directories $ENV{IUP_DIR}/lib and $ENV{IUP_DIR}/include are
-        expected to exist)
-
-    *   When not using the already installed libraries build process
-        continues with the following steps
-
-    *   Download *iup* & co. source code tarballs
-
-    *   Build *iup* & co. binaries from source codes (note: static libraries
-        are build in this case)
-
-    *   Install libs and dev files (*.h, *.a) into *share* directory of
-        Alien::IUP distribution - *share* directory is usually something
-        like this: /usr/lib/perl5/site_perl/5.10/auto/share/dist/Alien-IUP
+    * Locate an already installed *iup* and related libraries + ask user
+    whether to use the already installed *iup* or whether to build *iup*
+    from sources
+    * Via env variable IUP_DIR you can specify where the build script should
+    look for the already installed *iup* and related libs (directories
+    $ENV{IUP_DIR}/lib and $ENV{IUP_DIR}/include are expected to exist)
+    * When not using the already installed libraries build process continues
+    with the following steps
+    * Download *iup* & co. source code tarballs
+    * Build *iup* & co. binaries from source codes (note: static libraries
+    are build in this case)
+    * Install libs and dev files (*.h, *.a) into *share* directory of
+    Alien::IUP distribution - *share* directory is usually something like
+    this: /usr/lib/perl5/site_perl/5.10/auto/share/dist/Alien-IUP
 
     Later on you can use Alien::IUP in your module that needs to link with
     *iup* and/or related libs like this:
@@ -46,8 +38,8 @@ SYNOPSIS
      # Sample Makefile.pl
      use ExtUtils::MakeMaker;
      use Alien::IUP;
-     
- WriteMakefile(
+ 
+     WriteMakefile(
        NAME         => 'Any::IUP::Module',
        VERSION_FROM => 'lib/Any/IUP/Module.pm',
        LIBS         => Alien::IUP->config('LIBS'),
@@ -93,18 +85,18 @@ AUTHOR
     KMX, <kmx at cpan.org>
 
 BUGS
-    Please report any bugs or feature requests to "bug-alien-iup at
-    rt.cpan.org", or through the web interface at
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP>.
+    Please report any bugs or feature requests to `bug-alien-iup at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP.
 
 LICENSE AND COPYRIGHT
     Libraries *iup*, *im* and *cd*: Copyright (C) 1994-2010 Tecgraf,
-    PUC-Rio. <http://www.tecgraf.puc-rio.br>
+    PUC-Rio. http://www.tecgraf.puc-rio.br
 
     Alien::IUP module: Copyright (C) 2010 KMX.
 
     This program is distributed under the MIT License:
-    <http://www.opensource.org/licenses/mit-license.php>
+    http://www.opensource.org/licenses/mit-license.php
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the

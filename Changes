@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 01/06/2011 - 0.301_3
+
+ - solaris workaround (ar, ranlib)
+
 =head2 01/06/2011 - 0.301_1
 
  - devel version using the latest CVS sources

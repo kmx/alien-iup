@@ -186,6 +186,17 @@ sub build_binaries {
 
   my @makeopts  = qw[NO_DYNAMIC=Yes USE_NODEPEND=Yes];
   #my @makeopts  = qw[NO_STATIC=Yes USE_NODEPEND=Yes];
+  
+  #On solaris, some tools like 'ar' are not in the default PATH, but in /usr/???/bin    
+  if ($^O eq 'solaris') {
+    my ($ar, $ranlib);
+    for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
+      $ar = "$_/ar" if (!$ar && -x "$_/ar");
+      $ranlib = "$_/ranlib" if (!$ranlib && -x "$_/ranlib");
+    }
+    push @makeopts, "AR=$ar" if $ar;
+    push @makeopts, "RANLIB=$ranlib" if $ranlib;
+  }
 
   #choose GUI subsystem, priorities if multiple subsystems detected: 1. GTK, 2. X11/Motif
   my @libs;
