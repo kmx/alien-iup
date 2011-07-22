@@ -1,20 +1,12 @@
 =head1 Revision history for Alien-IUP
 
-=head2 01/06/2011 - 0.301_3
+=head2 22/07/2011 - 0.302
 
  - solaris workaround (ar, ranlib)
 
-=head2 01/06/2011 - 0.301_1
-
- - devel version using the latest CVS sources
-
 =head2 12/05/2011 - 0.301
 
- - the same as dev release 0.300_01
-
-=head2 08/05/2011 - 0.300_01
-
- - switch to iup-3.5
+ - IMPORTANT: switch to iup-3.5
 
 =head2 05/04/2011 - 0.204
 
@@ -33,15 +25,8 @@
 
 =head2 18/02/2011 - 0.201
 
- - the first stable release with iup-3.4
-
-=head2 16/02/2011 - 0.200_01+0.200_02
-
+ - IMPORTANT: the first stable release with iup-3.4
  - dev build: switch to iup-3.4 + updated im, cd
-
-=head2 11/02/2011 - 0.116_01
-
- - dev build: with the latest CVS sources
 
 =head2 10/02/2011 - 0.116
 
@@ -57,27 +42,17 @@
 
  - not building libs that are currently not used by IUP
  - less build messages by default
-
-=head2 05/01/2011 - 0.113_01
-
  - dev build: with the latest CVS sources
 
 =head2 05/01/2011 - 0.113
 
  - same as 0.112_01 + updated TODO
-
-=head2 02/01/2011 - 0.112_01
-
  - fixing -lstdc++ issue on non-gcc compilers
 
 =head2 30/12/2010 - 0.112
 
  - skipping iuptuio on solaris - http://www.cpantesters.org/cpan/report/c39d9264-0ae3-11e0-afb0-adca6bb533f3
  - skipping iuptuio on cygwin (not only gcc3)
-
-=head2 17/12/2010 - 0.111_01
-
- - dev build: with the latest CVS sources
 
 =head2 16/12/2010 - 0.111
 
@@ -87,10 +62,6 @@
 
  - iup-gtk-tabs.diff fixing http://www.cpantesters.org/cpan/report/b524182a-04c1-11e0-afb0-adca6bb533f3
  - fixing gtkprintunixdialog.h failure http://www.cpantesters.org/cpan/report/9629bbba-0655-11e0-9ee0-f20c722eace1
-
-=head2 12/12/2010 - 0.109_01
-
- - dev build: with the latest CVS sources
 
 =head2 12/12/2010 - 0.109
 
@@ -134,44 +105,21 @@
  - linking lib order fixed
  - showing mod version in debug info
 
-=head2 23/11/2010 - 0.101_01
-
- - devel version - sources CVS-2010-11-23 (no custom patches)
-
 =head2 23/11/2010 - 0.101
 
- - the first stable release based on iup 3.3
+ - IMPORTANT: switch to IUP 3.3 (+ upgrade of other libs as well)
  - NetBSD ntohl() related patch (#include <sys/types.h>)
  - significant Windows build changes
-
-=head2 22/11/2010 - 0.1000_06
-
  - warn (not skip) by im_process on OpenBSD
  - do not build freetype if we halready have freetype on our system
  - ms64bit build patch
-
-=head2 22/11/2010 - 0.1000_05
-
  - more diagnostics (freetype)
  - require installed cairo for GTK2 build
-
-=head2 21/11/2010 - 0.1000_04
-
  - fixing netbsd failure (using USE_PKGCONFIG)
-
-=head2 21/11/2010 - 0.1000_03
-
  - webkit/webkit.h test (disabling iupweb if no webkit)
  - patches for DragonFly BSD
-
-=head2 20/11/2010 - 0.1000_02
-
  - improved cygwin build
  - new checksum for updated iup-3.3_Sources.tar.gz
-
-=head2 20/11/2010 - 0.1000_01
-
- - switch to IUP 3.3 (+ upgrade of other libs as well)
  - new builder for cygwin (separated from generic UNIX)
 
 =head2 14/11/2010 - 0.024
@@ -199,19 +147,10 @@
 
  - more questions/prompts during build
  - cleaning up + cosmetics
-
-=head2 04/10/2010 - 0.0.19_3
-
  - OpenBSD - not building im_process (g++ internal error)
  - OpenBSD - lesstif related fixes
-
-=head2 30/09/2010 - 0.0.19_2
-
  - DragonFly patch for 'sizeof(FILE)'
  - exit if GNU make not found
-
-=head2 29/09/2010 - 0.0.19_1
-
  - DragonFly patch for libjasper/jasper/jas_types.h
  - create_makefile_pl => 'small' (creating Makefile.PL to satisfy old CPAN clients)
 

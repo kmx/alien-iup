@@ -14,12 +14,12 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.301_3";
+our $VERSION = "0.302";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
 
-Version 0.301_3 of Alien::IUP is based on the following:
+Version 0.302 of Alien::IUP is based on the following:
 
 =over
 
@@ -34,7 +34,7 @@ Version 0.301_3 of Alien::IUP is based on the following:
 =head1 SYNOPSIS
 
 B<IMPORTANT:> This module is not a perl binding for I<iup + related> libraries; it is just
-a helper module. The real perl binding is implemented by L<IUP|http://github.com/kmx/perl-iup> module,
+a helper module. The real perl binding is implemented by L<IUP|IUP> module,
 which is using Alien::IUP to locate I<iup + related> libraries on your system (or build it from source codes).
 
 Alien::IUP tries (in given order) during its installation:
