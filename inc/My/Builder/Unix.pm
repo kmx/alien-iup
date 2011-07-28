@@ -222,7 +222,7 @@ sub build_binaries {
     warn "###WARNING### No supported GUI subsystem detected!\n";
   }
 
-  if ($self->notes('build_debug_info') || !$build_target) {
+  if ($self->notes('build_debug_info') || ( !$build_target && $ENV{AUTOMATED_TESTING} ) ) {
     foreach (sort keys %has) {
       my $msg = "has: $has{$_} - $_";
       $msg .= "; version=" . $has_details{$_}->{version} if $has_details{$_}->{version};
@@ -251,9 +251,18 @@ sub build_binaries {
   }
   
   unless ($build_target) {
-    warn "###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)\n";
-    warn "### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h\n";
-    warn "### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h\n";
+    warn <<'MARKER'
+###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)
+### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h
+### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h
+### 
+### on Debian/Ubuntu you need to install: 
+###  $ aptitude install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev
+### 
+### on RedHat/CentOS/Fedora you need to install: 
+###  $ yum install gtk2-devel cairo-devel libX11-devel libGLU-devel
+###
+MARKER
     die;
   }
   

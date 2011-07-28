@@ -1,0 +1,14 @@
+diff -ru iup-3.5/tecmake.mak iup-3.5.patched/tecmake.mak
+--- iup-3.5/tecmake.mak	2011-04-26 14:48:47.000000000 +0200
++++ iup-3.5.patched/tecmake.mak	2011-07-28 20:59:04.004283000 +0200
+@@ -46,6 +46,10 @@
+     TEC_SYSMINOR:=$(shell sw_vers -productVersion|cut -f2 -d.)
+     TEC_SYSARCH:=$(shell uname -p)
+   endif
++  ifeq ($(TEC_SYSNAME), GNU/kFreeBSD)
++    TEC_SYSNAME:=kFreeBSD
++    TEC_SYSMINOR:=$(shell uname -r|cut -f2 -d.|cut -f1 -d-)
++  endif
+ 
+   ifeq ($(TEC_SYSARCH), i686)
+     TEC_SYSARCH:=x86

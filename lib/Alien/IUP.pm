@@ -14,7 +14,7 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.302";
+our $VERSION = "0.302_1";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
@@ -117,7 +117,7 @@ KMX, E<lt>kmx at cpan.orgE<gt>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-alien-iup at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP>.
+the web interface at L<https://rt.cpan.org/Public/Dist/Display.html?Status=Active&Name=Alien-IUP>.
 
 =head1 LICENSE AND COPYRIGHT
 

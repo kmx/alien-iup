@@ -1,0 +1,14 @@
+diff -ru cd-5.4.1/tecmake.mak cd-5.4.1.patched/tecmake.mak
+--- cd-5.4.1/tecmake.mak	2011-02-12 19:16:25.000000000 +0100
++++ cd-5.4.1.patched/tecmake.mak	2011-07-28 20:59:38.471254400 +0200
+@@ -46,6 +46,10 @@
+     TEC_SYSMINOR:=$(shell sw_vers -productVersion|cut -f2 -d.)
+     TEC_SYSARCH:=$(shell uname -p)
+   endif
++  ifeq ($(TEC_SYSNAME), GNU/kFreeBSD)
++    TEC_SYSNAME:=kFreeBSD
++    TEC_SYSMINOR:=$(shell uname -r|cut -f2 -d.|cut -f1 -d-)
++  endif
+ 
+   ifeq ($(TEC_SYSARCH), i686)
+     TEC_SYSARCH:=x86

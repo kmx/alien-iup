@@ -69,7 +69,7 @@ my $builder = $package->new(
   meta_merge => {
     resources  => {
       bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP',
-      repository => 'http://github.com/kmx/alien-iup',
+      repository => 'https://github.com/kmx/alien-iup',
     }
   },
 );
@@ -78,8 +78,6 @@ unlink 'build_done'; # delete build marker (= force rebuild after running Build.
 $builder->add_to_cleanup("sharedir/" . $builder->{properties}->{dist_version}); # catfile() would be better
 $builder->add_to_cleanup('build_done');
 $builder->add_to_cleanup('build_src');
-
-
 
 if (defined $cvs_src) { ### use the latest sources from iup repository
   warn "###\n";
@@ -104,15 +102,15 @@ else {
   # set what tarballs we are gonna use
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.5_Sources.tar.gz');
   $builder->notes('iup_sha1', 'e5a3fdde13dcf77eeb5e690b21ff198389b1e889');
-  $builder->notes('iup_patches', [ ] );
+  $builder->notes('iup_patches', [ qw!patches/iup-kfreebsd.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz');
   $builder->notes('im_sha1', '14a800e3e1642acb97c569bd7f50d413fa375d5a');
-  $builder->notes('im_patches', [ 'patches/im-dragonfly.diff' ] );
+  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-kfreebsd.diff! ] );
 
   $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz');
   $builder->notes('cd_sha1', '07e6c6edbbfa76667a8cb8e59beb51a54dc59147');
-  $builder->notes('cd_patches', [ 'patches/cd-dragonfly.diff' ] );
+  $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff patches/cd-kfreebsd.diff! ] );
 }
 
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"
