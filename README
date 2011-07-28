@@ -87,7 +87,7 @@ AUTHOR
 BUGS
     Please report any bugs or feature requests to `bug-alien-iup at
     rt.cpan.org', or through the web interface at
-    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Alien-IUP.
+    http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP.
 
 LICENSE AND COPYRIGHT
     Libraries *iup*, *im* and *cd*: Copyright (C) 1994-2010 Tecgraf,

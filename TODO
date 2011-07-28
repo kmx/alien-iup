@@ -18,12 +18,12 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - complete redesign of iup+cd+im detection - compatible with havelib() - msvc support, fix temporary *.obj files in dist root
-- remove http://github.com/kmx/perl-iup from POD after releasing IUP to CPAN
 - Unix - move essential lib detection into "perl Build.PL" phase (exit without creating Build script if essential libs not found)
 - Makefile*.nmake - dynamic lib build not supported
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
+- kFreeBSD patch for tecmake.mak
 - (reported) GTK, GTK_BASE not set correctly when using USE_PKGCONFIG=Yes
 - (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af

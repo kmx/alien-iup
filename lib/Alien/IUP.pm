@@ -117,7 +117,7 @@ KMX, E<lt>kmx at cpan.orgE<gt>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-alien-iup at rt.cpan.org>, or through
-the web interface at L<https://rt.cpan.org/Public/Dist/Display.html?Status=Active&Name=Alien-IUP>.
+the web interface at L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP>.
 
 =head1 LICENSE AND COPYRIGHT
 
