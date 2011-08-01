@@ -9,7 +9,10 @@ MANIFEST			This list of files
 META.json
 META.yml
 patches/cd-dragonfly.diff
+patches/cd-kfreebsd.diff
 patches/im-dragonfly.diff
+patches/im-kfreebsd.diff
+patches/iup-kfreebsd.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
