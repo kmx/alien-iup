@@ -56,7 +56,7 @@ sub build_binaries {
       push(@cmd_im,  'CFG=Win64');
       push(@cmd_cd,  'CFG=Win64');
       push(@cmd_iup, 'CFG=Win64');
-    }
+    }    
   }
   else { # gcc compiler
     my $make = $self->notes('gnu_make') || $self->get_make;
@@ -71,8 +71,11 @@ sub build_binaries {
       push(@cmd_im,  'BUILDBITS=64');
       push(@cmd_cd,  'BUILDBITS=64');
       push(@cmd_iup, 'BUILDBITS=64');
-    }
+    }    
   }
+  
+  #common for both compilers
+  push(@cmd_iup, 'CF_iupimglib_EXTRA=-DIUP_IMGLIB_LARGE') if $self->notes('build_large_imglib');
 
   my $libtype = 'static';
   my $success = 1;

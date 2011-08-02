@@ -321,6 +321,10 @@ MARKER
   else {
     die "###ERROR### Wrong build target '$build_target!";
   }
+  
+  #XXX-FIXME
+  #push(@makeopts, 'EXTRA_CFLAGS=-DIUP_IMGLIB_LARGE') if $self->notes('build_large_imglib');
+  warn "Large built-in images not supported on UNIX platforms\n" if $self->notes('build_large_imglib');
 
   #do the job
   $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);

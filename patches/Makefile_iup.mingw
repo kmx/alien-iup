@@ -282,7 +282,7 @@ iupim-static: build-dirs $(SLIB_iupim)
 iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim)
 
 ### START OF iupimglib ###
-CF_iupimglib   = -c  -Wall -O2 -Iinclude -Isrc   
+CF_iupimglib   = -c  -Wall -O2 -Iinclude -Isrc  ${CF_iupimglib_EXTRA}
 LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
 SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
 DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a

@@ -35,6 +35,10 @@ sub build_binaries {
 
   #make options
   my @makeopts   = qw[USE_NODEPEND=Yes];
+  
+  #XXX-FIXME
+  #push(@makeopts, 'EXTRA_CFLAGS=-DIUP_IMGLIB_LARGE') if $self->notes('build_large_imglib');
+  warn "Large built-in images not supported on Cygwin platform\n" if $self->notes('build_large_imglib');
 
   #store debug info into ConfigData
   $self->config_data('info_imtargets', \@imtargets);
