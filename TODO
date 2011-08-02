@@ -3,6 +3,8 @@ IMPORTANT
 - perhaps propose a patch for tecmake(win).mak
 
 CPAN TESTERS FAILURES
+- Solaris - gcc not found
+  http://www.cpantesters.org/cpan/report/e440bcc2-ba3c-11e0-bbec-9aeec8b7ec30
 - File::Find 1.14 warnings:
   http://www.cpantesters.org/cpan/report/31039c2e-3c06-11e0-9518-41308a2f2f5b
   Use of uninitialized value $Name in substr at /usr/share/perl/5.10/File/Find.pm line 519.
