@@ -14,7 +14,7 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.302_2";
+our $VERSION = "0.302_3";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
