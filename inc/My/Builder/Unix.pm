@@ -251,7 +251,7 @@ sub build_binaries {
   }
   
   unless ($build_target) {
-    warn <<'MARKER'
+    warn <<'MARKER';
 ###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)
 ### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h
 ### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h
