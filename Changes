@@ -1,6 +1,6 @@
 =head1 Revision history for Alien-IUP
 
-=head2 08/08/2011 - 0.302_*
+=head2 08/08/2011 - 0.303
 
  - added support for -DIUP_IMGLIB_LARGE (now on Win32 only)
  - fixed http://www.cpantesters.org/cpan/report/889253e2-b5f8-11e0-8204-0f92f06c0dc8 (kFreeBSD failure)
