@@ -19,7 +19,7 @@ $VERSION = eval $VERSION;
 
 =head1 VERSION
 
-Version 0.303 of Alien::IUP is based on the following:
+Version 0.304 of Alien::IUP is based on the following:
 
 =over
 
