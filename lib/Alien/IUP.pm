@@ -75,7 +75,7 @@ I<iup> and/or related libs like this:
    # + additional params
  );
 
-B<IMPORTANT:> As Alien::IUP builds static libraries the modules using Alien::IUP (e.g. L<IUP|http://github.com/kmx/perl-iup>)
+B<IMPORTANT:> As Alien::IUP builds static libraries the modules using Alien::IUP (e.g. L<IUP|IUP>)
 need to have Alien::IUP just for building, not for later use. In other words Alien:IUP is just
 "build dependency" not "run-time dependency".
 

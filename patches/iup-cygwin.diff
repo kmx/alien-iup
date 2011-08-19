@@ -5,9 +5,9 @@ diff -ru iup/src/win/iupwindows_main.c iup.patched/src/win/iupwindows_main.c
      extern char** _argv;
      return IupMain(_argc, _argv);
    }              
-+#elsif __CYGWIN__
++#elif __CYGWIN__
 +  {
-+    /* unfortunately no _argc|v on cygwin */
++    /* unfortunately no __argc, __argv on cygwin */
 +    return main(0, NULL);
 +  }
  #else
