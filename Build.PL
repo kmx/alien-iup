@@ -30,6 +30,7 @@ my $builder = $package->new(
   },
   configure_requires => {
     'perl'              => 5.008008,
+    'Module::Build'     => 0.36,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,
     'File::Path'        => 0,
@@ -46,6 +47,7 @@ my $builder = $package->new(
   },
   build_requires => {
     'perl'              => 5.008008,
+    'Module::Build'     => 0.36,
     'Test::More'        => 0,
     'File::ShareDir'    => 0,
     'File::Spec'        => 0,

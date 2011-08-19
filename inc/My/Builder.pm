@@ -48,7 +48,12 @@ sub ACTION_code {
       my $build_src = 'build_src';
       # we are deriving the subdir name from VERSION as we want to prevent
       # troubles when user reinstalls the newer version of Alien package
-      my $build_out = catfile('sharedir', $self->{properties}->{dist_version});
+      my $share_subdir = $self->{properties}->{dist_version};
+      if ($self->notes('is_devel_cvs_version')) {
+        my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+        $share_subdir .= sprintf("_CVS_%02d%02d%02d_%02d%02d",$year+1900-2000,$mon+1,$mday,$hour,$min);
+      }      
+      my $build_out = catfile('sharedir', $share_subdir);
       $self->add_to_cleanup($build_out);
 
       # store info into CofigData
@@ -114,8 +119,8 @@ sub ACTION_code {
       #DEBUG: die intentionally at this point if you want to see build details from cpan testers  
       print STDERR "RESULT: OK!\n";
 
-      # store info about build to ConfigData
-      $self->config_data('share_subdir', $self->{properties}->{dist_version});
+      # store info about build to ConfigData      
+      $self->config_data('share_subdir', $share_subdir);
       $self->config_data('config', { PREFIX => '@PrEfIx@',
                                      LIBS   => '-L' . $self->quote_literal('@PrEfIx@/lib') .
                                                ' -l' . join(' -l', @{$self->config_data('linker_libs')}) .
@@ -133,6 +138,11 @@ sub ACTION_code {
 sub prepare_sources {
   my ($self, $url, $sha1, $download, $build_src) = @_;  
   my $archive = $self->fetch_file( url=>$url, sha1=>$sha1, localdir=>$download );
+  #XXX hack
+  if ($archive !~ /\.(tar.gz|tgz|tar|zip|tbz|tar.bz2)$/) {
+    rename($archive, "$archive.$$.tgz");
+    $archive = "$archive.$$.tgz";
+  }
   my $ae = Archive::Extract->new( archive => $archive );
   die "###ERROR### Cannot extract tarball ", $ae->error unless $ae->extract(to => $build_src);
 }

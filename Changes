@@ -1,5 +1,9 @@
 =head1 Revision history for Alien-IUP
 
+=head2 19/08/2011 - 0.304
+
+ - cygwin patch (__argc + __argv related)
+
 =head2 08/08/2011 - 0.303
 
  - added support for -DIUP_IMGLIB_LARGE (now on Win32 only)
