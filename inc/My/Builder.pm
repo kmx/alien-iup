@@ -103,7 +103,7 @@ sub ACTION_code {
       my $m = $self->notes('build_debug_info') ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
       
-      my $large_imglib = lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "n"));
+      my $large_imglib = lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
       $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # go for build

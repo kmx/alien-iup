@@ -1,0 +1,21 @@
+diff -ru cd/src/cd_bitmap.c cd.patched/src/cd_bitmap.c
+--- cd/src/cd_bitmap.c	2006-12-28 23:09:57.000000000 +0100
++++ cd.patched/src/cd_bitmap.c	2011-08-19 17:19:03.780353400 +0200
+@@ -79,7 +79,7 @@
+     return NULL;
+   }
+ 
+-  if (type == CD_RGB)
++  if (type == CD_RGB || type == CD_RGBA)
+   {
+     data->r = data->buffer;
+     data->g = data->r + size;
+@@ -135,7 +135,7 @@
+ 
+   va_start(arglist, type);
+ 
+-  if (type == CD_RGB)
++  if (type == CD_RGB || type == CD_RGBA)
+   {
+     data->r = va_arg(arglist, unsigned char*);
+     data->g = va_arg(arglist, unsigned char*);

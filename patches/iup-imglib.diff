@@ -1,0 +1,16 @@
+diff -ru iup/srcimglib/config.mak iup.patched/srcimglib/config.mak
+--- iup/srcimglib/config.mak	2010-11-10 22:58:47.000000000 +0100
++++ iup.patched/srcimglib/config.mak	2011-08-19 17:20:15.808353400 +0200
+@@ -4,8 +4,10 @@
+ 
+ INCLUDES = ../include ../src
+ 
+-# Uncomment if you want to include images larger than 48x48 (inclusive)
+-#DEFINES += IUP_IMGLIB_LARGE
++ifdef USE_IUP_IMGLIB_LARGE
++# if you want to include images larger than 48x48 (inclusive)
++DEFINES += IUP_IMGLIB_LARGE
++endif
+ 
+ SRC = iup_image_library.c iup_imglib_bitmapsgtk.c iup_imglib_icons.c iup_imglib_logos.c
+ 

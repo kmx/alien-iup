@@ -8,11 +8,13 @@ lib/Alien/IUP.pm
 MANIFEST			This list of files
 META.json
 META.yml
+patches/cd-bitmap.diff
 patches/cd-dragonfly.diff
 patches/cd-kfreebsd.diff
 patches/im-dragonfly.diff
 patches/im-kfreebsd.diff
 patches/iup-cygwin.diff
+patches/iup-imglib.diff
 patches/iup-kfreebsd.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake

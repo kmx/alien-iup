@@ -1,5 +1,10 @@
 =head1 Revision history for Alien-IUP
 
+=head2 20/08/2011 - 0.305
+
+ - iup-imglib patch
+ - cd patch (crutial - without this patch IUP module segfaults at some points)
+
 =head2 19/08/2011 - 0.304
 
  - cygwin patch (__argc + __argv related)
