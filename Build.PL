@@ -104,11 +104,12 @@ else {
   # set what tarballs we are gonna use
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.6_Sources.tar.gz');
   $builder->notes('iup_sha1', '28b3e5659b2247861df13eecc9dee88485aef80e');
+  #$builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-snwprintf.diff patches/iup-vc6.diff! ] );
   $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-snwprintf.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8_Sources.tar.gz');
   $builder->notes('im_sha1', 'f2821848c5a6febb037af354e2e1e099fe64a68a');
-  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-zlib.diff! ] );
+  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-zlib.diff patches/im-vc6.diff! ] );
 
   $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.5.1_Sources.tar.gz');
   $builder->notes('cd_sha1', 'cb1105fe0daade327c79221150f730e392c741e5');

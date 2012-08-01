@@ -40,6 +40,9 @@ sub build_binaries {
   #xxx TODO add cdcontextplus + iupweb support to makefiles
   @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
+  
+  #xxx TODO not able to compile iup_mglplot by MSVC - maybe makefile needs a fix
+  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets if $Config{make} =~ /nmake/ && $Config{cc} =~ /cl/;
 
   #store debug info into ConfigData
   $self->config_data('info_imtargets', \@imtargets);

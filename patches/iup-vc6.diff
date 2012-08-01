@@ -1,0 +1,14 @@
+diff -ru --strip-trailing-cr iup.orig/srcmglplot/mgl_makefont.cpp iup/srcmglplot/mgl_makefont.cpp
+--- iup.orig/srcmglplot/mgl_makefont.cpp	2012-08-01 15:43:01.482174500 +0200
++++ iup/srcmglplot/mgl_makefont.cpp	2012-08-01 23:30:02.707168700 +0200
+@@ -269,8 +269,8 @@
+     
+     size_t pointsNumber = screenBuffer->points.size();
+     
+-    for(size_t i = 0; i < points.size(); i++)
+-      screenBuffer->points.push_back(points[i] + pen);
++    for(size_t j = 0; j < points.size(); j++)
++      screenBuffer->points.push_back(points[j] + pen);
+ 
+     for(size_t i = 0; i < triangles.size(); i++)
+     {

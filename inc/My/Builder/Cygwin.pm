@@ -32,6 +32,9 @@ sub build_binaries {
     @cdtargets  = qw[cd_zlib cd_freetype cd];
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole];
   }
+  
+  #iup_mglplot will not compile with too old cygwin (approx. detection via gcc version)
+  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets if $Config{gccversion} =~ /^3\./;
 
   #make options
   my @makeopts   = qw[USE_NODEPEND=Yes];

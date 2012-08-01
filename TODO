@@ -1,6 +1,8 @@
+IMPORTANT:
+- iup_mglplot does not build via MSVC compiler
+
 IDEA:
-- add: provide: Alien::IUP::ConfigData to Build.PL
-- see:  https://build.opensuse.org/project/monitor?commit=Filter%3A&failed=1&unresolvable=1&broken=1&locked=1&pkgname=perl-Alien-IUP&repo_openSUSE_11_3=1&repo_openSUSE_11_4=1&arch_i586=1&arch_x86_64=1&project=home%3Acoolo%3Abranches%3Adevel%3Alanguages%3Aperl&defaults=0
+- add 'provide: Alien::IUP::ConfigData' to Build.PL
 
 CPAN TESTERS FAILURES
 - Solaris - gcc not found

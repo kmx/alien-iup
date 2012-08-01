@@ -11,9 +11,11 @@ META.yml
 patches/cd-dragonfly.diff
 patches/cd-zlib.diff
 patches/im-dragonfly.diff
+patches/im-vc6.diff
 patches/im-zlib.diff
 patches/iup-cygwin.diff
 patches/iup-snwprintf.diff
+patches/iup-vc6.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
