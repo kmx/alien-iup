@@ -35,6 +35,7 @@ sub flush_target {
     iupimglib => 'srcimglib',
     iupole => 'srcole',
     iup_pplot => 'srcpplot', 
+    iup_mglplot => 'srcmglplot',
     iuptuio => 'srctuio',
     iupweb => 'srcweb',
   );
@@ -51,8 +52,8 @@ sub flush_target {
   print STDERR "Flushing " . scalar(@curlist) . " " . scalar(@{$curlobjs}) . "\n";
   #print STDERR ">>> curtarget=$curtarget curlf=$curlf curmakefile=$curmakefile\n";
   if (scalar(@curlist) != scalar(@{$curlobjs})) {
-    warn "###ERROR### objcount mismatch";
-#    die Dumper(\@curlist);
+    warn "###ERROR### objcount mismatch ", scalar(@curlist), " vs. ", scalar(@{$curlobjs});
+    #die Dumper(\@curlist);
   }    
   my @keeplist = @curlist;
   my $cf = (keys %{$flags1{$curtarget}})[0];
@@ -157,9 +158,9 @@ while (<DAT>) {
     $item->{OBJMS} = $o . "bj"; #extension .obj
     push( @curlist, $item);
   }
-  elsif (/^g/) {
-    warn "LINE:$_";
-  }
+#  elsif (/^g/) {
+#    warn "LINE:$_";
+#  }
   elsif (/^ar (.*)$/) {
   }
 }

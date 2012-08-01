@@ -11,22 +11,25 @@ function do_job {
     (    
         cd cd/src
         echo curdir=`pwd`
+        make -f ../tecmakewin.mak $tecparams MF=cd_zlib $mytarget
         make -f ../tecmakewin.mak $tecparams MF=cd_freetype $mytarget
         make -f ../tecmakewin.mak $tecparams MF=cd_ftgl $mytarget
         make -f ../tecmakewin.mak $tecparams MF=config $mytarget
         make -f ../tecmakewin.mak $tecparams MF=cd_pdflib $mytarget
         make -f ../tecmakewin.mak $tecparams MF=cdpdf $mytarget
         make -f ../tecmakewin.mak $tecparams MF=cdgl $mytarget
-        make -f ../tecmakewin.mak $tecparams MF=cdcontextplus
+        make -f ../tecmakewin.mak $tecparams MF=cdcontextplus $mytarget
     ) 2>&1 | tee -a build-$1.log
 
     echo "Building 'im' ..."
     (
         cd im/src
         echo curdir=`pwd`
+        make -f ../tecmakewin.mak $tecparams MF=im_zlib $mytarget
         make -f ../tecmakewin.mak $tecparams MF=config $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_process $mytarget
-#	make -f ../tecmakewin.mak $tecparams MF=im_capture $mytarget
+#        make -f ../tecmakewin.mak $tecparams MF=im_process_omp $mytarget
+#        make -f ../tecmakewin.mak $tecparams MF=im_capture $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_jp2 $mytarget
         make -f ../tecmakewin.mak $tecparams MF=im_fftw $mytarget
     ) 2>&1 | tee -a build-$1.log 2>&1
@@ -39,6 +42,7 @@ function do_job {
         (cd srccd;       make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srccontrols; make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcpplot;    make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcmglplot;  make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcgl;       make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcim;       make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcimglib;   make -f ../tecmakewin.mak $tecparams $mytarget)
@@ -51,7 +55,7 @@ function do_job {
 }
 
 #do_job mingw4    "NO_DEPEND=Yes TEC_UNAME=mingw4 MINGW4=z:/w32gcc4"
-do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/w32gcc4"
+do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/strawberry_libs/w32gcc4"
 #do_job mingw4_64 "NO_DEPEND=Yes TEC_UNAME=mingw4_64 MINGW4=z:/w64gcc4"
 #do_job gcc4      "NO_DEPEND=Yes TEC_UNAME=gcc4"
 #do_job dllg4     "NO_DEPEND=Yes TEC_UNAME=dllg4"

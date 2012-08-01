@@ -25,12 +25,12 @@ sub build_binaries {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
     @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole iupweb iuptuio];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_freetype cd];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iupgl iupim iupimglib iupole];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole];
   }
 
   #make options

@@ -1,23 +1,34 @@
-0/ download source tarballs to the current dictionsry
+1/ check and download the latest versions:
 
-wget http://download.sf.net/iup/iup-3.3_Sources.tar.gz
-wget http://download.sf.net/imtoolkit/im-3.6.3_Sources.tar.gz
-wget http://download.sf.net/canvasdraw/cd-5.4.1_Sources.tar.gz
+http://download.sf.net/iup/
+http://download.sf.net/imtoolkit/
+http://download.sf.net/canvasdraw/
 
-1/ uzip all sources
+2/ create y:\IUP.build with the following content:
 
-# sh prepare-source.sh 
+y:\IUP.build\cd-5.5.1_Sources.tar.gz
+y:\IUP.build\im-3.8_Sources.tar.gz
+y:\IUP.build\iup-3.6_Sources.tar.gz
 
-(+ apply patches of your choice)
+y:\IUP.build\build-all.sh
+y:\IUP.build\prepare-source.sh
+y:\IUP.build\create-diffs.sh
+y:\IUP.build\log2makefile.pl
 
-2/ from MSYS shell run:
+3/ start MSYS + mingw-w64 environment
 
-# sh build-all.sh 
+$ sh prepare-source.sh
+- check im/src/Makefile, cd/src/Makefile, iup/src/Makefile foe newly introduced targets
+- update build-all.sh if needed
+- apply patches of your choice
 
-3/ generate makefiles from 'build-dynamic.log' produced in step 2/
+$ sh build-all.sh
+- patch sources in im/cd/iup as needed
 
-# perl log2makefile.pl
+$ sh create-diffs.sh
+- creates patches im/cd/iup vs. im.orig/cd.orig/iup.orig
 
-4/ generate diffs
+4/ run all from scratch and generate makefile from build log (will apply patches)
 
-# sh create-diffs.sh
+$ sh prepare-source.sh; sh build-all.sh
+$ perl log2makefile.pl

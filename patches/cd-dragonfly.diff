@@ -1,7 +1,7 @@
-diff -ru --strip-trailing-cr cd.orig/src/pdflib/pdflib/p_document.c cd/src/pdflib/pdflib/p_document.c
---- cd.orig/src/pdflib/pdflib/p_document.c	2010-06-22 15:26:40.000000000 +0200
-+++ cd/src/pdflib/pdflib/p_document.c	2010-09-30 15:30:08.673589100 +0200
-@@ -1407,7 +1407,12 @@
+diff -ru cd.orig\src\pdflib\pdflib\p_document.c cd\src\pdflib\pdflib\p_document.c
+--- cd.orig\src\pdflib\pdflib\p_document.c	Wed Aug 01 15:42:51 2012
++++ cd\src\pdflib\pdflib\p_document.c	Wed Aug 01 16:03:28 2012
+@@ -1411,7 +1411,12 @@
  #endif
  
          doc->fp = fp;

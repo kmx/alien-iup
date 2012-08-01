@@ -1,3 +1,7 @@
+IDEA:
+- add: provide: Alien::IUP::ConfigData to Build.PL
+- see:  https://build.opensuse.org/project/monitor?commit=Filter%3A&failed=1&unresolvable=1&broken=1&locked=1&pkgname=perl-Alien-IUP&repo_openSUSE_11_3=1&repo_openSUSE_11_4=1&arch_i586=1&arch_x86_64=1&project=home%3Acoolo%3Abranches%3Adevel%3Alanguages%3Aperl&defaults=0
+
 CPAN TESTERS FAILURES
 - Solaris - gcc not found
   http://www.cpantesters.org/cpan/report/e440bcc2-ba3c-11e0-bbec-9aeec8b7ec30
@@ -14,9 +18,10 @@ CPAN TESTERS FAILURES
 MEDIUM PRIORITY
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
-- Win: generate makefiles for contextplus/iupweb
-- Win: enable contextplus - MS compiler or cygwin/gdiplus (maybe gdiplus detection)
+- Win: generate makefiles for iupweb
+- Win: enable contextplus (maybe gdiplus detection)
 - try to build cdcairo - when has{pangocairo}
+- what to do with duplicate zlib1 in cd & im ?
 
 LOW PRIORITY
 - complete redesign of iup+cd+im detection - compatible with havelib() - msvc support, fix temporary *.obj files in dist root
@@ -25,7 +30,6 @@ LOW PRIORITY
 
 ERRORS TO BE REPORTED TO TECGRAF
 - IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
-- kFreeBSD patch for tecmake.mak
 - (reported) GTK, GTK_BASE not set correctly when using USE_PKGCONFIG=Yes
 - (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
