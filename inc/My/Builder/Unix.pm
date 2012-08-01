@@ -174,6 +174,7 @@ sub build_binaries {
   }
 
   @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
+  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets unless $has{gl} && $has{glu};
   @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 
