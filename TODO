@@ -16,12 +16,12 @@ CPAN TESTERS FAILURES
   http://www.cpantesters.org/cpan/report/44ebc228-3695-11e0-a8db-8151be137770
   
 MEDIUM PRIORITY
+- mingw: consider renaming *.a libraries (cd_zlib/cd_freetype)
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
 - Win: generate makefiles for iupweb
 - Win: enable contextplus (maybe gdiplus detection)
 - try to build cdcairo - when has{pangocairo}
-- what to do with duplicate zlib1 in cd & im ?
 
 LOW PRIORITY
 - complete redesign of iup+cd+im detection - compatible with havelib() - msvc support, fix temporary *.obj files in dist root

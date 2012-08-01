@@ -11,6 +11,7 @@ my $flags2 = {};
 my %fixtarget = ( 
     ftgl => 'cd_ftgl',
     freetype6 => 'cd_freetype',
+    zlib1 => 'cd_zlib',
     pdflib => 'cd_pdflib',
 );
 

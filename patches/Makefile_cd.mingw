@@ -24,13 +24,13 @@ LF_ALL   = -L../lib/$(BUILDNICK) -L"$(LIBDIR)"
 VER_OBJ      = version.o
 VER_RC       = version.rc
 
-BUILD_DIRS   = ../obj/$(BUILDNICK)/zlib1 ../obj/$(BUILDNICK)/cd_freetype ../obj/$(BUILDNICK)/cd_ftgl ../obj/$(BUILDNICK)/cd ../obj/$(BUILDNICK)/cd_pdflib ../obj/$(BUILDNICK)/cdpdf ../obj/$(BUILDNICK)/cdgl ../obj/$(BUILDNICK)/cdcontextplus ../lib/$(BUILDNICK)
+BUILD_DIRS   = ../obj/$(BUILDNICK)/cd_zlib ../obj/$(BUILDNICK)/cd_freetype ../obj/$(BUILDNICK)/cd_ftgl ../obj/$(BUILDNICK)/cd ../obj/$(BUILDNICK)/cd_pdflib ../obj/$(BUILDNICK)/cdpdf ../obj/$(BUILDNICK)/cdgl ../obj/$(BUILDNICK)/cdcontextplus ../lib/$(BUILDNICK)
 
-ALL_OBJS     = $(OBJS_zlib1) $(OBJS_cd_freetype) $(OBJS_cd_ftgl) $(OBJS_cd) $(OBJS_cd_pdflib) $(OBJS_cdpdf) $(OBJS_cdgl) $(OBJS_cdcontextplus)
+ALL_OBJS     = $(OBJS_cd_zlib) $(OBJS_cd_freetype) $(OBJS_cd_ftgl) $(OBJS_cd) $(OBJS_cd_pdflib) $(OBJS_cdpdf) $(OBJS_cdgl) $(OBJS_cdcontextplus)
 
-STATIC_LIBS  = $(SLIB_zlib1) $(SLIB_cd_freetype) $(SLIB_cd_ftgl) $(SLIB_cd) $(SLIB_cd_pdflib) $(SLIB_cdpdf) $(SLIB_cdgl) $(SLIB_cdcontextplus)
+STATIC_LIBS  = $(SLIB_cd_zlib) $(SLIB_cd_freetype) $(SLIB_cd_ftgl) $(SLIB_cd) $(SLIB_cd_pdflib) $(SLIB_cdpdf) $(SLIB_cdgl) $(SLIB_cdcontextplus)
 
-DYNAMIC_LIBS = $(DLIB_zlib1) $(ILIB_zlib1) $(DLIB_cd_freetype) $(ILIB_cd_freetype) $(DLIB_cd_ftgl) $(ILIB_cd_ftgl) $(DLIB_cd) $(ILIB_cd) $(DLIB_cd_pdflib) $(ILIB_cd_pdflib) $(DLIB_cdpdf) $(ILIB_cdpdf) $(DLIB_cdgl) $(ILIB_cdgl) $(DLIB_cdcontextplus) $(ILIB_cdcontextplus)
+DYNAMIC_LIBS = $(DLIB_cd_zlib) $(ILIB_cd_zlib) $(DLIB_cd_freetype) $(ILIB_cd_freetype) $(DLIB_cd_ftgl) $(ILIB_cd_ftgl) $(DLIB_cd) $(ILIB_cd) $(DLIB_cd_pdflib) $(ILIB_cd_pdflib) $(DLIB_cdpdf) $(ILIB_cdpdf) $(DLIB_cdgl) $(ILIB_cdgl) $(DLIB_cdcontextplus) $(ILIB_cdcontextplus)
 
 ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 
@@ -39,39 +39,39 @@ ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 all: all-static all-dynamic
 
 
-### START OF zlib1 ###
-CF_zlib1   = -c  -Wall -O2 -Izlib   
-LF_zlib1   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
-SLIB_zlib1 = ../lib/$(BUILDNICK)/libzlib1.a
-DLIB_zlib1 = ../lib/$(BUILDNICK)/libzlib1.dll.a
-ILIB_zlib1 = ../lib/$(BUILDNICK)/zlib1_alien_.dll
-OBJS_zlib1 = ../obj/$(BUILDNICK)/zlib1/adler32.o ../obj/$(BUILDNICK)/zlib1/crc32.o ../obj/$(BUILDNICK)/zlib1/inffast.o ../obj/$(BUILDNICK)/zlib1/inftrees.o ../obj/$(BUILDNICK)/zlib1/uncompr.o ../obj/$(BUILDNICK)/zlib1/gzclose.o ../obj/$(BUILDNICK)/zlib1/gzlib.o ../obj/$(BUILDNICK)/zlib1/gzread.o ../obj/$(BUILDNICK)/zlib1/gzwrite.o ../obj/$(BUILDNICK)/zlib1/compress.o ../obj/$(BUILDNICK)/zlib1/deflate.o ../obj/$(BUILDNICK)/zlib1/infback.o ../obj/$(BUILDNICK)/zlib1/inflate.o ../obj/$(BUILDNICK)/zlib1/trees.o ../obj/$(BUILDNICK)/zlib1/zutil.o
+### START OF cd_zlib ###
+CF_cd_zlib   = -c  -Wall -O2 -Izlib   
+LF_cd_zlib   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32
+SLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.a
+DLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.dll.a
+ILIB_cd_zlib = ../lib/$(BUILDNICK)/zlib1_alien_.dll
+OBJS_cd_zlib = ../obj/$(BUILDNICK)/cd_zlib/adler32.o ../obj/$(BUILDNICK)/cd_zlib/crc32.o ../obj/$(BUILDNICK)/cd_zlib/inffast.o ../obj/$(BUILDNICK)/cd_zlib/inftrees.o ../obj/$(BUILDNICK)/cd_zlib/uncompr.o ../obj/$(BUILDNICK)/cd_zlib/gzclose.o ../obj/$(BUILDNICK)/cd_zlib/gzlib.o ../obj/$(BUILDNICK)/cd_zlib/gzread.o ../obj/$(BUILDNICK)/cd_zlib/gzwrite.o ../obj/$(BUILDNICK)/cd_zlib/compress.o ../obj/$(BUILDNICK)/cd_zlib/deflate.o ../obj/$(BUILDNICK)/cd_zlib/infback.o ../obj/$(BUILDNICK)/cd_zlib/inflate.o ../obj/$(BUILDNICK)/cd_zlib/trees.o ../obj/$(BUILDNICK)/cd_zlib/zutil.o
 
-../obj/$(BUILDNICK)/zlib1/adler32.o : ./zlib/adler32.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/crc32.o : ./zlib/crc32.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/inffast.o : ./zlib/inffast.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/inftrees.o : ./zlib/inftrees.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/uncompr.o : ./zlib/uncompr.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/gzclose.o : ./zlib/gzclose.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/gzlib.o : ./zlib/gzlib.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/gzread.o : ./zlib/gzread.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/gzwrite.o : ./zlib/gzwrite.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/compress.o : ./zlib/compress.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/deflate.o : ./zlib/deflate.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/infback.o : ./zlib/infback.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/inflate.o : ./zlib/inflate.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/trees.o : ./zlib/trees.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
-../obj/$(BUILDNICK)/zlib1/zutil.o : ./zlib/zutil.c ; gcc $(CF_ALL) $(CF_zlib1) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/adler32.o : ./zlib/adler32.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/crc32.o : ./zlib/crc32.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/inffast.o : ./zlib/inffast.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/inftrees.o : ./zlib/inftrees.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/uncompr.o : ./zlib/uncompr.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/gzclose.o : ./zlib/gzclose.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/gzlib.o : ./zlib/gzlib.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/gzread.o : ./zlib/gzread.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/gzwrite.o : ./zlib/gzwrite.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/compress.o : ./zlib/compress.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/deflate.o : ./zlib/deflate.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/infback.o : ./zlib/infback.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/inflate.o : ./zlib/inflate.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/trees.o : ./zlib/trees.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
+../obj/$(BUILDNICK)/cd_zlib/zutil.o : ./zlib/zutil.c ; gcc $(CF_ALL) $(CF_cd_zlib) $^ -o $@
 
-$(SLIB_zlib1): $(OBJS_zlib1)
+$(SLIB_cd_zlib): $(OBJS_cd_zlib)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(ILIB_zlib1) $(DLIB_zlib1) : $(OBJS_zlib1)
-	g++ -s -shared -o $(ILIB_zlib1) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_zlib1) $(LF_zlib1) $(LF_ALL)
-	-strip $(ILIB_zlib1)
+$(ILIB_cd_zlib) $(DLIB_cd_zlib) : $(OBJS_cd_zlib)
+	g++ -s -shared -o $(ILIB_cd_zlib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_cd_zlib) $(LF_cd_zlib) $(LF_ALL)
+	-strip $(ILIB_cd_zlib)
 
-zlib1-static: build-dirs $(SLIB_zlib1)
-zlib1-dynamic: build-dirs $(ILIB_zlib1) $(DLIB_zlib1)
+cd_zlib-static: build-dirs $(SLIB_cd_zlib)
+cd_zlib-dynamic: build-dirs $(ILIB_cd_zlib) $(DLIB_cd_zlib)
 
 ### START OF cd_freetype ###
 CF_cd_freetype   = -c  -Wall -O2 -Ifreetype2 -Izlib   -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB

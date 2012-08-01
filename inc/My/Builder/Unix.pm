@@ -150,18 +150,18 @@ sub build_binaries {
   my @iuptargets;
   
   #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
-  #possible targets:  cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
+  #possible targets:  cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
   #possible targets:  iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupweb iuptuio
   
   if ($self->notes('is_devel_cvs_version')) {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
-    @cdtargets  = qw[cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_freetype cd];
+    @cdtargets  = qw[cd_zlib cd_freetype cd];
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
