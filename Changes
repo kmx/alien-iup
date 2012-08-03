@@ -1,6 +1,6 @@
 =head1 Revision history for Alien-IUP
 
-=head2 02/08/2012 - 0.400_3
+=head2 03/08/2012 - 0.400_4
 
 - IMPORTANT: switch to iup-3.6 (new iup_mglplot introduced)
 

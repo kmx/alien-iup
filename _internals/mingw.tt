@@ -40,8 +40,8 @@ all: all-static all-dynamic
 
 [% FOREACH t IN targets %]
 ### START OF [% t.NAME %] ###
-CF_[% t.NAME %]   = [% t.CF %]
-LF_[% t.NAME %]   = [% t.LF %]
+CF_[% t.NAME %]   = [% t.CF %] $(CF_[% t.NAME %]_EXTRA)
+LF_[% t.NAME %]   = [% t.LF %] $(LF_[% t.NAME %]_EXTRA)
 SLIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/lib[% t.LNAME %].a
 DLIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/lib[% t.LNAME %].dll.a
 ILIB_[% t.NAME %] = [% global.LIB_PRE %]/$(BUILDNICK)/[% t.LNAME %]_alien_.dll
