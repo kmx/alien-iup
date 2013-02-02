@@ -1,5 +1,5 @@
 IMPORTANT:
-- iup_mglplot does not build via MSVC compiler
+- iup_mglplot does not build via MSVC compiler (disabled for now)
 
 IDEA:
 - add 'provide: Alien::IUP::ConfigData' to Build.PL
