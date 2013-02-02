@@ -34,7 +34,10 @@ sub build_binaries {
   }
   
   #iup_mglplot will not compile with too old cygwin (approx. detection via gcc version)
-  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets if $Config{gccversion} =~ /^3\./;
+  if ($Config{gccversion} =~ /^3\./) {
+    warn "###WARN### disabling iup_mglplot (fails to compile with gcc3\n";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+  }
 
   #make options
   my @makeopts   = qw[USE_NODEPEND=Yes];

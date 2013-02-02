@@ -102,18 +102,19 @@ else {
   $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
 
   # set what tarballs we are gonna use
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.6_Sources.tar.gz');
-  $builder->notes('iup_sha1', '28b3e5659b2247861df13eecc9dee88485aef80e');
-  #$builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-snwprintf.diff patches/iup-vc6.diff! ] );
-  $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-snwprintf.diff! ] );
+  #$builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.7_Sources.tar.gz');
+  #$builder->notes('iup_sha1', '7c6d8a9d5b8f5294ccafeec33a4ee16167a9282e');
+  $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-3.7_Sources_small.tar.gz');
+  $builder->notes('iup_sha1', 'f85aa5a0e30bf37fee7fbae012fce9156bb8ad18');
+  $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-cygwin-ole.diff! ] );
 
-  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8_Sources.tar.gz');
-  $builder->notes('im_sha1', 'f2821848c5a6febb037af354e2e1e099fe64a68a');
-  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-zlib.diff patches/im-vc6.diff patches/im-solaris.diff! ] );
+  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.1_Sources.tar.gz');
+  $builder->notes('im_sha1', '7e7dcdf0760e75a866d5a4d1176de2ce29274f51');
+  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-vc6.diff! ] );
 
-  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.5.1_Sources.tar.gz');
-  $builder->notes('cd_sha1', 'cb1105fe0daade327c79221150f730e392c741e5');
-  $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff patches/cd-zlib.diff! ] );
+  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.6_Sources.tar.gz');
+  $builder->notes('cd_sha1', '094dd657e45b3593102cfb41a33b3b91fd1ea46f');
+  $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 
 # check if we have GNU make otherwise 'exit 0' - cpan testers will report "N/A"

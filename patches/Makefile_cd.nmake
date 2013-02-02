@@ -186,7 +186,7 @@ LF_cd   = -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi
 SLIB_cd = ../lib/$(BUILDNICK)/cd.lib
 DLIB_cd = ../lib/$(BUILDNICK)/libcd.dll.a
 ILIB_cd = ../lib/$(BUILDNICK)/cd_alien_.dll
-OBJS_cd = ../obj/$(BUILDNICK)/cd/cd.obj ../obj/$(BUILDNICK)/cd/wd.obj ../obj/$(BUILDNICK)/cd/wdhdcpy.obj ../obj/$(BUILDNICK)/cd/rgb2map.obj ../obj/$(BUILDNICK)/cd/cd_vectortext.obj ../obj/$(BUILDNICK)/cd/cd_active.obj ../obj/$(BUILDNICK)/cd/cd_attributes.obj ../obj/$(BUILDNICK)/cd/cd_bitmap.obj ../obj/$(BUILDNICK)/cd/cd_image.obj ../obj/$(BUILDNICK)/cd/cd_primitives.obj ../obj/$(BUILDNICK)/cd/cd_text.obj ../obj/$(BUILDNICK)/cd/cd_util.obj ../obj/$(BUILDNICK)/cd/base64.obj ../obj/$(BUILDNICK)/cd/lodepng.obj ../obj/$(BUILDNICK)/cd/cdsvg.obj ../obj/$(BUILDNICK)/cd/circle.obj ../obj/$(BUILDNICK)/cd/ellipse.obj ../obj/$(BUILDNICK)/cd/intcgm1.obj ../obj/$(BUILDNICK)/cd/intcgm2.obj ../obj/$(BUILDNICK)/cd/intcgm4.obj ../obj/$(BUILDNICK)/cd/intcgm6.obj ../obj/$(BUILDNICK)/cd/list.obj ../obj/$(BUILDNICK)/cd/sism.obj ../obj/$(BUILDNICK)/cd/tparse.obj ../obj/$(BUILDNICK)/cd/bparse.obj ../obj/$(BUILDNICK)/cd/cddgn.obj ../obj/$(BUILDNICK)/cd/cdcgm.obj ../obj/$(BUILDNICK)/cd/cgm.obj ../obj/$(BUILDNICK)/cd/cddxf.obj ../obj/$(BUILDNICK)/cd/cdirgb.obj ../obj/$(BUILDNICK)/cd/cdmf.obj ../obj/$(BUILDNICK)/cd/cdps.obj ../obj/$(BUILDNICK)/cd/cdpicture.obj ../obj/$(BUILDNICK)/cd/cddebug.obj ../obj/$(BUILDNICK)/cd/cdfontex.obj ../obj/$(BUILDNICK)/cd/sim.obj ../obj/$(BUILDNICK)/cd/cd_truetype.obj ../obj/$(BUILDNICK)/cd/sim_primitives.obj ../obj/$(BUILDNICK)/cd/sim_text.obj ../obj/$(BUILDNICK)/cd/sim_linepolyfill.obj ../obj/$(BUILDNICK)/cd/cdwclp.obj ../obj/$(BUILDNICK)/cd/cdwemf.obj ../obj/$(BUILDNICK)/cd/cdwimg.obj ../obj/$(BUILDNICK)/cd/cdwin.obj ../obj/$(BUILDNICK)/cd/cdwnative.obj ../obj/$(BUILDNICK)/cd/cdwprn.obj ../obj/$(BUILDNICK)/cd/cdwwmf.obj ../obj/$(BUILDNICK)/cd/wmf_emf.obj ../obj/$(BUILDNICK)/cd/cdwdbuf.obj ../obj/$(BUILDNICK)/cd/cdwdib.obj
+OBJS_cd = ../obj/$(BUILDNICK)/cd/cd.obj ../obj/$(BUILDNICK)/cd/wd.obj ../obj/$(BUILDNICK)/cd/wdhdcpy.obj ../obj/$(BUILDNICK)/cd/rgb2map.obj ../obj/$(BUILDNICK)/cd/cd_vectortext.obj ../obj/$(BUILDNICK)/cd/cd_active.obj ../obj/$(BUILDNICK)/cd/cd_attributes.obj ../obj/$(BUILDNICK)/cd/cd_bitmap.obj ../obj/$(BUILDNICK)/cd/cd_image.obj ../obj/$(BUILDNICK)/cd/cd_primitives.obj ../obj/$(BUILDNICK)/cd/cd_text.obj ../obj/$(BUILDNICK)/cd/cd_util.obj ../obj/$(BUILDNICK)/cd/base64.obj ../obj/$(BUILDNICK)/cd/lodepng.obj ../obj/$(BUILDNICK)/cd/cdsvg.obj ../obj/$(BUILDNICK)/cd/cd_intcgm.obj ../obj/$(BUILDNICK)/cd/cgm_bin_get.obj ../obj/$(BUILDNICK)/cd/cgm_bin_parse.obj ../obj/$(BUILDNICK)/cd/cgm_list.obj ../obj/$(BUILDNICK)/cd/cgm_play.obj ../obj/$(BUILDNICK)/cd/cgm_sism.obj ../obj/$(BUILDNICK)/cd/cgm_txt_get.obj ../obj/$(BUILDNICK)/cd/cgm_txt_parse.obj ../obj/$(BUILDNICK)/cd/cddgn.obj ../obj/$(BUILDNICK)/cd/cdcgm.obj ../obj/$(BUILDNICK)/cd/cgm.obj ../obj/$(BUILDNICK)/cd/cddxf.obj ../obj/$(BUILDNICK)/cd/cdirgb.obj ../obj/$(BUILDNICK)/cd/cdmf.obj ../obj/$(BUILDNICK)/cd/cdps.obj ../obj/$(BUILDNICK)/cd/cdpicture.obj ../obj/$(BUILDNICK)/cd/cddebug.obj ../obj/$(BUILDNICK)/cd/cdfontex.obj ../obj/$(BUILDNICK)/cd/sim.obj ../obj/$(BUILDNICK)/cd/cd_truetype.obj ../obj/$(BUILDNICK)/cd/sim_primitives.obj ../obj/$(BUILDNICK)/cd/sim_text.obj ../obj/$(BUILDNICK)/cd/sim_linepolyfill.obj ../obj/$(BUILDNICK)/cd/cdwclp.obj ../obj/$(BUILDNICK)/cd/cdwemf.obj ../obj/$(BUILDNICK)/cd/cdwimg.obj ../obj/$(BUILDNICK)/cd/cdwin.obj ../obj/$(BUILDNICK)/cd/cdwnative.obj ../obj/$(BUILDNICK)/cd/cdwprn.obj ../obj/$(BUILDNICK)/cd/cdwwmf.obj ../obj/$(BUILDNICK)/cd/wmf_emf.obj ../obj/$(BUILDNICK)/cd/cdwdbuf.obj ../obj/$(BUILDNICK)/cd/cdwdib.obj
 
 ../obj/$(BUILDNICK)/cd/cd.obj : ./cd.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/wd.obj : ./wd.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
@@ -203,16 +203,14 @@ OBJS_cd = ../obj/$(BUILDNICK)/cd/cd.obj ../obj/$(BUILDNICK)/cd/wd.obj ../obj/$(B
 ../obj/$(BUILDNICK)/cd/base64.obj : ./svg/base64.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/lodepng.obj : ./svg/lodepng.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/cdsvg.obj : ./svg/cdsvg.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/circle.obj : ./intcgm/circle.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/ellipse.obj : ./intcgm/ellipse.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/intcgm1.obj : ./intcgm/intcgm1.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/intcgm2.obj : ./intcgm/intcgm2.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/intcgm4.obj : ./intcgm/intcgm4.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/intcgm6.obj : ./intcgm/intcgm6.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/list.obj : ./intcgm/list.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/sism.obj : ./intcgm/sism.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/tparse.obj : ./intcgm/tparse.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
-../obj/$(BUILDNICK)/cd/bparse.obj : ./intcgm/bparse.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cd_intcgm.obj : ./intcgm/cd_intcgm.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_bin_get.obj : ./intcgm/cgm_bin_get.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_bin_parse.obj : ./intcgm/cgm_bin_parse.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_list.obj : ./intcgm/cgm_list.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_play.obj : ./intcgm/cgm_play.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_sism.obj : ./intcgm/cgm_sism.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_txt_get.obj : ./intcgm/cgm_txt_get.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
+../obj/$(BUILDNICK)/cd/cgm_txt_parse.obj : ./intcgm/cgm_txt_parse.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/cddgn.obj : ./drv/cddgn.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/cdcgm.obj : ./drv/cdcgm.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
 ../obj/$(BUILDNICK)/cd/cgm.obj : ./drv/cgm.c ; cl $(CF_ALL) $(CF_cd) /Fo$@ $**
