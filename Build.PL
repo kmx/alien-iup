@@ -106,7 +106,7 @@ else {
   #$builder->notes('iup_sha1', '7c6d8a9d5b8f5294ccafeec33a4ee16167a9282e');
   $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-3.7_Sources_small.tar.gz');
   $builder->notes('iup_sha1', 'f85aa5a0e30bf37fee7fbae012fce9156bb8ad18');
-  $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-cygwin-ole.diff! ] );
+  $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff patches/iup-cygwin-ole.diff patches/iup-isfinite.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.1_Sources.tar.gz');
   $builder->notes('im_sha1', '7e7dcdf0760e75a866d5a4d1176de2ce29274f51');

@@ -42,7 +42,16 @@ sub build_binaries {
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   
   #xxx TODO not able to compile iup_mglplot by MSVC - maybe makefile needs a fix
-  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets if $Config{make} =~ /nmake/ && $Config{cc} =~ /cl/;
+  if ($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) {
+    warn "###WARN### skipping iup_mglplot on MSVC (makefile needs a fix)";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+  }
+  
+  # old gcc fails to compile iup_mglplot
+  if ($Config{gccversion} =~ /^3\./ && $Config{cc} =~ /gcc/) {
+    warn "###WARN### skipping iup_mglplot on GCC 3.x (fails to compile)";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+  }
 
   #store debug info into ConfigData
   $self->config_data('info_imtargets', \@imtargets);

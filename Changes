@@ -1,7 +1,11 @@
 =head1 Revision history for Alien-IUP
 
-=head2 02/02/2013 - 0.500_1
+=head2 04/02/2013 - 0.500_2
 
+ - skipping iup_mglplot on MSWin32+gcc3
+   http://www.cpantesters.org/cpan/report/51d1df34-7637-1014-9907-a394d871b27e
+ - patch/hack: iup_mglplot + solaris 5.11/11.0 + gcc-4.5.2 
+   http://www.cpantesters.org/cpan/report/187c47b6-6db2-11e2-8782-3cee870e5ae2
  - IMPORTANT: switch to iup-3.7+im-3.8.1+cd-5.6
 
 =head2 31/12/2012 - 0.401
