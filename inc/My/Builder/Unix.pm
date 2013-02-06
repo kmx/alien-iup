@@ -165,12 +165,16 @@ sub build_binaries {
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
-    #  @imtargets = grep { $_ !~ /^(im_process)$/ } @imtargets;
+    #  @imtargets = grep { $_ !~ /^im_process$/ } @imtargets;
     #}
     #if ($^O eq 'solaris') {
     #  warn "###WARN### skipping iuptuio on Solaris";
-    #  @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;
+    #  @iuptargets = grep { $_ !~ /^iuptuio$/ } @iuptargets;
     #}
+    if ($^O eq 'solaris') {
+      warn "###WARN### skipping iup_mglplot on Solaris (fails to compile)";
+      @iuptargets = grep { $_ !~ /^iup_mglplot$/ } @iuptargets;
+    }
   }
 
   @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};

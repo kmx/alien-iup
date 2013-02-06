@@ -1,5 +1,9 @@
 IMPORTANT:
 - iup_mglplot does not build via MSVC compiler (disabled for now)
+- http://www.cpantesters.org/cpan/report/d90b1264-5b97-11e2-9d08-6279ef1db04b
+- http://www.cpantesters.org/cpan/report/14f513a2-5435-11e2-90a4-689a836e7670
+- http://www.cpantesters.org/cpan/report/4ec1982c-5407-11e2-ad58-51a0836e7670
+- http://www.cpantesters.org/cpan/report/9c120fab-6e58-1014-9ee5-56fa168fd208 gcc3.4.5 / win32
 
 IDEA:
 - add 'provide: Alien::IUP::ConfigData' to Build.PL
