@@ -1,26 +1,12 @@
 IMPORTANT:
-- iup_mglplot does not build via MSVC compiler (disabled for now)
-- http://www.cpantesters.org/cpan/report/d90b1264-5b97-11e2-9d08-6279ef1db04b
-- http://www.cpantesters.org/cpan/report/14f513a2-5435-11e2-90a4-689a836e7670
-- http://www.cpantesters.org/cpan/report/4ec1982c-5407-11e2-ad58-51a0836e7670
-- http://www.cpantesters.org/cpan/report/9c120fab-6e58-1014-9ee5-56fa168fd208 gcc3.4.5 / win32
+- iup_mglplot does not build 
+  * via MSVC compiler (disabled for now)
+  * on Solaris (missing isfinite)
+  * via mingw gcc3.4.5
 
 IDEA:
 - add 'provide: Alien::IUP::ConfigData' to Build.PL
-
-CPAN TESTERS FAILURES
-- Solaris - gcc not found
-  http://www.cpantesters.org/cpan/report/e440bcc2-ba3c-11e0-bbec-9aeec8b7ec30
-- File::Find 1.14 warnings:
-  http://www.cpantesters.org/cpan/report/31039c2e-3c06-11e0-9518-41308a2f2f5b
-  Use of uninitialized value $Name in substr at /usr/share/perl/5.10/File/Find.pm line 519.
-  Use of uninitialized value $fn in string eq at /usr/share/perl/5.10/File/Find.pm line 442.
-  Use of uninitialized value $fn in substitution (s///) at /usr/share/perl/5.10/File/Find.pm line 446.
-  Use of uninitialized value $fn in concatenation (.) or string at /usr/share/perl/5.10/File/Find.pm line 448.
-  Use of uninitialized value $fn in substr at /usr/share/perl/5.10/File/Find.pm line 450.
-- error: JSON::PP 2.27103 is not available
-  http://www.cpantesters.org/cpan/report/44ebc228-3695-11e0-a8db-8151be137770
-  
+ 
 MEDIUM PRIORITY
 - mingw: consider renaming *.a libraries (cd_zlib/cd_freetype)
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
@@ -35,7 +21,6 @@ LOW PRIORITY
 - Makefile*.nmake - dynamic lib build not supported
 
 ERRORS TO BE REPORTED TO TECGRAF
-- IUP error: libiupmot.so: undefined reference to `XmScaleSetTicks' FreeBSD 7.2 / Cygwin 1.7
 - (reported) GTK, GTK_BASE not set correctly when using USE_PKGCONFIG=Yes
 - (reported) Dragonfly BSD: libjasper/jasper/jas_types.h:155 - 188 http://www.cpantesters.org/cpan/report/e2f01a0e-c8aa-11df-87cd-1c8c4afd17af
 - (reported) Dragonfly BSD: sizeof(FILE) not allowed - http://www.cpantesters.org/cpan/report/6b2b31dc-cc67-11df-87cd-1c8c4afd17af
