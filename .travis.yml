@@ -17,8 +17,8 @@ before_install:
   - dpkg -l
 
 install:
-  - PERL_MM_USE_DEFAULT=1 perl ./Build.PL
-  - PERL_MM_USE_DEFAULT=1 ./Build
+  - perl ./Build.PL
+  - ./Build
   - sudo ./Build install
 
 script:

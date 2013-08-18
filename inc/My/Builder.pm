@@ -63,7 +63,7 @@ sub ACTION_code {
 
       # prepare sources
       my $unpack;
-      $unpack = (-d "$build_src/iup") ? $self->prompt("\nDir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/iup") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/iup' exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         File::Path::rmtree("$build_src/iup") if -d "$build_src/iup";
         $self->prepare_sources($self->notes('iup_url'), $self->notes('iup_sha1'), $download, $build_src);
@@ -72,7 +72,7 @@ sub ACTION_code {
         }
       }
 
-      $unpack = (-d "$build_src/im") ? $self->prompt("\nDir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/im") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/im'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         File::Path::rmtree("$build_src/im") if -d "$build_src/im";
         $self->prepare_sources($self->notes('im_url'), $self->notes('im_sha1'), $download, $build_src);
@@ -81,7 +81,7 @@ sub ACTION_code {
         }
       }
 
-      $unpack = (-d "$build_src/cd") ? $self->prompt("\nDir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
+      $unpack = (-d "$build_src/cd") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/cd'  exists, wanna replace with clean sources?", "n") : 'y';
       if (lc($unpack) eq 'y') {
         File::Path::rmtree("$build_src/cd") if -d "$build_src/cd";
         $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
@@ -101,9 +101,11 @@ sub ACTION_code {
       }
 
       my $m = $self->notes('build_debug_info') ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
+      $m = 'n' if $ENV{TRAVIS};
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
       
       my $large_imglib = lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
+      $large_imglib = 'y' if $ENV{TRAVIS};
       $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # go for build

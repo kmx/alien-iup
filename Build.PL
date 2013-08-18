@@ -96,10 +96,11 @@ if (defined $cvs_src) { ### use the latest sources from iup repository
 }
 else {
   if ($builder->check_installed_lib()) {
-    my $ans = $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
-    $builder->notes('already_installed_lib', undef) unless (lc($ans) eq 'y');
+    my $ans = $ENV{TRAVIS} ? 'y' : $builder->prompt("\nIUP detected, wanna use IUP already installed on your system (y/n)?", 'y');
+    $builder->notes('already_installed_lib', undef) if lc($ans) ne 'y';
   }
-  $builder->notes('build_debug_info', lc($builder->prompt("\nWanna see more debug info during build (y/n)?", 'n')) eq 'y' ? 1 : 0);
+  my $ans = $ENV{TRAVIS} ? 'n' : $builder->prompt("\nWanna see more debug info during build (y/n)?", 'n');
+  $builder->notes('build_debug_info', lc($ans) eq 'y' ? 1 : 0);
 
   # set what tarballs we are gonna use
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.8_Sources.tar.gz');

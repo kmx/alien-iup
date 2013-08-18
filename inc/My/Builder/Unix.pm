@@ -219,7 +219,7 @@ sub build_binaries {
     my $msg = "\nYou have the following build options available:\n" .
               join("\n", map ($n++ . ") $_", @build_opts)) .
 	      "\nWhat do you wanna build?";
-    my $i = $self->prompt($msg, 1);
+    my $i = $ENV{TRAVIS} ? 1 : $self->prompt($msg, 1);
     $build_target = $build_opts[$i-1];
     die "###ERROR### Wrong selection!" unless $build_target;
   }
