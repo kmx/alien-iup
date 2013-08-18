@@ -53,8 +53,8 @@ sub flush_target {
   print STDERR "Flushing " . scalar(@curlist) . " " . scalar(@{$curlobjs}) . "\n";
   #print STDERR ">>> curtarget=$curtarget curlf=$curlf curmakefile=$curmakefile\n";
   if (scalar(@curlist) != scalar(@{$curlobjs})) {
-    warn "###ERROR### objcount mismatch ", scalar(@curlist), " vs. ", scalar(@{$curlobjs});
-    #die Dumper(\@curlist);
+    warn "###ERROR### objcount mismatch";
+#    die Dumper(\@curlist);
   }    
   my @keeplist = @curlist;
   my $cf = (keys %{$flags1{$curtarget}})[0];
@@ -159,9 +159,9 @@ while (<DAT>) {
     $item->{OBJMS} = $o . "bj"; #extension .obj
     push( @curlist, $item);
   }
-#  elsif (/^g/) {
-#    warn "LINE:$_";
-#  }
+  elsif (/^g/ && !/^gdiplus/) {
+    warn "LINE:$_";
+  }
   elsif (/^ar (.*)$/) {
   }
 }

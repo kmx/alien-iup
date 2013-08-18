@@ -40,12 +40,12 @@ all: all-static all-dynamic
 
 
 ### START OF iup ###
-CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x0501 -DWINVER=0x0501 -DNOTREEVIEW -DIUP_DLL $(CF_iup_EXTRA)
-LF_iup   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iup_EXTRA)
+CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x600 -DWINVER=0x0501 -DNOTREEVIEW -DIUP_DLL $(CF_iup_EXTRA)
+LF_iup   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iup_EXTRA)
 SLIB_iup = ./lib/$(BUILDNICK)/libiup.a
 DLIB_iup = ./lib/$(BUILDNICK)/libiup.dll.a
 ILIB_iup = ./lib/$(BUILDNICK)/iup_alien_.dll
-OBJS_iup = ./obj/$(BUILDNICK)/iup/iup_array.o ./obj/$(BUILDNICK)/iup/iup_callback.o ./obj/$(BUILDNICK)/iup/iup_dlglist.o ./obj/$(BUILDNICK)/iup/iup_attrib.o ./obj/$(BUILDNICK)/iup/iup_focus.o ./obj/$(BUILDNICK)/iup/iup_font.o ./obj/$(BUILDNICK)/iup/iup_globalattrib.o ./obj/$(BUILDNICK)/iup/iup_object.o ./obj/$(BUILDNICK)/iup/iup_key.o ./obj/$(BUILDNICK)/iup/iup_layout.o ./obj/$(BUILDNICK)/iup/iup_ledlex.o ./obj/$(BUILDNICK)/iup/iup_names.o ./obj/$(BUILDNICK)/iup/iup_open.o ./obj/$(BUILDNICK)/iup/iup_ledparse.o ./obj/$(BUILDNICK)/iup/iup_predialogs.o ./obj/$(BUILDNICK)/iup/iup_register.o ./obj/$(BUILDNICK)/iup/iup_scanf.o ./obj/$(BUILDNICK)/iup/iup_show.o ./obj/$(BUILDNICK)/iup/iup_str.o ./obj/$(BUILDNICK)/iup/iup_table.o ./obj/$(BUILDNICK)/iup/iup_func.o ./obj/$(BUILDNICK)/iup/iup_childtree.o ./obj/$(BUILDNICK)/iup/iup.o ./obj/$(BUILDNICK)/iup/iup_classattrib.o ./obj/$(BUILDNICK)/iup/iup_dialog.o ./obj/$(BUILDNICK)/iup/iup_assert.o ./obj/$(BUILDNICK)/iup/iup_canvas.o ./obj/$(BUILDNICK)/iup/iup_messagedlg.o ./obj/$(BUILDNICK)/iup/iup_timer.o ./obj/$(BUILDNICK)/iup/iup_image.o ./obj/$(BUILDNICK)/iup/iup_label.o ./obj/$(BUILDNICK)/iup/iup_fill.o ./obj/$(BUILDNICK)/iup/iup_zbox.o ./obj/$(BUILDNICK)/iup/iup_colordlg.o ./obj/$(BUILDNICK)/iup/iup_fontdlg.o ./obj/$(BUILDNICK)/iup/iup_filedlg.o ./obj/$(BUILDNICK)/iup/iup_strmessage.o ./obj/$(BUILDNICK)/iup/iup_menu.o ./obj/$(BUILDNICK)/iup/iup_frame.o ./obj/$(BUILDNICK)/iup/iup_user.o ./obj/$(BUILDNICK)/iup/iup_button.o ./obj/$(BUILDNICK)/iup/iup_radio.o ./obj/$(BUILDNICK)/iup/iup_toggle.o ./obj/$(BUILDNICK)/iup/iup_progressbar.o ./obj/$(BUILDNICK)/iup/iup_text.o ./obj/$(BUILDNICK)/iup/iup_val.o ./obj/$(BUILDNICK)/iup/iup_box.o ./obj/$(BUILDNICK)/iup/iup_hbox.o ./obj/$(BUILDNICK)/iup/iup_vbox.o ./obj/$(BUILDNICK)/iup/iup_cbox.o ./obj/$(BUILDNICK)/iup/iup_class.o ./obj/$(BUILDNICK)/iup/iup_classbase.o ./obj/$(BUILDNICK)/iup/iup_maskmatch.o ./obj/$(BUILDNICK)/iup/iup_mask.o ./obj/$(BUILDNICK)/iup/iup_maskparse.o ./obj/$(BUILDNICK)/iup/iup_tabs.o ./obj/$(BUILDNICK)/iup/iup_spin.o ./obj/$(BUILDNICK)/iup/iup_list.o ./obj/$(BUILDNICK)/iup/iup_getparam.o ./obj/$(BUILDNICK)/iup/iup_sbox.o ./obj/$(BUILDNICK)/iup/iup_scrollbox.o ./obj/$(BUILDNICK)/iup/iup_normalizer.o ./obj/$(BUILDNICK)/iup/iup_tree.o ./obj/$(BUILDNICK)/iup/iup_split.o ./obj/$(BUILDNICK)/iup/iup_layoutdlg.o ./obj/$(BUILDNICK)/iup/iup_recplay.o ./obj/$(BUILDNICK)/iup/iupwin_common.o ./obj/$(BUILDNICK)/iup/iupwin_brush.o ./obj/$(BUILDNICK)/iup/iupwin_focus.o ./obj/$(BUILDNICK)/iup/iupwin_font.o ./obj/$(BUILDNICK)/iup/iupwin_globalattrib.o ./obj/$(BUILDNICK)/iup/iupwin_handle.o ./obj/$(BUILDNICK)/iup/iupwin_key.o ./obj/$(BUILDNICK)/iup/iupwin_loop.o ./obj/$(BUILDNICK)/iup/iupwin_open.o ./obj/$(BUILDNICK)/iup/iupwin_tips.o ./obj/$(BUILDNICK)/iup/iupwin_info.o ./obj/$(BUILDNICK)/iup/iupwin_dialog.o ./obj/$(BUILDNICK)/iup/iupwin_messagedlg.o ./obj/$(BUILDNICK)/iup/iupwin_timer.o ./obj/$(BUILDNICK)/iup/iupwin_image.o ./obj/$(BUILDNICK)/iup/iupwin_label.o ./obj/$(BUILDNICK)/iup/iupwin_canvas.o ./obj/$(BUILDNICK)/iup/iupwin_frame.o ./obj/$(BUILDNICK)/iup/iupwin_colordlg.o ./obj/$(BUILDNICK)/iup/iupwin_fontdlg.o ./obj/$(BUILDNICK)/iup/iupwin_filedlg.o ./obj/$(BUILDNICK)/iup/iupwin_dragdrop.o ./obj/$(BUILDNICK)/iup/iupwin_button.o ./obj/$(BUILDNICK)/iup/iupwin_draw.o ./obj/$(BUILDNICK)/iup/iupwin_toggle.o ./obj/$(BUILDNICK)/iup/iupwin_clipboard.o ./obj/$(BUILDNICK)/iup/iupwin_progressbar.o ./obj/$(BUILDNICK)/iup/iupwin_text.o ./obj/$(BUILDNICK)/iup/iupwin_val.o ./obj/$(BUILDNICK)/iup/iupwin_touch.o ./obj/$(BUILDNICK)/iup/iupwin_tabs.o ./obj/$(BUILDNICK)/iup/iupwin_menu.o ./obj/$(BUILDNICK)/iup/iupwin_list.o ./obj/$(BUILDNICK)/iup/iupwin_tree.o ./obj/$(BUILDNICK)/iup/iupwindows_main.o ./obj/$(BUILDNICK)/iup/iupwindows_help.o ./obj/$(BUILDNICK)/iup/iupwindows_info.o
+OBJS_iup = ./obj/$(BUILDNICK)/iup/iup_array.o ./obj/$(BUILDNICK)/iup/iup_callback.o ./obj/$(BUILDNICK)/iup/iup_dlglist.o ./obj/$(BUILDNICK)/iup/iup_attrib.o ./obj/$(BUILDNICK)/iup/iup_focus.o ./obj/$(BUILDNICK)/iup/iup_font.o ./obj/$(BUILDNICK)/iup/iup_expander.o ./obj/$(BUILDNICK)/iup/iup_globalattrib.o ./obj/$(BUILDNICK)/iup/iup_object.o ./obj/$(BUILDNICK)/iup/iup_key.o ./obj/$(BUILDNICK)/iup/iup_layout.o ./obj/$(BUILDNICK)/iup/iup_ledlex.o ./obj/$(BUILDNICK)/iup/iup_names.o ./obj/$(BUILDNICK)/iup/iup_open.o ./obj/$(BUILDNICK)/iup/iup_ledparse.o ./obj/$(BUILDNICK)/iup/iup_predialogs.o ./obj/$(BUILDNICK)/iup/iup_register.o ./obj/$(BUILDNICK)/iup/iup_scanf.o ./obj/$(BUILDNICK)/iup/iup_show.o ./obj/$(BUILDNICK)/iup/iup_str.o ./obj/$(BUILDNICK)/iup/iup_table.o ./obj/$(BUILDNICK)/iup/iup_func.o ./obj/$(BUILDNICK)/iup/iup_childtree.o ./obj/$(BUILDNICK)/iup/iup.o ./obj/$(BUILDNICK)/iup/iup_classattrib.o ./obj/$(BUILDNICK)/iup/iup_dialog.o ./obj/$(BUILDNICK)/iup/iup_assert.o ./obj/$(BUILDNICK)/iup/iup_canvas.o ./obj/$(BUILDNICK)/iup/iup_messagedlg.o ./obj/$(BUILDNICK)/iup/iup_timer.o ./obj/$(BUILDNICK)/iup/iup_image.o ./obj/$(BUILDNICK)/iup/iup_label.o ./obj/$(BUILDNICK)/iup/iup_fill.o ./obj/$(BUILDNICK)/iup/iup_zbox.o ./obj/$(BUILDNICK)/iup/iup_gridbox.o ./obj/$(BUILDNICK)/iup/iup_colordlg.o ./obj/$(BUILDNICK)/iup/iup_fontdlg.o ./obj/$(BUILDNICK)/iup/iup_filedlg.o ./obj/$(BUILDNICK)/iup/iup_strmessage.o ./obj/$(BUILDNICK)/iup/iup_menu.o ./obj/$(BUILDNICK)/iup/iup_frame.o ./obj/$(BUILDNICK)/iup/iup_user.o ./obj/$(BUILDNICK)/iup/iup_button.o ./obj/$(BUILDNICK)/iup/iup_radio.o ./obj/$(BUILDNICK)/iup/iup_toggle.o ./obj/$(BUILDNICK)/iup/iup_progressbar.o ./obj/$(BUILDNICK)/iup/iup_text.o ./obj/$(BUILDNICK)/iup/iup_val.o ./obj/$(BUILDNICK)/iup/iup_box.o ./obj/$(BUILDNICK)/iup/iup_hbox.o ./obj/$(BUILDNICK)/iup/iup_vbox.o ./obj/$(BUILDNICK)/iup/iup_cbox.o ./obj/$(BUILDNICK)/iup/iup_class.o ./obj/$(BUILDNICK)/iup/iup_classbase.o ./obj/$(BUILDNICK)/iup/iup_maskmatch.o ./obj/$(BUILDNICK)/iup/iup_mask.o ./obj/$(BUILDNICK)/iup/iup_maskparse.o ./obj/$(BUILDNICK)/iup/iup_tabs.o ./obj/$(BUILDNICK)/iup/iup_spin.o ./obj/$(BUILDNICK)/iup/iup_list.o ./obj/$(BUILDNICK)/iup/iup_getparam.o ./obj/$(BUILDNICK)/iup/iup_link.o ./obj/$(BUILDNICK)/iup/iup_sbox.o ./obj/$(BUILDNICK)/iup/iup_scrollbox.o ./obj/$(BUILDNICK)/iup/iup_normalizer.o ./obj/$(BUILDNICK)/iup/iup_tree.o ./obj/$(BUILDNICK)/iup/iup_split.o ./obj/$(BUILDNICK)/iup/iup_layoutdlg.o ./obj/$(BUILDNICK)/iup/iup_recplay.o ./obj/$(BUILDNICK)/iup/iupwin_common.o ./obj/$(BUILDNICK)/iup/iupwin_brush.o ./obj/$(BUILDNICK)/iup/iupwin_focus.o ./obj/$(BUILDNICK)/iup/iupwin_font.o ./obj/$(BUILDNICK)/iup/iupwin_globalattrib.o ./obj/$(BUILDNICK)/iup/iupwin_handle.o ./obj/$(BUILDNICK)/iup/iupwin_key.o ./obj/$(BUILDNICK)/iup/iupwin_loop.o ./obj/$(BUILDNICK)/iup/iupwin_open.o ./obj/$(BUILDNICK)/iup/iupwin_tips.o ./obj/$(BUILDNICK)/iup/iupwin_info.o ./obj/$(BUILDNICK)/iup/iupwin_dialog.o ./obj/$(BUILDNICK)/iup/iupwin_messagedlg.o ./obj/$(BUILDNICK)/iup/iupwin_timer.o ./obj/$(BUILDNICK)/iup/iupwin_image.o ./obj/$(BUILDNICK)/iup/iupwin_label.o ./obj/$(BUILDNICK)/iup/iupwin_canvas.o ./obj/$(BUILDNICK)/iup/iupwin_frame.o ./obj/$(BUILDNICK)/iup/iupwin_colordlg.o ./obj/$(BUILDNICK)/iup/iupwin_fontdlg.o ./obj/$(BUILDNICK)/iup/iupwin_filedlg.o ./obj/$(BUILDNICK)/iup/iupwin_dragdrop.o ./obj/$(BUILDNICK)/iup/iupwin_button.o ./obj/$(BUILDNICK)/iup/iupwin_draw.o ./obj/$(BUILDNICK)/iup/iupwin_toggle.o ./obj/$(BUILDNICK)/iup/iupwin_clipboard.o ./obj/$(BUILDNICK)/iup/iupwin_progressbar.o ./obj/$(BUILDNICK)/iup/iupwin_text.o ./obj/$(BUILDNICK)/iup/iupwin_val.o ./obj/$(BUILDNICK)/iup/iupwin_touch.o ./obj/$(BUILDNICK)/iup/iupwin_tabs.o ./obj/$(BUILDNICK)/iup/iupwin_menu.o ./obj/$(BUILDNICK)/iup/iupwin_list.o ./obj/$(BUILDNICK)/iup/iupwin_tree.o ./obj/$(BUILDNICK)/iup/iupwindows_main.o ./obj/$(BUILDNICK)/iup/iupwindows_help.o ./obj/$(BUILDNICK)/iup/iupwindows_info.o
 
 ./obj/$(BUILDNICK)/iup/iup_array.o : src/iup_array.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_callback.o : src/iup_callback.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
@@ -53,6 +53,7 @@ OBJS_iup = ./obj/$(BUILDNICK)/iup/iup_array.o ./obj/$(BUILDNICK)/iup/iup_callbac
 ./obj/$(BUILDNICK)/iup/iup_attrib.o : src/iup_attrib.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_focus.o : src/iup_focus.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_font.o : src/iup_font.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
+./obj/$(BUILDNICK)/iup/iup_expander.o : src/iup_expander.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_globalattrib.o : src/iup_globalattrib.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_object.o : src/iup_object.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_key.o : src/iup_key.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
@@ -80,6 +81,7 @@ OBJS_iup = ./obj/$(BUILDNICK)/iup/iup_array.o ./obj/$(BUILDNICK)/iup/iup_callbac
 ./obj/$(BUILDNICK)/iup/iup_label.o : src/iup_label.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_fill.o : src/iup_fill.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_zbox.o : src/iup_zbox.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
+./obj/$(BUILDNICK)/iup/iup_gridbox.o : src/iup_gridbox.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_colordlg.o : src/iup_colordlg.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_fontdlg.o : src/iup_fontdlg.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_filedlg.o : src/iup_filedlg.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
@@ -106,6 +108,7 @@ OBJS_iup = ./obj/$(BUILDNICK)/iup/iup_array.o ./obj/$(BUILDNICK)/iup/iup_callbac
 ./obj/$(BUILDNICK)/iup/iup_spin.o : src/iup_spin.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_list.o : src/iup_list.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_getparam.o : src/iup_getparam.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
+./obj/$(BUILDNICK)/iup/iup_link.o : src/iup_link.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_sbox.o : src/iup_sbox.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_scrollbox.o : src/iup_scrollbox.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
 ./obj/$(BUILDNICK)/iup/iup_normalizer.o : src/iup_normalizer.c ; gcc $(CF_ALL) $(CF_iup) $^ -o $@
@@ -163,7 +166,7 @@ iup-dynamic: build-dirs $(ILIB_iup) $(DLIB_iup)
 
 ### START OF iupcd ###
 CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE $(CF_iupcd_EXTRA)
-LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupcd_EXTRA)
+LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupcd_EXTRA)
 SLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.a
 DLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.dll.a
 ILIB_iupcd = ./lib/$(BUILDNICK)/iupcd_alien_.dll
@@ -183,7 +186,7 @@ iupcd-dynamic: build-dirs $(ILIB_iupcd) $(DLIB_iupcd)
 
 ### START OF iupcontrols ###
 CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include    $(CF_iupcontrols_EXTRA)
-LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupcontrols_EXTRA)
+LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupcontrols_EXTRA)
 SLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.a
 DLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.dll.a
 ILIB_iupcontrols = ./lib/$(BUILDNICK)/iupcontrols_alien_.dll
@@ -224,7 +227,7 @@ iupcontrols-dynamic: build-dirs $(ILIB_iupcontrols) $(DLIB_iupcontrols)
 
 ### START OF iup_pplot ###
 CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE $(CF_iup_pplot_EXTRA)
-LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iup_pplot_EXTRA)
+LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iup_pplot_EXTRA)
 SLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.a
 DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
 ILIB_iup_pplot = ./lib/$(BUILDNICK)/iup_pplot_alien_.dll
@@ -246,7 +249,7 @@ iup_pplot-dynamic: build-dirs $(ILIB_iup_pplot) $(DLIB_iup_pplot)
 
 ### START OF iup_mglplot ###
 CF_iup_mglplot   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmglplot -Isrcmglplot/ftgl -Isrcmglplot/freetype   -DFTGL_LIBRARY_STATIC -DNO_PNG -DNO_GSL $(CF_iup_mglplot_EXTRA)
-LF_iup_mglplot   = -liup -liupgl -lfreetype6 -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iup_mglplot_EXTRA)
+LF_iup_mglplot   = -liup -liupgl -lfreetype6 -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iup_mglplot_EXTRA)
 SLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.a
 DLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.dll.a
 ILIB_iup_mglplot = ./lib/$(BUILDNICK)/iup_mglplot_alien_.dll
@@ -308,7 +311,7 @@ iup_mglplot-dynamic: build-dirs $(ILIB_iup_mglplot) $(DLIB_iup_mglplot)
 
 ### START OF iupgl ###
 CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc    $(CF_iupgl_EXTRA)
-LF_iupgl   = -liup -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupgl_EXTRA)
+LF_iupgl   = -liup -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupgl_EXTRA)
 SLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.a
 DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
 ILIB_iupgl = ./lib/$(BUILDNICK)/iupgl_alien_.dll
@@ -328,7 +331,7 @@ iupgl-dynamic: build-dirs $(ILIB_iupgl) $(DLIB_iupgl)
 
 ### START OF iupim ###
 CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include    $(CF_iupim_EXTRA)
-LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupim_EXTRA)
+LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupim_EXTRA)
 SLIB_iupim = ./lib/$(BUILDNICK)/libiupim.a
 DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
 ILIB_iupim = ./lib/$(BUILDNICK)/iupim_alien_.dll
@@ -348,7 +351,7 @@ iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim)
 
 ### START OF iupimglib ###
 CF_iupimglib   = -c  -Wall -Iinclude -Isrc    $(CF_iupimglib_EXTRA)
-LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupimglib_EXTRA)
+LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupimglib_EXTRA)
 SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
 DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
 ILIB_iupimglib = ./lib/$(BUILDNICK)/iupimglib_alien_.dll
@@ -373,7 +376,7 @@ iupimglib-dynamic: build-dirs $(ILIB_iupimglib) $(DLIB_iupimglib)
 
 ### START OF iupole ###
 CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc    $(CF_iupole_EXTRA)
-LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iupole_EXTRA)
+LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iupole_EXTRA)
 SLIB_iupole = ./lib/$(BUILDNICK)/libiupole.a
 DLIB_iupole = ./lib/$(BUILDNICK)/libiupole.dll.a
 ILIB_iupole = ./lib/$(BUILDNICK)/iupole_alien_.dll
@@ -401,7 +404,7 @@ iupole-dynamic: build-dirs $(ILIB_iupole) $(DLIB_iupole)
 
 ### START OF iuptuio ###
 CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack   -DOSC_HOST_LITTLE_ENDIAN $(CF_iuptuio_EXTRA)
-LF_iuptuio   = -liup -lws2_32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 $(LF_iuptuio_EXTRA)
+LF_iuptuio   = -liup -lws2_32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_iuptuio_EXTRA)
 SLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.a
 DLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.dll.a
 ILIB_iuptuio = ./lib/$(BUILDNICK)/iuptuio_alien_.dll

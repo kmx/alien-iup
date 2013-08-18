@@ -5,11 +5,11 @@ NAME
 VERSION
     Version 0.501 of Alien::IUP is based on the following:
 
-    *   *iup* library 3.7 - see <http://www.tecgraf.puc-rio.br/iup/>
+    *   *iup* library 3.8 - see <http://www.tecgraf.puc-rio.br/iup/>
 
     *   *im* library 3.8.1 - see <http://www.tecgraf.puc-rio.br/im/>
 
-    *   *cd* library 5.6 - see <http://www.tecgraf.puc-rio.br/cd/>
+    *   *cd* library 5.6.1 - see <http://www.tecgraf.puc-rio.br/cd/>
 
 SYNOPSIS
     IMPORTANT: This module is not a perl binding for *iup + related*
