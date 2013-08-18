@@ -100,12 +100,10 @@ sub ACTION_code {
         }
       }
 
-      my $m = $self->notes('build_debug_info') ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
-      $m = 'n' if $ENV{TRAVIS};
+      my $m = $self->notes('build_debug_info') && !$ENV{TRAVIS} ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
       $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
       
-      my $large_imglib = lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
-      $large_imglib = 'y' if $ENV{TRAVIS};
+      my $large_imglib = $ENV{TRAVIS} ? 'y' : lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
       $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # go for build
