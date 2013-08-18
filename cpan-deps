@@ -1,0 +1,15 @@
+Archive::Extract
+Digest::SHA
+ExtUtils::CBuilder
+ExtUtils::Command
+ExtUtils::Liblist
+File::Find
+File::Path
+File::ShareDir
+File::Spec
+File::Temp
+IPC::Run3
+LWP::Simple
+Module::Build
+Test::More
+Text::Patch
