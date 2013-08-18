@@ -282,8 +282,8 @@ sub check_header {
   $cflags ||= '';
   my @header = ref($h) ? @$h : ( $h );
 
-  my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
-  my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
+  my ($fs, $src) = tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my ($fo, $obj) = tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
   my $inc = '';
   $inc .= "#include <$_>\n" foreach @header;
   syswrite($fs, <<MARKER); # write test source code
@@ -309,9 +309,9 @@ sub check_lib {
   my @libs = ref($l) ? @$l : ( $l );
   my $liblist = scalar(@libs) ? '-l' . join(' -l', @libs) : '';
 
-  my ($fs, $src) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
-  my ($fo, $obj) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
-  my ($fe, $exe) = File::Temp->tempfile('tmpfileXXXXXXaa', SUFFIX => '.out', UNLINK => 1);
+  my ($fs, $src) = tempfile('tmpfileXXXXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my ($fo, $obj) = tempfile('tmpfileXXXXXXaa', SUFFIX => '.o', UNLINK => 1);
+  my ($fe, $exe) = tempfile('tmpfileXXXXXXaa', SUFFIX => '.out', UNLINK => 1);
   syswrite($fs, <<MARKER); # write test source code
 int main() { return 0; }
 
