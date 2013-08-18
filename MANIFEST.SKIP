@@ -29,3 +29,5 @@ sharedir/.+/
 \.pdb$
 ^MYMETA.yml$
 ^MYMETA\.json$
+.travis.yml
+cpan-deps

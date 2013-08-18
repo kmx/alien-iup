@@ -262,10 +262,10 @@ sub build_binaries {
 ### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h
 ### 
 ### on Debian/Ubuntu you need to install: 
-###  $ aptitude install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev
+###  $ aptitude install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 ### 
 ### on RedHat/CentOS/Fedora you need to install: 
-###  $ yum install gtk2-devel cairo-devel libX11-devel libGLU-devel
+###  $ yum install gtk2-devel cairo-devel libX11-devel libGLU-devel freeglut-devel
 ###
 MARKER
     die;

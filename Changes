@@ -1,6 +1,10 @@
-=head1 Revision history for Alien-IUP
+Revision history for Alien-IUP
 
-=head2 04/02/2013 - 0.500_2
+04/02/2013 - 0.503
+ - IMPORTANT: switch to iup-3.8+im-3.8.1+cd-5.6.1
+ - tempfile related fix
+
+04/02/2013 - 0.501
 
  - skipping iup_mglplot on MSWin32+gcc3
    http://www.cpantesters.org/cpan/report/51d1df34-7637-1014-9907-a394d871b27e
@@ -8,131 +12,131 @@
    http://www.cpantesters.org/cpan/report/187c47b6-6db2-11e2-8782-3cee870e5ae2
  - IMPORTANT: switch to iup-3.7+im-3.8.1+cd-5.6
 
-=head2 31/12/2012 - 0.401
+31/12/2012 - 0.401
 
  - IMPORTANT: switch to iup-3.6 (new iup_mglplot introduced)
 
-=head2 20/08/2011 - 0.305
+20/08/2011 - 0.305
 
  - iup-imglib patch
  - cd patch (crutial - without this patch IUP module segfaults at some points)
 
-=head2 19/08/2011 - 0.304
+19/08/2011 - 0.304
 
  - cygwin patch (__argc + __argv related)
 
-=head2 08/08/2011 - 0.303
+08/08/2011 - 0.303
 
  - added support for -DIUP_IMGLIB_LARGE (now on Win32 only)
  - fixed http://www.cpantesters.org/cpan/report/889253e2-b5f8-11e0-8204-0f92f06c0dc8 (kFreeBSD failure)
  - better diagnostic messages
 
-=head2 22/07/2011 - 0.302
+22/07/2011 - 0.302
 
  - solaris workaround (ar, ranlib)
 
-=head2 12/05/2011 - 0.301
+12/05/2011 - 0.301
 
  - IMPORTANT: switch to iup-3.5
 
-=head2 05/04/2011 - 0.204
+05/04/2011 - 0.204
 
  - IMPORTANT: the last release with iup-3.4
  - back from Digest::file to Digest::SHA
 
-=head2 04/04/2011 - 0.203
+04/04/2011 - 0.203
 
  - fixed "missing download dir" issue
 
-=head2 03/04/2011 - 0.202
+03/04/2011 - 0.202
 
  - fixed http://www.cpantesters.org/cpan/report/61d37376-471c-11e0-b0ff-ff1c7a0d71a6 (File::Spec & devnull)
  - using LWP::Simple instead of File::Fetch for download
  - using Digest::file instead of Digest::SHA
 
-=head2 18/02/2011 - 0.201
+18/02/2011 - 0.201
 
  - IMPORTANT: the first stable release with iup-3.4
  - dev build: switch to iup-3.4 + updated im, cd
 
-=head2 10/02/2011 - 0.116
+10/02/2011 - 0.116
 
  - IMPORTANT: the last release with iup-3.3
  - Unix: if not enough libs found - show more debug info
 
-=head2 03/02/2011 - 0.115
+03/02/2011 - 0.115
 
  - Alien::IUP->havelib() introduced
  - preinstalled lib detection disabled (untill somebody will ask for it)
 
-=head2 27/01/2011 - 0.114
+27/01/2011 - 0.114
 
  - not building libs that are currently not used by IUP
  - less build messages by default
  - dev build: with the latest CVS sources
 
-=head2 05/01/2011 - 0.113
+05/01/2011 - 0.113
 
  - same as 0.112_01 + updated TODO
  - fixing -lstdc++ issue on non-gcc compilers
 
-=head2 30/12/2010 - 0.112
+30/12/2010 - 0.112
 
  - skipping iuptuio on solaris - http://www.cpantesters.org/cpan/report/c39d9264-0ae3-11e0-afb0-adca6bb533f3
  - skipping iuptuio on cygwin (not only gcc3)
 
-=head2 16/12/2010 - 0.111
+16/12/2010 - 0.111
 
  - GTK/GTK_BASE workaround fixing http://www.cpantesters.org/cpan/report/d67a6578-08aa-11e0-afb0-adca6bb533f3
 
-=head2 13/12/2010 - 0.110
+13/12/2010 - 0.110
 
  - iup-gtk-tabs.diff fixing http://www.cpantesters.org/cpan/report/b524182a-04c1-11e0-afb0-adca6bb533f3
  - fixing gtkprintunixdialog.h failure http://www.cpantesters.org/cpan/report/9629bbba-0655-11e0-9ee0-f20c722eace1
 
-=head2 12/12/2010 - 0.109
+12/12/2010 - 0.109
 
  - fixing im-INC-order.diff + cd-GTK_BASE.diff
 
-=head2 09/12/2010 - 0.108_01+0.108_02
+09/12/2010 - 0.108_01+0.108_02
 
  - dev build: with the latest CVS sources
 
-=head2 08/12/2010 - 0.108
+08/12/2010 - 0.108
 
  - info.t fix
 
-=head2 07/12/2010 - 0.107
+07/12/2010 - 0.107
 
  - iuptuio target added (Unix.pm)
  - more debug info saved to config_data
  - updated im-INC-order.diff
 
-=head2 02/12/2010 - 0.106
+02/12/2010 - 0.106
 
  - updated cd-GTK_BASE.diff
 
-=head2 02/12/2010 - 0.105
+02/12/2010 - 0.105
 
  - important fix: GTK2 + pkg-config
  - improved build target autoselection
 
-=head2 01/12/2010 - 0.104
+01/12/2010 - 0.104
 
  - updated iup-GTK_WIDGET.diff
 
-=head2 01/12/2010 - 0.103
+01/12/2010 - 0.103
 
  - Motif/X11 build fix
  - fix for http://www.cpantesters.org/cpan/report/ec6300d2-fb91-11df-a694-e2b03d723d5a
 
-=head2 01/12/2010 - 0.102
+01/12/2010 - 0.102
 
  - patches: cd-GTK_BASE.diff, iup-GTK_WIDGET.diff
  - linking lib order fixed
  - showing mod version in debug info
 
-=head2 23/11/2010 - 0.101
+23/11/2010 - 0.101
 
  - IMPORTANT: switch to IUP 3.3 (+ upgrade of other libs as well)
  - NetBSD ntohl() related patch (#include <sys/types.h>)
@@ -149,28 +153,28 @@
  - new checksum for updated iup-3.3_Sources.tar.gz
  - new builder for cygwin (separated from generic UNIX)
 
-=head2 14/11/2010 - 0.024
+14/11/2010 - 0.024
 
  - IMPORTANT: the last release with iup-3.2
  - die if no GUI lib detected
  - switching Changes fromat from plain text to POD
  - changing version numbering
 
-=head2 20/10/2010 - 0.0.23
+20/10/2010 - 0.0.23
 
  - create_build_script moved after GNU make check
 
-=head2 12/10/2010 - 0.0.22
+12/10/2010 - 0.0.22
 
  - fixed GNU make check exit code
 
-=head2 11/10/2010 - 0.0.21
+11/10/2010 - 0.0.21
 
  - GNU make check moved to Build.pl (now cpan testers should report "N/A)
  - more messages on sha1 check failure
  - small POD changes
 
-=head2 05/10/2010 - 0.0.20
+05/10/2010 - 0.0.20
 
  - more questions/prompts during build
  - cleaning up + cosmetics
@@ -181,89 +185,89 @@
  - DragonFly patch for libjasper/jasper/jas_types.h
  - create_makefile_pl => 'small' (creating Makefile.PL to satisfy old CPAN clients)
 
-=head2 28/09/2010 - 0.0.19
+28/09/2010 - 0.0.19
 
  - iup patch - fixing newlines in the main Makefile (troubles on solaris)
 
-=head2 24/09/2010 - 0.0.18
+24/09/2010 - 0.0.18
 
  - using File::Path legacy functions
  - fixed gtk2 - freetype2 collision (tecmake.mak)
 
-=head2 22/09/2010 - 0.0.17
+22/09/2010 - 0.0.17
 
  - fix for cygwin CPAN Tester failure
  - cleaning sharedir during install
 
-=head2 21/09/2010 - 0.0.16
+21/09/2010 - 0.0.16
 
  - using pkg-config in tecmake.mak
 
-=head2 17/09/2010 - 0.0.15
+17/09/2010 - 0.0.15
 
  - stdc++ fix (needed by Linux)
 
-=head2 16/09/2010 - 0.0.14
+16/09/2010 - 0.0.14
 
  - cygwin+Win64 fixes
  - removing testing pod
 
-=head2 15/09/2010 - 0.0.13
+15/09/2010 - 0.0.13
 
  - fixing liborder
  - if "No GUI lib" then defaulting to X11
  - another POD test
 
-=head2 25/08/2010 - 0.0.12
+25/08/2010 - 0.0.12
 
  - GTK vs. GTK_BASE fix
  - printing output of make commands only on failure
 
-=head2 23/08/2010 - 0.0.11
+23/08/2010 - 0.0.11
 
  - GTK_BASE detection fix
 
-=head2 18/08/2010 - 0.0.10
+18/08/2010 - 0.0.10
 
  - added MS Win build (gcc, msvc)
  - improved lib/inc dir detection (unix)
  - building static libs
  - using IPC::Run3 for launching external commands
 
-=head2 05/08/2010 - 0.0.9
+05/08/2010 - 0.0.9
 
  - FAIL ALWAYS debug version
  - fixed bug in setting GTK make param
  - more lib detection diagnostics
 
-=head2 04/08/2010 - 0.0.8
+04/08/2010 - 0.0.8
 
  - FAIL ALWAYS debug version
  - typo in opengl target selection
  - fixed return value from make command
  - improved debug diagnostic
 
-=head2 03/08/2010 - 0.0.7
+03/08/2010 - 0.0.7
 
  - running make via IPC::Run3 (cutting output to last 1000 chars)
 
-=head2 03/08/2010 - 0.0.5+0.0.6
+03/08/2010 - 0.0.5+0.0.6
 
  - another HTML in POD doc testing
 
-=head2 03/08/2010 - 0.0.4
+03/08/2010 - 0.0.4
 
  - tuning Linux/FreeBSD builds
  - HTML in POD doc testing
 
-=head2 02/08/2010 - 0.0.3
+02/08/2010 - 0.0.3
 
  - missing prereq Text::Patch (+ patching redesign)
  - better lib/header detection
  - build dies on make failure (to see cpan tester failure details)
  - keeping tecmake's sysinfo for debug purposes
 
-=head2 30/07/2010 - 0.0.2
+30/07/2010 - 0.0.2
 
  - First version, released on CPAN.
  - Without MS Win build support
