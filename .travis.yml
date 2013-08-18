@@ -9,7 +9,7 @@ perl:
 
 before_install:
 # install libs
-  - sudo apt-get install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev freeglut-dev
+  - sudo apt-get install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 
 # install deps
   - cat ./cpan-deps | cpanm --sudo --notest -v
