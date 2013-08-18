@@ -13,6 +13,7 @@ patches/im-dragonfly.diff
 patches/im-msvc-vsnprintf.diff
 patches/im-vc6.diff
 patches/iup-cygwin.diff
+patches/iup-mapvk_vk_to_char.diff
 patches/iup-vc6.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake

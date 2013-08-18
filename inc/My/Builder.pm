@@ -41,7 +41,10 @@ sub ACTION_code {
                                      INC    => $inst->{cflags},
                                    });
     }
-    else {
+    else {    
+      my $ans = $ENV{TRAVIS} ? 'n' : $self->prompt("\nWanna see more debug info during build (y/n)?", 'n');
+      $self->notes('build_debug_info', lc($ans) eq 'y' ? 1 : 0);
+
       # important directories
       my $download = 'download';
       my $patches = 'patches';
