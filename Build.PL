@@ -5,7 +5,7 @@ use Module::Build;
 
 use lib 'inc';
 
-my %platforms =(  
+my %platforms =(
   MSWin32   => 'Windows',
   cygwin    => 'Cygwin',
   linux     => 'Unix',
@@ -105,8 +105,6 @@ else {
   # set what tarballs we are gonna use
   $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.8_Sources.tar.gz');
   $builder->notes('iup_sha1', '663694e3817d3953543bd8d2fe7d9a9932582efa');
-  #$builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-3.7_Sources_small.tar.gz');
-  #$builder->notes('iup_sha1', 'f85aa5a0e30bf37fee7fbae012fce9156bb8ad18');
   $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.1_Sources.tar.gz');

@@ -31,3 +31,4 @@ sharedir/.+/
 ^MYMETA\.json$
 .travis.yml
 cpan-deps
+Alien-IUP-
