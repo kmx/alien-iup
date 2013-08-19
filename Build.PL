@@ -114,7 +114,7 @@ else {
   #$builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.6.1_Sources.tar.gz');
   #$builder->notes('cd_sha1', '3a10939a310cb9af0be5000a7e613a6308ef8e8c');
   $builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/iup/cd-cvs.tar.gz');
-  $builder->notes('cd_sha1', 'ae43e901d0b6f9168f5774a69b8d3e30191895a8');
+  $builder->notes('cd_sha1', 'cf68c4ae3e2f851edd22d5080043f7e257fe3c1f');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 
