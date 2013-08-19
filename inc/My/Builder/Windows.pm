@@ -15,6 +15,16 @@ sub build_binaries {
   my @imtargets;
   my @cdtargets;
   my @iuptargets;
+  
+  my ($v1, $v2) = ($Config{cc} =~ /gcc/ ? $Config{gccversion} : $Config{ccversion}) =~ /^(\d+)\.(\d+)/; # compiler version
+  #MSVC++ 11.0 _MSC_VER==1700 $v1.$v2==17.0  (Visual Studio 2012)
+  #MSVC++ 10.0 _MSC_VER==1600 $v1.$v2==16.0  (Visual Studio 2010)
+  #MSVC++ 9.0  _MSC_VER==1500 $v1.$v2==15.0  (Visual Studio 2008)
+  #MSVC++ 8.0  _MSC_VER==1400 $v1.$v2==14.0  (Visual Studio 2005)
+  #MSVC++ 7.1  _MSC_VER==1310 $v1.$v2==13.10 (Visual Studio 2003)
+  #MSVC++ 7.0  _MSC_VER==1300 $v1.$v2==13.0 
+  #MSVC++ 6.0  _MSC_VER==1200 $v1.$v2==12.0 
+  #MSVC++ 5.0  _MSC_VER==1100 $v1.$v2==11.0 
 
   #possible targets:  im im_process im_jp2 im_fftw im_capture im_avi im_wmv
   #possible targets:  cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus cdcairo
@@ -30,7 +40,7 @@ sub build_binaries {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_zlib cd_freetype cd];
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole];
-    #if ($Config{cc} =~ /cl/ && $Config{ccversion} =~ /^12\./) {
+    #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
     #  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
     #  @iuptargets = grep { $_ !~ /^(iuptuio)$/ } @iuptargets;    # disable just when compiling via VC6
@@ -41,14 +51,14 @@ sub build_binaries {
   @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   
-  #xxx TODO not able to compile iup_mglplot by MSVC - maybe makefile needs a fix
-  if ($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) {
-    warn "###WARN### skipping iup_mglplot on MSVC (makefile needs a fix)";
+  # not able to compile iup_mglplot by older MSVC
+  if ($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/ && $v1<15) {
+    warn "###WARN### skipping iup_mglplot on MSVC < 15.0 (fails to compile)";
     @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
   }
   
   # old gcc fails to compile iup_mglplot
-  if ($Config{gccversion} =~ /^3\./ && $Config{cc} =~ /gcc/) {
+  if ($Config{cc} =~ /gcc/ && $v1<4) {
     warn "###WARN### skipping iup_mglplot on GCC 3.x (fails to compile)";
     @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
   }

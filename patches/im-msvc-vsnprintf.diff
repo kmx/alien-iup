@@ -5,7 +5,7 @@ diff -ru --strip-trailing-cr im.orig/src/im_binfile.cpp im/src/im_binfile.cpp
  #include "im_util.h"
  #include "im_binfile.h"
  
-+#ifdef _MSC_VER
++#if defined(_MSC_VER) && (_MSC_VER < 1500)
 +#define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
 +#endif
  

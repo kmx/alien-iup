@@ -109,10 +109,12 @@ else {
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.1_Sources.tar.gz');
   $builder->notes('im_sha1', '7e7dcdf0760e75a866d5a4d1176de2ce29274f51');
-  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-vc6.diff patches/im-msvc-vsnprintf.diff! ] );
+  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-msvc-int64.diff patches/im-msvc-vsnprintf.diff! ] );
 
-  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.6.1_Sources.tar.gz');
-  $builder->notes('cd_sha1', '3a10939a310cb9af0be5000a7e613a6308ef8e8c');
+  #$builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.6.1_Sources.tar.gz');
+  #$builder->notes('cd_sha1', '3a10939a310cb9af0be5000a7e613a6308ef8e8c');
+  $builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/iup/cd-cvs.tar.gz');
+  $builder->notes('cd_sha1', 'ae43e901d0b6f9168f5774a69b8d3e30191895a8');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 
