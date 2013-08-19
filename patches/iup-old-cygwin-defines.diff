@@ -1,0 +1,53 @@
+diff -ru iup.orig/src/win/iupwin_globalattrib.c iup/src/win/iupwin_globalattrib.c
+--- iup.orig/src/win/iupwin_globalattrib.c	2013-07-16 16:14:08.000000000 +0200
++++ iup/src/win/iupwin_globalattrib.c	2013-08-19 18:50:24.592130900 +0200
+@@ -22,6 +22,10 @@
+ #include "iupwin_drv.h"
+ #include "iupwin_str.h"
+ 
++/* old cygwin related hack */
++#ifndef LOCALE_INVARIANT
++#define LOCALE_INVARIANT 0x007f
++#endif
+ 
+ static int win_monitor_index = 0;
+ static HANDLE win_singleintance = NULL;
+diff -ru iup.orig/src/win/iupwin_tips.c iup/src/win/iupwin_tips.c
+--- iup.orig/src/win/iupwin_tips.c	2013-07-09 06:52:19.000000000 +0200
++++ iup/src/win/iupwin_tips.c	2013-08-19 18:59:43.395603400 +0200
+@@ -22,6 +22,21 @@
+ #include "iupwin_handle.h"
+ #include "iupwin_str.h"
+ 
++#ifndef TTTOOLINFO
++#ifdef UNICODE
++#define TTTOOLINFO TTTOOLINFOW
++#else
++#define TTTOOLINFO TTTOOLINFOA
++#endif
++#endif
++
++#ifndef TTM_SETTITLE
++#ifdef UNICODE
++#define TTM_SETTITLE TTM_SETTITLEW
++#else
++#define TTM_SETTITLE TTM_SETTITLEA
++#endif
++#endif
+ 
+ #ifndef TTM_POPUP   /* Not defined for MingW and Cygwin */
+ #define TTM_POPUP  (WM_USER + 34)
+diff -ru iup.orig/src/win/iupwin_toggle.c iup/src/win/iupwin_toggle.c
+--- iup.orig/src/win/iupwin_toggle.c	2013-07-09 06:52:19.000000000 +0200
++++ iup/src/win/iupwin_toggle.c	2013-08-19 19:01:23.079778500 +0200
+@@ -28,7 +28,9 @@
+ #include "iupwin_draw.h"
+ #include "iupwin_str.h"
+ 
+-
++#ifndef ODS_NOACCEL
++#define ODS_NOACCEL 0x0100
++#endif
+ #ifndef ODS_NOFOCUSRECT
+ #define ODS_NOFOCUSRECT   0x0200
+ #endif
