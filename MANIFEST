@@ -10,10 +10,7 @@ META.json
 META.yml
 patches/cd-dragonfly.diff
 patches/im-dragonfly.diff
-patches/im-msvc-int64.diff
-patches/im-msvc-vsnprintf.diff
 patches/iup-cygwin.diff
-patches/iup-old-cygwin-defines.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
