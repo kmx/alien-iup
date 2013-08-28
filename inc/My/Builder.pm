@@ -41,9 +41,13 @@ sub ACTION_code {
                                      INC    => $inst->{cflags},
                                    });
     }
-    else {    
-      my $ans = $ENV{TRAVIS} ? 'n' : $self->prompt("\nWanna see more debug info during build (y/n)?", 'n');
-      $self->notes('build_debug_info', lc($ans) eq 'y' ? 1 : 0);
+    else {
+      # some questions before we start
+      my $dbg = !$ENV{TRAVIS} ? $self->prompt("\nDo you want to see debug info + all messages during 'make' (y/n)?", 'n') : 'n';
+      $self->notes('build_msgs',       lc($dbg) eq 'y' ? 1 : 0);
+      $self->notes('build_debug_info', lc($dbg) eq 'y' ? 1 : 0);
+      my $large_imglib = $ENV{TRAVIS} ? 'y' : lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
+      $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # important directories
       my $download = 'download';
@@ -55,7 +59,7 @@ sub ACTION_code {
       if ($self->notes('is_devel_cvs_version')) {
         my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
         $share_subdir .= sprintf("_CVS_%02d%02d%02d_%02d%02d",$year+1900-2000,$mon+1,$mday,$hour,$min);
-      }      
+      }
       my $build_out = catfile('sharedir', $share_subdir);
       $self->add_to_cleanup($build_out);
 
@@ -92,22 +96,16 @@ sub ACTION_code {
           $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
         }
       }
-      
+
       ### XXX hack for handling github tarballs
       unless (-d "$build_src/cd" && -d "$build_src/im" && -d "$build_src/iup") {
         for my $f (glob("$build_src/*")) {
           if ($f =~ m!^\Q$build_src\E/.*?(im|cd|iup).*$!) {
-	    print "renaming: $f $build_src/$1\n";	   
-	    rename ($f, "$build_src/$1");
-	  }
+            print "renaming: $f $build_src/$1\n";
+            rename ($f, "$build_src/$1");
+          }
         }
       }
-
-      my $m = $self->notes('build_debug_info') && !$ENV{TRAVIS} ? $self->prompt("\nDo you want to see all messages during 'make' (y/n)?", 'n') : 'n';
-      $self->notes('build_msgs', lc($m) eq 'y' ? 1 : 0);
-      
-      my $large_imglib = $ENV{TRAVIS} ? 'y' : lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
-      $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # go for build
       my $success = $self->build_binaries($build_out, $build_src);
@@ -119,10 +117,10 @@ sub ACTION_code {
       }
       die "###BUILD FAILED### essential libs (iup/im/cd) not built!" unless $done->{"iup:iup"} && $done->{"iup:iupim"} && $done->{"iup:iupcd"};
       die "###BUILD FAILED###" unless $success;
-      #DEBUG: die intentionally at this point if you want to see build details from cpan testers  
+      #DEBUG: die intentionally at this point if you want to see build details from cpan testers
       print STDERR "RESULT: OK!\n";
 
-      # store info about build to ConfigData      
+      # store info about build to ConfigData
       $self->config_data('share_subdir', $share_subdir);
       $self->config_data('config', { PREFIX => '@PrEfIx@',
                                      LIBS   => '-L' . $self->quote_literal('@PrEfIx@/lib') .
@@ -139,7 +137,7 @@ sub ACTION_code {
 }
 
 sub prepare_sources {
-  my ($self, $url, $sha1, $download, $build_src) = @_;  
+  my ($self, $url, $sha1, $download, $build_src) = @_;
   my $archive = $self->fetch_file( url=>$url, sha1=>$sha1, localdir=>$download );
   #XXX hack
   if ($archive !~ /\.(tar.gz|tgz|tar|zip|tbz|tar.bz2)$/) {
@@ -152,20 +150,20 @@ sub prepare_sources {
 
 sub fetch_file {
   my ($self, %args) = @_;
-  
+
   my $url = $args{url};
   my $sha1 = $args{sha1};
   my $localdir = $args{localdir};
   my $localfile = $args{localfile};
   die "###ERROR### fetch_file: undefined url\n" unless $url;
-  
+
   # create $localdir if necessary
   File::Path::mkpath($localdir) unless $localdir && -d $localdir;
-  
+
   # handle redirects
   my $head = head($url);
-  $url = $head->request->uri if defined $head;  
-  
+  $url = $head->request->uri if defined $head;
+
   # download destination
   unless ($localfile) {
    $localfile = $url;
@@ -173,7 +171,7 @@ sub fetch_file {
    $localfile =~ s/\?.*$//; #skip URL params
   }
   $localfile = File::Spec->catfile($localdir, $localfile) if $localdir;
-  
+
   # check existing file
   if (-f $localfile) {
     if ($sha1) {
@@ -181,23 +179,23 @@ sub fetch_file {
 	return rel2abs($localfile);
       }
       else {
-	warn "Checksum FAILURE";	
+	warn "Checksum FAILURE";
       }
     }
     unlink $localfile; # if sha1 not given we force re-download
   }
-    
-  # download  
+
+  # download
   warn "Fetching '$url'...\n";
   my $rv = getstore($url, $localfile);
   die "###ERROR### fetch_file: download error - return code '$rv'\n" unless $rv == 200;
   die "###ERROR### fetch_file: download error - '$localfile' not saved\n" unless -f $localfile;
-  
+
   # checksum
   if ($sha1) {
     die "###ERROR### fetch_file: checksum failed" unless $self->check_sha1sum($localfile, $sha1);
   }
-  
+
   return rel2abs($localfile);
 }
 
@@ -231,12 +229,12 @@ sub quote_literal {
 
 sub check_installed_lib {
   my ($self) = @_;
-  
+
   #xxxTODO
   #we not only need to detect the presence we also need to exactly know what libs are there - necessary for havelib() function
   print STDERR "\nNOTICE:\nDetection of preinstalled iup+cd+im is disabled since v0.115!\nPlease contact the module author if you are missing this feature.\n\n";
   return 0;
-  
+
   my $idir = $ENV{IUP_DIR} || '';
   my @candidates;
   push(@candidates, { L => "$idir/lib", I => "$idir/include" }) if -d $idir;
