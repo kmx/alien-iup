@@ -64,7 +64,6 @@ my $builder = $package->new(
     'IPC::Run3'         => 0.041, # we need return_if_system_error
   },
   share_dir          => 'sharedir',
-  add_to_cleanup     => [ 'Alien-IUP-*' ],
   get_options => { 'cvs' => { qw(type :s  store) => \$cvs_src } },
   #create_makefile_pl => 'small', # creating Makefile.PL to satisfy old CPAN clients (does not work well with our style of M::B use)
   create_readme      => 1,
