@@ -14,7 +14,7 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 =cut
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "0.600_5";
+our $VERSION = "0.600_6";
 $VERSION = eval $VERSION;
 
 =head1 VERSION
@@ -25,9 +25,9 @@ Version 0.601 of Alien::IUP is based on the following:
 
 =item * I<iup> library 3.9 - see L<http://www.tecgraf.puc-rio.br/iup/>
 
-=item * I<im> library 3.8.1 - see L<http://www.tecgraf.puc-rio.br/im/>
+=item * I<im> library 3.8.2 - see L<http://www.tecgraf.puc-rio.br/im/>
 
-=item * I<cd> library 5.6.1 - see L<http://www.tecgraf.puc-rio.br/cd/>
+=item * I<cd> library 5.7 - see L<http://www.tecgraf.puc-rio.br/cd/>
 
 =back
 

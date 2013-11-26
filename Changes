@@ -1,10 +1,7 @@
 Revision history for Alien-IUP
 
 XX/XX/2013 - 0.601
- - IMPORTANT: switch to iup-3.9+im-3.8.2+cd-5.6.2
-
-18/08/2013 - 0.503
- - IMPORTANT: switch to iup-3.8+im-3.8.1+cd-5.6.1
+ - IMPORTANT: switch to iup-3.9+im-3.8.2+cd-5.7
  - tempfile related fix
 
 04/02/2013 - 0.501

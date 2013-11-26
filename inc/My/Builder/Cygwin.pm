@@ -79,7 +79,7 @@ sub build_binaries {
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
   $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
   $self->config_data('extra_cflags', '');
-  $self->config_data('extra_lflags', '');
+  $self->config_data('extra_lflags', '-L/usr/lib/w32api');
 
   print STDERR "Build finished!\n";
   return $success;

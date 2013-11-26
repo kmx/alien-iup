@@ -101,22 +101,16 @@ else {
   }
 
   # set what tarballs we are gonna use
-  #$builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.8_Sources.tar.gz');
-  #$builder->notes('iup_sha1', '663694e3817d3953543bd8d2fe7d9a9932582efa');
-  $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-cvs-5.tar.gz');
-  $builder->notes('iup_sha1', '59867c474f8352ac6fa9ec35ec3209110b6f96ea');
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.9_Sources.tar.gz');
+  $builder->notes('iup_sha1', '1ddbb109085e7202ef3df9d2fcfa1d2d758dbf8a');
   $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff! ] );
 
-  #$builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.1_Sources.tar.gz');
-  #$builder->notes('im_sha1', '7e7dcdf0760e75a866d5a4d1176de2ce29274f51');
-  $builder->notes('im_url', 'http://strawberryperl.com/package/kmx/iup/im-cvs-5.tar.gz');
-  $builder->notes('im_sha1', '657efe593e00787e18b7ca5c5820e299ac7f33b4');
+  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.2_Sources.tar.gz');
+  $builder->notes('im_sha1', '1fd36cdef7c704ca6269fb2de697d439d361c9ba');
   $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff! ] );
 
-  #$builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.6.1_Sources.tar.gz');
-  #$builder->notes('cd_sha1', '3a10939a310cb9af0be5000a7e613a6308ef8e8c');
-  $builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/iup/cd-cvs-5.tar.gz');
-  $builder->notes('cd_sha1', '30212f473672660295f41d3bbf53c23fb6ef4d22');
+  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.7_Sources.tar.gz');
+  $builder->notes('cd_sha1', '370f6e3f595554197f71536f527533f910c509eb');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 
