@@ -100,16 +100,16 @@ else {
   }
 
   # set what tarballs we are gonna use
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.9_Sources.tar.gz');
-  $builder->notes('iup_sha1', '1ddbb109085e7202ef3df9d2fcfa1d2d758dbf8a');
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.11_Sources.tar.gz');
+  $builder->notes('iup_sha1', '2ae42fa479be0da228789e7427868c9d2ea40ba2');
   $builder->notes('iup_patches', [ qw!patches/iup-cygwin.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.8.2_Sources.tar.gz');
   $builder->notes('im_sha1', '1fd36cdef7c704ca6269fb2de697d439d361c9ba');
   $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff! ] );
 
-  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.7_Sources.tar.gz');
-  $builder->notes('cd_sha1', '370f6e3f595554197f71536f527533f910c509eb');
+  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.8_Sources.tar.gz');
+  $builder->notes('cd_sha1', '397627d89811191c0db42b19accc2f7867042ab1');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 

@@ -25,12 +25,12 @@ sub build_binaries {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
     @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole iupweb iuptuio];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_zlib cd_freetype cd];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupim iupimglib iupole];
+    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
   }
   
   #iup_mglplot will not compile with too old cygwin (approx. detection via gcc version)

@@ -32,6 +32,8 @@ sub flush_target {
     xx => 'srcconsole',
     iupcontrols => 'srccontrols',
     iupgl => 'srcgl',
+    iupglcontrols => 'srcglcontrols',
+    iup_scintilla => 'srcscintilla',
     iupim => 'srcim',
     iupimglib => 'srcimglib',
     iupole => 'srcole',
@@ -64,6 +66,7 @@ sub flush_target {
     $cf =~ s/-I. /-I$srcdir{$curtarget} /g;
     $curlf = "$extralf{$curtarget} $curlf" if $extralf{$curtarget};
   }
+  $cf =~ s|-Iz:/mingw32bit/include||g; #xxx hack
   (my $cfms = $cf) =~ s/-Wall//g;
   $cfms =~ s/-DHAVE_UNISTD_H -DHAVE_STDINT_H -DJAS_TYPES/-DJAS_WIN_MSVC_BUILD -DWIN32 -DJAS_TYPES/;
   $cfms .= " -DWIN32";
