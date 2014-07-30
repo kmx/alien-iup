@@ -38,7 +38,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd];
+    @cdtargets  = qw[cd_zlib cd_freetype cd cdcontextplus];
     @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
     #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
@@ -48,7 +48,7 @@ sub build_binaries {
   }
   
   #xxx TODO add cdcontextplus + iupweb support to makefiles
-  @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets; # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
+  @cdtargets  = grep { $_ !~ /^(cdcontextplus)$/ } @cdtargets if $Config{cc} =~ /gcc/ && ( $v1<4 || $v2<7 ); # XXX-HACK assume that gcc-4.7+ has gdiplus headers
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets;       # xxx TODO: makefiles not ready yet; does not compile on mingw/gcc
   
   # not able to compile iup_mglplot by older MSVC
