@@ -330,6 +330,11 @@ MARKER
   
   #extra options for iup/imglib
   push(@makeopts, 'USE_IUP_IMGLIB_LARGE=1') if $self->notes('build_large_imglib');
+  
+  if ($Config{cc} eq 'cc') {
+    # fix for: https://rt.cpan.org/Public/Bug/Display.html?id=94615
+    push(@makeopts, 'CC=cc', 'CPPC=c++');
+  }
 
   #do the job
   $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);
