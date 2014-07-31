@@ -1,14 +1,14 @@
+BUGS:
+- http://www.cpantesters.org/cpan/report/c911fc18-6c1e-1014-869a-ac4055012b15 (MSWin32) - srcglcontrols/FTGL/ftgl.h:32:22: fatal error: ft2build.h: No such file or directory
+- http://www.cpantesters.org/cpan/report/a3ea0816-18be-11e4-b698-db7a2867dcfa (OpenBSD) - ./mgl2/base.h:268: error: integer constant is too large for 'long' type
+
 IMPORTANT:
 - iup_mglplot does not build 
   * via MSVC compiler (disabled for now)
   * on Solaris (missing isfinite)
   * via mingw gcc3.4.5
 
-IDEA:
-- add 'provide: Alien::IUP::ConfigData' to Build.PL
- 
 MEDIUM PRIORITY
-- mingw: consider renaming *.a libraries (cd_zlib/cd_freetype)
 - more complex compile test (use some advanced iup C example, try to compile some DLL, test more then just iup lib)
 - more iupweb/webkit testing (Win32 as well as GTK2)
 - Win: generate makefiles for iupweb
