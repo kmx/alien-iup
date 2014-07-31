@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF iup ###
-CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc -Isrc/z:/mingw32bit/include  -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x600 -DWINVER=0x0501 -DNOTREEVIEW -DUNICODE -DIUP_DLL $(CF_iup_EXTRA)
+CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc -Isrc  -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x600 -DWINVER=0x0501 -DNOTREEVIEW -DUNICODE -DIUP_DLL $(CF_iup_EXTRA)
 LF_iup   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_EXTRA)
 SLIB_iup = ./lib/$(BUILDNICK)/libiup.a
 DLIB_iup = ./lib/$(BUILDNICK)/libiup.dll.a
@@ -169,7 +169,7 @@ iup-static: build-dirs $(SLIB_iup)
 iup-dynamic: build-dirs $(ILIB_iup) $(DLIB_iup)
 
 ### START OF iupcd ###
-CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include -Isrccd/z:/mingw32bit/include  -DCD_NO_OLD_INTERFACE $(CF_iupcd_EXTRA)
+CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include -Isrccd  -DCD_NO_OLD_INTERFACE $(CF_iupcd_EXTRA)
 LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupcd_EXTRA)
 SLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.a
 DLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.dll.a
@@ -189,7 +189,7 @@ iupcd-static: build-dirs $(SLIB_iupcd)
 iupcd-dynamic: build-dirs $(ILIB_iupcd) $(DLIB_iupcd)
 
 ### START OF iupcontrols ###
-CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include -Isrccontrols/z:/mingw32bit/include   $(CF_iupcontrols_EXTRA)
+CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include -Isrccontrols   $(CF_iupcontrols_EXTRA)
 LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupcontrols_EXTRA)
 SLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.a
 DLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.dll.a
@@ -232,7 +232,7 @@ iupcontrols-static: build-dirs $(SLIB_iupcontrols)
 iupcontrols-dynamic: build-dirs $(ILIB_iupcontrols) $(DLIB_iupcontrols)
 
 ### START OF iup_pplot ###
-CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include -Isrcpplot/z:/mingw32bit/include  -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE $(CF_iup_pplot_EXTRA)
+CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include -Isrcpplot  -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE $(CF_iup_pplot_EXTRA)
 LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_pplot_EXTRA)
 SLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.a
 DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
@@ -254,7 +254,7 @@ iup_pplot-static: build-dirs $(SLIB_iup_pplot)
 iup_pplot-dynamic: build-dirs $(ILIB_iup_pplot) $(DLIB_iup_pplot)
 
 ### START OF iup_mglplot ###
-CF_iup_mglplot   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmglplot -Isrcmglplot/z:/mingw32bit/include   $(CF_iup_mglplot_EXTRA)
+CF_iup_mglplot   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmglplot -Isrcmglplot   $(CF_iup_mglplot_EXTRA)
 LF_iup_mglplot   = -liup -liupgl -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_mglplot_EXTRA)
 SLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.a
 DLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.dll.a
@@ -314,7 +314,7 @@ iup_mglplot-static: build-dirs $(SLIB_iup_mglplot)
 iup_mglplot-dynamic: build-dirs $(ILIB_iup_mglplot) $(DLIB_iup_mglplot)
 
 ### START OF iup_scintilla ###
-CF_iup_scintilla   = -c  -Wall -O2 -Iinclude -Isrc -Isrcscintilla -Isrc/win -Isrcscintilla/lexlib -Isrcscintilla/src -Isrcscintilla/include -Isrcscintilla/win32 -Isrcscintilla/win -Isrcscintilla/z:/mingw32bit/include  -DSTATIC_BUILD -DSCI_LEXER -DSCI_NAMESPACE -DUNICODE -D_WIN32 -DDISABLE_D2D $(CF_iup_scintilla_EXTRA)
+CF_iup_scintilla   = -c  -Wall -O2 -Iinclude -Isrc -Isrcscintilla -Isrc/win -Isrcscintilla/lexlib -Isrcscintilla/src -Isrcscintilla/include -Isrcscintilla/win32 -Isrcscintilla/win -Isrcscintilla  -DSTATIC_BUILD -DSCI_LEXER -DSCI_NAMESPACE -DUNICODE -D_WIN32 -DDISABLE_D2D $(CF_iup_scintilla_EXTRA)
 LF_iup_scintilla   = -liup -limm32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_scintilla_EXTRA)
 SLIB_iup_scintilla = ./lib/$(BUILDNICK)/libiup_scintilla.a
 DLIB_iup_scintilla = ./lib/$(BUILDNICK)/libiup_scintilla.dll.a
@@ -483,7 +483,7 @@ iup_scintilla-static: build-dirs $(SLIB_iup_scintilla)
 iup_scintilla-dynamic: build-dirs $(ILIB_iup_scintilla) $(DLIB_iup_scintilla)
 
 ### START OF iupgl ###
-CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc -Isrcgl/z:/mingw32bit/include   $(CF_iupgl_EXTRA)
+CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc -Isrcgl   $(CF_iupgl_EXTRA)
 LF_iupgl   = -liup -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupgl_EXTRA)
 SLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.a
 DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
@@ -503,7 +503,7 @@ iupgl-static: build-dirs $(SLIB_iupgl)
 iupgl-dynamic: build-dirs $(ILIB_iupgl) $(DLIB_iupgl)
 
 ### START OF iupglcontrols ###
-CF_iupglcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrcglcontrols -I./freetype -Isrcglcontrols/z:/mingw32bit/include  -DFTGL_LIBRARY $(CF_iupglcontrols_EXTRA)
+CF_iupglcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrcglcontrols -Ifreetype -Isrcglcontrols  -DFTGL_LIBRARY $(CF_iupglcontrols_EXTRA)
 LF_iupglcontrols   = -liupgl -liup -lftgl -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupglcontrols_EXTRA)
 SLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.a
 DLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.dll.a
@@ -541,7 +541,7 @@ iupglcontrols-static: build-dirs $(SLIB_iupglcontrols)
 iupglcontrols-dynamic: build-dirs $(ILIB_iupglcontrols) $(DLIB_iupglcontrols)
 
 ### START OF iupim ###
-CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include -Isrcim/z:/mingw32bit/include   $(CF_iupim_EXTRA)
+CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include -Isrcim   $(CF_iupim_EXTRA)
 LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupim_EXTRA)
 SLIB_iupim = ./lib/$(BUILDNICK)/libiupim.a
 DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
@@ -561,7 +561,7 @@ iupim-static: build-dirs $(SLIB_iupim)
 iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim)
 
 ### START OF iupole ###
-CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc -Isrcole/z:/mingw32bit/include   $(CF_iupole_EXTRA)
+CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc -Isrcole   $(CF_iupole_EXTRA)
 LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupole_EXTRA)
 SLIB_iupole = ./lib/$(BUILDNICK)/libiupole.a
 DLIB_iupole = ./lib/$(BUILDNICK)/libiupole.dll.a
@@ -589,7 +589,7 @@ iupole-static: build-dirs $(SLIB_iupole)
 iupole-dynamic: build-dirs $(ILIB_iupole) $(DLIB_iupole)
 
 ### START OF iuptuio ###
-CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack -Isrctuio/z:/mingw32bit/include  -DOSC_HOST_LITTLE_ENDIAN $(CF_iuptuio_EXTRA)
+CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack -Isrctuio  -DOSC_HOST_LITTLE_ENDIAN $(CF_iuptuio_EXTRA)
 LF_iuptuio   = -liup -lws2_32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iuptuio_EXTRA)
 SLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.a
 DLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.dll.a
@@ -618,7 +618,7 @@ iuptuio-static: build-dirs $(SLIB_iuptuio)
 iuptuio-dynamic: build-dirs $(ILIB_iuptuio) $(DLIB_iuptuio)
 
 ### START OF iupimglib ###
-CF_iupimglib   = -c  -Wall -Iinclude -Isrc -Isrcimglib/z:/mingw32bit/include   $(CF_iupimglib_EXTRA)
+CF_iupimglib   = -c  -Wall -Iinclude -Isrc -Isrcimglib   $(CF_iupimglib_EXTRA)
 LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupimglib_EXTRA)
 SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
 DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
