@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF cd_zlib ###
-CF_cd_zlib   = -c  -Wall -O2 -Izlib    $(CF_cd_zlib_EXTRA)
+CF_cd_zlib   = -c  -Wall -O2 -Izlib -Iz:/mingw32bit/include   $(CF_cd_zlib_EXTRA)
 LF_cd_zlib   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_cd_zlib_EXTRA)
 SLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.a
 DLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.dll.a
@@ -74,7 +74,7 @@ cd_zlib-static: build-dirs $(SLIB_cd_zlib)
 cd_zlib-dynamic: build-dirs $(ILIB_cd_zlib) $(DLIB_cd_zlib)
 
 ### START OF im ###
-CF_im   = -c  -Wall -O2 -I. -I../include -Izlib -Ilibtiff -Ilibpng -Ilibjpeg -Ilibexif -Iliblzf   -DUSE_EXIF $(CF_im_EXTRA)
+CF_im   = -c  -Wall -O2 -I. -I../include -Izlib -Ilibtiff -Ilibpng -Ilibjpeg -Ilibexif -Iliblzf -Iz:/mingw32bit/include  -DUSE_EXIF $(CF_im_EXTRA)
 LF_im   = -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_im_EXTRA)
 SLIB_im = ../lib/$(BUILDNICK)/libim.a
 DLIB_im = ../lib/$(BUILDNICK)/libim.dll.a
@@ -259,7 +259,7 @@ im-static: build-dirs $(SLIB_im)
 im-dynamic: build-dirs $(ILIB_im) $(DLIB_im)
 
 ### START OF im_process ###
-CF_im_process   = -c  -Wall -O2 -I../include   -DIM_PROCESS $(CF_im_process_EXTRA)
+CF_im_process   = -c  -Wall -O2 -I../include -Iz:/mingw32bit/include  -DIM_PROCESS $(CF_im_process_EXTRA)
 LF_im_process   = -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_im_process_EXTRA)
 SLIB_im_process = ../lib/$(BUILDNICK)/libim_process.a
 DLIB_im_process = ../lib/$(BUILDNICK)/libim_process.dll.a
@@ -306,7 +306,7 @@ im_process-static: build-dirs $(SLIB_im_process)
 im_process-dynamic: build-dirs $(ILIB_im_process) $(DLIB_im_process)
 
 ### START OF im_jp2 ###
-CF_im_jp2   = -c  -Wall -O2 -Ilibjasper -I../include   -DEXCLUDE_JPG_SUPPORT -DEXCLUDE_MIF_SUPPORT -DEXCLUDE_PNM_SUPPORT -DEXCLUDE_BMP_SUPPORT -DEXCLUDE_PGX_SUPPORT -DEXCLUDE_RAS_SUPPORT -DEXCLUDE_TIFF_SUPPORT -DJAS_GEO_OMIT_PRINTING_CODE -DJAS_WIN_MSVC_BUILD -DJAS_TYPES $(CF_im_jp2_EXTRA)
+CF_im_jp2   = -c  -Wall -O2 -Ilibjasper -I../include -Iz:/mingw32bit/include  -DEXCLUDE_JPG_SUPPORT -DEXCLUDE_MIF_SUPPORT -DEXCLUDE_PNM_SUPPORT -DEXCLUDE_BMP_SUPPORT -DEXCLUDE_PGX_SUPPORT -DEXCLUDE_RAS_SUPPORT -DEXCLUDE_TIFF_SUPPORT -DJAS_GEO_OMIT_PRINTING_CODE -DJAS_WIN_MSVC_BUILD -DJAS_TYPES $(CF_im_jp2_EXTRA)
 LF_im_jp2   = -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_im_jp2_EXTRA)
 SLIB_im_jp2 = ../lib/$(BUILDNICK)/libim_jp2.a
 DLIB_im_jp2 = ../lib/$(BUILDNICK)/libim_jp2.dll.a
@@ -363,7 +363,7 @@ im_jp2-static: build-dirs $(SLIB_im_jp2)
 im_jp2-dynamic: build-dirs $(ILIB_im_jp2) $(DLIB_im_jp2)
 
 ### START OF im_fftw ###
-CF_im_fftw   = -c  -Wall -O2 -Ifftw -I../include   -DFFTW_ENABLE_FLOAT $(CF_im_fftw_EXTRA)
+CF_im_fftw   = -c  -Wall -O2 -Ifftw -I../include -Iz:/mingw32bit/include  -DFFTW_ENABLE_FLOAT $(CF_im_fftw_EXTRA)
 LF_im_fftw   = -lim_process -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -lole32 -loleaut32 -lcomctl32 $(LF_im_fftw_EXTRA)
 SLIB_im_fftw = ../lib/$(BUILDNICK)/libim_fftw.a
 DLIB_im_fftw = ../lib/$(BUILDNICK)/libim_fftw.dll.a

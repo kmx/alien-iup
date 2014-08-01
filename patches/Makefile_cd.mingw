@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF cd_zlib ###
-CF_cd_zlib   = -c  -Wall -O2 -Izlib    $(CF_cd_zlib_EXTRA)
+CF_cd_zlib   = -c  -Wall -O2 -Izlib -Iz:/mingw32bit/include   $(CF_cd_zlib_EXTRA)
 LF_cd_zlib   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cd_zlib_EXTRA)
 SLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.a
 DLIB_cd_zlib = ../lib/$(BUILDNICK)/libzlib1.dll.a
@@ -74,7 +74,7 @@ cd_zlib-static: build-dirs $(SLIB_cd_zlib)
 cd_zlib-dynamic: build-dirs $(ILIB_cd_zlib) $(DLIB_cd_zlib)
 
 ### START OF cd_freetype ###
-CF_cd_freetype   = -c  -Wall -O2 -Ifreetype2 -Izlib   -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB $(CF_cd_freetype_EXTRA)
+CF_cd_freetype   = -c  -Wall -O2 -Ifreetype2 -Izlib -Iz:/mingw32bit/include  -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB $(CF_cd_freetype_EXTRA)
 LF_cd_freetype   = -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cd_freetype_EXTRA)
 SLIB_cd_freetype = ../lib/$(BUILDNICK)/libfreetype6.a
 DLIB_cd_freetype = ../lib/$(BUILDNICK)/libfreetype6.dll.a
@@ -137,7 +137,7 @@ cd_freetype-static: build-dirs $(SLIB_cd_freetype)
 cd_freetype-dynamic: build-dirs $(ILIB_cd_freetype) $(DLIB_cd_freetype)
 
 ### START OF cd_ftgl ###
-CF_cd_ftgl   = -c  -Wall -O2 -Iftgl -Ifreetype2   -DFTGL_LIBRARY $(CF_cd_ftgl_EXTRA)
+CF_cd_ftgl   = -c  -Wall -O2 -Iftgl -Ifreetype2 -Iz:/mingw32bit/include  -DFTGL_LIBRARY $(CF_cd_ftgl_EXTRA)
 LF_cd_ftgl   = -lfreetype6 -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cd_ftgl_EXTRA)
 SLIB_cd_ftgl = ../lib/$(BUILDNICK)/libftgl.a
 DLIB_cd_ftgl = ../lib/$(BUILDNICK)/libftgl.dll.a
@@ -186,7 +186,7 @@ cd_ftgl-static: build-dirs $(SLIB_cd_ftgl)
 cd_ftgl-dynamic: build-dirs $(ILIB_cd_ftgl) $(DLIB_cd_ftgl)
 
 ### START OF cd ###
-CF_cd   = -c  -Wall -O2 -I. -Idrv -Ix11 -Iwin32 -Iintcgm -Ifreetype2 -Isim -Icairo -I../include   -DCD_NO_OLD_INTERFACE -DUNICODE $(CF_cd_EXTRA)
+CF_cd   = -c  -Wall -O2 -I. -Idrv -Ix11 -Iwin32 -Iintcgm -Ifreetype2 -Isim -Icairo -I../include -Iz:/mingw32bit/include  -DCD_NO_OLD_INTERFACE -DUNICODE $(CF_cd_EXTRA)
 LF_cd   = -lfreetype6 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cd_EXTRA)
 SLIB_cd = ../lib/$(BUILDNICK)/libcd.a
 DLIB_cd = ../lib/$(BUILDNICK)/libcd.dll.a
@@ -253,7 +253,7 @@ cd-static: build-dirs $(SLIB_cd)
 cd-dynamic: build-dirs $(ILIB_cd) $(DLIB_cd)
 
 ### START OF cd_pdflib ###
-CF_cd_pdflib   = -c  -Wall -O2 -Izlib -Ipdflib/font -Ipdflib/pdcore -Ipdflib/pdflib    $(CF_cd_pdflib_EXTRA)
+CF_cd_pdflib   = -c  -Wall -O2 -Izlib -Ipdflib/font -Ipdflib/pdcore -Ipdflib/pdflib -Iz:/mingw32bit/include   $(CF_cd_pdflib_EXTRA)
 LF_cd_pdflib   = -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cd_pdflib_EXTRA)
 SLIB_cd_pdflib = ../lib/$(BUILDNICK)/libpdflib.a
 DLIB_cd_pdflib = ../lib/$(BUILDNICK)/libpdflib.dll.a
@@ -352,7 +352,7 @@ cd_pdflib-static: build-dirs $(SLIB_cd_pdflib)
 cd_pdflib-dynamic: build-dirs $(ILIB_cd_pdflib) $(DLIB_cd_pdflib)
 
 ### START OF cdpdf ###
-CF_cdpdf   = -c  -Wall -O2 -I. -Isim -Ipdflib/pdflib -I../include   -DCD_NO_OLD_INTERFACE $(CF_cdpdf_EXTRA)
+CF_cdpdf   = -c  -Wall -O2 -I. -Isim -Ipdflib/pdflib -I../include -Iz:/mingw32bit/include  -DCD_NO_OLD_INTERFACE $(CF_cdpdf_EXTRA)
 LF_cdpdf   = -lpdflib -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cdpdf_EXTRA)
 SLIB_cdpdf = ../lib/$(BUILDNICK)/libcdpdf.a
 DLIB_cdpdf = ../lib/$(BUILDNICK)/libcdpdf.dll.a
@@ -372,7 +372,7 @@ cdpdf-static: build-dirs $(SLIB_cdpdf)
 cdpdf-dynamic: build-dirs $(ILIB_cdpdf) $(DLIB_cdpdf)
 
 ### START OF cdgl ###
-CF_cdgl   = -c  -Wall -O2 -I. -Isim -Iftgl -Ifreetype2 -I../include   -DCD_NO_OLD_INTERFACE $(CF_cdgl_EXTRA)
+CF_cdgl   = -c  -Wall -O2 -I. -Isim -Iftgl -Ifreetype2 -I../include -Iz:/mingw32bit/include  -DCD_NO_OLD_INTERFACE $(CF_cdgl_EXTRA)
 LF_cdgl   = -lftgl -lcd -lfreetype6 -lzlib1 -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cdgl_EXTRA)
 SLIB_cdgl = ../lib/$(BUILDNICK)/libcdgl.a
 DLIB_cdgl = ../lib/$(BUILDNICK)/libcdgl.dll.a
@@ -392,7 +392,7 @@ cdgl-static: build-dirs $(SLIB_cdgl)
 cdgl-dynamic: build-dirs $(ILIB_cdgl) $(DLIB_cdgl)
 
 ### START OF cdcontextplus ###
-CF_cdcontextplus   = -c  -Wall -O2 -I. -Igdiplus -I../include   -DCD_NO_OLD_INTERFACE $(CF_cdcontextplus_EXTRA)
+CF_cdcontextplus   = -c  -Wall -O2 -I. -Igdiplus -I../include -Iz:/mingw32bit/include  -DCD_NO_OLD_INTERFACE $(CF_cdcontextplus_EXTRA)
 LF_cdcontextplus   = -lgdiplus -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_cdcontextplus_EXTRA)
 SLIB_cdcontextplus = ../lib/$(BUILDNICK)/libcdcontextplus.a
 DLIB_cdcontextplus = ../lib/$(BUILDNICK)/libcdcontextplus.dll.a

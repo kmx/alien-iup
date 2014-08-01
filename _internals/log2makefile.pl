@@ -61,12 +61,13 @@ sub flush_target {
   my @keeplist = @curlist;
   my $cf = (keys %{$flags1{$curtarget}})[0];
   if ($curmakefile eq 'iup') {
+    $cf =~ s|-Iz:/mingw32bit/include||g; #xxx hack
+    $cf =~ s/-I.\//-I/g;
     $cf =~ s/-I([a-zA-Z])/-I$srcdir{$curtarget}\/$1/g;
     $cf =~ s/-I\.\.\//-I/g;
     $cf =~ s/-I. /-I$srcdir{$curtarget} /g;
     $curlf = "$extralf{$curtarget} $curlf" if $extralf{$curtarget};
   }
-  $cf =~ s|-Iz:/mingw32bit/include||g; #xxx hack
   (my $cfms = $cf) =~ s/-Wall//g;
   $cfms =~ s/-DHAVE_UNISTD_H -DHAVE_STDINT_H -DJAS_TYPES/-DJAS_WIN_MSVC_BUILD -DWIN32 -DJAS_TYPES/;
   $cfms .= " -DWIN32";
@@ -112,7 +113,7 @@ sub flush_makefile {
     $tt->process('nmake.tt', \%data, "Makefile_$curmakefile.nmake");
 }
 
-open DAT, "<", $input;
+open DAT, "<", $input or die "$!";
 while (<DAT>) {
   chomp;
   if ( /^curdir=(.*?)([^\/]*)(\/src)?$/) {
@@ -145,7 +146,6 @@ while (<DAT>) {
   elsif (/^[^ ]*?(gcc|g\+\+) (.*?) -o .*?([^\/]*?)\.dll .*?\.a * (.*?)(-L[^ ]*)* (-l.*)$/) {
     $curlf = $6;
     $curlname = $3;
-    warn "l=$curlname";
     my @tmp = grep {/^[^-].*?\.o$/} split(' ', $4); 
     my @o = map { s|^(.*?/obj/).*?([^/]*)$|$2|; $_ } @tmp;
 #    warn "###$curlf\n";

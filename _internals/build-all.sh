@@ -60,12 +60,12 @@ function do_job {
 do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/mingw32bit"
 #do_job mingw4_64 "NO_DEPEND=Yes TEC_UNAME=mingw4_64 MINGW4=z:/mingw32bit"
 #do_job gcc4      "NO_DEPEND=Yes TEC_UNAME=gcc4"
-#do_job dllg4     "NO_DEPEND=Yes TEC_UNAME=dllg4"
 
-export Include='Z:\vc6sp6\PlatformSDK\Include;Z:\vc6sp6\Bin\ATL\INCLUDE;Z:\vc6sp6\INCLUDE;Z:\vc6sp6\MFC\INCLUDE'
-export Lib='Z:\vc6sp6\PlatformSDK\Lib;Z:\vc6sp6\LIB;Z:\vc6sp6\MFC\LIB'
-#do_job vc6       "NO_DEPEND=Yes TEC_UNAME=vc6 VC6=z:/vc6sp6 PLATSDK=z:/vc6sp6/PlatformSDK"
 
-export Include='Z:\SDK-WinSrv-2003sp1\Include;Z:\SDK-WinSrv-2003sp1\Include\crt;Z:\SDK-WinSrv-2003sp1\Include\crt\sys;Z:\SDK-WinSrv-2003sp1\Include\mfc;Z:\SDK-WinSrv-2003sp1\Include\atl'
-export Lib='Z:\SDK-WinSrv-2003sp1\Lib\AMD64;Z:\SDK-WinSrv-2003sp1\Lib\AMD64\atlmfc'
-#do_job vc8_64    "NO_DEPEND=Yes TEC_UNAME=vc8_64 VC8=z:/SDK-WinSrv-2003sp1 PLATSDK=z:/SDK-WinSrv-2003sp1 BIN=z:/SDK-WinSrv-2003sp1/bin/win64"
+### export Include='Z:\vc6sp6\PlatformSDK\Include;Z:\vc6sp6\Bin\ATL\INCLUDE;Z:\vc6sp6\INCLUDE;Z:\vc6sp6\MFC\INCLUDE'
+### export Lib='Z:\vc6sp6\PlatformSDK\Lib;Z:\vc6sp6\LIB;Z:\vc6sp6\MFC\LIB'
+### #do_job vc6       "NO_DEPEND=Yes TEC_UNAME=vc6 VC6=z:/vc6sp6 PLATSDK=z:/vc6sp6/PlatformSDK"
+### 
+### export Include='Z:\SDK-WinSrv-2003sp1\Include;Z:\SDK-WinSrv-2003sp1\Include\crt;Z:\SDK-WinSrv-2003sp1\Include\crt\sys;Z:\SDK-WinSrv-2003sp1\Include\mfc;Z:\SDK-WinSrv-2003sp1\Include\atl'
+### export Lib='Z:\SDK-WinSrv-2003sp1\Lib\AMD64;Z:\SDK-WinSrv-2003sp1\Lib\AMD64\atlmfc'
+### #do_job vc8_64    "NO_DEPEND=Yes TEC_UNAME=vc8_64 VC8=z:/SDK-WinSrv-2003sp1 PLATSDK=z:/SDK-WinSrv-2003sp1 BIN=z:/SDK-WinSrv-2003sp1/bin/win64"
