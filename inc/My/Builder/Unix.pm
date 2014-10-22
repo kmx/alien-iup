@@ -157,12 +157,12 @@ sub build_binaries {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
     @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupweb iuptuio];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_zlib cd_freetype cd];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
     #  @imtargets = grep { $_ !~ /^im_process$/ } @imtargets;

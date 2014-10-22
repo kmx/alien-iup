@@ -24,13 +24,13 @@ LF_ALL   = -L./lib/$(BUILDNICK) -L"$(LIBDIR)"
 VER_OBJ      = version.o
 VER_RC       = version.rc
 
-BUILD_DIRS   = ./obj/$(BUILDNICK)/iup ./obj/$(BUILDNICK)/iupcd ./obj/$(BUILDNICK)/iupcontrols ./obj/$(BUILDNICK)/iup_pplot ./obj/$(BUILDNICK)/iup_mglplot ./obj/$(BUILDNICK)/iup_scintilla ./obj/$(BUILDNICK)/iupgl ./obj/$(BUILDNICK)/iupglcontrols ./obj/$(BUILDNICK)/iupim ./obj/$(BUILDNICK)/iupole ./obj/$(BUILDNICK)/iuptuio ./obj/$(BUILDNICK)/iupimglib ./lib/$(BUILDNICK)
+BUILD_DIRS   = ./obj/$(BUILDNICK)/iup ./obj/$(BUILDNICK)/iupcd ./obj/$(BUILDNICK)/iupcontrols ./obj/$(BUILDNICK)/iupgl ./obj/$(BUILDNICK)/iupglcontrols ./obj/$(BUILDNICK)/iupim ./obj/$(BUILDNICK)/iupimglib ./obj/$(BUILDNICK)/iupmatrixex ./obj/$(BUILDNICK)/iupole ./obj/$(BUILDNICK)/iup_mglplot ./obj/$(BUILDNICK)/iup_pplot ./obj/$(BUILDNICK)/iup_scintilla ./obj/$(BUILDNICK)/iuptuio ./lib/$(BUILDNICK)
 
-ALL_OBJS     = $(OBJS_iup) $(OBJS_iupcd) $(OBJS_iupcontrols) $(OBJS_iup_pplot) $(OBJS_iup_mglplot) $(OBJS_iup_scintilla) $(OBJS_iupgl) $(OBJS_iupglcontrols) $(OBJS_iupim) $(OBJS_iupole) $(OBJS_iuptuio) $(OBJS_iupimglib)
+ALL_OBJS     = $(OBJS_iup) $(OBJS_iupcd) $(OBJS_iupcontrols) $(OBJS_iupgl) $(OBJS_iupglcontrols) $(OBJS_iupim) $(OBJS_iupimglib) $(OBJS_iupmatrixex) $(OBJS_iupole) $(OBJS_iup_mglplot) $(OBJS_iup_pplot) $(OBJS_iup_scintilla) $(OBJS_iuptuio)
 
-STATIC_LIBS  = $(SLIB_iup) $(SLIB_iupcd) $(SLIB_iupcontrols) $(SLIB_iup_pplot) $(SLIB_iup_mglplot) $(SLIB_iup_scintilla) $(SLIB_iupgl) $(SLIB_iupglcontrols) $(SLIB_iupim) $(SLIB_iupole) $(SLIB_iuptuio) $(SLIB_iupimglib)
+STATIC_LIBS  = $(SLIB_iup) $(SLIB_iupcd) $(SLIB_iupcontrols) $(SLIB_iupgl) $(SLIB_iupglcontrols) $(SLIB_iupim) $(SLIB_iupimglib) $(SLIB_iupmatrixex) $(SLIB_iupole) $(SLIB_iup_mglplot) $(SLIB_iup_pplot) $(SLIB_iup_scintilla) $(SLIB_iuptuio)
 
-DYNAMIC_LIBS = $(DLIB_iup) $(ILIB_iup) $(DLIB_iupcd) $(ILIB_iupcd) $(DLIB_iupcontrols) $(ILIB_iupcontrols) $(DLIB_iup_pplot) $(ILIB_iup_pplot) $(DLIB_iup_mglplot) $(ILIB_iup_mglplot) $(DLIB_iup_scintilla) $(ILIB_iup_scintilla) $(DLIB_iupgl) $(ILIB_iupgl) $(DLIB_iupglcontrols) $(ILIB_iupglcontrols) $(DLIB_iupim) $(ILIB_iupim) $(DLIB_iupole) $(ILIB_iupole) $(DLIB_iuptuio) $(ILIB_iuptuio) $(DLIB_iupimglib) $(ILIB_iupimglib)
+DYNAMIC_LIBS = $(DLIB_iup) $(ILIB_iup) $(DLIB_iupcd) $(ILIB_iupcd) $(DLIB_iupcontrols) $(ILIB_iupcontrols) $(DLIB_iupgl) $(ILIB_iupgl) $(DLIB_iupglcontrols) $(ILIB_iupglcontrols) $(DLIB_iupim) $(ILIB_iupim) $(DLIB_iupimglib) $(ILIB_iupimglib) $(DLIB_iupmatrixex) $(ILIB_iupmatrixex) $(DLIB_iupole) $(ILIB_iupole) $(DLIB_iup_mglplot) $(ILIB_iup_mglplot) $(DLIB_iup_pplot) $(ILIB_iup_pplot) $(DLIB_iup_scintilla) $(ILIB_iup_scintilla) $(DLIB_iuptuio) $(ILIB_iuptuio)
 
 ALL_LIBS     = $(STATIC_LIBS) $(DYNAMIC_LIBS)
 
@@ -40,7 +40,7 @@ all: all-static all-dynamic
 
 
 ### START OF iup ###
-CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc   -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x600 -DWINVER=0x0501 -DNOTREEVIEW -DUNICODE -DIUP_DLL $(CF_iup_EXTRA)
+CF_iup   = -c  -Wall -O2 -Iinclude -Isrc -Isrc/win -Ietc -D_WIN32_WINNT=0x0501 -D_WIN32_IE=0x600 -DWINVER=0x0501 -DNOTREEVIEW -DUNICODE -DIUP_DLL $(CF_iup_EXTRA)
 LF_iup   = -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_EXTRA)
 SLIB_iup = ./lib/$(BUILDNICK)/libiup.a
 DLIB_iup = ./lib/$(BUILDNICK)/libiup.dll.a
@@ -169,7 +169,7 @@ iup-static: build-dirs $(SLIB_iup)
 iup-dynamic: build-dirs $(ILIB_iup) $(DLIB_iup)
 
 ### START OF iupcd ###
-CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include   -DCD_NO_OLD_INTERFACE $(CF_iupcd_EXTRA)
+CF_iupcd   = -c  -Wall -O2 -Iinclude -I../cd/include -DCD_NO_OLD_INTERFACE $(CF_iupcd_EXTRA)
 LF_iupcd   = -L../cd/lib/$(BUILDNICK) -liup -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupcd_EXTRA)
 SLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.a
 DLIB_iupcd = ./lib/$(BUILDNICK)/libiupcd.dll.a
@@ -189,7 +189,7 @@ iupcd-static: build-dirs $(SLIB_iupcd)
 iupcd-dynamic: build-dirs $(ILIB_iupcd) $(DLIB_iupcd)
 
 ### START OF iupcontrols ###
-CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include    $(CF_iupcontrols_EXTRA)
+CF_iupcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrccontrols -I../cd/include  $(CF_iupcontrols_EXTRA)
 LF_iupcontrols   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupcontrols_EXTRA)
 SLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.a
 DLIB_iupcontrols = ./lib/$(BUILDNICK)/libiupcontrols.dll.a
@@ -231,30 +231,168 @@ $(ILIB_iupcontrols) $(DLIB_iupcontrols) : $(OBJS_iupcontrols)
 iupcontrols-static: build-dirs $(SLIB_iupcontrols)
 iupcontrols-dynamic: build-dirs $(ILIB_iupcontrols) $(DLIB_iupcontrols)
 
-### START OF iup_pplot ###
-CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include   -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE $(CF_iup_pplot_EXTRA)
-LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_pplot_EXTRA)
-SLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.a
-DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
-ILIB_iup_pplot = ./lib/$(BUILDNICK)/iup_pplot_alien_.dll
-OBJS_iup_pplot = ./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o ./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o ./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o
+### START OF iupgl ###
+CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc  $(CF_iupgl_EXTRA)
+LF_iupgl   = -liup -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupgl_EXTRA)
+SLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.a
+DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
+ILIB_iupgl = ./lib/$(BUILDNICK)/iupgl_alien_.dll
+OBJS_iupgl = ./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o
 
-./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o : srcpplot/iupPPlot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
-./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o : srcpplot/iupPPlotInteraction.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
-./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o : srcpplot/iup_pplot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o : srcgl/iup_glcanvas_win.c ; gcc $(CF_ALL) $(CF_iupgl) $^ -o $@
 
-$(SLIB_iup_pplot): $(OBJS_iup_pplot)
+$(SLIB_iupgl): $(OBJS_iupgl)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(ILIB_iup_pplot) $(DLIB_iup_pplot) : $(OBJS_iup_pplot)
-	g++ -s -shared -o $(ILIB_iup_pplot) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup_pplot) $(LF_iup_pplot) $(LF_ALL)
-	-strip $(ILIB_iup_pplot)
+$(ILIB_iupgl) $(DLIB_iupgl) : $(OBJS_iupgl)
+	g++ -s -shared -o $(ILIB_iupgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupgl) $(LF_iupgl) $(LF_ALL)
+	-strip $(ILIB_iupgl)
 
-iup_pplot-static: build-dirs $(SLIB_iup_pplot)
-iup_pplot-dynamic: build-dirs $(ILIB_iup_pplot) $(DLIB_iup_pplot)
+iupgl-static: build-dirs $(SLIB_iupgl)
+iupgl-dynamic: build-dirs $(ILIB_iupgl) $(DLIB_iupgl)
+
+### START OF iupglcontrols ###
+CF_iupglcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrcglcontrols -Isrcglcontrols/freetype -DFTGL_LIBRARY $(CF_iupglcontrols_EXTRA)
+LF_iupglcontrols   = -liupgl -liup -lftgl -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupglcontrols_EXTRA)
+SLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.a
+DLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.dll.a
+ILIB_iupglcontrols = ./lib/$(BUILDNICK)/iupglcontrols_alien_.dll
+OBJS_iupglcontrols = ./obj/$(BUILDNICK)/iupglcontrols/iup_glcontrols.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glcanvasbox.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glsubcanvas.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gllabel.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glimage.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glfont.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gldraw.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glicon.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glseparator.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glbutton.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gltoggle.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gllink.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glprogressbar.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glval.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glframe.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glexpander.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbars.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbox.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glsizebox.o
+
+./obj/$(BUILDNICK)/iupglcontrols/iup_glcontrols.o : srcglcontrols/iup_glcontrols.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glcanvasbox.o : srcglcontrols/iup_glcanvasbox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glsubcanvas.o : srcglcontrols/iup_glsubcanvas.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_gllabel.o : srcglcontrols/iup_gllabel.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glimage.o : srcglcontrols/iup_glimage.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glfont.o : srcglcontrols/iup_glfont.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_gldraw.o : srcglcontrols/iup_gldraw.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glicon.o : srcglcontrols/iup_glicon.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glseparator.o : srcglcontrols/iup_glseparator.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glbutton.o : srcglcontrols/iup_glbutton.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_gltoggle.o : srcglcontrols/iup_gltoggle.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_gllink.o : srcglcontrols/iup_gllink.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glprogressbar.o : srcglcontrols/iup_glprogressbar.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glval.o : srcglcontrols/iup_glval.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glframe.o : srcglcontrols/iup_glframe.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glexpander.o : srcglcontrols/iup_glexpander.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbars.o : srcglcontrols/iup_glscrollbars.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbox.o : srcglcontrols/iup_glscrollbox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+./obj/$(BUILDNICK)/iupglcontrols/iup_glsizebox.o : srcglcontrols/iup_glsizebox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
+
+$(SLIB_iupglcontrols): $(OBJS_iupglcontrols)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupglcontrols) $(DLIB_iupglcontrols) : $(OBJS_iupglcontrols)
+	g++ -s -shared -o $(ILIB_iupglcontrols) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupglcontrols) $(LF_iupglcontrols) $(LF_ALL)
+	-strip $(ILIB_iupglcontrols)
+
+iupglcontrols-static: build-dirs $(SLIB_iupglcontrols)
+iupglcontrols-dynamic: build-dirs $(ILIB_iupglcontrols) $(DLIB_iupglcontrols)
+
+### START OF iupim ###
+CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include  $(CF_iupim_EXTRA)
+LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupim_EXTRA)
+SLIB_iupim = ./lib/$(BUILDNICK)/libiupim.a
+DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
+ILIB_iupim = ./lib/$(BUILDNICK)/iupim_alien_.dll
+OBJS_iupim = ./obj/$(BUILDNICK)/iupim/iup_im.o
+
+./obj/$(BUILDNICK)/iupim/iup_im.o : srcim/iup_im.c ; gcc $(CF_ALL) $(CF_iupim) $^ -o $@
+
+$(SLIB_iupim): $(OBJS_iupim)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupim) $(DLIB_iupim) : $(OBJS_iupim)
+	g++ -s -shared -o $(ILIB_iupim) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupim) $(LF_iupim) $(LF_ALL)
+	-strip $(ILIB_iupim)
+
+iupim-static: build-dirs $(SLIB_iupim)
+iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim)
+
+### START OF iupimglib ###
+CF_iupimglib   = -c  -Wall -Iinclude -Isrc  $(CF_iupimglib_EXTRA)
+LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupimglib_EXTRA)
+SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
+DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
+ILIB_iupimglib = ./lib/$(BUILDNICK)/iupimglib_alien_.dll
+OBJS_iupimglib = ./obj/$(BUILDNICK)/iupimglib/iup_image_library.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmapsgtk.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_icons.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_logos.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmaps.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_logosw32.o
+
+./obj/$(BUILDNICK)/iupimglib/iup_image_library.o : srcimglib/iup_image_library.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmapsgtk.o : srcimglib/iup_imglib_bitmapsgtk.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+./obj/$(BUILDNICK)/iupimglib/iup_imglib_icons.o : srcimglib/iup_imglib_icons.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+./obj/$(BUILDNICK)/iupimglib/iup_imglib_logos.o : srcimglib/iup_imglib_logos.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmaps.o : srcimglib/iup_imglib_bitmaps.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+./obj/$(BUILDNICK)/iupimglib/iup_imglib_logosw32.o : srcimglib/iup_imglib_logosw32.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
+
+$(SLIB_iupimglib): $(OBJS_iupimglib)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupimglib) $(DLIB_iupimglib) : $(OBJS_iupimglib)
+	g++ -s -shared -o $(ILIB_iupimglib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupimglib) $(LF_iupimglib) $(LF_ALL)
+	-strip $(ILIB_iupimglib)
+
+iupimglib-static: build-dirs $(SLIB_iupimglib)
+iupimglib-dynamic: build-dirs $(ILIB_iupimglib) $(DLIB_iupimglib)
+
+### START OF iupmatrixex ###
+CF_iupmatrixex   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmatrixex -I../cd/include  $(CF_iupmatrixex_EXTRA)
+LF_iupmatrixex   = -liup -liupcontrols -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupmatrixex_EXTRA)
+SLIB_iupmatrixex = ./lib/$(BUILDNICK)/libiupmatrixex.a
+DLIB_iupmatrixex = ./lib/$(BUILDNICK)/libiupmatrixex.dll.a
+ILIB_iupmatrixex = ./lib/$(BUILDNICK)/iupmatrixex_alien_.dll
+OBJS_iupmatrixex = ./obj/$(BUILDNICK)/iupmatrixex/iup_matrixex.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_clipboard.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_busy.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_export.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_visible.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_copy.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_units.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_find.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_undo.o ./obj/$(BUILDNICK)/iupmatrixex/iupmatex_sort.o
+
+./obj/$(BUILDNICK)/iupmatrixex/iup_matrixex.o : srcmatrixex/iup_matrixex.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_clipboard.o : srcmatrixex/iupmatex_clipboard.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_busy.o : srcmatrixex/iupmatex_busy.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_export.o : srcmatrixex/iupmatex_export.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_visible.o : srcmatrixex/iupmatex_visible.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_copy.o : srcmatrixex/iupmatex_copy.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_units.o : srcmatrixex/iupmatex_units.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_find.o : srcmatrixex/iupmatex_find.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_undo.o : srcmatrixex/iupmatex_undo.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+./obj/$(BUILDNICK)/iupmatrixex/iupmatex_sort.o : srcmatrixex/iupmatex_sort.c ; gcc $(CF_ALL) $(CF_iupmatrixex) $^ -o $@
+
+$(SLIB_iupmatrixex): $(OBJS_iupmatrixex)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupmatrixex) $(DLIB_iupmatrixex) : $(OBJS_iupmatrixex)
+	g++ -s -shared -o $(ILIB_iupmatrixex) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupmatrixex) $(LF_iupmatrixex) $(LF_ALL)
+	-strip $(ILIB_iupmatrixex)
+
+iupmatrixex-static: build-dirs $(SLIB_iupmatrixex)
+iupmatrixex-dynamic: build-dirs $(ILIB_iupmatrixex) $(DLIB_iupmatrixex)
+
+### START OF iupole ###
+CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc  $(CF_iupole_EXTRA)
+LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupole_EXTRA)
+SLIB_iupole = ./lib/$(BUILDNICK)/libiupole.a
+DLIB_iupole = ./lib/$(BUILDNICK)/libiupole.dll.a
+ILIB_iupole = ./lib/$(BUILDNICK)/iupole_alien_.dll
+OBJS_iupole = ./obj/$(BUILDNICK)/iupole/iup_olecontrol.o ./obj/$(BUILDNICK)/iupole/tLegacy.o ./obj/$(BUILDNICK)/iupole/tAmbientProperties.o ./obj/$(BUILDNICK)/iupole/tDispatch.o ./obj/$(BUILDNICK)/iupole/tOleClientSite.o ./obj/$(BUILDNICK)/iupole/tOleControlSite.o ./obj/$(BUILDNICK)/iupole/tOleHandler.o ./obj/$(BUILDNICK)/iupole/tOleInPlaceFrame.o ./obj/$(BUILDNICK)/iupole/tOleInPlaceSite.o
+
+./obj/$(BUILDNICK)/iupole/iup_olecontrol.o : srcole/iup_olecontrol.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tLegacy.o : srcole/tLegacy.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tAmbientProperties.o : srcole/tAmbientProperties.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tDispatch.o : srcole/tDispatch.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tOleClientSite.o : srcole/tOleClientSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tOleControlSite.o : srcole/tOleControlSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tOleHandler.o : srcole/tOleHandler.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tOleInPlaceFrame.o : srcole/tOleInPlaceFrame.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+./obj/$(BUILDNICK)/iupole/tOleInPlaceSite.o : srcole/tOleInPlaceSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
+
+$(SLIB_iupole): $(OBJS_iupole)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iupole) $(DLIB_iupole) : $(OBJS_iupole)
+	g++ -s -shared -o $(ILIB_iupole) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupole) $(LF_iupole) $(LF_ALL)
+	-strip $(ILIB_iupole)
+
+iupole-static: build-dirs $(SLIB_iupole)
+iupole-dynamic: build-dirs $(ILIB_iupole) $(DLIB_iupole)
 
 ### START OF iup_mglplot ###
-CF_iup_mglplot   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmglplot    $(CF_iup_mglplot_EXTRA)
+CF_iup_mglplot   = -c  -Wall -O2 -Iinclude -Isrc -Isrcmglplot  $(CF_iup_mglplot_EXTRA)
 LF_iup_mglplot   = -liup -liupgl -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_mglplot_EXTRA)
 SLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.a
 DLIB_iup_mglplot = ./lib/$(BUILDNICK)/libiup_mglplot.dll.a
@@ -313,8 +451,30 @@ $(ILIB_iup_mglplot) $(DLIB_iup_mglplot) : $(OBJS_iup_mglplot)
 iup_mglplot-static: build-dirs $(SLIB_iup_mglplot)
 iup_mglplot-dynamic: build-dirs $(ILIB_iup_mglplot) $(DLIB_iup_mglplot)
 
+### START OF iup_pplot ###
+CF_iup_pplot   = -c  -Wall -O2 -Iinclude -Isrc -I../cd/include -D_IUP_PPLOT_ -DCD_NO_OLD_INTERFACE $(CF_iup_pplot_EXTRA)
+LF_iup_pplot   = -L../cd/lib/$(BUILDNICK) -liup -liupcd -lcd -lfreetype6 -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_pplot_EXTRA)
+SLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.a
+DLIB_iup_pplot = ./lib/$(BUILDNICK)/libiup_pplot.dll.a
+ILIB_iup_pplot = ./lib/$(BUILDNICK)/iup_pplot_alien_.dll
+OBJS_iup_pplot = ./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o ./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o ./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o
+
+./obj/$(BUILDNICK)/iup_pplot/iupPPlot.o : srcpplot/iupPPlot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+./obj/$(BUILDNICK)/iup_pplot/iupPPlotInteraction.o : srcpplot/iupPPlotInteraction.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+./obj/$(BUILDNICK)/iup_pplot/iup_pplot.o : srcpplot/iup_pplot.cpp ; g++ $(CF_ALL) $(CF_iup_pplot) $^ -o $@
+
+$(SLIB_iup_pplot): $(OBJS_iup_pplot)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(ILIB_iup_pplot) $(DLIB_iup_pplot) : $(OBJS_iup_pplot)
+	g++ -s -shared -o $(ILIB_iup_pplot) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iup_pplot) $(LF_iup_pplot) $(LF_ALL)
+	-strip $(ILIB_iup_pplot)
+
+iup_pplot-static: build-dirs $(SLIB_iup_pplot)
+iup_pplot-dynamic: build-dirs $(ILIB_iup_pplot) $(DLIB_iup_pplot)
+
 ### START OF iup_scintilla ###
-CF_iup_scintilla   = -c  -Wall -O2 -Iinclude -Isrc -Isrcscintilla -Isrc/win -Isrcscintilla/lexlib -Isrcscintilla/src -Isrcscintilla/include -Isrcscintilla/win32 -Isrcscintilla/win   -DSTATIC_BUILD -DSCI_LEXER -DSCI_NAMESPACE -DUNICODE -D_WIN32 -DDISABLE_D2D $(CF_iup_scintilla_EXTRA)
+CF_iup_scintilla   = -c  -Wall -O2 -Iinclude -Isrc -Isrcscintilla -Isrc/win -Isrcscintilla/lexlib -Isrcscintilla/src -Isrcscintilla/include -Isrcscintilla/win32 -Isrcscintilla/win -DSTATIC_BUILD -DSCI_LEXER -DSCI_NAMESPACE -DUNICODE -D_WIN32 -DDISABLE_D2D $(CF_iup_scintilla_EXTRA)
 LF_iup_scintilla   = -liup -limm32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iup_scintilla_EXTRA)
 SLIB_iup_scintilla = ./lib/$(BUILDNICK)/libiup_scintilla.a
 DLIB_iup_scintilla = ./lib/$(BUILDNICK)/libiup_scintilla.dll.a
@@ -482,114 +642,8 @@ $(ILIB_iup_scintilla) $(DLIB_iup_scintilla) : $(OBJS_iup_scintilla)
 iup_scintilla-static: build-dirs $(SLIB_iup_scintilla)
 iup_scintilla-dynamic: build-dirs $(ILIB_iup_scintilla) $(DLIB_iup_scintilla)
 
-### START OF iupgl ###
-CF_iupgl   = -c  -Wall -O2 -Iinclude -Isrc    $(CF_iupgl_EXTRA)
-LF_iupgl   = -liup -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupgl_EXTRA)
-SLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.a
-DLIB_iupgl = ./lib/$(BUILDNICK)/libiupgl.dll.a
-ILIB_iupgl = ./lib/$(BUILDNICK)/iupgl_alien_.dll
-OBJS_iupgl = ./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o
-
-./obj/$(BUILDNICK)/iupgl/iup_glcanvas_win.o : srcgl/iup_glcanvas_win.c ; gcc $(CF_ALL) $(CF_iupgl) $^ -o $@
-
-$(SLIB_iupgl): $(OBJS_iupgl)
-	$(AR) $(ARFLAGS) $@ $^
-
-$(ILIB_iupgl) $(DLIB_iupgl) : $(OBJS_iupgl)
-	g++ -s -shared -o $(ILIB_iupgl) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupgl) $(LF_iupgl) $(LF_ALL)
-	-strip $(ILIB_iupgl)
-
-iupgl-static: build-dirs $(SLIB_iupgl)
-iupgl-dynamic: build-dirs $(ILIB_iupgl) $(DLIB_iupgl)
-
-### START OF iupglcontrols ###
-CF_iupglcontrols   = -c  -Wall -O2 -Iinclude -Isrc -Isrcglcontrols -Isrcglcontrols/freetype   -DFTGL_LIBRARY $(CF_iupglcontrols_EXTRA)
-LF_iupglcontrols   = -liupgl -liup -lftgl -lglaux -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupglcontrols_EXTRA)
-SLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.a
-DLIB_iupglcontrols = ./lib/$(BUILDNICK)/libiupglcontrols.dll.a
-ILIB_iupglcontrols = ./lib/$(BUILDNICK)/iupglcontrols_alien_.dll
-OBJS_iupglcontrols = ./obj/$(BUILDNICK)/iupglcontrols/iup_glcontrols.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glcanvasbox.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glsubcanvas.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gllabel.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glimage.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glfont.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gldraw.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glicon.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glseparator.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glbutton.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gltoggle.o ./obj/$(BUILDNICK)/iupglcontrols/iup_gllink.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glprogressbar.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glval.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glframe.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glexpander.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbars.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbox.o ./obj/$(BUILDNICK)/iupglcontrols/iup_glsizebox.o
-
-./obj/$(BUILDNICK)/iupglcontrols/iup_glcontrols.o : srcglcontrols/iup_glcontrols.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glcanvasbox.o : srcglcontrols/iup_glcanvasbox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glsubcanvas.o : srcglcontrols/iup_glsubcanvas.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_gllabel.o : srcglcontrols/iup_gllabel.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glimage.o : srcglcontrols/iup_glimage.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glfont.o : srcglcontrols/iup_glfont.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_gldraw.o : srcglcontrols/iup_gldraw.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glicon.o : srcglcontrols/iup_glicon.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glseparator.o : srcglcontrols/iup_glseparator.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glbutton.o : srcglcontrols/iup_glbutton.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_gltoggle.o : srcglcontrols/iup_gltoggle.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_gllink.o : srcglcontrols/iup_gllink.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glprogressbar.o : srcglcontrols/iup_glprogressbar.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glval.o : srcglcontrols/iup_glval.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glframe.o : srcglcontrols/iup_glframe.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glexpander.o : srcglcontrols/iup_glexpander.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbars.o : srcglcontrols/iup_glscrollbars.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glscrollbox.o : srcglcontrols/iup_glscrollbox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-./obj/$(BUILDNICK)/iupglcontrols/iup_glsizebox.o : srcglcontrols/iup_glsizebox.c ; gcc $(CF_ALL) $(CF_iupglcontrols) $^ -o $@
-
-$(SLIB_iupglcontrols): $(OBJS_iupglcontrols)
-	$(AR) $(ARFLAGS) $@ $^
-
-$(ILIB_iupglcontrols) $(DLIB_iupglcontrols) : $(OBJS_iupglcontrols)
-	g++ -s -shared -o $(ILIB_iupglcontrols) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupglcontrols) $(LF_iupglcontrols) $(LF_ALL)
-	-strip $(ILIB_iupglcontrols)
-
-iupglcontrols-static: build-dirs $(SLIB_iupglcontrols)
-iupglcontrols-dynamic: build-dirs $(ILIB_iupglcontrols) $(DLIB_iupglcontrols)
-
-### START OF iupim ###
-CF_iupim   = -c  -Wall -O2 -Iinclude -Isrc -I../im/include    $(CF_iupim_EXTRA)
-LF_iupim   = -L../im/lib/$(BUILDNICK) -liup -lim -lzlib1 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupim_EXTRA)
-SLIB_iupim = ./lib/$(BUILDNICK)/libiupim.a
-DLIB_iupim = ./lib/$(BUILDNICK)/libiupim.dll.a
-ILIB_iupim = ./lib/$(BUILDNICK)/iupim_alien_.dll
-OBJS_iupim = ./obj/$(BUILDNICK)/iupim/iup_im.o
-
-./obj/$(BUILDNICK)/iupim/iup_im.o : srcim/iup_im.c ; gcc $(CF_ALL) $(CF_iupim) $^ -o $@
-
-$(SLIB_iupim): $(OBJS_iupim)
-	$(AR) $(ARFLAGS) $@ $^
-
-$(ILIB_iupim) $(DLIB_iupim) : $(OBJS_iupim)
-	g++ -s -shared -o $(ILIB_iupim) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupim) $(LF_iupim) $(LF_ALL)
-	-strip $(ILIB_iupim)
-
-iupim-static: build-dirs $(SLIB_iupim)
-iupim-dynamic: build-dirs $(ILIB_iupim) $(DLIB_iupim)
-
-### START OF iupole ###
-CF_iupole   = -c  -Wall -O2 -Iinclude -Isrc    $(CF_iupole_EXTRA)
-LF_iupole   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupole_EXTRA)
-SLIB_iupole = ./lib/$(BUILDNICK)/libiupole.a
-DLIB_iupole = ./lib/$(BUILDNICK)/libiupole.dll.a
-ILIB_iupole = ./lib/$(BUILDNICK)/iupole_alien_.dll
-OBJS_iupole = ./obj/$(BUILDNICK)/iupole/iup_olecontrol.o ./obj/$(BUILDNICK)/iupole/tLegacy.o ./obj/$(BUILDNICK)/iupole/tAmbientProperties.o ./obj/$(BUILDNICK)/iupole/tDispatch.o ./obj/$(BUILDNICK)/iupole/tOleClientSite.o ./obj/$(BUILDNICK)/iupole/tOleControlSite.o ./obj/$(BUILDNICK)/iupole/tOleHandler.o ./obj/$(BUILDNICK)/iupole/tOleInPlaceFrame.o ./obj/$(BUILDNICK)/iupole/tOleInPlaceSite.o
-
-./obj/$(BUILDNICK)/iupole/iup_olecontrol.o : srcole/iup_olecontrol.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tLegacy.o : srcole/tLegacy.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tAmbientProperties.o : srcole/tAmbientProperties.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tDispatch.o : srcole/tDispatch.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tOleClientSite.o : srcole/tOleClientSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tOleControlSite.o : srcole/tOleControlSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tOleHandler.o : srcole/tOleHandler.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tOleInPlaceFrame.o : srcole/tOleInPlaceFrame.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-./obj/$(BUILDNICK)/iupole/tOleInPlaceSite.o : srcole/tOleInPlaceSite.cpp ; g++ $(CF_ALL) $(CF_iupole) $^ -o $@
-
-$(SLIB_iupole): $(OBJS_iupole)
-	$(AR) $(ARFLAGS) $@ $^
-
-$(ILIB_iupole) $(DLIB_iupole) : $(OBJS_iupole)
-	g++ -s -shared -o $(ILIB_iupole) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupole) $(LF_iupole) $(LF_ALL)
-	-strip $(ILIB_iupole)
-
-iupole-static: build-dirs $(SLIB_iupole)
-iupole-dynamic: build-dirs $(ILIB_iupole) $(DLIB_iupole)
-
 ### START OF iuptuio ###
-CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack   -DOSC_HOST_LITTLE_ENDIAN $(CF_iuptuio_EXTRA)
+CF_iuptuio   = -c  -Wall -O2 -Iinclude -Isrc -Isrctuio/tuio -Isrctuio/oscpack -DOSC_HOST_LITTLE_ENDIAN $(CF_iuptuio_EXTRA)
 LF_iuptuio   = -liup -lws2_32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iuptuio_EXTRA)
 SLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.a
 DLIB_iuptuio = ./lib/$(BUILDNICK)/libiuptuio.dll.a
@@ -616,31 +670,6 @@ $(ILIB_iuptuio) $(DLIB_iuptuio) : $(OBJS_iuptuio)
 
 iuptuio-static: build-dirs $(SLIB_iuptuio)
 iuptuio-dynamic: build-dirs $(ILIB_iuptuio) $(DLIB_iuptuio)
-
-### START OF iupimglib ###
-CF_iupimglib   = -c  -Wall -Iinclude -Isrc    $(CF_iupimglib_EXTRA)
-LF_iupimglib   = -liup -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -luuid -loleaut32 -lole32 -lcomctl32 $(LF_iupimglib_EXTRA)
-SLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.a
-DLIB_iupimglib = ./lib/$(BUILDNICK)/libiupimglib.dll.a
-ILIB_iupimglib = ./lib/$(BUILDNICK)/iupimglib_alien_.dll
-OBJS_iupimglib = ./obj/$(BUILDNICK)/iupimglib/iup_image_library.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmapsgtk.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_icons.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_logos.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmaps.o ./obj/$(BUILDNICK)/iupimglib/iup_imglib_logosw32.o
-
-./obj/$(BUILDNICK)/iupimglib/iup_image_library.o : srcimglib/iup_image_library.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmapsgtk.o : srcimglib/iup_imglib_bitmapsgtk.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-./obj/$(BUILDNICK)/iupimglib/iup_imglib_icons.o : srcimglib/iup_imglib_icons.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-./obj/$(BUILDNICK)/iupimglib/iup_imglib_logos.o : srcimglib/iup_imglib_logos.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-./obj/$(BUILDNICK)/iupimglib/iup_imglib_bitmaps.o : srcimglib/iup_imglib_bitmaps.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-./obj/$(BUILDNICK)/iupimglib/iup_imglib_logosw32.o : srcimglib/iup_imglib_logosw32.c ; gcc $(CF_ALL) $(CF_iupimglib) $^ -o $@
-
-$(SLIB_iupimglib): $(OBJS_iupimglib)
-	$(AR) $(ARFLAGS) $@ $^
-
-$(ILIB_iupimglib) $(DLIB_iupimglib) : $(OBJS_iupimglib)
-	g++ -s -shared -o $(ILIB_iupimglib) $^ -Wl,--enable-auto-import,--export-all -Wl,--out-implib=$(DLIB_iupimglib) $(LF_iupimglib) $(LF_ALL)
-	-strip $(ILIB_iupimglib)
-
-iupimglib-static: build-dirs $(SLIB_iupimglib)
-iupimglib-dynamic: build-dirs $(ILIB_iupimglib) $(DLIB_iupimglib)
 
 ### compile RC
 

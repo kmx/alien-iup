@@ -26,21 +26,22 @@ my $curlobjs = [];
 
 sub flush_target {
   my %srcdir = (
-    iupwin => 'src',
-    iup => 'src',
-    iupcd => 'srccd',
-    xx => 'srcconsole',
-    iupcontrols => 'srccontrols',
-    iupgl => 'srcgl',
+    iupwin        => 'src',
+    iup           => 'src',
+    iupcd         => 'srccd',
+    xx            => 'srcconsole',
+    iupcontrols   => 'srccontrols',
+    iupgl         => 'srcgl',
     iupglcontrols => 'srcglcontrols',
+    iupim         => 'srcim',
+    iupimglib     => 'srcimglib',
+    iupmatrixex   => 'srcmatrixex',
+    iupole        => 'srcole',
+    iup_mglplot   => 'srcmglplot',
+    iup_pplot     => 'srcpplot', 
     iup_scintilla => 'srcscintilla',
-    iupim => 'srcim',
-    iupimglib => 'srcimglib',
-    iupole => 'srcole',
-    iup_pplot => 'srcpplot', 
-    iup_mglplot => 'srcmglplot',
-    iuptuio => 'srctuio',
-    iupweb => 'srcweb',
+    iuptuio       => 'srctuio',
+    iupweb        => 'srcweb',
   );
   my %extralf = (
     iupwin => '',
@@ -60,8 +61,8 @@ sub flush_target {
   }    
   my @keeplist = @curlist;
   my $cf = (keys %{$flags1{$curtarget}})[0];
+  $cf =~ s| +-Iz:/mingw.*?/include +| |g; #xxx hack
   if ($curmakefile eq 'iup') {
-    $cf =~ s|-Iz:/mingw32bit/include||g; #xxx hack
     $cf =~ s/-I.\//-I/g;
     $cf =~ s/-I([a-zA-Z])/-I$srcdir{$curtarget}\/$1/g;
     $cf =~ s/-I\.\.\//-I/g;

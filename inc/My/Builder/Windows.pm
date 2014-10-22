@@ -34,12 +34,12 @@ sub build_binaries {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
     @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
     @cdtargets  = qw[cd_zlib cd_freetype cd cdcontextplus];
-    @iuptargets = qw[iup iupcd iupcontrols iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
     #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
     #  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6

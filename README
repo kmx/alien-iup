@@ -5,9 +5,9 @@ NAME
 VERSION
     Version 0.701 of Alien::IUP is based on the following:
 
-    *   *iup* library 3.11 - see <http://www.tecgraf.puc-rio.br/iup/>
+    *   *iup* library 3.11.2 - see <http://www.tecgraf.puc-rio.br/iup/>
 
-    *   *im* library 3.8.2 - see <http://www.tecgraf.puc-rio.br/im/>
+    *   *im* library 3.9 - see <http://www.tecgraf.puc-rio.br/im/>
 
     *   *cd* library 5.8 - see <http://www.tecgraf.puc-rio.br/cd/>
 

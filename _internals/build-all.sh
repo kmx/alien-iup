@@ -41,23 +41,24 @@ function do_job {
         (cd src;           make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srccd;         make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srccontrols;   make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srcpplot;      make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srcmglplot;    make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srcscintilla;  make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcgl;         make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcglcontrols; make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcim;         make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srcole;        make -f ../tecmakewin.mak $tecparams $mytarget)
-#        (cd srcweb;        make -f ../tecmakewin.mak $tecparams $mytarget)
-        (cd srctuio;       make -f ../tecmakewin.mak $tecparams $mytarget)
         (cd srcimglib;     make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcmatrixex;   make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcole;        make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcmglplot;    make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcpplot;      make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srcscintilla;  make -f ../tecmakewin.mak $tecparams $mytarget)
+        (cd srctuio;       make -f ../tecmakewin.mak $tecparams $mytarget)
+#        (cd srcweb;        make -f ../tecmakewin.mak $tecparams $mytarget)
     ) 2>&1 | tee -a build-$1.log 2>&1
 
     echo "Job '$1' done!"
 }
 
 #do_job mingw4    "NO_DEPEND=Yes TEC_UNAME=mingw4 MINGW4=z:/mingw32bit"
-do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/mingw32bit"
+do_job dllw4    "NO_DEPEND=Yes TEC_UNAME=dllw4 MINGW4=z:/mingw32bit.483"
 #do_job mingw4_64 "NO_DEPEND=Yes TEC_UNAME=mingw4_64 MINGW4=z:/mingw32bit"
 #do_job gcc4      "NO_DEPEND=Yes TEC_UNAME=gcc4"
 

@@ -1,6 +1,6 @@
 BUGS:
-- http://www.cpantesters.org/cpan/report/c911fc18-6c1e-1014-869a-ac4055012b15 (MSWin32) - srcglcontrols/FTGL/ftgl.h:32:22: fatal error: ft2build.h: No such file or directory
 - http://www.cpantesters.org/cpan/report/a3ea0816-18be-11e4-b698-db7a2867dcfa (OpenBSD) - ./mgl2/base.h:268: error: integer constant is too large for 'long' type
+- http://www.cpantesters.org/cpan/report/80e33797-6bfa-1014-8e38-5846731923a8 (Win32/gcc3) -  src\win\iupwin_dialog.c:52:22: Shobjidl.h: No such file or directory
 
 IMPORTANT:
 - iup_mglplot does not build 
