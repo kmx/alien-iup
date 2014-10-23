@@ -5,7 +5,7 @@ diff -ru iup.orig/src/win/iupwin_dialog.c iup/src/win/iupwin_dialog.c
  /****************************************************************
                       ITaskbarList3 resources
  ****************************************************************/
-+#if !defined(__CYGWIN__) || !defined(__GNUC__) || __GNUC__ > 3
++#if !defined(__GNUC__) || __GNUC__ > 3
  #include "Shobjidl.h"
 +#endif
  
