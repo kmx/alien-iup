@@ -1,0 +1,60 @@
+diff -ru iup.orig/srcmglplot/mgl2/define.h iup/srcmglplot/mgl2/define.h
+--- iup.orig/srcmglplot/mgl2/define.h	2014-10-22 18:51:01.794358900 +0200
++++ iup/srcmglplot/mgl2/define.h	2014-10-23 08:58:10.968043400 +0200
+@@ -132,7 +132,7 @@
+ #define M_PI	3.14159265358979323846  /* pi */
+ #endif
+ //-----------------------------------------------------------------------------
+-#ifdef WIN32
++#if defined(WIN32) && !defined(__CYGWIN__)
+ #define mglprintf    _snwprintf
+ #else
+ #define mglprintf    swprintf
+diff -ru iup.orig/srcmglplot/src/addon.cpp iup/srcmglplot/src/addon.cpp
+--- iup.orig/srcmglplot/src/addon.cpp	2014-10-22 18:51:01.844359000 +0200
++++ iup/srcmglplot/src/addon.cpp	2014-10-23 08:59:46.853345700 +0200
+@@ -18,7 +18,7 @@
+  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+  ***************************************************************************/
+ #include <stdarg.h>
+-#ifdef WIN32
++#if defined(WIN32) && !defined(__CYGWIN__)
+ #include <io.h>
+ #include <direct.h>
+ #else
+diff -ru iup.orig/srcmglplot/src/exec.cpp iup/srcmglplot/src/exec.cpp
+--- iup.orig/srcmglplot/src/exec.cpp	2014-10-22 18:51:01.924359100 +0200
++++ iup/srcmglplot/src/exec.cpp	2014-10-23 08:59:50.974540500 +0200
+@@ -17,7 +17,7 @@
+  *   Free Software Foundation, Inc.,                                       *
+  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+  ***************************************************************************/
+-#ifdef WIN32
++#if defined(WIN32) && !defined(__CYGWIN__)
+ #include <io.h>
+ #include <direct.h>
+ #else
+diff -ru iup.orig/srcmglplot/src/export.cpp iup/srcmglplot/src/export.cpp
+--- iup.orig/srcmglplot/src/export.cpp	2014-10-22 18:51:01.924359100 +0200
++++ iup/srcmglplot/src/export.cpp	2014-10-23 09:00:01.247518800 +0200
+@@ -584,7 +584,7 @@
+ 	char *f=new char[n+1];	memcpy(f,descr,n);	f[n]=0;
+ 	mgl_write_frame(_GR_,s,f);	delete []s;		delete []f;}
+ //-----------------------------------------------------------------------------
+-#ifdef WIN32
++#if defined(WIN32) && !defined(__CYGWIN__)
+ #include <io.h>
+ #include <direct.h>
+ #endif
+diff -ru iup.orig/srcmglplot/src/parser.cpp iup/srcmglplot/src/parser.cpp
+--- iup.orig/srcmglplot/src/parser.cpp	2014-10-22 18:51:01.934359100 +0200
++++ iup/srcmglplot/src/parser.cpp	2014-10-23 09:03:36.917378100 +0200
+@@ -22,7 +22,7 @@
+ #include "mgl2/canvas_cf.h"
+ #include "mgl2/base.h"
+ //-----------------------------------------------------------------------------
+-#ifdef WIN32
++#if defined(WIN32) && !defined(__CYGWIN__)
+ #include <io.h>
+ wchar_t *wcstokw32(wchar_t *wcs, const wchar_t *delim)	{	return wcstok(wcs,delim);	}
+ #define wcstok(a,b,c) wcstokw32(a,b)

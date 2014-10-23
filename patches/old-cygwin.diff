@@ -1,0 +1,13 @@
+diff -ru iup.orig/src/win/iupwin_dialog.c iup/src/win/iupwin_dialog.c
+--- iup.orig/src/win/iupwin_dialog.c	2014-10-22 18:51:01.264358200 +0200
++++ iup/src/win/iupwin_dialog.c	2014-10-23 13:44:00.099572500 +0200
+@@ -49,7 +49,9 @@
+ /****************************************************************
+                      ITaskbarList3 resources
+ ****************************************************************/
++#if !defined(__CYGWIN__) || !defined(__GNUC__) || __GNUC__ > 3
+ #include "Shobjidl.h"
++#endif
+ 
+ #ifdef __ITaskbarList3_FWD_DEFINED__  /* Only available since VC10 */
+ 
