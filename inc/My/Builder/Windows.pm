@@ -38,7 +38,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd cdcontextplus];
+    @cdtargets  = qw[cd_zlib cd_freetype cd cd_ftgl cdcontextplus];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
     #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
