@@ -158,6 +158,8 @@ sub build_binaries {
     @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
     @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupweb iuptuio iup_plot];
+
+    @iuptargets = grep { $_ !~ /^iupmatrixex$/ } @iuptargets;
   }
   else {
     @imtargets  = qw[im];
