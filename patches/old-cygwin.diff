@@ -1,10 +1,10 @@
-diff -ru iup.orig/src/win/iupwin_dialog.c iup/src/win/iupwin_dialog.c
---- iup.orig/src/win/iupwin_dialog.c	2014-10-22 18:51:01.264358200 +0200
-+++ iup/src/win/iupwin_dialog.c	2014-10-23 13:44:00.099572500 +0200
-@@ -49,7 +49,9 @@
- /****************************************************************
+diff -ru iup iup
+--- iup.orig/src/win/iupwin_dialog.c	2014-11-20 01:13:54.000000000 +0100
++++ iup/src/win/iupwin_dialog.c	2015-02-04 17:11:51.138236200 +0100
+@@ -50,7 +50,9 @@
                       ITaskbarList3 resources
  ****************************************************************/
+ #ifndef __MINGW32__
 +#if !defined(__GNUC__) || __GNUC__ > 3
  #include "Shobjidl.h"
 +#endif
