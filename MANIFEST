@@ -11,12 +11,15 @@ META.yml
 patches/cd-dragonfly.diff
 patches/im-dragonfly.diff
 patches/iup-cygwin.diff
+patches/makefile-matex.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
 patches/Makefile_im.mingw
 patches/Makefile_im.nmake
 patches/Makefile_iup.mingw
 patches/Makefile_iup.nmake
+patches/mglplot-cygwin.diff
+patches/old-cygwin.diff
 README
 sharedir/share
 t/00-load.t
