@@ -1,7 +1,7 @@
 Revision history for perl module Alien-IUP
 
-0.700_5 2014-10-23
-    -  IMPORTANT: switch to iup-3.11.2+im-3.9+cd-5.8
+0.700_6 2015-02-04
+    -  IMPORTANT: switch to iup-3.12+im-3.9+cd-5.8
     -  new: iupglcontrols iup_scintilla cdcontextplus
     -  fix for: https://rt.cpan.org/Public/Bug/Display.html?id=94615
 
