@@ -20,6 +20,7 @@ patches/Makefile_iup.mingw
 patches/Makefile_iup.nmake
 patches/mglplot-cygwin.diff
 patches/old-cygwin.diff
+patches/scintilla-cygwin.diff
 README
 sharedir/share
 t/00-load.t

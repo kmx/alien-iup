@@ -100,9 +100,9 @@ else {
   }
 
   # set what tarballs we are gonna use
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.12_Sources.tar.gz');
-  $builder->notes('iup_sha1', '207b4a049447bdb1ad4f39dbf404d924a64da535');
-  $builder->notes('iup_patches', [ qw!patches/old-cygwin.diff patches/makefile-matex.diff patches/mglplot-cygwin.diff patches/iup-cygwin.diff! ] );
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.13_Sources.tar.gz');
+  $builder->notes('iup_sha1', '9bd8bdb40eadd7e3a554c879072a4da1e37f0265');
+  $builder->notes('iup_patches', [ qw!patches/old-cygwin.diff patches/makefile-matex.diff patches/mglplot-cygwin.diff patches/scintilla-cygwin.diff patches/iup-cygwin.diff! ] );
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.9_Sources.tar.gz');
   $builder->notes('im_sha1', '55e54739e1f0b88c206e84ab2636a3277693e156');
