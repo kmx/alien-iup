@@ -13,7 +13,7 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = "0.700_7";
+our $VERSION = "0.701";
 
 =head1 VERSION
 
