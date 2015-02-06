@@ -269,6 +269,9 @@ sub build_binaries {
 ### on RedHat/CentOS/Fedora you need to install: 
 ###  $ yum install gtk2-devel cairo-devel libX11-devel libGLU-devel freeglut-devel
 ###
+### on FreeBSD you need to install:
+###  $ pkg install gtk2 cairo freeglut
+###
 MARKER
     die;
   }
