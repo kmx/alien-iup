@@ -161,7 +161,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd];
+    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iup_plot];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
