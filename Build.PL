@@ -106,7 +106,7 @@ else {
 
   $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.9_Sources.tar.gz');
   $builder->notes('im_sha1', '55e54739e1f0b88c206e84ab2636a3277693e156');
-  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff! ] );
+  $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-cygwin.diff! ] );
 
   $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.8_Sources.tar.gz');
   $builder->notes('cd_sha1', '397627d89811191c0db42b19accc2f7867042ab1');

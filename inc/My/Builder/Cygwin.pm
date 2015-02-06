@@ -29,7 +29,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd];
+    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
   }
   
@@ -77,7 +77,7 @@ sub build_binaries {
 
   my @iuplibs = $self->sort_libs(keys %seen);
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
-  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
+  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32 imm32/ ] );
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '-L/usr/lib/w32api');
 
