@@ -1,5 +1,8 @@
 Revision history for perl module Alien-IUP
 
+0.703 2015-02-08
+    -  improved checking of OpenGL libraries (UNIX)
+
 0.702 2015-02-06
     -  cygwin related patches
 

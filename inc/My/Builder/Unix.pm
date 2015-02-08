@@ -178,10 +178,16 @@ sub build_binaries {
     }
   }
 
-  @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets unless $has{l_GLU};
-  @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets unless $has{gl} && $has{glu};
-  @iuptargets = grep { $_ !~ /^(iupgl)$/ } @iuptargets unless $has{glx};
-  @iuptargets = grep { $_ !~ /^(iupglcontrols)$/ } @iuptargets unless $has{glx};
+  unless ($has{l_GL} && $has{l_GLU} && $has{gl} && $has{glx} && $has{glu}) {
+    warn "###WARN### OpenGL libraries not found or not complete\n";
+    warn "- required headers: GL/gl.h GL/glx.h GL/glu.h\n";
+    warn "- required libraries: libGL libGLU\n";
+    my $skip = $ENV{TRAVIS} ? 'y' : $self->prompt("Skip OpenGL related IUP/CD components?", 'y');
+    if (lc($skip) eq 'y') {
+      @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets;
+      @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_plot|iupglcontrols|iupgl)$/ } @iuptargets;
+    }
+  }
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
 
   #store debug info into ConfigData
