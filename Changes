@@ -1,5 +1,8 @@
 Revision history for perl module Alien-IUP
 
+0.703_1 2015-05-29
+    -  IMPORTANT: switch to iup-3.14+im-3.9.1+cd-5.8.2
+
 0.703 2015-02-08
     -  improved checking of OpenGL libraries (UNIX)
 

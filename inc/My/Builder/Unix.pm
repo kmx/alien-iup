@@ -25,8 +25,6 @@ sub build_binaries {
   my $dir_opengl_lib = ($d && -d $d && $d ne '/usr/lib') ? $d : '';
   $d = $self->run_stdout2str(qw[pkg-config --variable=includedir gl]);
   my $dir_opengl_inc = ($d && -d $d && $d ne '/usr/include') ? $d : '';
-  $d = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
-  my $dir_gtk = ($d && -d $d) ? $d : '';
 
   my $dir_mot_inc = ''; # Xm/Xm.h (do not know where to get a sane default)
   $dir_mot_inc  ||= '/usr/local/include'         if (-f '/usr/local/include/Xm/Xm.h');
@@ -77,8 +75,10 @@ sub build_binaries {
 
   my %list = (
     gtk        => 'gtk+-2.0',
+    gtk3       => 'gtk+-3.0',
     gtkx11     => 'gtk+-x11-2.0',
     gdk        => 'gdk-2.0',
+    gdk3       => 'gdk-3.0',
     gdkx11     => 'gdk-x11-2.0',
     gtkprint   => 'gtk+-unix-print-2.0',
     webkit     => 'webkit-1.0',
@@ -110,8 +110,10 @@ sub build_binaries {
   $has_details{'pkg-config'} = { version=>$pkgcfg, prefix=>$self->run_stdout2str(qw[which pkg-config]) };
   
   $has{l_gtk}   = $has{gtk}    && $self->check_lib( [] , `pkg-config --cflags gtk+-2.0 2>/dev/null`,     `pkg-config --libs gtk+-2.0 2>/dev/null`);
+  $has{l_gtk3}  = $has{gtk3}   && $self->check_lib( [] , `pkg-config --cflags gtk+-3.0 2>/dev/null`,     `pkg-config --libs gtk+-3.0 2>/dev/null`);
   $has{l_gtkx11}= $has{gtkx11} && $self->check_lib( [] , `pkg-config --cflags gtk+-x11-2.0 2>/dev/null`, `pkg-config --libs gtk+-x11-2.0 2>/dev/null`);
   $has{l_gdk}   = $has{gdk}    && $self->check_lib( [] , `pkg-config --cflags gdk-2.0 2>/dev/null`,      `pkg-config --libs gdk-2.0 2>/dev/null`);
+  $has{l_gdk3}  = $has{gdk3}   && $self->check_lib( [] , `pkg-config --cflags gdk-3.0 2>/dev/null`,      `pkg-config --libs gdk-3.0 2>/dev/null`);
   $has{l_gdkx11}= $has{gdkx11} && $self->check_lib( [] , `pkg-config --cflags gdk-x11-2.0 2>/dev/null`,  `pkg-config --libs gdk-x11-2.0 2>/dev/null`);
   $has{l_cairo} = $has{cairo}  && $self->check_lib( [] , `pkg-config --cflags cairo 2>/dev/null`,        `pkg-config --libs cairo 2>/dev/null`);
   $has{l_pango} = $has{pango}  && $self->check_lib( [] , `pkg-config --cflags pango 2>/dev/null`,        `pkg-config --libs pango 2>/dev/null`);
@@ -135,7 +137,8 @@ sub build_binaries {
   $has{gl}      = $self->check_header('GL/gl.h',   $extra_cflags);
 
   #kind of a special hack
-  $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`);
+  $has{freetype} = $self->check_header('ft2build.h', `pkg-config --cflags gtk+-2.0 gdk-2.0 2>/dev/null`) ||
+                   $self->check_header('ft2build.h', `pkg-config --cflags gtk+-3.0 gdk-3.0 2>/dev/null`);
 
   my @x11_libs; # just base X11 libs
   push(@x11_libs, 'X11')  if $has{l_X11};
@@ -216,7 +219,8 @@ sub build_binaries {
   my @build_opts;
   my $build_target;
 
-  push(@build_opts, 'GTK2') if ($has{gtk} && $has{cairo} && $has{Xlib});
+  push(@build_opts, 'GTK3') if ($has{gtk3} && $has{gdk3} && $has{cairo} && $has{Xlib});
+  push(@build_opts, 'GTK2') if ($has{gtk} && $has{gdk} && $has{cairo} && $has{Xlib});
   push(@build_opts, 'X11/Motif') if ($has{Xlib} && $has{Xm});
 
   if (scalar(@build_opts) == 1) {
@@ -246,7 +250,9 @@ sub build_binaries {
     print STDERR "Dumping some pkg-info:\n";
     print STDERR "[gtk2 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-2.0]) . "\n";
     print STDERR "[gtk2 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-2.0]) . "\n";
-    for my $pkg (qw[gtk+-2.0 gl glu glut x11 xt xext xmu]) {
+    print STDERR "[gtk3 cflags] " . $self->run_stdout2str(qw[pkg-config --cflags gtk+-3.0]) . "\n";
+    print STDERR "[gtk3 libs  ] " . $self->run_stdout2str(qw[pkg-config --libs gtk+-3.0]) . "\n";
+    for my $pkg (qw[gtk+-2.0 gtk+-3.0 gl glu glut x11 xt xext xmu]) {
       print STDERR "[prefix     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=prefix], $pkg) . "\n";
       print STDERR "[libdir     $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=libdir], $pkg) . "\n";
       print STDERR "[includedir $pkg] " . $self->run_stdout2str(qw[pkg-config --variable=includedir], $pkg) . "\n";
@@ -265,7 +271,8 @@ sub build_binaries {
   
   unless ($build_target) {
     warn <<'MARKER';
-###FATAL### No supported GUI subsystem (GTK2, X11/Motif) detected! (gonna exit)
+###FATAL### No supported GUI subsystem (GTK3, GTK2, X11/Motif) detected! (gonna exit)
+### for GTK3 you need: gtk+-3.0, gdk-3.0, cairo + X11/Xlib.h
 ### for GTK2 you need: gtk+-2.0, gdk-2.0, cairo + X11/Xlib.h
 ### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h
 ### 
@@ -285,13 +292,16 @@ MARKER
   $self->config_data('info_gui_driver', $build_target);
 
   print STDERR "Build target=", ($build_target || ''), "\n";
-  if ($build_target eq 'GTK2') {
+  if ($build_target eq 'GTK2' || $build_target eq 'GTK3') {
     push(@makeopts, 'USE_GTK=Yes');
+    push(@makeopts, 'USE_GTK3=Yes') if ($build_target eq 'GTK3');
     push(@makeopts, 'USE_GDK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
     
     #xxx maybe remove in the future (temporary fix)
-    my $gtk_base = $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]);
+    my $gtk_base = ($build_target eq 'GTK2') ?
+                   $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-2.0]) :
+                   $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-3.0]);
     push(@makeopts, "GTK_BASE=$gtk_base") if $gtk_base;
     push(@makeopts, "GTK=$gtk_base") if $gtk_base;
 
@@ -310,7 +320,9 @@ MARKER
 
     push(@libs, @opengl_libs);
     #Note: $extra_?flags will be stored into ConfigData - they are not used for building
-    my @mods = qw[gtk+-2.0 gdk-2.0 pango cairo];
+    my @mods = ($build_target eq 'GTK2') ?
+               qw[gtk+-2.0 gdk-2.0 pango cairo] :
+               qw[gtk+-3.0 gdk-3.0 pango cairo];
     $extra_cflags = $self->run_stdout2str(qw[pkg-config --cflags], @mods) . " $extra_cflags";
     $extra_lflags = $self->run_stdout2str(qw[pkg-config --libs], @mods) . " $extra_lflags";
   }

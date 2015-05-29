@@ -100,16 +100,16 @@ else {
   }
 
   # set what tarballs we are gonna use
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.13_Sources.tar.gz');
-  $builder->notes('iup_sha1', '9bd8bdb40eadd7e3a554c879072a4da1e37f0265');
+  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.14_Sources.tar.gz');
+  $builder->notes('iup_sha1', '0c28cb22de04f2b48944b0e8ab0cff9dd8fd45a8');
   $builder->notes('iup_patches', [ qw!patches/old-cygwin.diff patches/makefile-matex.diff patches/mglplot-cygwin.diff patches/scintilla-cygwin.diff patches/iup-cygwin.diff! ] );
 
-  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.9_Sources.tar.gz');
-  $builder->notes('im_sha1', '55e54739e1f0b88c206e84ab2636a3277693e156');
+  $builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.9.1_Sources.tar.gz');
+  $builder->notes('im_sha1', '0c25d2a778742069fe18a2cabfe51049986ecefe');
   $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-cygwin.diff! ] );
 
-  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.8_Sources.tar.gz');
-  $builder->notes('cd_sha1', '397627d89811191c0db42b19accc2f7867042ab1');
+  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.8.2_Sources.tar.gz');
+  $builder->notes('cd_sha1', '18e85edf33c21a218fa8499f74b2e0ea8b7616be');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff! ] );
 }
 

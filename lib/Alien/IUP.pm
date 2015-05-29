@@ -13,19 +13,19 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = "0.703";
+our $VERSION = "0.703_1";
 
 =head1 VERSION
 
-Version 0.703 of Alien::IUP is based on the following:
+Version 0.704 of Alien::IUP is based on the following:
 
 =over
 
-=item * I<iup> library 3.13 - see L<http://www.tecgraf.puc-rio.br/iup/>
+=item * I<iup> library 3.14 - see L<http://www.tecgraf.puc-rio.br/iup/>
 
-=item * I<im> library 3.9 - see L<http://www.tecgraf.puc-rio.br/im/>
+=item * I<im> library 3.9.1 - see L<http://www.tecgraf.puc-rio.br/im/>
 
-=item * I<cd> library 5.8.1 - see L<http://www.tecgraf.puc-rio.br/cd/>
+=item * I<cd> library 5.8.2 - see L<http://www.tecgraf.puc-rio.br/cd/>
 
 =back
 
@@ -88,7 +88,7 @@ I<iup> config('PREFIX') returns undef)
 
 =head2 havelib()
 
-[since 0.115] Checks the presence of given iup related libraries.
+Checks the presence of given iup related libraries.
 
  Alien::IUP->havelib('iupim');
  #or
@@ -109,10 +109,10 @@ the web interface at L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-IUP>.
 
 =head1 LICENSE AND COPYRIGHT
 
-Libraries I<iup>, I<im> and I<cd>: Copyright (C) 1994-2010 Tecgraf, PUC-Rio.
+Libraries I<iup>, I<im> and I<cd>: Copyright (C) 1994-2015 Tecgraf, PUC-Rio.
 L<http://www.tecgraf.puc-rio.br>
 
-Alien::IUP module: Copyright (C) 2010 KMX.
+Alien::IUP module: Copyright (C) 2015 KMX.
 
 This program is distributed under the MIT License:
 L<http://www.opensource.org/licenses/mit-license.php>
