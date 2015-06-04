@@ -278,6 +278,10 @@ sub build_binaries {
 ### 
 ### on Debian/Ubuntu you need to install: 
 ###  $ aptitude install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+###  $ aptitude install libgtk3.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+###  or
+###  $ sudo apt-get install libgtk-2-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+###  $ sudo apt-get install libgtk-3-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 ### 
 ### on RedHat/CentOS/Fedora you need to install: 
 ###  $ yum install gtk2-devel cairo-devel libX11-devel libGLU-devel freeglut-devel
