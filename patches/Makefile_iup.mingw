@@ -467,12 +467,12 @@ DLIB_iup_plot = ./lib/$(BUILDNICK)/libiup_plot.dll.a
 ILIB_iup_plot = ./lib/$(BUILDNICK)/iup_plot_alien_.dll
 OBJS_iup_plot = ./obj/$(BUILDNICK)/iup_plot/iup_plot.o ./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.o ./obj/$(BUILDNICK)/iup_plot/iupPlot.o ./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.o ./obj/$(BUILDNICK)/iup_plot/iupPlotTick.o ./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.o
 
-./obj/$(BUILDNICK)/iup_plot/iup_plot.o : /iup_plot.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
-./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.o : /iupPlotCalc.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
-./obj/$(BUILDNICK)/iup_plot/iupPlot.o : /iupPlot.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
-./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.o : /iupPlotDraw.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
-./obj/$(BUILDNICK)/iup_plot/iupPlotTick.o : /iupPlotTick.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
-./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.o : /iup_plot_attrib.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iup_plot.o : srcplot/iup_plot.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.o : srcplot/iupPlotCalc.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iupPlot.o : srcplot/iupPlot.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.o : srcplot/iupPlotDraw.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iupPlotTick.o : srcplot/iupPlotTick.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
+./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.o : srcplot/iup_plot_attrib.cpp ; g++ $(CF_ALL) $(CF_iup_plot) $^ -o $@
 
 $(SLIB_iup_plot): $(OBJS_iup_plot)
 	$(AR) $(ARFLAGS) $@ $^

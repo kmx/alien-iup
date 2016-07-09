@@ -455,12 +455,12 @@ DLIB_iup_plot = ./lib/$(BUILDNICK)/libiup_plot.dll.a
 ILIB_iup_plot = ./lib/$(BUILDNICK)/iup_plot_alien_.dll
 OBJS_iup_plot = ./obj/$(BUILDNICK)/iup_plot/iup_plot.obj ./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.obj ./obj/$(BUILDNICK)/iup_plot/iupPlot.obj ./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.obj ./obj/$(BUILDNICK)/iup_plot/iupPlotTick.obj ./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.obj
 
-./obj/$(BUILDNICK)/iup_plot/iup_plot.obj : /iup_plot.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
-./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.obj : /iupPlotCalc.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
-./obj/$(BUILDNICK)/iup_plot/iupPlot.obj : /iupPlot.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
-./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.obj : /iupPlotDraw.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
-./obj/$(BUILDNICK)/iup_plot/iupPlotTick.obj : /iupPlotTick.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
-./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.obj : /iup_plot_attrib.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iup_plot.obj : srcplot/iup_plot.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iupPlotCalc.obj : srcplot/iupPlotCalc.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iupPlot.obj : srcplot/iupPlot.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iupPlotDraw.obj : srcplot/iupPlotDraw.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iupPlotTick.obj : srcplot/iupPlotTick.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
+./obj/$(BUILDNICK)/iup_plot/iup_plot_attrib.obj : srcplot/iup_plot_attrib.cpp ; cl $(CF_ALL) $(CF_iup_plot) /Fo$@ $**
 
 $(SLIB_iup_plot): $(OBJS_iup_plot)
 	lib /OUT:$@ $**
