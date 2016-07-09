@@ -159,13 +159,13 @@ sub build_binaries {
   if ($self->notes('is_devel_cvs_version')) {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw im_capture];
-    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupweb iuptuio iup_plot];
+    @cdtargets  = qw[cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_plot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupweb iuptuio iup_plot];
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd];
-    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iup_plot];
+    @cdtargets  = qw[cd];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_plot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iup_plot];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
     #  @imtargets = grep { $_ !~ /^im_process$/ } @imtargets;
