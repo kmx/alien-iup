@@ -33,13 +33,13 @@ sub build_binaries {
   if ($self->notes('is_devel_cvs_version')) {
     ### DEVEL BUILD ###
     @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
-    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl cdcontextplus];
+    @cdtargets  = qw[cd cd_pdflib cdpdf cdgl cdcontextplus];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd cd_ftgl cdcontextplus];
-    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
+    @cdtargets  = qw[cd cdcontextplus];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
     #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
     #  @cdtargets  = grep { $_ !~ /^(cd_ftgl)$/ } @cdtargets;     # disable just when compiling via VC6
@@ -70,14 +70,21 @@ sub build_binaries {
   $self->config_data('info_gui_driver', 'Win32/native');
 
   my (@cmd_im, @cmd_cd, @cmd_iup);
+  my (@cmd_zl, @cmd_ft, @cmd_ftgl);
   if($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/) { # MSVC compiler
-    @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),  "PERL=perl", "PREFIX=$prefixdir" );
-    @cmd_cd  = ( $Config{make}, '-f', rel2abs('patches\Makefile_cd.nmake'),  "PERL=perl", "PREFIX=$prefixdir" );
-    @cmd_iup = ( $Config{make}, '-f', rel2abs('patches\Makefile_iup.nmake'), "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_im  = ( $Config{make}, '-f', rel2abs('patches\Makefile_im.nmake'),       "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_cd  = ( $Config{make}, '-f', rel2abs('patches\Makefile_cd.nmake'),       "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_iup = ( $Config{make}, '-f', rel2abs('patches\Makefile_iup.nmake'),      "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_zl  = ( $Config{make}, '-f', rel2abs('patches\Makefile_zlib.nmake'),     "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_ft  = ( $Config{make}, '-f', rel2abs('patches\Makefile_freetype.nmake'), "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_ftgl= ( $Config{make}, '-f', rel2abs('patches\Makefile_ftgl.nmake'),     "PERL=perl", "PREFIX=$prefixdir" );
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'CFG=Win64');
       push(@cmd_cd,  'CFG=Win64');
       push(@cmd_iup, 'CFG=Win64');
+      push(@cmd_zl,  'CFG=Win64');
+      push(@cmd_ft,  'CFG=Win64');
+      push(@cmd_ftgl,'CFG=Win64');
     }    
   }
   else { # gcc compiler
@@ -86,13 +93,19 @@ sub build_binaries {
     # for GNU make on MS Windows it is safer to convert \ to /
     $perl =~ s|\\|/|g;
     $prefixdir =~ s|\\|/|g;
-    @cmd_im  = ( $make, '-f', rel2abs('patches\Makefile_im.mingw'),  "PERL=$perl", "PREFIX=$prefixdir" );
-    @cmd_cd  = ( $make, '-f', rel2abs('patches\Makefile_cd.mingw'),  "PERL=$perl", "PREFIX=$prefixdir" );
-    @cmd_iup = ( $make, '-f', rel2abs('patches\Makefile_iup.mingw'), "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_im  = ( $make, '-f', rel2abs('patches\Makefile_im.mingw'),       "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_cd  = ( $make, '-f', rel2abs('patches\Makefile_cd.mingw'),       "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_iup = ( $make, '-f', rel2abs('patches\Makefile_iup.mingw'),      "PERL=$perl", "PREFIX=$prefixdir" );
+    @cmd_zl  = ( $make, '-f', rel2abs('patches\Makefile_zlib.mingw'),     "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_ft  = ( $make, '-f', rel2abs('patches\Makefile_freetype.mingw'), "PERL=perl", "PREFIX=$prefixdir" );
+    @cmd_ftgl= ( $make, '-f', rel2abs('patches\Makefile_ftgl.mingw'),     "PERL=perl", "PREFIX=$prefixdir" );
     if ($Config{archname} =~ /x64/) { #64bit
       push(@cmd_im,  'BUILDBITS=64');
       push(@cmd_cd,  'BUILDBITS=64');
       push(@cmd_iup, 'BUILDBITS=64');
+      push(@cmd_zl,  'BUILDBITS=64');
+      push(@cmd_ft,  'BUILDBITS=64');
+      push(@cmd_ftgl,'BUILDBITS=64');
     }    
   }
   
@@ -102,6 +115,36 @@ sub build_binaries {
   my $libtype = 'static';
   my $success = 1;
   my %done;
+
+  if(-d "$srcdir/zlib/src") {
+    print STDERR "Gonna build 'zlib'\n";
+    chdir "$srcdir/zlib/src";
+    $done{"zlib"} = $self->run_custom(@cmd_zl, 'cd_zlib-'.$libtype);
+    warn "###WARNING### error during make(zlib)" unless $done{"zlib"};
+    $success = 0 unless $done{"zlib"};
+    $self->run_custom(@cmd_zl, 'install-all');
+    chdir $self->base_dir();
+  }
+
+  if(-d "$srcdir/freetype/src") {
+    print STDERR "Gonna build 'freetype'\n";
+    chdir "$srcdir/freetype/src";
+    $done{"freetype"} = $self->run_custom(@cmd_ft, 'cd_freetype-'.$libtype);
+    warn "###WARNING### error during make(freetype)" unless $done{"freetype"};
+    $success = 0 unless $done{"freetype"};
+    $self->run_custom(@cmd_ft, 'install-all');
+    chdir $self->base_dir();
+  }
+
+  if(-d "$srcdir/ftgl/src") {
+    print STDERR "Gonna build 'ftgl'\n";
+    chdir "$srcdir/ftgl/src";
+    $done{"ftgl"} = $self->run_custom(@cmd_ftgl, 'cd_ftgl-'.$libtype);
+    warn "###WARNING### error during make(ftgl)" unless $done{"ftgl"};
+    $success = 0 unless $done{"ftgl"};
+    $self->run_custom(@cmd_ftgl, 'install-all');
+    chdir $self->base_dir();
+  }
 
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
@@ -161,7 +204,7 @@ sub build_binaries {
   # xxx TODO: maybe more libs needed like - gdiplus ...
   my @iuplibs = $self->sort_libs(keys %seen);
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
-  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32/ ] );
+  $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32 imm32/ ] );
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', '');
   $self->config_data('info_done', \%done);

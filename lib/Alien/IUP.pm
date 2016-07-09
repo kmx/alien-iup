@@ -13,19 +13,19 @@ Alien::IUP - Building, finding and using iup + related libraries - L<http://www.
 
 =cut
 
-our $VERSION = "0.704";
+our $VERSION = "0.705";
 
 =head1 VERSION
 
-Version 0.704 of Alien::IUP is based on the following:
+Version 0.705 of Alien::IUP is based on the following:
 
 =over
 
-=item * I<iup> library 3.14 - see L<http://www.tecgraf.puc-rio.br/iup/>
+=item * I<iup> library 3.19.1 - see L<http://www.tecgraf.puc-rio.br/iup/>
 
-=item * I<im> library 3.9.1 - see L<http://www.tecgraf.puc-rio.br/im/>
+=item * I<im> library 3.11 - see L<http://www.tecgraf.puc-rio.br/im/>
 
-=item * I<cd> library 5.8.2 - see L<http://www.tecgraf.puc-rio.br/cd/>
+=item * I<cd> library 5.10 - see L<http://www.tecgraf.puc-rio.br/cd/>
 
 =back
 

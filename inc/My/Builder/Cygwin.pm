@@ -23,25 +23,27 @@ sub build_binaries {
 
   if ($self->notes('is_devel_cvs_version')) {
     ### DEVEL BUILD ###
+    #XXX cd_zlib cd_freetype cd_ftgl iup_pplot
     @imtargets  = qw[im im_process im_jp2 im_fftw]; #xxx im_capture removed
-    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
-    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
+    @cdtargets  = qw[cd cd_pdflib cdpdf cdgl]; #xxx add cdcontextplus
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_mglplot iup_plot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole iupweb iuptuio];
   }
   else {
+    #XXX cd_zlib cd_freetype cd_ftgl iup_pplot
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd_zlib cd_freetype cd_ftgl cd];
-    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_pplot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
+    @cdtargets  = qw[cd];
+    @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_mglplot iup_plot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
   }
   
   #iup_mglplot will not compile with too old cygwin (approx. detection via gcc version)
   if ($Config{gccversion} =~ /^3\./) {
-    warn "###WARN### disabling iup_mglplot (fails to compile with gcc3\n";
-    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+    warn "###WARN### disabling iup_mglplot, iup_scintilla (fails to compile with gcc3)\n";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_scintilla)$/ } @iuptargets;
   }
 
   #make options
   my @makeopts   = qw[USE_NODEPEND=Yes];
-  
+
   #extra options for iup/imglib
   push(@makeopts, 'USE_IUP_IMGLIB_LARGE=1') if $self->notes('build_large_imglib');
 
@@ -78,9 +80,11 @@ sub build_binaries {
   my @iuplibs = $self->sort_libs(keys %seen);
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
   $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32 imm32/ ] );
+  my $syszlib_lflags     = $self->config_data('syszlib_lflags'    ) || '';
+  my $sysfreetype_lflags = $self->config_data('sysfreetype_lflags') || '';
   $self->config_data('extra_cflags', '');
-  $self->config_data('extra_lflags', '-L/usr/lib/w32api');
-
+  $self->config_data('extra_lflags', "$syszlib_lflags $sysfreetype_lflags -L/usr/lib/w32api");
+  
   print STDERR "Build finished!\n";
   return $success;
 };
@@ -100,12 +104,51 @@ sub build_via_tecmake {
   my $tecuname = 'gcc4';
   #my $tecuname = 'dllg4';
   my @basecmd = ("make", "TEC_UNAME=$tecuname");
+  my @opts = @$mopts;
+
+  my $cpp11 = $Config{gccversion} !~ /^3\./ ? '-std=gnu++11' : '';
+  my $fcf   = $self->config_data('sysfreetype_cflags') || '';
+  push @opts, "FLAGS=$fcf" if $fcf;
+  push @opts, "CPPFLAGS=$fcf $cpp11" if $fcf || $cpp11;
+
+  if(-d "$srcdir/zlib/src") {
+    print STDERR "Gonna build 'zlib'\n";
+    chdir "$srcdir/zlib/src";
+    copy('../../iup/tecmakewin.mak', '../tecmakewin.mak') unless -f '../tecmakewin.mak'; #WORKAROUND
+    $done{"zlib"} = $self->run_custom(@basecmd, @opts, 'zlib');
+    $success = 0 unless $done{"zlib"};
+    copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
+    copy($_, "$prefixdir/lib/") foreach (glob("../lib/$tecuname/*"));
+    chdir $self->base_dir();
+  }
+
+  if(-d "$srcdir/freetype/src") {
+    print STDERR "Gonna build 'freetype'\n";
+    chdir "$srcdir/freetype/src";
+    copy('../../iup/tecmakewin.mak', '../tecmakewin.mak') unless -f '../tecmakewin.mak'; #WORKAROUND
+    $done{"freetype"} = $self->run_custom(@basecmd, @opts, 'freetype');
+    $success = 0 unless $done{"freetype"};
+    copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
+    copy($_, "$prefixdir/lib/") foreach (glob("../lib/$tecuname/*"));
+    chdir $self->base_dir();
+  }
+
+  if(-d "$srcdir/ftgl/src") {
+    print STDERR "Gonna build 'ftgl'\n";
+    chdir "$srcdir/ftgl/src";
+    copy('../../iup/tecmakewin.mak', '../tecmakewin.mak') unless -f '../tecmakewin.mak'; #WORKAROUND
+    $done{"ftgl"} = $self->run_custom(@basecmd, @opts, 'ftgl');
+    $success = 0 unless $done{"ftgl"};
+    copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
+    copy($_, "$prefixdir/lib/") foreach (glob("../lib/$tecuname/*"));
+    chdir $self->base_dir();
+  }
 
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";
     foreach my $t (@$imtgs) {
-      $done{"im:$t"} = $self->run_custom(@basecmd, @$mopts, $t);
+      $done{"im:$t"} = $self->run_custom(@basecmd, @opts, $t);
       $success = 0 unless $done{"im:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -117,7 +160,7 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'cd'\n";
     chdir "$srcdir/cd/src";
     foreach my $t (@$cdtgs) {
-      $done{"cd:$t"} = $self->run_custom(@basecmd, @$mopts, $t);
+      $done{"cd:$t"} = $self->run_custom(@basecmd, @opts, $t);
       $success = 0 unless $done{"cd:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
@@ -129,7 +172,7 @@ sub build_via_tecmake {
     print STDERR "Gonna build 'iup'\n";
     chdir "$srcdir/iup";
     foreach my $t (@$iuptgs) {
-      $done{"iup:$t"} = $self->run_custom(@basecmd, @$mopts, $t);
+      $done{"iup:$t"} = $self->run_custom(@basecmd, @opts, $t);
       $success = 0 unless $done{"iup:$t"};
     }
     copy($_, "$prefixdir/include/") foreach (glob("./include/*.h"));
@@ -139,7 +182,7 @@ sub build_via_tecmake {
 
   # save it for future use in ConfigData
   $self->config_data('build_prefix', $prefixdir);
-  $self->config_data('info_makeopts', $mopts);
+  $self->config_data('info_makeopts', \@opts);
   $self->config_data('info_done', \%done);
 
   return $success;

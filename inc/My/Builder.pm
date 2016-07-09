@@ -46,7 +46,8 @@ sub ACTION_code {
       my $dbg = !$ENV{TRAVIS} ? $self->prompt("\nDo you want to see debug info + all messages during 'make' (y/n)?", 'n') : 'n';
       $self->notes('build_msgs',       lc($dbg) eq 'y' ? 1 : 0);
       $self->notes('build_debug_info', lc($dbg) eq 'y' ? 1 : 0);
-      my $large_imglib = $ENV{TRAVIS} ? 'y' : lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
+      #my $large_imglib = $ENV{TRAVIS} ? 'y' : lc($self->prompt("Do you wanna compile built-in images with large (48x48) size? ", "y"));
+      my $large_imglib = 'y'; #forcing large icons
       $self->notes('build_large_imglib', lc($large_imglib) eq 'y' ? 1 : 0);
 
       # important directories
@@ -94,6 +95,33 @@ sub ACTION_code {
         $self->prepare_sources($self->notes('cd_url'), $self->notes('cd_sha1'), $download, $build_src);
         if ($self->notes('cd_patches')) {
           $self->apply_patch("$build_src/cd", $_)  foreach (@{$self->notes('cd_patches')});
+        }
+      }
+
+      $unpack = (-d "$build_src/zlib") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/zlib'  exists, wanna replace with clean sources?", "n") : 'y';
+      if ($self->notes('zlib_url') && !$self->config_data('syszlib_lflags') && lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/zlib") if -d "$build_src/zlib";
+        $self->prepare_sources($self->notes('zlib_url'), $self->notes('zlib_sha1'), $download, $build_src);
+        if ($self->notes('zlib_patches')) {
+          $self->apply_patch("$build_src/zlib", $_)  foreach (@{$self->notes('zlib_patches')});
+        }
+      }
+
+      $unpack = (-d "$build_src/freetype") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/freetype'  exists, wanna replace with clean sources?", "n") : 'y';
+      if ($self->notes('freetype_url') && !$self->config_data('sysfreetype_lflags') && lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/freetype") if -d "$build_src/freetype";
+        $self->prepare_sources($self->notes('freetype_url'), $self->notes('freetype_sha1'), $download, $build_src);
+        if ($self->notes('freetype_patches')) {
+          $self->apply_patch("$build_src/freetype", $_)  foreach (@{$self->notes('freetype_patches')});
+        }
+      }
+
+      $unpack = (-d "$build_src/ftgl") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/ftgl'  exists, wanna replace with clean sources?", "n") : 'y';
+      if ($self->notes('ftgl_url') && lc($unpack) eq 'y') {
+        File::Path::rmtree("$build_src/ftgl") if -d "$build_src/ftgl";
+        $self->prepare_sources($self->notes('ftgl_url'), $self->notes('ftgl_sha1'), $download, $build_src);
+        if ($self->notes('ftgl_patches')) {
+          $self->apply_patch("$build_src/ftgl", $_)  foreach (@{$self->notes('ftgl_patches')});
         }
       }
 
@@ -358,10 +386,14 @@ sub apply_patch {
     $k = catfile($dir_to_be_patched, $k);
     print STDERR "- gonna patch '$k'\n" if $self->notes('build_debug_info');
 
-    open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
-    $src  = <SRC>;
-    close(SRC);
-    $src =~ s/\r\n/\n/g; #normalise newlines
+    if (open(SRC, $k)) {
+      $src  = <SRC>;
+      close(SRC);
+      $src =~ s/\r\n/\n/g; #normalise newlines
+    }
+    else {
+      $src = '';
+    }
 
     my $out = eval { Text::Patch::patch( $src, $p, { STYLE => "Unified" } ) };
     if ($out) {
@@ -465,7 +497,7 @@ sub find_file {
 
 sub sort_libs {
   my ($self, @unsorted) = @_;
-  my @wanted_order = qw/iupcontrols iup_pplot iupcd iupgl iupglcontrols iup_mglplot iupim iupimglib iupole iupweb iuptuio iupwin iupmot iupgtk iup cdgl cdpdf cdwin cdx11 cdgdk cd freetype6 freetype freetype-6 ftgl pdflib im_fftw im_jp2 im_process im/;
+  my @wanted_order = qw/iupcontrols iup_pplot iupcd iupgl iupglcontrols iup_mglplot iupim iupimglib iupole iupweb iuptuio iupwin iupmot iupgtk iup cdgl cdpdf cdwin cdx11 cdgdk cd ftgl freetype6 freetype freetype-6 pdflib im_fftw im_jp2 im_process im/;
   my @sorted;
   my %u;
 
