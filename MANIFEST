@@ -19,10 +19,16 @@ patches/iup-gtk-hack.diff
 patches/makefile-matex.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
+patches/Makefile_freetype.mingw
+patches/Makefile_freetype.nmake
+patches/Makefile_ftgl.mingw
+patches/Makefile_ftgl.nmake
 patches/Makefile_im.mingw
 patches/Makefile_im.nmake
 patches/Makefile_iup.mingw
 patches/Makefile_iup.nmake
+patches/Makefile_zlib.mingw
+patches/Makefile_zlib.nmake
 patches/mglplot-cygwin.diff
 patches/old-cygwin.diff
 patches/scintilla-cygwin.diff

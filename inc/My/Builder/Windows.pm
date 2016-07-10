@@ -53,14 +53,14 @@ sub build_binaries {
   
   # not able to compile iup_mglplot by older MSVC
   if ($Config{make} =~ /nmake/ && $Config{cc} =~ /cl/ && $v1<15) {
-    warn "###WARN### skipping iup_mglplot on MSVC < 15.0 (fails to compile)";
-    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+    warn "###WARN### skipping iup_mglplot, iup_scintilla on MSVC < 15.0 (fails to compile)";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_scintilla)$/ } @iuptargets;
   }
   
   # old gcc fails to compile iup_mglplot
   if ($Config{cc} =~ /gcc/ && $v1<4) {
-    warn "###WARN### skipping iup_mglplot on GCC 3.x (fails to compile)";
-    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+    warn "###WARN### skipping iup_mglplot, iup_scintilla on GCC 3.x (fails to compile)";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_scintilla)$/ } @iuptargets;
   }
 
   #store debug info into ConfigData
