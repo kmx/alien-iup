@@ -1,5 +1,8 @@
 Revision history for perl module Alien-IUP
 
+0.705 2016-07-10
+    -  IMPORTANT: switch to iup-3.19.1+im-3.11+cd-5.10
+
 0.704 2015-06-04
     -  IMPORTANT: switch to iup-3.14+im-3.9.1+cd-5.8.2
 
