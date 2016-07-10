@@ -11,7 +11,7 @@ perl:
 
 before_install:
 # install libs
-  - sudo apt-get install libgtk3.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+  - sudo apt-get install libgtk-3-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 
 # install deps
   - cat ./cpan-deps | cpanm --sudo --notest -v
