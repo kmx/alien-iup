@@ -277,8 +277,8 @@ sub build_binaries {
 ### for X11/Motif you need: -lXm, -lX11 + Xm/Xm.h, X11/Xlib.h
 ### 
 ### on Debian/Ubuntu you need to install: 
-###  $ aptitude install libgtk2.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
-###  $ aptitude install libgtk3.0-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+###  $ aptitude install libgtk-2-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
+###  $ aptitude install libgtk-3-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 ###  or
 ###  $ sudo apt-get install libgtk-2-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
 ###  $ sudo apt-get install libgtk-3-dev libcairo2-dev libx11-dev libglu-dev freeglut3-dev
@@ -299,6 +299,7 @@ MARKER
   if ($build_target eq 'GTK2' || $build_target eq 'GTK3') {
     push(@makeopts, 'USE_GTK=Yes');
     push(@makeopts, 'USE_GTK3=Yes') if ($build_target eq 'GTK3');
+    push(@makeopts, 'USE_GTK2=Yes') if ($build_target eq 'GTK2');
     push(@makeopts, 'USE_GDK=Yes');
     push(@makeopts, 'USE_PKGCONFIG=Yes');
     
@@ -308,11 +309,6 @@ MARKER
                    $self->run_stdout2str(qw[pkg-config --variable=prefix gtk+-3.0]);
     push(@makeopts, "GTK_BASE=$gtk_base") if $gtk_base;
     push(@makeopts, "GTK=$gtk_base") if $gtk_base;
-
-    #handle existing freetype
-    if ($has{freetype}) { #xxx TODO: later replace with $has{freetype2}
-      @cdtargets = grep { $_ !~ /^(cd_freetype)$/ } @cdtargets;
-    }
 
     #detected libs
     push(@makeopts, "X11_LIBS=" . join(' ', @x11_libs));
