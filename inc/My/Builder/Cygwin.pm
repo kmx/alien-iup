@@ -199,4 +199,9 @@ sub quote_literal {
     return "'$txt'";
 }
 
+sub detect_sys_libs {
+  my $self = shift;
+  $self->pkg_config('/usr/bin/pkg-config', '/dev/null');
+};
+
 1;

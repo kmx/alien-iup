@@ -99,6 +99,9 @@ sub ACTION_code {
       }
 
       $unpack = (-d "$build_src/zlib") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/zlib'  exists, wanna replace with clean sources?", "n") : 'y';
+warn $self->notes('zlib_url');
+warn $self->config_data('syszlib_lflags');
+warn lc($unpack);
       if ($self->notes('zlib_url') && !$self->config_data('syszlib_lflags') && lc($unpack) eq 'y') {
         File::Path::rmtree("$build_src/zlib") if -d "$build_src/zlib";
         $self->prepare_sources($self->notes('zlib_url'), $self->notes('zlib_sha1'), $download, $build_src);
@@ -526,5 +529,30 @@ sub touchfile {
     utime($t,$t,$file);
   }
 }
+
+sub detect_sys_libs {
+  die;
+};
+
+sub pkg_config {
+  my ($self, $pkc, $nul) = @_;
+  if ($nul && $pkc && `$pkc --version 2>$nul`) {
+    warn "Checking system libraries zlib, freetype2\n";
+    (my $syszlib_ver        = `$pkc zlib --modversion 2>$nul`     ) =~ s/\s*$//;
+    (my $syszlib_lflags     = `$pkc zlib --libs 2>$nul`           ) =~ s/\s*$//;
+    (my $syszlib_cflags     = `$pkc zlib --cflags 2>$nul`         ) =~ s/\s*$//;
+    (my $sysfreetype_ver    = `$pkc freetype2 --modversion 2>$nul`) =~ s/\s*$//;
+    (my $sysfreetype_lflags = `$pkc freetype2 --libs 2>$nul`      ) =~ s/\s*$//;
+    (my $sysfreetype_cflags = `$pkc freetype2 --cflags 2>$nul`    ) =~ s/\s*$//;
+    $self->config_data('syszlib_ver',        $syszlib_ver       );
+    $self->config_data('syszlib_lflags',     $syszlib_lflags    );
+    $self->config_data('syszlib_cflags',     $syszlib_cflags    );
+    $self->config_data('sysfreetype_ver',    $sysfreetype_ver   );
+    $self->config_data('sysfreetype_lflags', $sysfreetype_lflags);
+    $self->config_data('sysfreetype_cflags', $sysfreetype_cflags);
+    warn "FOUND: zlib-$syszlib_ver LF=$syszlib_lflags\n"             if $syszlib_lflags;
+    warn "FOUND: freetype-$sysfreetype_ver LF=$sysfreetype_lflags\n" if $sysfreetype_lflags;
+  }
+};
 
 1;

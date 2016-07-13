@@ -81,21 +81,7 @@ $builder->add_to_cleanup('build_done');
 $builder->add_to_cleanup('build_src');
 
 #find system libraries
-if (`pkg-config --version 2>/dev/null`) {
-  warn "Checking system libraries zlib, freetype2\n";
-  (my $syszlib_ver        = `pkg-config zlib --modversion 2>/dev/null`     ) =~ s/\s*$//;
-  (my $syszlib_lflags     = `pkg-config zlib --libs 2>/dev/null`           ) =~ s/\s*$//;
-  (my $syszlib_cflags     = `pkg-config zlib --cflags 2>/dev/null`         ) =~ s/\s*$//;
-  (my $sysfreetype_ver    = `pkg-config freetype2 --modversion 2>/dev/null`) =~ s/\s*$//;
-  (my $sysfreetype_lflags = `pkg-config freetype2 --libs 2>/dev/null`      ) =~ s/\s*$//;
-  (my $sysfreetype_cflags = `pkg-config freetype2 --cflags 2>/dev/null`    ) =~ s/\s*$//;
-  $builder->config_data('syszlib_ver',        $syszlib_ver       );
-  $builder->config_data('syszlib_lflags',     $syszlib_lflags    );
-  $builder->config_data('syszlib_cflags',     $syszlib_cflags    );
-  $builder->config_data('sysfreetype_ver',    $sysfreetype_ver   );
-  $builder->config_data('sysfreetype_lflags', $sysfreetype_lflags);
-  $builder->config_data('sysfreetype_cflags', $sysfreetype_cflags);
-}
+$builder->detect_sys_libs();
 
 if (defined $cvs_src) { ### use the latest sources from iup repository
   warn "###\n";
@@ -117,7 +103,8 @@ else {
   }
 
   # set what tarballs we are gonna use
-  $builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.19.1_Sources.tar.gz');
+ #$builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.19.1_Sources.tar.gz');
+  $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-3.19.1_Sources.tar.gz');
   $builder->notes('iup_sha1', '3d94e148c8e93f80572667a74a2d5ecbf18a460c');
   $builder->notes('iup_patches', [ qw!patches/iup-3.19.1-cygwin.diff patches/old-cygwin.diff! ] );
 
@@ -127,18 +114,22 @@ else {
   $builder->notes('im_sha1', '9ccd337471c03ffbab4f49438d83837d066dd03f');
   $builder->notes('im_patches', [ qw!patches/im-dragonfly.diff patches/im-3.11-cygwin.diff! ] );
 
-  $builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.10_Sources.tar.gz');
+ #$builder->notes('cd_url', 'http://download.sf.net/canvasdraw/cd-5.10_Sources.tar.gz');
+  $builder->notes('cd_url', 'http://strawberryperl.com/package/kmx/iup/cd-5.10_Sources.tar.gz');
   $builder->notes('cd_sha1', '2be72703b45aa1bb745f87b81ac2089de0ba1369');
   $builder->notes('cd_patches', [ qw!patches/cd-dragonfly.diff patches/cd-5.10-cygwin.diff! ] );
 
-  $builder->notes('freetype_url', 'http://download.sf.net/canvasdraw/freetype-2.6.3_Sources.tar.gz');
+ #$builder->notes('freetype_url', 'http://download.sf.net/canvasdraw/freetype-2.6.3_Sources.tar.gz');
+  $builder->notes('freetype_url', 'http://strawberryperl.com/package/kmx/iup/freetype-2.6.3_Sources.tar.gz');
   $builder->notes('freetype_sha1', '623c7bc952ada159aa0873ae503d695c234eecae');
   $builder->notes('freetype_patches', [ qw!patches/ft-missing-makefile.diff! ] );
 
-  $builder->notes('ftgl_url', 'http://download.sf.net/canvasdraw/ftgl-2.1.4_Sources.tar.gz');
+ #$builder->notes('ftgl_url', 'http://download.sf.net/canvasdraw/ftgl-2.1.4_Sources.tar.gz');
+  $builder->notes('ftgl_url', 'http://strawberryperl.com/package/kmx/iup/ftgl-2.1.4_Sources.tar.gz');
   $builder->notes('ftgl_sha1', 'fcea267d1f1925f2666f4d8da171e03f94254f13');
 
-  $builder->notes('zlib_url', 'http://download.sf.net/canvasdraw/zlib-1.2.8_Sources.tar.gz');
+ #$builder->notes('zlib_url', 'http://download.sf.net/canvasdraw/zlib-1.2.8_Sources.tar.gz');
+  $builder->notes('zlib_url', 'http://strawberryperl.com/package/kmx/iup/zlib-1.2.8_Sources.tar.gz');
   $builder->notes('zlib_sha1', '43d15c0ff59bb3fa0e75463d5d1ed687c4456ea3');
 }
 

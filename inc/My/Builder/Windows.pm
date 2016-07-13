@@ -237,4 +237,10 @@ sub quote_literal {
     return qq("$txt");
 }
 
+sub detect_sys_libs {
+  my $self = shift;
+  ### do not detect for now
+  #$self->pkg_config('pkg-config', 'nul') if $Config{cc} =~ /gcc/;
+};
+
 1;
