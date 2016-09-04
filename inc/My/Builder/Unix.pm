@@ -410,6 +410,26 @@ sub build_via_tecmake {
 
   my %done;
 
+  if(-d "$srcdir/freetype/src") {
+    print STDERR "Gonna build 'freetype'\n";
+    chdir "$srcdir/freetype/src";
+    $done{"freetype"} = $self->run_custom(@basecmd, @opts, 'freetype');
+    $success = 0 unless $done{"freetype"};
+    copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
+    copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
+    chdir $self->base_dir();
+  }
+
+  if(-d "$srcdir/ftgl/src") {
+    print STDERR "Gonna build 'ftgl'\n";
+    chdir "$srcdir/ftgl/src";
+    $done{"ftgl"} = $self->run_custom(@basecmd, @opts, 'ftgl');
+    $success = 0 unless $done{"ftgl"};
+    copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
+    copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
+    chdir $self->base_dir();
+  }
+
   if(-d "$srcdir/im/src") {
     print STDERR "Gonna build 'im'\n";
     chdir "$srcdir/im/src";

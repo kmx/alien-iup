@@ -99,9 +99,6 @@ sub ACTION_code {
       }
 
       $unpack = (-d "$build_src/zlib") && !$ENV{TRAVIS} ? $self->prompt("\nDir '$build_src/zlib'  exists, wanna replace with clean sources?", "n") : 'y';
-warn $self->notes('zlib_url');
-warn $self->config_data('syszlib_lflags');
-warn lc($unpack);
       if ($self->notes('zlib_url') && !$self->config_data('syszlib_lflags') && lc($unpack) eq 'y') {
         File::Path::rmtree("$build_src/zlib") if -d "$build_src/zlib";
         $self->prepare_sources($self->notes('zlib_url'), $self->notes('zlib_sha1'), $download, $build_src);
