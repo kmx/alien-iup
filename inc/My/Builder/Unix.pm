@@ -413,7 +413,8 @@ sub build_via_tecmake {
   if(-d "$srcdir/freetype/src") {
     print STDERR "Gonna build 'freetype'\n";
     chdir "$srcdir/freetype/src";
-    $done{"freetype"} = $self->run_custom(@basecmd, @opts, 'freetype');
+    copy('../../iup/tecmake.mak', '../tecmake.mak') unless -f '../tecmakewin.mak'; #WORKAROUND
+    $done{"freetype"} = $self->run_custom($make, 'freetype', @{$mopts});
     $success = 0 unless $done{"freetype"};
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
     copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
@@ -423,7 +424,8 @@ sub build_via_tecmake {
   if(-d "$srcdir/ftgl/src") {
     print STDERR "Gonna build 'ftgl'\n";
     chdir "$srcdir/ftgl/src";
-    $done{"ftgl"} = $self->run_custom(@basecmd, @opts, 'ftgl');
+    copy('../../iup/tecmake.mak', '../tecmake.mak') unless -f '../tecmakewin.mak'; #WORKAROUND
+    $done{"ftgl"} = $self->run_custom($make, 'ftgl', @{$mopts});
     $success = 0 unless $done{"ftgl"};
     copy($_, "$prefixdir/include/") foreach (glob("../include/*.h"));
     copy($_, "$prefixdir/lib/") foreach (glob("../lib/*/*"));
