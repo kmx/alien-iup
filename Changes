@@ -1,5 +1,8 @@
 Revision history for perl module Alien-IUP
 
+0.707 2016-09-04
+    -  UNIX build fix (ftgl related)
+
 0.706 2016-07-13
     -  MS Win build fix
 
