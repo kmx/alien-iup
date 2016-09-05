@@ -16,6 +16,7 @@ patches/im-dragonfly.diff
 patches/iup-3.19.1-cygwin.diff
 patches/iup-cygwin.diff
 patches/iup-gtk-hack.diff
+patches/iup-plot-contextplus.diff
 patches/makefile-matex.diff
 patches/Makefile_cd.mingw
 patches/Makefile_cd.nmake
