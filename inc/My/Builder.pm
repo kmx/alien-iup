@@ -497,7 +497,7 @@ sub find_file {
 
 sub sort_libs {
   my ($self, @unsorted) = @_;
-  my @wanted_order = qw/iupcontrols iup_pplot iupcd iupgl iupglcontrols iup_mglplot iupim iupimglib iupole iupweb iuptuio iupwin iupmot iupgtk iup cdgl cdpdf cdwin cdx11 cdgdk cd ftgl freetype6 freetype freetype-6 pdflib im_fftw im_jp2 im_process im/;
+  my @wanted_order = qw/iupcontrols iup_pplot iup_plot iupcd iupgl iupglcontrols iup_mglplot iupim iupimglib iupole iupweb iuptuio iupwin iupmot iupgtk iup cdgl cdpdf cdwin cdx11 cdgdk cd ftgl freetype6 freetype freetype-6 pdflib im_fftw im_jp2 im_process im/;
   my @sorted;
   my %u;
 

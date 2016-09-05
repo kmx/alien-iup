@@ -31,7 +31,7 @@ sub build_binaries {
   else {
     #XXX cd_zlib cd_freetype cd_ftgl iup_pplot
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd];
+    @cdtargets  = qw[cd cdgl];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_mglplot iup_plot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
   }
   

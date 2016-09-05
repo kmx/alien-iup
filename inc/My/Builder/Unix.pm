@@ -164,7 +164,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd];
+    @cdtargets  = qw[cd cdgl];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_plot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iup_plot];
     #if ($^O eq 'openbsd') {
     #  warn "###WARN### skipping im_process on OpenBSD";
@@ -181,6 +181,7 @@ sub build_binaries {
     }
   }
 
+  my $ftgl_target = 1;
   unless ($has{l_GL} && $has{l_GLU} && $has{gl} && $has{glx} && $has{glu}) {
     warn "###WARN### OpenGL libraries not found or not complete\n";
     warn "- required headers: GL/gl.h GL/glx.h GL/glu.h\n";
@@ -189,6 +190,7 @@ sub build_binaries {
     if (lc($skip) eq 'y') {
       @cdtargets  = grep { $_ !~ /^(cd_ftgl|cdgl)$/ } @cdtargets;
       @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_plot|iupglcontrols|iupgl)$/ } @iuptargets;
+      $ftgl_target = 0;
     }
   }
   @iuptargets = grep { $_ !~ /^(iupweb)$/ } @iuptargets unless $has{webkit};
@@ -359,7 +361,7 @@ MARKER
   }
 
   #do the job
-  $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets);
+  $success = $self->build_via_tecmake($build_out, $srcdir, \@makeopts, \@iuptargets, \@cdtargets, \@imtargets, $ftgl_target);
   warn "###MAKE FAILED###" unless $success;
 
   #make a list of libs necessary to link with IUP and related libraries
@@ -394,7 +396,7 @@ MARKER
 };
 
 sub build_via_tecmake {
-  my ($self, $build_out, $srcdir, $mopts, $iuptgs, $cdtgs, $imtgs) = @_;
+  my ($self, $build_out, $srcdir, $mopts, $iuptgs, $cdtgs, $imtgs, $ftgl_target) = @_;
   $srcdir ||= 'src';
   my $prefixdir = rel2abs($build_out);
 
@@ -421,7 +423,7 @@ sub build_via_tecmake {
     chdir $self->base_dir();
   }
 
-  if(-d "$srcdir/ftgl/src") {
+  if($ftgl_target && -d "$srcdir/ftgl/src") {
     print STDERR "Gonna build 'ftgl'\n";
     chdir "$srcdir/ftgl/src";
     copy('../../iup/tecmake.mak', '../tecmake.mak') unless -f '../tecmakewin.mak'; #WORKAROUND

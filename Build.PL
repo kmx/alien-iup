@@ -106,7 +106,7 @@ else {
  #$builder->notes('iup_url', 'http://download.sf.net/iup/iup-3.19.1_Sources.tar.gz');
   $builder->notes('iup_url', 'http://strawberryperl.com/package/kmx/iup/iup-3.19.1_Sources.tar.gz');
   $builder->notes('iup_sha1', '3d94e148c8e93f80572667a74a2d5ecbf18a460c');
-  $builder->notes('iup_patches', [ qw!patches/iup-3.19.1-cygwin.diff patches/old-cygwin.diff! ] );
+  $builder->notes('iup_patches', [ qw!patches/iup-3.19.1-cygwin.diff patches/old-cygwin.diff patches/iup-plot-contextplus.diff! ] );
 
  #$builder->notes('im_url', 'http://download.sf.net/imtoolkit/im-3.11_Sources.tar.gz');
  #$builder->notes('im_sha1', '6d38b5c16ab9f2d9e0ab86f29a426921473d2f6b');
