@@ -38,7 +38,7 @@ sub build_binaries {
   }
   else {
     @imtargets  = qw[im];
-    @cdtargets  = qw[cd cdcontextplus];
+    @cdtargets  = qw[cd cdgl cdcontextplus];
     @iuptargets = qw[iup iupcd iupcontrols iupmatrixex iup_plot iup_mglplot iupgl iupglcontrols iup_scintilla iupim iupimglib iupole];
     #if ($Config{cc} =~ /cl/ && $v1<14) {
     #  warn "###WARN### skipping cd_ftgl+iuptuio on VC6";
@@ -111,6 +111,19 @@ sub build_binaries {
   
   #common for both compilers
   push(@cmd_iup, 'CF_iupimglib_EXTRA=-DIUP_IMGLIB_LARGE') if $self->notes('build_large_imglib');
+  
+  if (my $fcf = $self->config_data('sysfreetype_cflags')) {
+    push @cmd_ftgl, "CF_cd_ftgl_EXTRA=$fcf";
+    push @cmd_iup,  "CF_iupglcontrols_EXTRA=$fcf";
+    push @cmd_cd,   "CF_cd_EXTRA=$fcf";
+    push @cmd_cd,   "CF_cdgl_EXTRA=$fcf";
+  }
+  if (my $flf = $self->config_data('sysfreetype_lflags')) {
+    push @cmd_ftgl, "LF_cd_ftgl_EXTRA=$flf";
+    push @cmd_iup,  "LF_iupglcontrols_EXTRA=$flf";
+    push @cmd_cd,   "LF_cd_EXTRA=$flf";
+    push @cmd_cd,   "LF_cdgl_EXTRA=$flf";
+  }
 
   my $libtype = 'static';
   my $success = 1;
@@ -205,8 +218,10 @@ sub build_binaries {
   my @iuplibs = $self->sort_libs(keys %seen);
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
   $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32 imm32/ ] );
+  my $syszlib_lflags     = $self->config_data('syszlib_lflags') || '';
+  my $sysfreetype_lflags = $self->config_data('sysfreetype_lflags') || '';
+  $self->config_data('extra_lflags', "$syszlib_lflags $sysfreetype_lflags");
   $self->config_data('extra_cflags', '');
-  $self->config_data('extra_lflags', '');
   $self->config_data('info_done', \%done);
   
   print STDERR "Build finished!\n";
@@ -239,8 +254,7 @@ sub quote_literal {
 
 sub detect_sys_libs {
   my $self = shift;
-  ### do not detect for now
-  #$self->pkg_config('pkg-config', 'nul') if $Config{cc} =~ /gcc/;
+  $self->pkg_config('pkg-config', 'nul') if $Config{cc} =~ /gcc/;
 };
 
 1;

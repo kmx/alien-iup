@@ -80,7 +80,7 @@ sub build_binaries {
   my @iuplibs = $self->sort_libs(keys %seen);
   $self->config_data('iup_libs', {map {$_=>1} @iuplibs} );
   $self->config_data('linker_libs', [ @iuplibs, qw/gdi32 comdlg32 comctl32 winspool uuid ole32 oleaut32 opengl32 glu32 imm32/ ] );
-  my $syszlib_lflags     = $self->config_data('syszlib_lflags'    ) || '';
+  my $syszlib_lflags     = $self->config_data('syszlib_lflags') || '';
   my $sysfreetype_lflags = $self->config_data('sysfreetype_lflags') || '';
   $self->config_data('extra_cflags', '');
   $self->config_data('extra_lflags', "$syszlib_lflags $sysfreetype_lflags -L/usr/lib/w32api");
