@@ -59,8 +59,14 @@ sub build_binaries {
   
   # old gcc fails to compile iup_mglplot
   if ($Config{cc} =~ /gcc/ && $v1<4) {
-    warn "###WARN### skipping iup_mglplot, iup_scintilla on GCC 3.x (fails to compile)";
-    @iuptargets = grep { $_ !~ /^(iup_mglplot|iup_scintilla)$/ } @iuptargets;
+    warn "###WARN### skipping iup_mglplot on GCC 3.x (fails to compile)";
+    @iuptargets = grep { $_ !~ /^(iup_mglplot)$/ } @iuptargets;
+  }
+
+  # gcc <4.8 fails to compile iup_scintilla
+  if ($Config{cc} =~ /gcc/ && ($v1<4 || ($v1==4 && $v2<8))) {
+    warn "###WARN### skipping iup_scintilla on GCC < 4.8 (fails to compile)";
+    @iuptargets = grep { $_ !~ /^(iup_scintilla)$/ } @iuptargets;
   }
 
   #store debug info into ConfigData
